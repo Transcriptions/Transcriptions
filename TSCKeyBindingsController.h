@@ -39,10 +39,8 @@
 
 	
 	IBOutlet NSMenuItem* replayMenuItem;
-	IBOutlet NSMenuItem* pauseMenuItem;
+	IBOutlet NSMenuItem* playPauseMenuItem;
 	IBOutlet NSMenuItem* controlsMenuItem;
-	IBOutlet NSMenuItem* gotoBeginningMenuItem;
-	IBOutlet NSMenuItem* gotoEndMenuItem;
 	IBOutlet NSMenuItem* timestampMenuItem;
 
 	

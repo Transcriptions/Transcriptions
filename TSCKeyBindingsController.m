@@ -46,9 +46,9 @@
 	{
 		[self setKeyEquivalent:@"1" withModifierMask:NSControlKeyMask ofMenuItem:replayMenuItem];
 	}
-	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ShortcutRecorder pauseKeyBinding"])
+	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ShortcutRecorder playPauseKeyBinding"])
 	{
-		[self setKeyEquivalent:@"2" withModifierMask:NSControlKeyMask ofMenuItem:pauseMenuItem];
+		[self setKeyEquivalent:@"2" withModifierMask:NSControlKeyMask ofMenuItem:playPauseMenuItem];
 	}
 	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ShortcutRecorder controlsKeyBinding"])
 	{
@@ -57,14 +57,6 @@
 	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ShortcutRecorder timestampKeyBinding"])
 	{
 		[self setKeyEquivalent:@"t" withModifierMask:NSControlKeyMask ofMenuItem:timestampMenuItem];
-	}
-	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ShortcutRecorder gotoBeginningKeyBinding"])
-	{
-		[self setKeyEquivalent:@"4" withModifierMask:NSControlKeyMask ofMenuItem:gotoBeginningMenuItem];
-	}
-	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ShortcutRecorder gotoEndKeyBinding"])
-	{
-		[self setKeyEquivalent:@"5" withModifierMask:NSControlKeyMask ofMenuItem:gotoEndMenuItem];
 	}
 	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"autoTimestamp"])
 	{

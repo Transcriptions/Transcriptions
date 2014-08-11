@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6154.17" systemVersion="13E28" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="101000" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6154.17"/>
     </dependencies>
     <objects>
@@ -600,21 +599,34 @@
                         </items>
                     </menu>
                 </menuItem>
-                <menuItem title="View" id="H8h-7b-M4v">
+                <menuItem title="Media" id="H8h-7b-M4v">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="View" id="HyV-fh-RgO">
+                    <menu key="submenu" title="Media" id="HyV-fh-RgO">
                         <items>
-                            <menuItem title="Show Toolbar" keyEquivalent="t" id="snW-S8-Cw5">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                <connections>
-                                    <action selector="toggleToolbarShown:" target="-1" id="BXY-wc-z0C"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Customize Toolbar…" id="1UK-8n-QPP">
+                            <menuItem title="Play/Pause" id="5tb-Io-aed">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="runToolbarCustomizationPalette:" target="-1" id="pQI-g3-MTW"/>
-                                </connections>
+                            </menuItem>
+                            <menuItem title="RePlay" id="Wbh-7T-skX">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                            <menuItem title="Fast Forward" id="GK3-Xd-3zB">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                            <menuItem title="Rewind" id="Ch9-iT-M5L">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                            <menuItem title="Controls" id="bSF-ee-uDb">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="JJP-n9-zIB"/>
+                            <menuItem title="Timestamp" id="cc8-Xu-YNo">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                            <menuItem title="Auto Timestamp" id="07l-zR-mTH">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                            <menuItem title="Timestamp RePlay" id="Xj5-sm-w8N">
+                                <modifierMask key="keyEquivalentModifierMask"/>
                             </menuItem>
                         </items>
                     </menu>
@@ -658,5 +670,17 @@
                 </menuItem>
             </items>
         </menu>
+        <menuItem title="Item" id="wUD-To-rcT">
+            <modifierMask key="keyEquivalentModifierMask"/>
+        </menuItem>
+        <customObject id="2dH-Cs-weP" customClass="TSCKeyBindingsController">
+            <connections>
+                <outlet property="controlsMenuItem" destination="bSF-ee-uDb" id="jR6-fD-Xqr"/>
+                <outlet property="playPauseMenuItem" destination="5tb-Io-aed" id="MaX-uW-9eS"/>
+                <outlet property="replayMenuItem" destination="Wbh-7T-skX" id="hal-du-53J"/>
+                <outlet property="timestampMenuItem" destination="cc8-Xu-YNo" id="ivs-8R-UFn"/>
+            </connections>
+        </customObject>
+        <userDefaultsController id="nZm-8h-v0D"/>
     </objects>
 </document>

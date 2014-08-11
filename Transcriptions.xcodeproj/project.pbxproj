@@ -12,6 +12,10 @@
 		0AA11F03197560F100B78642 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA11EFA1973421800B78642 /* AVFoundation.framework */; };
 		0AA11F061975610C00B78642 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA11F04197560FD00B78642 /* CoreMedia.framework */; };
 		0AA11F08197566BD00B78642 /* TODO.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0AA11F07197566BD00B78642 /* TODO.rtf */; };
+		0ADD234D1998E960007D81D3 /* PTHotKey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADD234A1998E930007D81D3 /* PTHotKey.framework */; };
+		0ADD234E1998E960007D81D3 /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADD23481998E930007D81D3 /* ShortcutRecorder.framework */; };
+		0ADD23501998E9A9007D81D3 /* ShortcutRecorder.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0ADD23481998E930007D81D3 /* ShortcutRecorder.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0ADD23511998E9A9007D81D3 /* PTHotKey.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0ADD234A1998E930007D81D3 /* PTHotKey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		631398760E506ACF005A15A5 /* TSCHelperFolder in Resources */ = {isa = PBXBuildFile; fileRef = 631398750E506ACF005A15A5 /* TSCHelperFolder */; };
 		633A4FD50E4F0E1700B4D45A /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 633A4FD40E4F0E1700B4D45A /* CoreServices.framework */; };
 		633A50640E4F284C00B4D45A /* TSCKeyBindingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633A50630E4F284C00B4D45A /* TSCKeyBindingsController.m */; };
@@ -31,6 +35,44 @@
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		0ADD23471998E930007D81D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0ADD23411998E930007D81D3 /* ShortcutRecorder.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 939837800DA42965007F53F3;
+			remoteInfo = ShortcutRecorder.framework;
+		};
+		0ADD23491998E930007D81D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0ADD23411998E930007D81D3 /* ShortcutRecorder.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E273122E1349EC9000A84433;
+			remoteInfo = PTHotKey.framework;
+		};
+		0ADD234B1998E930007D81D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0ADD23411998E930007D81D3 /* ShortcutRecorder.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0D6B2468180304DE00CE1142;
+			remoteInfo = Demo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0ADD234F1998E99A007D81D3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0ADD23501998E9A9007D81D3 /* ShortcutRecorder.framework in CopyFiles */,
+				0ADD23511998E9A9007D81D3 /* PTHotKey.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0AA11EFA1973421800B78642 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
@@ -38,6 +80,7 @@
 		0AA11EFE19734A5100B78642 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		0AA11F04197560FD00B78642 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		0AA11F07197566BD00B78642 /* TODO.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = TODO.rtf; sourceTree = "<group>"; };
+		0ADD23411998E930007D81D3 /* ShortcutRecorder.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShortcutRecorder.xcodeproj; path = ShortcutRecorder/ShortcutRecorder.xcodeproj; sourceTree = "<group>"; };
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -70,6 +113,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0ADD234D1998E960007D81D3 /* PTHotKey.framework in Frameworks */,
+				0ADD234E1998E960007D81D3 /* ShortcutRecorder.framework in Frameworks */,
 				0AA11F061975610C00B78642 /* CoreMedia.framework in Frameworks */,
 				0AA11F03197560F100B78642 /* AVFoundation.framework in Frameworks */,
 				0AA11F02197560EC00B78642 /* AVKit.framework in Frameworks */,
@@ -81,6 +126,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0ADD23421998E930007D81D3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0ADD23481998E930007D81D3 /* ShortcutRecorder.framework */,
+				0ADD234A1998E930007D81D3 /* PTHotKey.framework */,
+				0ADD234C1998E930007D81D3 /* Demo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -175,6 +230,7 @@
 		633A4F9B0E4F0D1A00B4D45A /* ExternalSources */ = {
 			isa = PBXGroup;
 			children = (
+				0ADD23411998E930007D81D3 /* ShortcutRecorder.xcodeproj */,
 			);
 			name = ExternalSources;
 			sourceTree = "<group>";
@@ -209,6 +265,7 @@
 				8D15AC2B0486D014006FF6A4 /* Resources */,
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
+				0ADD234F1998E99A007D81D3 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -239,15 +296,68 @@
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				en,
+				ca,
+				cs,
+				da,
+				de,
+				el,
+				"es-MX",
+				es,
+				fr,
+				it,
+				ja,
+				ko,
+				nb,
+				nl,
+				pl,
+				"pt-BR",
+				pt,
+				ro,
+				ru,
+				sk,
+				sv,
+				th,
+				"zh-Hans",
+				"zh-Hant",
 			);
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* Transcriptions */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 0ADD23421998E930007D81D3 /* Products */;
+					ProjectRef = 0ADD23411998E930007D81D3 /* ShortcutRecorder.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* Transcriptions */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		0ADD23481998E930007D81D3 /* ShortcutRecorder.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ShortcutRecorder.framework;
+			remoteRef = 0ADD23471998E930007D81D3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0ADD234A1998E930007D81D3 /* PTHotKey.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PTHotKey.framework;
+			remoteRef = 0ADD23491998E930007D81D3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0ADD234C1998E930007D81D3 /* Demo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Demo.app;
+			remoteRef = 0ADD234B1998E930007D81D3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D15AC2B0486D014006FF6A4 /* Resources */ = {
