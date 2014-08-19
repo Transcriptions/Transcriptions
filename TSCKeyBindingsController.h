@@ -32,12 +32,19 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import <ShortcutRecorder/ShortcutRecorder.h>
 
 
 
-@interface TSCKeyBindingsController : NSObject {
+@interface TSCKeyBindingsController : NSObject <SRRecorderControlDelegate, SRValidatorDelegate>
+{
 
+    IBOutlet SRRecorderControl* replayShortcutRecorder;
+    IBOutlet SRRecorderControl* pauseShortcutRecorder;
+    IBOutlet SRRecorderControl* controlsShortcutRecorder;
+    IBOutlet SRRecorderControl* timestampShortcutRecorder;
 	
+    IBOutlet NSWindow* prefPane;
 	IBOutlet NSMenuItem* replayMenuItem;
 	IBOutlet NSMenuItem* playPauseMenuItem;
 	IBOutlet NSMenuItem* controlsMenuItem;

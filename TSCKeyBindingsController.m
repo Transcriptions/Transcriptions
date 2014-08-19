@@ -32,29 +32,192 @@
  */
 
 #import "TSCKeyBindingsController.h"
-
+#import <PTHotKey/PTHotKeyCenter.h>
 
 @implementation TSCKeyBindingsController
+{
+    SRValidator *_validator;
+}
+
+#pragma mark SRRecorderControlDelegate
+- (BOOL)shortcutRecorder:(SRRecorderControl *)aRecorder canRecordShortcut:(NSDictionary *)aShortcut
+{
+    __autoreleasing NSError *error = nil;
+    BOOL isTaken = [_validator isKeyCode:[aShortcut[SRShortcutKeyCode] unsignedShortValue] andFlagsTaken:[aShortcut[SRShortcutModifierFlagsKey] unsignedIntegerValue] error:&error];
+    
+    if (isTaken)
+    {
+        NSBeep();
+    }
+    
+    return !isTaken;
+}
+
+- (BOOL)shortcutRecorderShouldBeginRecording:(SRRecorderControl *)aRecorder
+{
+    [[PTHotKeyCenter sharedCenter] pause];
+    return YES;
+}
+
+- (void)shortcutRecorderDidEndRecording:(SRRecorderControl *)aRecorder
+{
+    [[PTHotKeyCenter sharedCenter] resume];
+}
+
+- (BOOL)shortcutRecorder:(SRRecorderControl *)aRecorder shouldUnconditionallyAllowModifierFlags:(NSUInteger)aModifierFlags forKeyCode:(unsigned short)aKeyCode
+{
+    // Keep required flags required.
+    if ((aModifierFlags & aRecorder.requiredModifierFlags) != aRecorder.requiredModifierFlags)
+        return NO;
+    
+    // Don't allow disallowed flags.
+    if ((aModifierFlags & aRecorder.allowedModifierFlags) != aModifierFlags)
+        return NO;
+    
+    switch (aKeyCode)
+    {
+        case kVK_F1:
+        case kVK_F2:
+        case kVK_F3:
+        case kVK_F4:
+        case kVK_F5:
+        case kVK_F6:
+        case kVK_F7:
+        case kVK_F8:
+        case kVK_F9:
+        case kVK_F10:
+        case kVK_F11:
+        case kVK_F12:
+        case kVK_F13:
+        case kVK_F14:
+        case kVK_F15:
+        case kVK_F16:
+        case kVK_F17:
+        case kVK_F18:
+        case kVK_F19:
+        case kVK_F20:
+            return YES;
+        default:
+            return NO;
+    }
+}
+
+
+#pragma mark SRValidatorDelegate
+
+- (BOOL)shortcutValidator:(SRValidator *)aValidator isKeyCode:(unsigned short)aKeyCode andFlagsTaken:(NSUInteger)aFlags reason:(NSString **)outReason
+{
+#define IS_TAKEN(aRecorder) (recorder != (aRecorder) && SRShortcutEqualToShortcut(shortcut, [(aRecorder) objectValue]))
+    SRRecorderControl *recorder = (SRRecorderControl *)prefPane.firstResponder;
+    
+    if (![recorder isKindOfClass:[SRRecorderControl class]])
+        return NO;
+    
+    NSDictionary *shortcut = SRShortcutWithCocoaModifierFlagsAndKeyCode(aFlags, aKeyCode);
+    
+    if (IS_TAKEN(replayShortcutRecorder) ||
+        IS_TAKEN(pauseShortcutRecorder) ||
+        IS_TAKEN(controlsShortcutRecorder ||
+        IS_TAKEN(timestampShortcutRecorder)))
+    {
+        *outReason = @"it's already used. To use this shortcut, first remove or change the other shortcut";
+        return YES;
+    }
+    else
+        return NO;
+#undef IS_TAKEN
+}
+
+- (BOOL)shortcutValidatorShouldCheckMenu:(SRValidator *)aValidator
+{
+    return YES;
+}
+
+
+#pragma mark NSObject
+
+
 
 
 - (void)awakeFromNib
 {
-		
-	
 
-	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ShortcutRecorder rePlayKeyBinding"])
+    [super awakeFromNib];
+    NSUserDefaultsController *defaults = [NSUserDefaultsController sharedUserDefaultsController];
+
+    
+    [replayMenuItem bind:@"keyEquivalent"
+               toObject:defaults
+            withKeyPath:@"values.replayItem"
+                options:@{NSValueTransformerBindingOption: [SRKeyEquivalentTransformer new]}];
+    [replayMenuItem bind:@"keyEquivalentModifierMask"
+               toObject:defaults
+            withKeyPath:@"values.replayItem"
+                options:@{NSValueTransformerBindingOption: [SRKeyEquivalentModifierMaskTransformer new]}];
+    
+    
+    [playPauseMenuItem bind:@"keyEquivalent"
+                toObject:defaults
+             withKeyPath:@"values.playPauseItem"
+                 options:@{NSValueTransformerBindingOption: [SRKeyEquivalentTransformer new]}];
+    [playPauseMenuItem bind:@"keyEquivalentModifierMask"
+                toObject:defaults
+             withKeyPath:@"values.playPauseItem"
+                 options:@{NSValueTransformerBindingOption: [SRKeyEquivalentModifierMaskTransformer new]}];
+    
+    
+    [controlsMenuItem bind:@"keyEquivalent"
+                   toObject:defaults
+                withKeyPath:@"values.controlsItem"
+                    options:@{NSValueTransformerBindingOption: [SRKeyEquivalentTransformer new]}];
+    [controlsMenuItem bind:@"keyEquivalentModifierMask"
+                   toObject:defaults
+                withKeyPath:@"values.controlsItem"
+                    options:@{NSValueTransformerBindingOption: [SRKeyEquivalentModifierMaskTransformer new]}];
+    
+    
+    [timestampMenuItem bind:@"keyEquivalent"
+                  toObject:defaults
+               withKeyPath:@"values.timestampItem"
+                   options:@{NSValueTransformerBindingOption: [SRKeyEquivalentTransformer new]}];
+    [timestampMenuItem bind:@"keyEquivalentModifierMask"
+                  toObject:defaults
+               withKeyPath:@"values.timestampItem"
+                   options:@{NSValueTransformerBindingOption: [SRKeyEquivalentModifierMaskTransformer new]}];
+    
+    
+    [replayShortcutRecorder bind:NSValueBinding
+                               toObject:defaults
+                            withKeyPath:@"values.replayItem"
+                                options:nil];
+    [pauseShortcutRecorder bind:NSValueBinding
+                               toObject:defaults
+                            withKeyPath:@"values.playPauseItem"
+                                options:nil];
+    [controlsShortcutRecorder bind:NSValueBinding
+                               toObject:defaults
+                            withKeyPath:@"values.controlsItem"
+                                options:nil];
+    [timestampShortcutRecorder bind:NSValueBinding
+                               toObject:defaults
+                            withKeyPath:@"values.timestampItem"
+                                options:nil];
+    
+    _validator = [[SRValidator alloc] initWithDelegate:self];
+
+	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"replayItem"])
 	{
 		[self setKeyEquivalent:@"1" withModifierMask:NSControlKeyMask ofMenuItem:replayMenuItem];
 	}
-	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ShortcutRecorder playPauseKeyBinding"])
+	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"playPauseItem"])
 	{
 		[self setKeyEquivalent:@"2" withModifierMask:NSControlKeyMask ofMenuItem:playPauseMenuItem];
 	}
-	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ShortcutRecorder controlsKeyBinding"])
+	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"controlsItem"])
 	{
 		[self setKeyEquivalent:@"3" withModifierMask:NSControlKeyMask ofMenuItem:controlsMenuItem];
 	}
-	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ShortcutRecorder timestampKeyBinding"])
+	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"timestampItem"])
 	{
 		[self setKeyEquivalent:@"t" withModifierMask:NSControlKeyMask ofMenuItem:timestampMenuItem];
 	}

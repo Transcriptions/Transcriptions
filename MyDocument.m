@@ -335,6 +335,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         }
         else
         {
+            [[NSUserDefaults standardUserDefaults] setFloat:_rate forKey:@"currentRate"];
             //[[self playPauseButton] setTitle:@"Pause"];
         }
     }
@@ -489,9 +490,12 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     {
         CMTime currentTime = [[self player] currentTime];
         CMTime timeToAdd   = CMTimeMakeWithSeconds([replaySlider intValue],1);
-        CMTime resultTime  = CMTimeAdd(currentTime,timeToAdd);
+        CMTime resultTime  = CMTimeSubtract(currentTime,timeToAdd);
         [[self player] seekToTime:resultTime];
-        [self playPauseToggle:nil];
+        float myRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"currentRate"];
+        [[self player] play];
+        [self.player setRate:myRate];
+
        	}
 }
 
@@ -500,8 +504,12 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     if ([[self player] rate] == 0.f)
     {
         if ([self currentTime] == [self duration])
+        {
             [self setCurrentTime:0.f];
+        }
+        float myRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"currentRate"];
         [[self player] play];
+        [self.player setRate:myRate];
     }
     else
     {
