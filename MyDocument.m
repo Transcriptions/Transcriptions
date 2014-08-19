@@ -85,7 +85,8 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 		title = [NSString stringWithFormat:@""];
 		subject = [NSString stringWithFormat:@""];
 		comment = [NSString stringWithFormat:@""];
-	}
+        
+    }
 	return self;
 }
 
@@ -114,9 +115,8 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
   [insertTableView setDelegate:self];
   [insertTableView registerForDraggedTypes:[NSArray arrayWithObjects:NSStringPboardType, NSRTFPboardType, nil]];
   [infoPanel setMinSize:[infoPanel frame].size];
-  NSTimeInterval autosaveInterval = 5;
+  NSTimeInterval autosaveInterval = 3;
   [[NSDocumentController sharedDocumentController] setAutosavingDelay:autosaveInterval];
-    //==> INSERT AUTOSAVING = YES!!
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(processTextEditing) name:NSTextDidChangeNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openMovieFromDrag:) name:@"movieFileDrag" object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createTimeStamp:) name:@"automaticTimestamp" object:nil];
