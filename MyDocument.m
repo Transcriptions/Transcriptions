@@ -58,8 +58,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 @synthesize player;
 @synthesize playerLayer;
-@synthesize loadingSpinner;
-@synthesize unplayableLabel;
 @synthesize noVideoImage;
 @synthesize playerView;
 @synthesize playPauseButton;
@@ -102,7 +100,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
   [[windowController window] setMovableByWindowBackground:YES];
   [[windowController window] setContentBorderThickness:32.0 forEdge:NSMinYEdge];
   [[[self playerView] layer] setBackgroundColor:CGColorGetConstantColor(kCGColorBlack)];
-  [[self loadingSpinner] startAnimation:self];
   if (rtfSaveData) {
         [[textView textStorage] replaceCharactersInRange:NSMakeRange(0, [[textView string] length]) withAttributedString:rtfSaveData];
         [rtfSaveData release];
@@ -278,7 +275,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     if (![asset isPlayable] || [asset hasProtectedContent])
     {
         [self stopLoadingAnimationAndHandleError:nil];
-        [[self unplayableLabel] setHidden:NO];
         return;
     }
     if ([[asset tracksWithMediaType:AVMediaTypeVideo] count] != 0)
@@ -355,8 +351,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 - (void)stopLoadingAnimationAndHandleError:(NSError *)error
 {
-    [[self loadingSpinner] stopAnimation:self];
-    [[self loadingSpinner] setHidden:YES];
     if (error)
     {
         [self presentError:error
@@ -604,9 +598,19 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 #pragma mark SplitView delegate methods
 
--(NSRect)splitView:(NSSplitView *)splitView additionalEffectiveRectOfDividerAtIndex:(NSInteger)dividerIndex 
+- (CGFloat)splitView:(NSSplitView *)splitView constrainMaxCoordinate:(CGFloat)proposedMax ofSubviewAt:(NSInteger)dividerIndex
 {
-	return [resizeView convertRect:[resizeView bounds] toView:mainSplitView]; 
+    if (proposedMax > splitView.frame.size.width - 250)
+    {
+        proposedMax = splitView.frame.size.width - 250;
+    }
+    
+    return proposedMax ;
+}
+
+- (BOOL)splitView:(NSSplitView *)splitView canCollapseSubview:(NSView *)subview
+{
+    return NO;
 }
 
 #pragma mark Media Control HUD panel

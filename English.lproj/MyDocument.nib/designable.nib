@@ -253,7 +253,7 @@
 															<reference key="NSNextResponder" ref="848690647"/>
 															<int key="NSvFlags">274</int>
 															<array class="NSMutableArray" key="NSSubviews">
-																<object class="NSImageView" id="925683494">
+																<object class="NSImageView" id="1540729">
 																	<reference key="NSNextResponder" ref="117733569"/>
 																	<int key="NSvFlags">-2147483374</int>
 																	<set class="NSMutableSet" key="NSDragTypes">
@@ -267,13 +267,14 @@
 																	<string key="NSFrame">{{78, 65}, {164, 155}}</string>
 																	<reference key="NSSuperview" ref="117733569"/>
 																	<reference key="NSWindow"/>
+																	<reference key="NSNextKeyView" ref="807812816"/>
 																	<string key="NSReuseIdentifierKey">_NS:9</string>
 																	<string key="NSHuggingPriority">{251, 251}</string>
 																	<bool key="NSEnabled">YES</bool>
-																	<object class="NSImageCell" key="NSCell" id="558952096">
+																	<object class="NSImageCell" key="NSCell" id="1053926526">
 																		<int key="NSCellFlags">0</int>
 																		<int key="NSCellFlags2">33554432</int>
-																		<object class="NSCustomResource" key="NSContents" id="295798414">
+																		<object class="NSCustomResource" key="NSContents" id="53994581">
 																			<string key="NSClassName">NSImage</string>
 																			<string key="NSResourceName">NSInfo</string>
 																		</object>
@@ -290,7 +291,7 @@
 															<string key="NSFrame">{{0, 56}, {321, 285}}</string>
 															<reference key="NSSuperview" ref="848690647"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView" ref="807812816"/>
+															<reference key="NSNextKeyView" ref="1540729"/>
 															<string key="NSReuseIdentifierKey">_NS:9</string>
 															<string key="NSClassName">NSView</string>
 														</object>
@@ -783,6 +784,10 @@
 							<bool key="NSIsVertical">YES</bool>
 							<int key="NSDividerStyle">2</int>
 							<string key="NSAutosaveName">mainSplitView</string>
+							<object class="NSMutableDictionary" key="NSHoldingPriorities">
+								<integer value="1" key="NS.key.0"/>
+								<real value="250" key="NS.object.0"/>
+							</object>
 						</object>
 						<object class="NSButton" id="391876804">
 							<reference key="NSNextResponder" ref="568628114"/>
@@ -827,7 +832,7 @@
 								<reference key="NSControlView" ref="627644957"/>
 								<int key="NSButtonFlags">-2034483200</int>
 								<int key="NSButtonFlags2">163</int>
-								<reference key="NSNormalImage" ref="295798414"/>
+								<reference key="NSNormalImage" ref="53994581"/>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">400</int>
@@ -841,6 +846,7 @@
 							<string key="NSFrame">{{795, 0}, {26, 25}}</string>
 							<reference key="NSSuperview" ref="568628114"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="613798287">
 								<int key="NSCellFlags">67108864</int>
@@ -927,9 +933,12 @@
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="57101419">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">4370</int>
 					<string key="NSFrameSize">{310, 140}</string>
+					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
+					<reference key="NSNextKeyView"/>
 					<bool key="NSViewIsLayerTreeHost">YES</bool>
 					<object class="NSDictionary" key="NSViewAnimations">
 						<string key="NS.key.0">subviews</string>
@@ -1425,7 +1434,7 @@
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 			<object class="NSCustomView" id="650183830">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">4352</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSTextField" id="271550719">
@@ -1433,6 +1442,7 @@
 						<int key="NSvFlags">266</int>
 						<string key="NSFrame">{{92, 171}, {208, 19}}</string>
 						<reference key="NSSuperview" ref="650183830"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="760071052"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="99974534">
@@ -1452,6 +1462,7 @@
 						<int key="NSvFlags">266</int>
 						<string key="NSFrame">{{92, 148}, {208, 19}}</string>
 						<reference key="NSSuperview" ref="650183830"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="311289454"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="754676220">
@@ -1471,6 +1482,7 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrame">{{92, 30}, {208, 93}}</string>
 						<reference key="NSSuperview" ref="650183830"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="113962525"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="761743902">
@@ -1491,6 +1503,7 @@
 						<array class="NSMutableArray" key="NSSubviews"/>
 						<string key="NSFrame">{{126, 3}, {61, 19}}</string>
 						<reference key="NSSuperview" ref="650183830"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
 						<array key="NSViewContentFilters">
 							<object class="CIColorInvert">
@@ -1522,6 +1535,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{52, 176}, {38, 14}}</string>
 						<reference key="NSSuperview" ref="650183830"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="271550719"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="1005092340">
@@ -1541,6 +1555,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{12, 153}, {78, 14}}</string>
 						<reference key="NSSuperview" ref="650183830"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="395978043"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="383110972">
@@ -1560,6 +1575,7 @@
 						<int key="NSvFlags">266</int>
 						<string key="NSFrame">{{92, 126}, {208, 19}}</string>
 						<reference key="NSSuperview" ref="650183830"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="540343148"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="493009151">
@@ -1579,6 +1595,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{24, 131}, {66, 14}}</string>
 						<reference key="NSSuperview" ref="650183830"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="479697320"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="790413081">
@@ -1598,6 +1615,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{39, 109}, {51, 14}}</string>
 						<reference key="NSSuperview" ref="650183830"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="551512859"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="353277455">
@@ -1614,6 +1632,8 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{308, 200}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="510973977"/>
 				<bool key="NSViewIsLayerTreeHost">YES</bool>
 				<string key="NSClassName">NSView</string>
@@ -2064,6 +2084,9 @@
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
+			<object class="NSCustomObject" id="542432987">
+				<string key="NSClassName">TSCSplitViewDelegate</string>
+			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<array class="NSMutableArray" key="connectionRecords">
@@ -2383,7 +2406,7 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">noVideoImage</string>
 						<reference key="source" ref="512844837"/>
-						<reference key="destination" ref="925683494"/>
+						<reference key="destination" ref="1540729"/>
 					</object>
 					<int key="connectionID">100947</int>
 				</object>
@@ -2394,6 +2417,14 @@
 						<reference key="destination" ref="512844837"/>
 					</object>
 					<int key="connectionID">100916</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="268588504"/>
+						<reference key="destination" ref="542432987"/>
+					</object>
+					<int key="connectionID">100953</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -3724,7 +3755,7 @@
 						<int key="objectID">100923</int>
 						<reference key="object" ref="117733569"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="925683494"/>
+							<reference ref="1540729"/>
 						</array>
 						<reference key="parent" ref="848690647"/>
 					</object>
@@ -3782,16 +3813,21 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">100945</int>
-						<reference key="object" ref="925683494"/>
+						<reference key="object" ref="1540729"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="558952096"/>
+							<reference ref="1053926526"/>
 						</array>
 						<reference key="parent" ref="117733569"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">100946</int>
-						<reference key="object" ref="558952096"/>
-						<reference key="parent" ref="925683494"/>
+						<reference key="object" ref="1053926526"/>
+						<reference key="parent" ref="1540729"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">100952</int>
+						<reference key="object" ref="542432987"/>
+						<reference key="parent" ref="0"/>
 					</object>
 				</array>
 			</object>
@@ -4161,6 +4197,7 @@
 				<string key="100923.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="100945.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="100946.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="100952.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="5.IBPersistedLastKnownCanvasPosition">{126.5, 348.5}</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="5.IBWindowTemplateEditedContentRect">{{36, 40}, {827, 665}}</string>
@@ -4170,7 +4207,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">100947</int>
+			<int key="maxID">100953</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4190,15 +4227,15 @@
 						<string key="rePlay:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="createTimeStamp:" id="502715674">
+						<object class="IBActionInfo" key="createTimeStamp:" id="359248438">
 							<string key="name">createTimeStamp:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="openHUDPanel:" id="912611522">
+						<object class="IBActionInfo" key="openHUDPanel:" id="57718092">
 							<string key="name">openHUDPanel:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="rePlay:" id="181586302">
+						<object class="IBActionInfo" key="rePlay:" id="468404502">
 							<string key="name">rePlay:</string>
 							<string key="candidateClassName">id</string>
 						</object>
@@ -4216,9 +4253,7 @@
 						<string key="infoButton">NSButton</string>
 						<string key="infoPanel">NSPanel</string>
 						<string key="insertTableView">NSTableView</string>
-						<string key="loadingSpinner">NSProgressIndicator</string>
 						<string key="mDuration">NSTextField</string>
-						<string key="mSlide">NSSlider</string>
 						<string key="mTextField">NSTextField</string>
 						<string key="mTimeDisplay">NSTextField</string>
 						<string key="mainSplitView">NSSplitView</string>
@@ -4230,13 +4265,11 @@
 						<string key="playPauseButton">NSButton</string>
 						<string key="playerView">NSView</string>
 						<string key="replaySlider">NSSlider</string>
-						<string key="resizeView">NSView</string>
 						<string key="rewindButton">NSButton</string>
 						<string key="secondSubView">NSView</string>
 						<string key="textView">TSCTextView</string>
 						<string key="timeSlider">NSSlider</string>
 						<string key="typeImageView">NSImageView</string>
-						<string key="unplayableLabel">NSTextField</string>
 						<string key="wordTextField">NSTextField</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -4288,17 +4321,9 @@
 							<string key="name">insertTableView</string>
 							<string key="candidateClassName">NSTableView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="loadingSpinner" id="307549387">
-							<string key="name">loadingSpinner</string>
-							<string key="candidateClassName">NSProgressIndicator</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="mDuration" id="502615744">
 							<string key="name">mDuration</string>
 							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="mSlide" id="926785141">
-							<string key="name">mSlide</string>
-							<string key="candidateClassName">NSSlider</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="mTextField" id="211212780">
 							<string key="name">mTextField</string>
@@ -4324,7 +4349,7 @@
 							<string key="name">movieNormalSize</string>
 							<string key="candidateClassName">NSTextField</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="noVideoImage" id="242861304">
+						<object class="IBToOneOutletInfo" key="noVideoImage" id="820448456">
 							<string key="name">noVideoImage</string>
 							<string key="candidateClassName">NSImageView</string>
 						</object>
@@ -4343,10 +4368,6 @@
 						<object class="IBToOneOutletInfo" key="replaySlider" id="72688849">
 							<string key="name">replaySlider</string>
 							<string key="candidateClassName">NSSlider</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="resizeView" id="84169899">
-							<string key="name">resizeView</string>
-							<string key="candidateClassName">NSView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="rewindButton" id="97769677">
 							<string key="name">rewindButton</string>
@@ -4367,10 +4388,6 @@
 						<object class="IBToOneOutletInfo" key="typeImageView" id="700657717">
 							<string key="name">typeImageView</string>
 							<string key="candidateClassName">NSImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="unplayableLabel" id="913252724">
-							<string key="name">unplayableLabel</string>
-							<string key="candidateClassName">NSTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="wordTextField" id="31669450">
 							<string key="name">wordTextField</string>
@@ -4420,11 +4437,11 @@
 						<string key="rewind:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<reference key="createTimeStamp:" ref="502715674"/>
+						<reference key="createTimeStamp:" ref="359248438"/>
 						<reference key="fastForward:" ref="1026194221"/>
-						<reference key="openHUDPanel:" ref="912611522"/>
+						<reference key="openHUDPanel:" ref="57718092"/>
 						<reference key="playPauseToggle:" ref="383956407"/>
-						<reference key="rePlay:" ref="181586302"/>
+						<reference key="rePlay:" ref="468404502"/>
 						<reference key="rewind:" ref="1013927411"/>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
@@ -4440,9 +4457,7 @@
 						<string key="infoButton">NSButton</string>
 						<string key="infoPanel">NSPanel</string>
 						<string key="insertTableView">NSTableView</string>
-						<string key="loadingSpinner">NSProgressIndicator</string>
 						<string key="mDuration">NSTextField</string>
-						<string key="mSlide">NSSlider</string>
 						<string key="mTextField">NSTextField</string>
 						<string key="mTimeDisplay">NSTextField</string>
 						<string key="mainSplitView">NSSplitView</string>
@@ -4454,13 +4469,11 @@
 						<string key="playPauseButton">NSButton</string>
 						<string key="playerView">NSView</string>
 						<string key="replaySlider">NSSlider</string>
-						<string key="resizeView">NSView</string>
 						<string key="rewindButton">NSButton</string>
 						<string key="secondSubView">NSView</string>
 						<string key="textView">TSCTextView</string>
 						<string key="timeSlider">NSSlider</string>
 						<string key="typeImageView">NSImageView</string>
-						<string key="unplayableLabel">NSTextField</string>
 						<string key="wordTextField">NSTextField</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -4476,27 +4489,23 @@
 						<reference key="infoButton" ref="343247197"/>
 						<reference key="infoPanel" ref="1019958791"/>
 						<reference key="insertTableView" ref="506245199"/>
-						<reference key="loadingSpinner" ref="307549387"/>
 						<reference key="mDuration" ref="502615744"/>
-						<reference key="mSlide" ref="926785141"/>
 						<reference key="mTextField" ref="211212780"/>
 						<reference key="mTimeDisplay" ref="592176536"/>
 						<reference key="mainSplitView" ref="680924522"/>
 						<reference key="movieCurrentSize" ref="515096605"/>
 						<reference key="movieFileField" ref="871808103"/>
 						<reference key="movieNormalSize" ref="538680151"/>
-						<reference key="noVideoImage" ref="242861304"/>
+						<reference key="noVideoImage" ref="820448456"/>
 						<reference key="paragraphTextField" ref="19879270"/>
 						<reference key="playPauseButton" ref="1031872114"/>
 						<reference key="playerView" ref="668995607"/>
 						<reference key="replaySlider" ref="72688849"/>
-						<reference key="resizeView" ref="84169899"/>
 						<reference key="rewindButton" ref="97769677"/>
 						<reference key="secondSubView" ref="294142523"/>
 						<reference key="textView" ref="39542429"/>
 						<reference key="timeSlider" ref="37953265"/>
 						<reference key="typeImageView" ref="700657717"/>
-						<reference key="unplayableLabel" ref="913252724"/>
 						<reference key="wordTextField" ref="31669450"/>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -4559,6 +4568,22 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/TSCArrayController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">TSCSplitViewDelegate</string>
+					<string key="superclassName">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">../TSCSplitViewDelegate.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">TSCSplitViewDelegate</string>
+					<string key="superclassName">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/TSCSplitViewDelegate.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

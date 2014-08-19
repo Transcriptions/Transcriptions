@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A32C27F19A3723C007B8415 /* TSCSplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A32C27E19A3723C007B8415 /* TSCSplitViewDelegate.m */; };
 		0AA11EFF19734A5100B78642 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AA11EFE19734A5100B78642 /* MainMenu.xib */; };
 		0AA11F02197560EC00B78642 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA11EFB1973421800B78642 /* AVKit.framework */; };
 		0AA11F03197560F100B78642 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA11EFA1973421800B78642 /* AVFoundation.framework */; };
@@ -75,6 +76,8 @@
 
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0A32C27D19A3723C007B8415 /* TSCSplitViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCSplitViewDelegate.h; sourceTree = "<group>"; };
+		0A32C27E19A3723C007B8415 /* TSCSplitViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCSplitViewDelegate.m; sourceTree = "<group>"; };
 		0AA11EFA1973421800B78642 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		0AA11EFB1973421800B78642 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/System/Library/Frameworks/AVKit.framework; sourceTree = DEVELOPER_DIR; };
 		0AA11EFE19734A5100B78642 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
@@ -189,6 +192,8 @@
 			children = (
 				63C8682A0DDA097500DC3670 /* MyDocument.h */,
 				63C8682B0DDA097500DC3670 /* MyDocument.m */,
+				0A32C27D19A3723C007B8415 /* TSCSplitViewDelegate.h */,
+				0A32C27E19A3723C007B8415 /* TSCSplitViewDelegate.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -393,6 +398,7 @@
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
 				63C8682C0DDA097500DC3670 /* MyDocument.m in Sources */,
 				63C8682F0DDA097B00DC3670 /* TSCArrayController.m in Sources */,
+				0A32C27F19A3723C007B8415 /* TSCSplitViewDelegate.m in Sources */,
 				63C868320DDA098500DC3670 /* TSCTextView.m in Sources */,
 				633A50640E4F284C00B4D45A /* TSCKeyBindingsController.m in Sources */,
 			);
