@@ -110,7 +110,7 @@ const double		k_Scrub_Slider_Minimum = 0.0;
 @property (assign) float volume;
 @property (assign) IBOutlet NSProgressIndicator *loadingSpinner;
 @property (assign) IBOutlet NSTextField *unplayableLabel;
-@property (assign) IBOutlet NSTextField *noVideoLabel;
+@property (assign) IBOutlet NSImageView *noVideoImage;
 @property (assign) IBOutlet NSView *playerView;
 @property (assign) IBOutlet NSButton *playPauseButton;
 @property (assign) IBOutlet NSButton *fastForwardButton;

@@ -60,7 +60,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 @synthesize playerLayer;
 @synthesize loadingSpinner;
 @synthesize unplayableLabel;
-@synthesize noVideoLabel;
+@synthesize noVideoImage;
 @synthesize playerView;
 @synthesize playPauseButton;
 @synthesize fastForwardButton;
@@ -294,7 +294,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     else
     {
         [self stopLoadingAnimationAndHandleError:nil];
-        [[self noVideoLabel] setHidden:NO];
+        [[self noVideoImage] setHidden:NO];
     }
     AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:asset];
     [[self player] replaceCurrentItemWithPlayerItem:playerItem];
