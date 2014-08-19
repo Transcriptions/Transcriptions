@@ -117,8 +117,8 @@
     
     if (IS_TAKEN(replayShortcutRecorder) ||
         IS_TAKEN(pauseShortcutRecorder) ||
-        IS_TAKEN(controlsShortcutRecorder ||
-        IS_TAKEN(timestampShortcutRecorder)))
+        IS_TAKEN(controlsShortcutRecorder) ||
+        IS_TAKEN(timestampShortcutRecorder))
     {
         *outReason = @"it's already used. To use this shortcut, first remove or change the other shortcut";
         return YES;
