@@ -135,7 +135,8 @@ const double		k_Scrub_Slider_Minimum = 0.0;
 - (void)startURLSheet:(id)sender;
 - (void)showURLSheet: (NSWindow *)window;
 - (void)closeURLSheet: (id)sender;
-- (void)reportBug:(id)sender;
+- (IBAction)reportBug:(id)sender;
+-(IBAction)redirectToDonationPage:(id)sender;
 
 
 @end

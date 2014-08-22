@@ -734,12 +734,22 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 						  launchIdentifiers:NULL];
 }
 
--(void)reportBug:(id)sender{
+-(IBAction)reportBug:(id)sender{
 	
 	NSString* mailToString = @"mailto:transcriptionsdev@gmail.com";
 	NSURL* emailURL = [NSURL URLWithString:mailToString];
 	[[NSWorkspace sharedWorkspace] openURL:emailURL];
 	
+}
+
+-(IBAction)redirectToDonationPage:(id)sender
+{
+    NSURL* url = [NSURL URLWithString:@"http://www.unet.univie.ac.at/~a0206600/TranscriptionsDonate.html"];
+	[[NSWorkspace sharedWorkspace] openURLs:[NSArray arrayWithObject:url]
+					withAppBundleIdentifier:NULL
+									options:NSWorkspaceLaunchDefault
+			 additionalEventParamDescriptor:NULL
+						  launchIdentifiers:NULL];
 }
 	
 #pragma mark Document Informations Panel METHODS

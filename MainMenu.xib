@@ -50,6 +50,13 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="kCx-OE-vgT"/>
+                            <menuItem title="Donate..." id="sVS-yL-AWz">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="redirectToDonationPage:" target="-1" id="DP6-ie-kuh"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="at3-7P-iA7"/>
                             <menuItem title="Quit Transcriptions" keyEquivalent="q" id="4sb-4s-VLi">
                                 <connections>
                                     <action selector="terminate:" target="-1" id="Te7-pn-YzF"/>
@@ -691,6 +698,12 @@
                             <menuItem title="Transcriptions Help" keyEquivalent="?" id="FKE-Sm-Kum">
                                 <connections>
                                     <action selector="showHelp:" target="-1" id="y7X-2Q-9no"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Report Bug" id="JGQ-T1-M3k">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="reportBug:" target="-1" id="tKd-eX-W2l"/>
                                 </connections>
                             </menuItem>
                         </items>
