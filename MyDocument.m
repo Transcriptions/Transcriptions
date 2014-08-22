@@ -568,12 +568,19 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 - (void)jumpToTimeStamp:(NSNotification *)note
 {
-	NSString* timestampTimeString = [note object];
-    [[self player] seekToTime:[self cmtimeForTimeStampString:timestampTimeString] toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+    NSString* timestampTimeString = [note object];
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"timestampReplay"] boolValue] == YES )
 	{
-		[self rePlay:nil];
-	}
+		CMTime timeToAdd   = CMTimeMakeWithSeconds([replaySlider intValue],1);
+        CMTime resultTime  = CMTimeSubtract([self cmtimeForTimeStampString:timestampTimeString],timeToAdd);
+        [[self player] seekToTime:resultTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+        float myRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"currentRate"];
+        [[self player] play];
+        [self.player setRate:myRate];
+	}else
+    {
+    [[self player] seekToTime:[self cmtimeForTimeStampString:timestampTimeString] toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+    }
 }
 
 - (CMTime)cmtimeForTimeStampString:(NSString *)tsString
