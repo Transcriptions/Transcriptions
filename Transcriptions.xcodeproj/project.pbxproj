@@ -78,6 +78,7 @@
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0A32C27D19A3723C007B8415 /* TSCSplitViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCSplitViewDelegate.h; sourceTree = "<group>"; };
 		0A32C27E19A3723C007B8415 /* TSCSplitViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCSplitViewDelegate.m; sourceTree = "<group>"; };
+		0A6636FD19A7F0DA00856956 /* Transcriptions.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Transcriptions.entitlements; sourceTree = "<group>"; };
 		0AA11EFA1973421800B78642 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		0AA11EFB1973421800B78642 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/System/Library/Frameworks/AVKit.framework; sourceTree = DEVELOPER_DIR; };
 		0AA11EFE19734A5100B78642 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
@@ -175,6 +176,7 @@
 		2A37F4AAFDCFA73011CA2CEA /* Transcriptions */ = {
 			isa = PBXGroup;
 			children = (
+				0A6636FD19A7F0DA00856956 /* Transcriptions.entitlements */,
 				633A4F9B0E4F0D1A00B4D45A /* ExternalSources */,
 				639E92AD0E4D0B7F0006FDEE /* Controllers */,
 				639E92AC0E4D0B5C0006FDEE /* Views */,
@@ -296,6 +298,11 @@
 				TargetAttributes = {
 					8D15AC270486D014006FF6A4 = {
 						DevelopmentTeam = M9AG4A3F6L;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -439,14 +446,13 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_ENTITLEMENTS = Transcriptions.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../Downloads/Sparkle-1\"",
 					"$(SRCROOT)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Transcriptions-awvpsdcysfuossetopnllmdgodky/Build/Products/Debug",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -456,10 +462,10 @@
 				GCC_PREFIX_HEADER = Transcriptions_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = Transcriptions;
 				PROVISIONING_PROFILE = "";
-				SDKROOT = macosx10.9;
+				SDKROOT = macosx10.10;
 			};
 			name = Debug;
 		};
@@ -468,24 +474,23 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_ENTITLEMENTS = Transcriptions.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../Downloads/Sparkle-1\"",
 					"$(SRCROOT)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Transcriptions-awvpsdcysfuossetopnllmdgodky/Build/Products/Debug",
 				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Transcriptions_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = Transcriptions;
 				PROVISIONING_PROFILE = "";
-				SDKROOT = macosx10.9;
+				SDKROOT = macosx10.10;
 			};
 			name = Release;
 		};
