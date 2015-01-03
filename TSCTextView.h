@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @interface TSCTextView : NSTextView <NSTextStorageDelegate> {
 
 	IBOutlet TSCArrayController* insertions;
-	
+	IBOutlet NSScrollView* textScrollView;
 	NSMutableDictionary* paragraphAttributes;
 	BOOL drawParagraphNumbers;
 	BOOL checkKey;

@@ -743,10 +743,21 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 -(IBAction)reportBug:(id)sender{
 	
-	NSString* mailToString = @"mailto:transcriptionsdev@gmail.com";
-	NSURL* emailURL = [NSURL URLWithString:mailToString];
-	[[NSWorkspace sharedWorkspace] openURL:emailURL];
+    NSURL* url = [NSURL URLWithString:@"https://code.google.com/p/transcriptions/issues/list"];
+    [[NSWorkspace sharedWorkspace] openURLs:[NSArray arrayWithObject:url]
+                    withAppBundleIdentifier:NULL
+                                    options:NSWorkspaceLaunchDefault
+             additionalEventParamDescriptor:NULL
+                          launchIdentifiers:NULL];
 	
+}
+
+-(IBAction)writeFeedback:(id)sender{
+    
+    NSString* mailToString = @"mailto:transcriptionsdev@gmail.com";
+    NSURL* emailURL = [NSURL URLWithString:mailToString];
+    [[NSWorkspace sharedWorkspace] openURL:emailURL];
+    
 }
 
 -(IBAction)redirectToDonationPage:(id)sender

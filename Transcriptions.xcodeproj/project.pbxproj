@@ -7,17 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A2EA3511A2BC81E0086367E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A2EA3501A2BC81E0086367E /* Images.xcassets */; };
+		0A2EA3521A2BCFEB0086367E /* PTHotKey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADD23541998EE68007D81D3 /* PTHotKey.framework */; };
+		0A2EA3531A2BCFEE0086367E /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADD23521998EE62007D81D3 /* ShortcutRecorder.framework */; };
+		0A2EA3571A2BD6560086367E /* ShortcutRecorder.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0ADD23481998E930007D81D3 /* ShortcutRecorder.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0A2EA3581A2BD65B0086367E /* PTHotKey.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0ADD234A1998E930007D81D3 /* PTHotKey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0A32C27F19A3723C007B8415 /* TSCSplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A32C27E19A3723C007B8415 /* TSCSplitViewDelegate.m */; };
+		0A3D20B31A2DD9140066C34E /* transcriptions-icon_CONTROLS.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0A3D20AC1A2DD9140066C34E /* transcriptions-icon_CONTROLS.pdf */; };
+		0A3D20B41A2DD9140066C34E /* transcriptions-icon_INFO.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0A3D20AD1A2DD9140066C34E /* transcriptions-icon_INFO.pdf */; };
+		0A3D20B51A2DD9140066C34E /* transcriptions-icon_LIST.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0A3D20AE1A2DD9140066C34E /* transcriptions-icon_LIST.pdf */; };
+		0A3D20B61A2DD9140066C34E /* transcriptions-icon_OPEN.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0A3D20AF1A2DD9140066C34E /* transcriptions-icon_OPEN.pdf */; };
+		0A3D20B71A2DD9140066C34E /* transcriptions-icon_PLAY.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0A3D20B01A2DD9140066C34E /* transcriptions-icon_PLAY.pdf */; };
+		0A3D20B81A2DD9140066C34E /* transcriptions-icon_SOUND.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0A3D20B11A2DD9140066C34E /* transcriptions-icon_SOUND.pdf */; };
+		0A3D20B91A2DD9140066C34E /* transcriptions-icon_TIME-STAMP.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0A3D20B21A2DD9140066C34E /* transcriptions-icon_TIME-STAMP.pdf */; };
 		0AA11EFF19734A5100B78642 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AA11EFE19734A5100B78642 /* MainMenu.xib */; };
 		0AA11F02197560EC00B78642 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA11EFB1973421800B78642 /* AVKit.framework */; };
 		0AA11F03197560F100B78642 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA11EFA1973421800B78642 /* AVFoundation.framework */; };
 		0AA11F061975610C00B78642 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA11F04197560FD00B78642 /* CoreMedia.framework */; };
 		0AA11F08197566BD00B78642 /* TODO.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0AA11F07197566BD00B78642 /* TODO.rtf */; };
-		0ADD234D1998E960007D81D3 /* PTHotKey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADD234A1998E930007D81D3 /* PTHotKey.framework */; };
-		0ADD23501998E9A9007D81D3 /* ShortcutRecorder.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0ADD23481998E930007D81D3 /* ShortcutRecorder.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		0ADD23511998E9A9007D81D3 /* PTHotKey.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0ADD234A1998E930007D81D3 /* PTHotKey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		0ADD23531998EE62007D81D3 /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADD23521998EE62007D81D3 /* ShortcutRecorder.framework */; };
-		631398760E506ACF005A15A5 /* TSCHelperFolder in Resources */ = {isa = PBXBuildFile; fileRef = 631398750E506ACF005A15A5 /* TSCHelperFolder */; };
+		0AA24F0A1A441B03006CDEB1 /* TSCHelperFolder in Resources */ = {isa = PBXBuildFile; fileRef = 0AA24F091A441B03006CDEB1 /* TSCHelperFolder */; };
 		633A4FD50E4F0E1700B4D45A /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 633A4FD40E4F0E1700B4D45A /* CoreServices.framework */; };
 		633A50640E4F284C00B4D45A /* TSCKeyBindingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633A50630E4F284C00B4D45A /* TSCKeyBindingsController.m */; };
 		63637E400E38F4B4004B1CFF /* scroller.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 63637E3F0E38F4B4004B1CFF /* scroller.tiff */; };
@@ -51,13 +59,6 @@
 			remoteGlobalIDString = E273122E1349EC9000A84433;
 			remoteInfo = PTHotKey.framework;
 		};
-		0ADD234B1998E930007D81D3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0ADD23411998E930007D81D3 /* ShortcutRecorder.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0D6B2468180304DE00CE1142;
-			remoteInfo = Demo;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -67,8 +68,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0ADD23501998E9A9007D81D3 /* ShortcutRecorder.framework in CopyFiles */,
-				0ADD23511998E9A9007D81D3 /* PTHotKey.framework in CopyFiles */,
+				0A2EA3581A2BD65B0086367E /* PTHotKey.framework in CopyFiles */,
+				0A2EA3571A2BD6560086367E /* ShortcutRecorder.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,14 +77,23 @@
 
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0A2EA3501A2BC81E0086367E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Transcriptions/Images.xcassets; sourceTree = "<group>"; };
 		0A32C27D19A3723C007B8415 /* TSCSplitViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCSplitViewDelegate.h; sourceTree = "<group>"; };
 		0A32C27E19A3723C007B8415 /* TSCSplitViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCSplitViewDelegate.m; sourceTree = "<group>"; };
+		0A3D20AC1A2DD9140066C34E /* transcriptions-icon_CONTROLS.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "transcriptions-icon_CONTROLS.pdf"; sourceTree = "<group>"; };
+		0A3D20AD1A2DD9140066C34E /* transcriptions-icon_INFO.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "transcriptions-icon_INFO.pdf"; sourceTree = "<group>"; };
+		0A3D20AE1A2DD9140066C34E /* transcriptions-icon_LIST.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "transcriptions-icon_LIST.pdf"; sourceTree = "<group>"; };
+		0A3D20AF1A2DD9140066C34E /* transcriptions-icon_OPEN.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "transcriptions-icon_OPEN.pdf"; sourceTree = "<group>"; };
+		0A3D20B01A2DD9140066C34E /* transcriptions-icon_PLAY.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "transcriptions-icon_PLAY.pdf"; sourceTree = "<group>"; };
+		0A3D20B11A2DD9140066C34E /* transcriptions-icon_SOUND.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "transcriptions-icon_SOUND.pdf"; sourceTree = "<group>"; };
+		0A3D20B21A2DD9140066C34E /* transcriptions-icon_TIME-STAMP.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "transcriptions-icon_TIME-STAMP.pdf"; sourceTree = "<group>"; };
 		0A6636FD19A7F0DA00856956 /* Transcriptions.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Transcriptions.entitlements; sourceTree = "<group>"; };
 		0AA11EFA1973421800B78642 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		0AA11EFB1973421800B78642 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/System/Library/Frameworks/AVKit.framework; sourceTree = DEVELOPER_DIR; };
 		0AA11EFE19734A5100B78642 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		0AA11F04197560FD00B78642 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		0AA11F07197566BD00B78642 /* TODO.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = TODO.rtf; sourceTree = "<group>"; };
+		0AA24F091A441B03006CDEB1 /* TSCHelperFolder */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TSCHelperFolder; sourceTree = "<group>"; };
 		0ADD23411998E930007D81D3 /* ShortcutRecorder.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShortcutRecorder.xcodeproj; path = ShortcutRecorder/ShortcutRecorder.xcodeproj; sourceTree = "<group>"; };
 		0ADD23521998EE62007D81D3 /* ShortcutRecorder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ShortcutRecorder.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Transcriptions-awvpsdcysfuossetopnllmdgodky/Build/Products/Debug/ShortcutRecorder.framework"; sourceTree = "<group>"; };
 		0ADD23541998EE68007D81D3 /* PTHotKey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PTHotKey.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Transcriptions-awvpsdcysfuossetopnllmdgodky/Build/Products/Debug/PTHotKey.framework"; sourceTree = "<group>"; };
@@ -92,7 +102,6 @@
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32DBCF750370BD2300C91783 /* Transcriptions_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Transcriptions_Prefix.pch; sourceTree = "<group>"; };
-		631398750E506ACF005A15A5 /* TSCHelperFolder */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TSCHelperFolder; sourceTree = "<group>"; };
 		633A4FD40E4F0E1700B4D45A /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		633A50620E4F284C00B4D45A /* TSCKeyBindingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCKeyBindingsController.h; sourceTree = "<group>"; };
 		633A50630E4F284C00B4D45A /* TSCKeyBindingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCKeyBindingsController.m; sourceTree = "<group>"; };
@@ -119,8 +128,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0ADD23531998EE62007D81D3 /* ShortcutRecorder.framework in Frameworks */,
-				0ADD234D1998E960007D81D3 /* PTHotKey.framework in Frameworks */,
+				0A2EA3521A2BCFEB0086367E /* PTHotKey.framework in Frameworks */,
+				0A2EA3531A2BCFEE0086367E /* ShortcutRecorder.framework in Frameworks */,
 				0AA11F061975610C00B78642 /* CoreMedia.framework in Frameworks */,
 				0AA11F03197560F100B78642 /* AVFoundation.framework in Frameworks */,
 				0AA11F02197560EC00B78642 /* AVKit.framework in Frameworks */,
@@ -137,7 +146,6 @@
 			children = (
 				0ADD23481998E930007D81D3 /* ShortcutRecorder.framework */,
 				0ADD234A1998E930007D81D3 /* PTHotKey.framework */,
-				0ADD234C1998E930007D81D3 /* Demo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -212,7 +220,15 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				631398750E506ACF005A15A5 /* TSCHelperFolder */,
+				0AA24F091A441B03006CDEB1 /* TSCHelperFolder */,
+				0A3D20AC1A2DD9140066C34E /* transcriptions-icon_CONTROLS.pdf */,
+				0A3D20AD1A2DD9140066C34E /* transcriptions-icon_INFO.pdf */,
+				0A3D20AE1A2DD9140066C34E /* transcriptions-icon_LIST.pdf */,
+				0A3D20AF1A2DD9140066C34E /* transcriptions-icon_OPEN.pdf */,
+				0A3D20B01A2DD9140066C34E /* transcriptions-icon_PLAY.pdf */,
+				0A3D20B11A2DD9140066C34E /* transcriptions-icon_SOUND.pdf */,
+				0A3D20B21A2DD9140066C34E /* transcriptions-icon_TIME-STAMP.pdf */,
+				0A2EA3501A2BC81E0086367E /* Images.xcassets */,
 				638524B60DDE6A7200BAA0DB /* timestamp.icns */,
 				63CAE13E0E365CF20048E152 /* resizeImage.png */,
 				63637E3F0E38F4B4004B1CFF /* scroller.tiff */,
@@ -274,9 +290,9 @@
 			buildConfigurationList = C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "Transcriptions" */;
 			buildPhases = (
 				8D15AC2B0486D014006FF6A4 /* Resources */,
+				0ADD234F1998E99A007D81D3 /* CopyFiles */,
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
-				0ADD234F1998E99A007D81D3 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -294,7 +310,7 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0610;
 				TargetAttributes = {
 					8D15AC270486D014006FF6A4 = {
 						DevelopmentTeam = M9AG4A3F6L;
@@ -366,13 +382,6 @@
 			remoteRef = 0ADD23491998E930007D81D3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		0ADD234C1998E930007D81D3 /* Demo.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = Demo.app;
-			remoteRef = 0ADD234B1998E930007D81D3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -382,15 +391,23 @@
 			files = (
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
 				63C8683B0DDA099D00DC3670 /* movieIcon.icns in Resources */,
+				0A3D20B81A2DD9140066C34E /* transcriptions-icon_SOUND.pdf in Resources */,
 				63C8683D0DDA09A200DC3670 /* TranscribeIcon.icns in Resources */,
+				0A2EA3511A2BC81E0086367E /* Images.xcassets in Resources */,
+				0A3D20B71A2DD9140066C34E /* transcriptions-icon_PLAY.pdf in Resources */,
+				0A3D20B61A2DD9140066C34E /* transcriptions-icon_OPEN.pdf in Resources */,
+				0A3D20B31A2DD9140066C34E /* transcriptions-icon_CONTROLS.pdf in Resources */,
 				63C868430DDA09E700DC3670 /* MyDocument.nib in Resources */,
+				0AA24F0A1A441B03006CDEB1 /* TSCHelperFolder in Resources */,
+				0A3D20B41A2DD9140066C34E /* transcriptions-icon_INFO.pdf in Resources */,
 				63C868460DDA0A0200DC3670 /* Credits.rtf in Resources */,
+				0A3D20B51A2DD9140066C34E /* transcriptions-icon_LIST.pdf in Resources */,
 				638524B70DDE6A7200BAA0DB /* timestamp.icns in Resources */,
 				63CAE13F0E365CF20048E152 /* resizeImage.png in Resources */,
 				63CAE1770E3665370048E152 /* controls.icns in Resources */,
+				0A3D20B91A2DD9140066C34E /* transcriptions-icon_TIME-STAMP.pdf in Resources */,
 				0AA11F08197566BD00B78642 /* TODO.rtf in Resources */,
 				63637E400E38F4B4004B1CFF /* scroller.tiff in Resources */,
-				631398760E506ACF005A15A5 /* TSCHelperFolder in Resources */,
 				0AA11EFF19734A5100B78642 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -445,14 +462,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Transcriptions.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
 					"$(SRCROOT)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Transcriptions-awvpsdcysfuossetopnllmdgodky/Build/Products/Debug",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -461,11 +478,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Transcriptions_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
+				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_NAME = Transcriptions;
 				PROVISIONING_PROFILE = "";
-				SDKROOT = macosx10.10;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -473,24 +492,26 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Transcriptions.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
 					"$(SRCROOT)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Transcriptions-awvpsdcysfuossetopnllmdgodky/Build/Products/Debug",
 				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Transcriptions_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
+				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_NAME = Transcriptions;
 				PROVISIONING_PROFILE = "";
-				SDKROOT = macosx10.10;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -498,10 +519,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				SDKROOT = macosx;
@@ -512,9 +536,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				SDKROOT = macosx;
 			};
