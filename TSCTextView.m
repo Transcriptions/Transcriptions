@@ -54,12 +54,12 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	[self setFont:[NSFont fontWithName:@"Helvetica" size:13]];
 	[self refresh];
 	[self insertText:@""];
-    [[textScrollView contentView] setPostsBoundsChangedNotifications: YES];
+    [[[self enclosingScrollView] contentView] setPostsBoundsChangedNotifications: YES];
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter] ;
     [center addObserver: self
                selector: @selector(boundsDidChangeNotification:)
                    name: NSViewBoundsDidChangeNotification
-                 object: [textScrollView contentView]];
+                 object: [[self enclosingScrollView] contentView]];
 	paragraphAttributes = [[NSMutableDictionary alloc] init];
 	[paragraphAttributes setObject:[NSFont boldSystemFontOfSize:9] forKey: NSFontAttributeName];
 	[paragraphAttributes setObject:[NSColor colorWithDeviceWhite:.50 alpha:1.0] forKey: NSForegroundColorAttributeName];
@@ -313,7 +313,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 
 - (void) boundsDidChangeNotification: (NSNotification *) notification
 {
-    [self setNeedsDisplay: YES];    
+    [self setNeedsDisplay: YES];
 }
 
 - (void)refresh
