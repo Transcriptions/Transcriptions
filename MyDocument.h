@@ -114,7 +114,7 @@ const double		k_Scrub_Slider_Minimum = 0.0;
 @property (assign) IBOutlet NSSlider *timeSlider;
 @property (retain) id timeObserverToken;
 
-- (void)openMovieFile:(id)sender;
+- (IBAction)openMovieFile:(id)sender;
 - (void)openMovieFromURL:(id)sender;
 - (void)setNormalSizeDisplay;
 - (void)setCurrentSizeDisplay;

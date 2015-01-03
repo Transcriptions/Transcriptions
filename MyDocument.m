@@ -197,7 +197,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 		}
 }
 
-- (void)openMovieFile:(id)sender
+- (IBAction)openMovieFile:(id)sender
 {
     NSOpenPanel *panel = [[NSOpenPanel alloc] init];
     [panel beginSheetModalForWindow:appWindow
