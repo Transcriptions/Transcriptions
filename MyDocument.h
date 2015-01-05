@@ -91,6 +91,8 @@ const double		k_Scrub_Slider_Minimum = 0.0;
 	NSString* subject;
 	NSString* comment;
 	NSArray* keywords;
+    
+    //NSMutableDictionary* currentTimeNumberValues;
 }
 
 @property(retain) NSString* autor;
@@ -100,6 +102,8 @@ const double		k_Scrub_Slider_Minimum = 0.0;
 @property(retain) NSString* subject;
 @property(retain) NSString* comment;	
 @property(retain) NSArray* keywords;
+
+//@property(retain) NSMutableDictionary* currentTimeNumberValues;
 
 @property (retain) AVPlayer *player;
 @property (retain) AVPlayerLayer *playerLayer;
@@ -113,6 +117,9 @@ const double		k_Scrub_Slider_Minimum = 0.0;
 @property (assign) IBOutlet NSButton *rewindButton;
 @property (assign) IBOutlet NSSlider *timeSlider;
 @property (retain) id timeObserverToken;
+
+@property (assign) NSTimer *repeatingTimer;
+
 
 - (IBAction)openMovieFile:(id)sender;
 - (void)openMovieFromURL:(id)sender;
@@ -139,5 +146,8 @@ const double		k_Scrub_Slider_Minimum = 0.0;
 -(IBAction)writeFeedback:(id)sender;
 -(IBAction)redirectToDonationPage:(id)sender;
 
+- (void)setTimestampLineNumber;
+- (IBAction)startRepeatingTimer:(id)sender;
+- (IBAction)stopRepeatingTimer:(id)sender;
 
 @end

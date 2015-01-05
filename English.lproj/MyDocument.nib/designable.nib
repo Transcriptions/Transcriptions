@@ -274,7 +274,7 @@
 																		<string>NeXT Encapsulated PostScript v1.2 pasteboard type</string>
 																		<string>NeXT TIFF v4.0 pasteboard type</string>
 																	</set>
-																	<string key="NSFrame">{{56, 46}, {209, 193}}</string>
+																	<string key="NSFrame">{{45, 37}, {230, 210}}</string>
 																	<reference key="NSSuperview" ref="117733569"/>
 																	<reference key="NSWindow"/>
 																	<reference key="NSNextKeyView" ref="692662419"/>
@@ -831,6 +831,7 @@
 							<string key="NSFrame">{{795, 1}, {30, 25}}</string>
 							<reference key="NSSuperview" ref="568628114"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="613798287">
 								<int key="NSCellFlags">67108864</int>
@@ -1932,6 +1933,7 @@
 						<string key="NSFrame">{{84, 4}, {146, 19}}</string>
 						<reference key="NSSuperview" ref="88784661"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="457201988">
 							<int key="NSCellFlags">-2080374784</int>
@@ -3763,6 +3765,11 @@
 						<reference key="parent" ref="1025247188"/>
 					</object>
 					<object class="IBObjectRecord">
+						<int key="objectID">100952</int>
+						<reference key="object" ref="542432987"/>
+						<reference key="parent" ref="0"/>
+					</object>
+					<object class="IBObjectRecord">
 						<int key="objectID">100945</int>
 						<reference key="object" ref="1540729"/>
 						<array class="NSMutableArray" key="children">
@@ -3774,11 +3781,6 @@
 						<int key="objectID">100946</int>
 						<reference key="object" ref="1053926526"/>
 						<reference key="parent" ref="1540729"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">100952</int>
-						<reference key="object" ref="542432987"/>
-						<reference key="parent" ref="0"/>
 					</object>
 				</array>
 			</object>

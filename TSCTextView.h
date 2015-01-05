@@ -43,8 +43,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	BOOL checkKey;
 	BOOL spaceCheck;
 	BOOL enterCheck;
+    int timeLineNumber;
 
 }
+
+@property int timeLineNumber;
 
 - (void)refresh;
 - (void)showParagraphs:(id)sender;

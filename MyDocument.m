@@ -66,6 +66,8 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 @synthesize timeSlider;
 @synthesize timeObserverToken;
 
+@synthesize repeatingTimer;
+
 - (void)dealloc
 {
     [player release];
@@ -121,6 +123,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     [self setPlayer:[[[AVPlayer alloc] init] autorelease]];
     [self addObserver:self forKeyPath:@"player.rate" options:NSKeyValueObservingOptionNew context:TSCPlayerRateContext];
     [self addObserver:self forKeyPath:@"player.currentItem.status" options:NSKeyValueObservingOptionNew context:TSCPlayerItemStatusContext];
+    [self setTimestampLineNumber];
 }
 
 
@@ -382,9 +385,12 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     NSUInteger dHours = floor(dTotalSeconds / 3600);
     NSUInteger dMinutes = floor(dTotalSeconds % 3600 / 60);
     NSUInteger dSeconds = floor(dTotalSeconds % 3600 % 60);
-	long long timeInTenthSeconds = time.value * 10 /time.timescale;
-	long long tenthSeconds =  timeInTenthSeconds % 10;
-	
+    long long tenthSeconds;
+    if(time.timescale)
+    {
+        long long timeInTenthSeconds = time.value * 10 /time.timescale;
+        tenthSeconds =  timeInTenthSeconds % 10;
+    }
 	return [NSString stringWithFormat:@"%lu:%lu:%lu.%lld" , (unsigned long)dHours, (unsigned long)dMinutes, (unsigned long)dSeconds, tenthSeconds];
 }
 
@@ -411,6 +417,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 - (void)setCurrentTime:(double)time
 {
     [[self player] seekToTime:CMTimeMakeWithSeconds(time, 1) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+     [self setTimestampLineNumber];
 }
 
 + (NSSet *)keyPathsForValuesAffectingVolume
@@ -489,8 +496,10 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         float myRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"currentRate"];
         [[self player] play];
         [self.player setRate:myRate];
+        [self setTimestampLineNumber];
+        [self startRepeatingTimer:self];
 
-       	}
+    }
 }
 
 - (IBAction)playPauseToggle:(id)sender
@@ -504,10 +513,13 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         float myRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"currentRate"];
         [[self player] play];
         [self.player setRate:myRate];
+        [self setTimestampLineNumber];
+        [self startRepeatingTimer:self];
     }
     else
     {
         [[self player] pause];
+        [self stopRepeatingTimer:self];
     }
 }
 
@@ -537,8 +549,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 }
 
 
-
-
 #pragma mark timeStamp methods
 
 //==> AVASSET CODE FOR TIMESTAMPS!!!!!!!!
@@ -549,19 +559,17 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 		NSMutableDictionary* stampAttributes;
 		stampAttributes = [NSMutableDictionary dictionaryWithObject:[NSColor grayColor] forKey:NSForegroundColorAttributeName];
 		[stampAttributes setObject:[NSFont systemFontOfSize:12] forKey: NSFontAttributeName];
-	
-		NSString* stringToInsert = [NSString stringWithFormat:@"#%@#", [self CMTimeAsString:[self.player currentTime]]];
-	
+        NSString* timeString = [self CMTimeAsString:[self.player currentTime]];
+		NSString* stringToInsert = [NSString stringWithFormat:@"#%@#", timeString];
 		[textView insertText:@" "];
 		[textView insertText:stringToInsert];
 		[textView insertText:@" "];
-	
 		[[textView textStorage] addAttributes:stampAttributes  range:[[textView string] rangeOfString:stringToInsert]];
-		
 		if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"autoTimestamp"] boolValue] == YES)
 		{
 			[textView insertText:@"\n"];
 		}
+        [self setTimestampLineNumber];
 	
 	}
 }
@@ -581,6 +589,9 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     {
     [[self player] seekToTime:[self cmtimeForTimeStampString:timestampTimeString] toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
     }
+    [self setTimestampLineNumber];
+    [self startRepeatingTimer:self];
+
 }
 
 - (CMTime)cmtimeForTimeStampString:(NSString *)tsString
@@ -590,9 +601,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     float minutes = [[timeComponents objectAtIndex:1] floatValue];
     float seconds = [[timeComponents objectAtIndex:2] floatValue];
     float tenthsecond  = [[timeComponents objectAtIndex:3] floatValue];
-    Float64 timeInSeconds = (hours * 3600.0f) + (minutes * 60.0f) + seconds + (tenthsecond * 0.1f);
-    //CMTimeScale myTimeScale = self.player.currentItem.asset.duration.timescale;
-    
+    Float64 timeInSeconds = (hours * 3600.0f) + (minutes * 60.0f) + seconds + (tenthsecond * 0.1f);    
     return CMTimeMakeWithSeconds(timeInSeconds, 1);
 }
 
@@ -879,6 +888,117 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     return YES;
 }
 
+
+
+- (void)setTimestampLineNumber
+{
+    NSString* theString = [self->textView string];
+    NSMutableArray* myTimeValueArray = [NSMutableArray arrayWithCapacity:10];
+    if (theString)
+    {
+        NSScanner* lineScanner = [NSScanner scannerWithString:theString];
+        NSCharacterSet* rauteSet = [NSCharacterSet characterSetWithCharactersInString:@"#"];
+        NSString* tscTimeValue;
+        NSString* rauteA;
+        NSString* rauteB;
+        while ([lineScanner isAtEnd] == NO && [lineScanner scanLocation] != NSNotFound)
+        {
+            BOOL scanned;
+            if([[theString substringFromIndex:[lineScanner scanLocation]] compare:@"#"] != NSOrderedSame)
+            {[lineScanner scanUpToCharactersFromSet:rauteSet intoString:NULL];}
+            scanned = [lineScanner scanString:@"#" intoString:&rauteA] &&
+            [lineScanner scanUpToCharactersFromSet:rauteSet intoString:&tscTimeValue] &&
+            [lineScanner scanString:@"#" intoString:&rauteB];
+            if (scanned && [tscTimeValue length] > 0){
+                if([myTimeValueArray count] > 1)
+                {
+                    [myTimeValueArray removeObjectIdenticalTo:tscTimeValue];
+                }
+                [myTimeValueArray addObject:tscTimeValue];
+            }
+        }
+    }
+    AVPlayerItem *playerItem = [[self player] currentItem];
+    [myTimeValueArray addObject:[self CMTimeAsString:CMTimeAbsoluteValue([[playerItem asset] duration])]];
+    NSArray* myTimeArray = [myTimeValueArray copy];
+    NSArray *sortedValues = [myTimeArray sortedArrayUsingComparator: ^(id obj1, id obj2) {
+        CMTime a = [self cmtimeForTimeStampString:obj1];
+        CMTime b = [self cmtimeForTimeStampString:obj2];
+        if (CMTimeCompare(a, b) < 0)
+            return NSOrderedAscending;
+        else if (CMTimeCompare(a, b) > 0)
+            return NSOrderedDescending;
+        else
+            return NSOrderedSame;
+    }];
+    NSString *currentTimeStampTimeString = [[NSString alloc] init];
+    for (int x = 0; x < [sortedValues count]; x++) {
+        CMTime timeStampTime = [self cmtimeForTimeStampString:[sortedValues objectAtIndex:x]];
+        CMTime timeStampTimeNext;
+        if (x < [sortedValues count] - 1)
+        {
+            timeStampTimeNext   = [self cmtimeForTimeStampString:[sortedValues objectAtIndex:x + 1]];
+        }else{
+            timeStampTimeNext   = CMTimeAbsoluteValue([[playerItem asset] duration]);
+        }
+        
+        
+        CMTime currentTime = CMTimeAbsoluteValue([[self player] currentTime]);
+        if (CMTimeCompare(timeStampTime,currentTime) >= 0 && CMTimeCompare(timeStampTime, timeStampTimeNext) < 0)
+        {
+            if (x == 0)
+            {
+                currentTimeStampTimeString = [sortedValues objectAtIndex:x];
+            }
+            else
+            {
+            currentTimeStampTimeString = [sortedValues objectAtIndex:x - 1];
+            }
+            break;
+        }
+    }
+    if (![currentTimeStampTimeString isEqual:[NSNull null]]) {
+        NSArray* lines = [[self->textView string] componentsSeparatedByString:@"\n"];
+        int newTimeStampLineNumber;
+        int i;
+        int emptyString = 0;
+        for (i=0;i<[lines count];i++) {
+            if (![[lines objectAtIndex:i] isEqualToString:@"\n"]&&[[lines objectAtIndex:i] length] > 0)
+            {
+                        if ([[lines objectAtIndex:i] rangeOfString:[NSString stringWithFormat:@"#%@#", currentTimeStampTimeString]].location != NSNotFound)
+                {
+                    int insertNumber = (i + 1) - emptyString;
+                    newTimeStampLineNumber = insertNumber;
+                    //NSLog(@"insertNumber: %i",insertNumber);
+                    break;
+                }
+            }
+            else{
+                emptyString += 1;
+            }
+        }
+        if (newTimeStampLineNumber) {
+            //NSLog(@"timeStampNumber: %i",newTimeStampLineNumber);
+            [textView setTimeLineNumber:newTimeStampLineNumber];
+            [textView setNeedsDisplay:YES];
+        }
+    }
+}
+
+- (IBAction)startRepeatingTimer:sender {
+    
+    [self.repeatingTimer invalidate];
+    
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:0.5
+                                                      target:self selector:@selector(setTimestampLineNumber)
+                                                    userInfo:nil repeats:YES];
+    self.repeatingTimer = timer;
+}
+
+- (IBAction)stopRepeatingTimer:sender {
+    [self.repeatingTimer invalidate];
+    self.repeatingTimer = nil;
+}
 
 @end
 
