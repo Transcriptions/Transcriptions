@@ -123,12 +123,8 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 - (void)awakeFromNib
 {
-	
     [[self playerView] setWantsLayer:YES];
-
 }
-
-	
 
 #pragma mark loadsave
 
@@ -167,10 +163,8 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 	if ( outError != NULL ) {
 		*outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
 	}
-	
     return wrapper;
- }
-
+}
 
 
 
@@ -293,6 +287,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         [mTimeDisplay setStringValue:[self CMTimeAsString:time]];
     }]];
 }
+
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -429,7 +424,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         {
             [mDuration setStringValue:[self CMTimeAsString:[[playerItem asset] duration]]];
         }
-                                                                    
     }
 }
 
@@ -489,7 +483,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         [self.player setRate:myRate];
         [self setTimestampLineNumber];
         [self startRepeatingTimer:self];
-
     }
 }
 
@@ -542,8 +535,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 #pragma mark timeStamp methods
 
-//==> AVASSET CODE FOR TIMESTAMPS!!!!!!!!
-
 - (void)createTimeStamp:(id)sender
 {
 	if(self.player.currentItem){
@@ -561,7 +552,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 			[textView insertText:@"\n"];
 		}
         [self setTimestampLineNumber];
-	
 	}
 }
 
@@ -596,12 +586,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     return CMTimeMakeWithSeconds(timeInSeconds, 1);
 }
 
-#pragma mark textStorage activities
-
-- (void)processTextEditing
-{
-
-}
 
 #pragma mark SplitView delegate methods
 
@@ -630,7 +614,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 - (void)openHUDPanel:(id)sender
 {
-	
 	if (![HUDPanel isVisible]){
 		if ([[[HUDPanel contentView] subviews] count] == 0){
 			
@@ -660,8 +643,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 	}else{
 		[self closeHUDPanel:self];
 	}
-	
-
 }
 
 - (void)closeHUDPanel:(id)sender
@@ -672,8 +653,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 	}else{
 		[self openHUDPanel:self];
 	}
-
-
 }
 
 - (void)showMediaInfo:(id)sender
@@ -769,9 +748,9 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 			 additionalEventParamDescriptor:NULL
 						  launchIdentifiers:NULL];
 }
-	
-#pragma mark Document Informations Panel METHODS
 
+
+#pragma mark Document Informations Panel METHODS
 
 // ==> ADD BETTER CALCULATIONS FOR WORD AND CHARACTER COUNTS
 - (void)startSheet:(id)sender
@@ -808,15 +787,10 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 				emptyString += 1;
 			}
 	}
-
-
 	[paragraphTextField setStringValue:s];
 	[wordTextField setStringValue:wordRepresentation];
 	[charTextField setStringValue:charRepresentation];
-	
 	[self showInfoSheet:appWindow];
-
-	
 }
 
 
@@ -835,7 +809,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 {
     [sheet orderOut:self];
 }
-
 
 
 - (void)startURLSheet:(id)sender
@@ -871,6 +844,11 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     return YES;
 }
 
+#pragma mark text edit processing
+- (void)processTextEditing
+{
+    
+}
 
 #pragma mark timestamp line numbers
 

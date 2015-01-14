@@ -72,9 +72,10 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 {
     NSLayoutManager *layoutManager = [self layoutManager];
     NSTextContainer *textContainer = [self textContainer];
-    unsigned glyphIndex, charIndex, textLength = [[self textStorage] length];
+    unsigned glyphIndex, textLength = [[self textStorage] length];
     NSPoint point = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-    NSRange lineGlyphRange, lineCharRange = NSMakeRange(0, textLength);
+    NSRange lineGlyphRange = NSMakeRange(0, textLength);
+    NSRange lineCharRange;
     NSRect glyphRect;
     
 	point.x -= [self textContainerOrigin].x;
@@ -82,7 +83,6 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	glyphIndex = [layoutManager glyphIndexForPoint:point inTextContainer:textContainer];
 	glyphRect = [layoutManager boundingRectForGlyphRange:NSMakeRange(glyphIndex, 1) inTextContainer:textContainer];
     if (NSPointInRect(point, glyphRect)) {
-        charIndex = [layoutManager characterIndexForGlyphAtIndex:glyphIndex];
 		(void)[layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex effectiveRange:&lineGlyphRange];        
         lineCharRange = [layoutManager characterRangeForGlyphRange:lineGlyphRange actualGlyphRange:NULL];
         
@@ -186,36 +186,19 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 					
 					
 					if ([textString rangeOfString:substitution].location != NSNotFound){
-					/*[replacementString replaceCharactersInRange:[textString rangeOfString:substitution] withAttributedString:insertion];
-					[[self textStorage] replaceCharactersInRange:NSMakeRange(0, [[self string] length]) withAttributedString:replacementString];
-					[[self textStorage] setAttributedString:replacementString];*/
-					
-						[[[self textStorage] mutableString] replaceOccurrencesOfString:substitution withString:[insertion string] options:NSLiteralSearch range:NSMakeRange(0, [[self textStorage] length])]; 
-					
-						/*unsigned textLength = [[self string] length];
-						[self setSelectedRange:NSMakeRange(textLength, 0)];*/
-						
+                        [[[self textStorage] mutableString] replaceOccurrencesOfString:substitution withString:[insertion string] options:NSLiteralSearch range:NSMakeRange(0, [[self textStorage] length])];
 						[self setNeedsDisplayInRect:[[[self enclosingScrollView] contentView] visibleRect]];
 						checkKey = NO;
 					}
-
 			}
-		
-	
-	
 	}
 	
     
 	if (enterCheck && [[[NSUserDefaults standardUserDefaults] objectForKey:@"autoTimestamp"] boolValue] == YES){
 	
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"automaticTimestamp" object:self];
-
 	}
-	
-	
-	
 	[self interpretKeyEvents:@[theEvent]];	
-
 }
 
 - (void)drawRect:(NSRect)aRect

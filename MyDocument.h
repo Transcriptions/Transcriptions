@@ -84,15 +84,6 @@ const double		k_Scrub_Slider_Minimum = 0.0;
     NSAttributedString* insertString;
 	NSNumber* rate;
 	NSString* _path;
-	//NSString* autor;
-	//NSString* copyright;
-	//NSString* company;
-	//NSString* title;
-	//NSString* subject;
-	//NSString* comment;
-	//NSArray* keywords;
-    
-    //NSMutableDictionary* currentTimeNumberValues;
 }
 
 @property(weak) NSString* autor;
@@ -102,8 +93,6 @@ const double		k_Scrub_Slider_Minimum = 0.0;
 @property(weak) NSString* subject;
 @property(weak) NSString* comment;
 @property(weak) NSArray* keywords;
-
-//@property(retain) NSMutableDictionary* currentTimeNumberValues;
 
 @property (strong) AVPlayer *player;
 @property (strong) AVPlayerLayer *playerLayer;
