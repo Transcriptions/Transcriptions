@@ -61,8 +61,8 @@ Original code can be found here:http://roventskij.net/index.php?p=3
                    name: NSViewBoundsDidChangeNotification
                  object: [[self enclosingScrollView] contentView]];
 	paragraphAttributes = [[NSMutableDictionary alloc] init];
-	[paragraphAttributes setObject:[NSFont boldSystemFontOfSize:9] forKey: NSFontAttributeName];
-	[paragraphAttributes setObject:[NSColor colorWithDeviceWhite:.50 alpha:1.0] forKey: NSForegroundColorAttributeName];
+	paragraphAttributes[NSFontAttributeName] = [NSFont boldSystemFontOfSize:9];
+	paragraphAttributes[NSForegroundColorAttributeName] = [NSColor colorWithDeviceWhite:.50 alpha:1.0];
 	[[self window] setAcceptsMouseMovedEvents:YES];
     self.timeLineNumber = 0;
 	
@@ -143,7 +143,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	}else{
 		for (int x = 0;x < [[self subviews] count];x++)
 		{
-			[[[self subviews] objectAtIndex:x] removeFromSuperview];
+			[[self subviews][x] removeFromSuperview];
 			[self setNeedsDisplay:YES];
 		}
 	}
@@ -181,8 +181,8 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 			while (anObject = [theEnumerator nextObject])
 			{
 				
-			NSString* substitution = [NSString stringWithFormat:@"@%@",[anObject objectForKey:@"substString"]];
-     				NSAttributedString* insertion = [anObject objectForKey:@"insertString"];
+			NSString* substitution = [NSString stringWithFormat:@"@%@",anObject[@"substString"]];
+     				NSAttributedString* insertion = anObject[@"insertString"];
 					
 					
 					if ([textString rangeOfString:substitution].location != NSNotFound){
@@ -214,7 +214,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	
 	
 	
-	[self interpretKeyEvents:[NSArray arrayWithObject:theEvent]];	
+	[self interpretKeyEvents:@[theEvent]];	
 
 }
 
@@ -256,9 +256,9 @@ Original code can be found here:http://roventskij.net/index.php?p=3
         for (i=0;i<[lines count];i++) {
             if (pos <[[self string] length]) {
                 lineRect = [layoutManager lineFragmentRectForGlyphAtIndex:pos effectiveRange:&lineRange];
-                pos += [[lines objectAtIndex:i] length]+1;
+                pos += [lines[i] length]+1;
                 lineRect.size.width = 16.0;
-                if ([[lines objectAtIndex:i] length] > 0){
+                if ([lines[i] length] > 0){
                     if (NSContainsRect(documentVisibleRect,lineRect)) {
                         int insertNumber = (i + 1) - emptyString;
                         int timeLine = self.timeLineNumber;
