@@ -93,7 +93,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 			NSScanner* lineScanner = [NSScanner scannerWithString:theString];
 			NSCharacterSet* rauteSet = [NSCharacterSet characterSetWithCharactersInString:@"#"];
 			
-			NSMutableArray* timeValueArray = [[[NSMutableArray alloc] init] autorelease];
+			NSMutableArray* timeValueArray = [[NSMutableArray alloc] init];
 
 			NSString* tscTimeValue;
 			NSString* rauteA;

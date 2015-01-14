@@ -49,11 +49,11 @@ const double		k_Scrub_Slider_Minimum = 0.0;
     NSProgressIndicator *loadingSpinner;
     NSTextField *unplayableLabel;
     NSTextField *noVideoLabel;
-    NSView *playerView;
-    NSButton *playPauseButton;
-    NSButton *fastForwardButton;
-    NSButton *rewindButton;
-    NSSlider *timeSlider;
+    NSView *__weak playerView;
+    NSButton *__weak playPauseButton;
+    NSButton *__weak fastForwardButton;
+    NSButton *__weak rewindButton;
+    NSSlider *__weak timeSlider;
     id timeObserverToken;
     
     IBOutlet NSWindow* appWindow;
@@ -95,30 +95,30 @@ const double		k_Scrub_Slider_Minimum = 0.0;
     //NSMutableDictionary* currentTimeNumberValues;
 }
 
-@property(assign) NSString* autor;
-@property(assign) NSString* copyright;
-@property(assign) NSString* company;
-@property(assign) NSString* title;
-@property(assign) NSString* subject;
-@property(assign) NSString* comment;
-@property(assign) NSArray* keywords;
+@property(weak) NSString* autor;
+@property(weak) NSString* copyright;
+@property(weak) NSString* company;
+@property(weak) NSString* title;
+@property(weak) NSString* subject;
+@property(weak) NSString* comment;
+@property(weak) NSArray* keywords;
 
 //@property(retain) NSMutableDictionary* currentTimeNumberValues;
 
-@property (retain) AVPlayer *player;
-@property (retain) AVPlayerLayer *playerLayer;
+@property (strong) AVPlayer *player;
+@property (strong) AVPlayerLayer *playerLayer;
 @property (assign) double currentTime;
 @property (readonly) double duration;
 @property (assign) float volume;
-@property (assign) IBOutlet NSImageView *noVideoImage;
-@property (assign) IBOutlet NSView *playerView;
-@property (assign) IBOutlet NSButton *playPauseButton;
-@property (assign) IBOutlet NSButton *fastForwardButton;
-@property (assign) IBOutlet NSButton *rewindButton;
-@property (assign) IBOutlet NSSlider *timeSlider;
-@property (retain) id timeObserverToken;
+@property (weak) IBOutlet NSImageView *noVideoImage;
+@property (weak) IBOutlet NSView *playerView;
+@property (weak) IBOutlet NSButton *playPauseButton;
+@property (weak) IBOutlet NSButton *fastForwardButton;
+@property (weak) IBOutlet NSButton *rewindButton;
+@property (weak) IBOutlet NSSlider *timeSlider;
+@property (strong) id timeObserverToken;
 
-@property (assign) NSTimer *repeatingTimer;
+@property (weak) NSTimer *repeatingTimer;
 
 
 - (IBAction)openMovieFile:(id)sender;

@@ -68,12 +68,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 @synthesize repeatingTimer;
 
-- (void)dealloc
-{
-    [player release];
-    [playerLayer release];
-    [super dealloc];
-}
 
 - (id)init
 {
@@ -104,7 +98,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
   [[[self playerView] layer] setBackgroundColor:CGColorGetConstantColor(kCGColorBlack)];
   if (rtfSaveData) {
         [[textView textStorage] replaceCharactersInRange:NSMakeRange(0, [[textView string] length]) withAttributedString:rtfSaveData];
-        [rtfSaveData release];
   }
   [textView setAllowsUndo:YES];
   [textView toggleRuler:self];
@@ -120,7 +113,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openMovieFromDrag:) name:@"movieFileDrag" object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createTimeStamp:) name:@"automaticTimestamp" object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jumpToTimeStamp:) name:@"aTimestampPressed" object:nil];
-    [self setPlayer:[[[AVPlayer alloc] init] autorelease]];
+    [self setPlayer:[[AVPlayer alloc] init]];
     [self addObserver:self forKeyPath:@"player.rate" options:NSKeyValueObservingOptionNew context:TSCPlayerRateContext];
     [self addObserver:self forKeyPath:@"player.currentItem.status" options:NSKeyValueObservingOptionNew context:TSCPlayerItemStatusContext];
     [self setTimestampLineNumber];
@@ -141,7 +134,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)wrapper ofType:(NSString *)type error:(NSError **)outError
 {
-	NSDictionary* docAttributes = [[[NSDictionary alloc] init] autorelease];
+	NSDictionary* docAttributes = [[NSDictionary alloc] init];
 	rtfSaveData = [[NSAttributedString alloc] initWithRTF:[wrapper regularFileContents] documentAttributes:&docAttributes];
     autor  = [docAttributes objectForKey:NSAuthorDocumentAttribute];
 	copyright = [docAttributes objectForKey:NSCopyrightDocumentAttribute];
@@ -153,7 +146,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 	if (textView) {                                                         
         [[textView textStorage] replaceCharactersInRange:NSMakeRange(0, [[textView string] length]) withAttributedString:rtfSaveData];
-        [rtfSaveData release];
 	}
 	if ( outError != NULL ) {
 		*outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
@@ -177,7 +169,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 		*outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
 	}
 	
-    return [wrapper autorelease];
+    return wrapper;
  }
 
 
