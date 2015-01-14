@@ -142,9 +142,9 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)wrapper ofType:(NSString *)type error:(NSError **)outError
 {
 	NSDictionary* docAttributes = [[[NSDictionary alloc] init] autorelease];
-	rtfSaveData = [[NSAttributedString alloc] initWithRTF:[wrapper regularFileContents] documentAttributes:&docAttributes];   
-	autor  = [docAttributes objectForKey:NSAuthorDocumentAttribute];
-	copyright = [docAttributes objectForKey:NSCopyrightDocumentAttribute]; 
+	rtfSaveData = [[NSAttributedString alloc] initWithRTF:[wrapper regularFileContents] documentAttributes:&docAttributes];
+    autor  = [docAttributes objectForKey:NSAuthorDocumentAttribute];
+	copyright = [docAttributes objectForKey:NSCopyrightDocumentAttribute];
 	company = [docAttributes objectForKey:NSCompanyDocumentAttribute];
 	title = [docAttributes objectForKey:NSTitleDocumentAttribute];
 	subject = [docAttributes objectForKey:NSSubjectDocumentAttribute];
@@ -385,7 +385,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     NSUInteger dHours = floor(dTotalSeconds / 3600);
     NSUInteger dMinutes = floor(dTotalSeconds % 3600 / 60);
     NSUInteger dSeconds = floor(dTotalSeconds % 3600 % 60);
-    long long tenthSeconds;
+    long long tenthSeconds = 0;
     if(time.timescale)
     {
         long long timeInTenthSeconds = time.value * 10 /time.timescale;
@@ -455,7 +455,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 - (void)setNormalSizeDisplay
 {
     NSMutableString *sizeString = [NSMutableString string];
-    NSSize movieSize = NSMakeSize(0,0);
+    NSSize movieSize;
     NSArray* videoAssets = [self.player.currentItem.asset tracksWithMediaType:AVMediaTypeVideo];
     if ([videoAssets count] != 0)
     {
@@ -473,7 +473,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 - (void)setCurrentSizeDisplay
 {
 	{
-		NSSize mCurrentSize = NSMakeSize(0,0);
+		NSSize mCurrentSize;
 		mCurrentSize = [playerView bounds].size;
 		NSMutableString *sizeString = [NSMutableString string];
 		
@@ -585,13 +585,13 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         float myRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"currentRate"];
         [[self player] play];
         [self.player setRate:myRate];
-	}else
+	}
+    else
     {
-    [[self player] seekToTime:[self cmtimeForTimeStampString:timestampTimeString] toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+        [[self player] seekToTime:[self cmtimeForTimeStampString:timestampTimeString] toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
     }
     [self setTimestampLineNumber];
     [self startRepeatingTimer:self];
-
 }
 
 - (CMTime)cmtimeForTimeStampString:(NSString *)tsString
@@ -787,16 +787,12 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 {
 	NSArray* charArray = [[textView textStorage] characters];
 	NSString* charRepresentation = [NSString stringWithFormat:@"%lu", (unsigned long)[charArray count]];
-
 	//see:http://www.cocoadev.com/index.pl?NSStringCategory 
 	NSMutableCharacterSet* wordSet = [NSMutableCharacterSet letterCharacterSet];
 	[wordSet addCharactersInString:@"-"];
-	
 	NSScanner* scanner      = [NSScanner scannerWithString:[textView string]];
 	NSMutableArray* wordArray      = [NSMutableArray array];
-	
 	[scanner setCharactersToBeSkipped:[wordSet invertedSet]];
-	
 	while (![scanner isAtEnd])
 	{
 		NSString* destination = [NSString string];
@@ -806,16 +802,12 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 			[wordArray addObject:[NSString stringWithString:destination]];
 		}
 	}
-	
 	NSString* wordRepresentation = [NSString stringWithFormat:@"%lu",(unsigned long)[[wordArray copy] count]];
-	
 	NSArray *lines = [[textView string] componentsSeparatedByString:@"\n"];	
 	int i;
 	int emptyString = 0;
 	int parNumber = 0;
-	
 	NSString *s = [NSString stringWithFormat:@"%i", parNumber];
-	
 	for (i=0;i<[lines count];i++) {
 			if ([[lines objectAtIndex:i] length] > 0){
 					parNumber = (i + 1) - emptyString;
@@ -889,12 +881,13 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 }
 
 
+#pragma mark timestamp line numbers
 
 - (void)setTimestampLineNumber
 {
     NSString* theString = [self->textView string];
     NSMutableArray* myTimeValueArray = [NSMutableArray arrayWithCapacity:10];
-    if (theString)
+    if ([theString length] != 0)
     {
         NSScanner* lineScanner = [NSScanner scannerWithString:theString];
         NSCharacterSet* rauteSet = [NSCharacterSet characterSetWithCharactersInString:@"#"];
@@ -941,8 +934,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         }else{
             timeStampTimeNext   = CMTimeAbsoluteValue([[playerItem asset] duration]);
         }
-        
-        
         CMTime currentTime = CMTimeAbsoluteValue([[self player] currentTime]);
         if (CMTimeCompare(timeStampTime,currentTime) >= 0 && CMTimeCompare(timeStampTime, timeStampTimeNext) < 0)
         {
@@ -952,14 +943,14 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
             }
             else
             {
-            currentTimeStampTimeString = [sortedValues objectAtIndex:x - 1];
+                currentTimeStampTimeString = [sortedValues objectAtIndex:x - 1];
             }
             break;
         }
     }
     if (![currentTimeStampTimeString isEqual:[NSNull null]]) {
         NSArray* lines = [[self->textView string] componentsSeparatedByString:@"\n"];
-        int newTimeStampLineNumber;
+        int newTimeStampLineNumber = 0;
         int i;
         int emptyString = 0;
         for (i=0;i<[lines count];i++) {
@@ -969,7 +960,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
                 {
                     int insertNumber = (i + 1) - emptyString;
                     newTimeStampLineNumber = insertNumber;
-                    //NSLog(@"insertNumber: %i",insertNumber);
                     break;
                 }
             }
@@ -977,8 +967,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
                 emptyString += 1;
             }
         }
-        if (newTimeStampLineNumber) {
-            //NSLog(@"timeStampNumber: %i",newTimeStampLineNumber);
+        if (newTimeStampLineNumber > 0 && playerItem) {
             [textView setTimeLineNumber:newTimeStampLineNumber];
             [textView setNeedsDisplay:YES];
         }
@@ -998,6 +987,19 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 - (IBAction)stopRepeatingTimer:sender {
     [self.repeatingTimer invalidate];
     self.repeatingTimer = nil;
+}
+
+
+#pragma mark printing
+
+- (IBAction)printThisDocument:(id)sender
+{
+    NSTextView *printTextView = [[NSTextView alloc] initWithFrame:NSMakeRect(0, 0, 468, 648)];
+    [printTextView setEditable:false];
+    [[printTextView textStorage] setAttributedString:[textView attributedString]];
+    NSPrintOperation *printOperation;
+    printOperation = [NSPrintOperation printOperationWithView:printTextView];
+    [printOperation runOperation];
 }
 
 @end

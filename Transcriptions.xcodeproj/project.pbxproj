@@ -467,10 +467,9 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Transcriptions-awvpsdcysfuossetopnllmdgodky/Build/Products/Debug",
-				);
+				DEPLOYMENT_LOCATION = NO;
+				DEPLOYMENT_POSTPROCESSING = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -497,10 +496,9 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Transcriptions-awvpsdcysfuossetopnllmdgodky/Build/Products/Debug",
-				);
+				DEPLOYMENT_LOCATION = NO;
+				DEPLOYMENT_POSTPROCESSING = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)";
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Transcriptions_Prefix.pch;
@@ -512,6 +510,7 @@
 				PRODUCT_NAME = Transcriptions;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};

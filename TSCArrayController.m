@@ -38,10 +38,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 - (void)awakeFromNib
 {
-	NSArray* anArray =nil;
 	NSData *theData=[[NSUserDefaults standardUserDefaults] dataForKey:@"substitutionArray"];
 		if (theData != nil){
-			anArray =(NSArray *)[NSUnarchiver unarchiveObjectWithData:theData];
 			[self addObjects:[NSUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] dataForKey:@"substitutionArray"]]];
 		}
 			

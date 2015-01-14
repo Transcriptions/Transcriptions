@@ -84,24 +84,24 @@ const double		k_Scrub_Slider_Minimum = 0.0;
     NSAttributedString* insertString;
 	NSNumber* rate;
 	NSString* _path;
-	NSString* autor;
-	NSString* copyright;
-	NSString* company;
-	NSString* title;
-	NSString* subject;
-	NSString* comment;
-	NSArray* keywords;
+	//NSString* autor;
+	//NSString* copyright;
+	//NSString* company;
+	//NSString* title;
+	//NSString* subject;
+	//NSString* comment;
+	//NSArray* keywords;
     
     //NSMutableDictionary* currentTimeNumberValues;
 }
 
-@property(retain) NSString* autor;
-@property(retain) NSString* copyright;		
-@property(retain) NSString* company;
-@property(retain) NSString* title;
-@property(retain) NSString* subject;
-@property(retain) NSString* comment;	
-@property(retain) NSArray* keywords;
+@property(assign) NSString* autor;
+@property(assign) NSString* copyright;
+@property(assign) NSString* company;
+@property(assign) NSString* title;
+@property(assign) NSString* subject;
+@property(assign) NSString* comment;
+@property(assign) NSArray* keywords;
 
 //@property(retain) NSMutableDictionary* currentTimeNumberValues;
 
@@ -149,5 +149,7 @@ const double		k_Scrub_Slider_Minimum = 0.0;
 - (void)setTimestampLineNumber;
 - (IBAction)startRepeatingTimer:(id)sender;
 - (IBAction)stopRepeatingTimer:(id)sender;
+
+- (IBAction)printThisDocument:(id)sender;
 
 @end
