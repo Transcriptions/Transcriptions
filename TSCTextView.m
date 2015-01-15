@@ -54,6 +54,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	[self setFont:[NSFont fontWithName:@"Helvetica" size:13]];
 	[self refresh];
 	[self insertText:@""];
+    [self setUsesFindBar:YES];
     [[[self enclosingScrollView] contentView] setPostsBoundsChangedNotifications: YES];
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter] ;
     [center addObserver: self

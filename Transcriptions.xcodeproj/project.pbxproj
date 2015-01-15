@@ -484,7 +484,7 @@
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_NAME = Transcriptions;
 				PROVISIONING_PROFILE = "";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.10;
 			};
 			name = Debug;
 		};
@@ -511,7 +511,7 @@
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_NAME = Transcriptions;
 				PROVISIONING_PROFILE = "";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.10;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -529,7 +529,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.10;
 			};
 			name = Debug;
 		};
@@ -545,7 +545,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.10;
 			};
 			name = Release;
 		};

@@ -124,6 +124,14 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 - (void)awakeFromNib
 {
     [[self playerView] setWantsLayer:YES];
+    NSButton *closeButton = [appWindow standardWindowButton:NSWindowCloseButton];
+    NSView *titleBarView = closeButton.superview;
+    NSButton* myHelpButton = [[NSButton alloc] initWithFrame:NSMakeRect(titleBarView.bounds.size.width - 30,titleBarView.bounds.origin.y, 25, 25)];
+    [myHelpButton setBezelStyle:NSHelpButtonBezelStyle];
+    [myHelpButton setTitle:@""];
+    [myHelpButton setAction:@selector(showHelp:)];
+    [myHelpButton setTarget:[NSApplication sharedApplication]];
+    [titleBarView addSubview:myHelpButton];
 }
 
 #pragma mark loadsave
