@@ -73,13 +73,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 {
    self = [super init];
 	if(self){
-		autor = [NSString stringWithFormat:@""];
-		copyright = [NSString stringWithFormat:@""];
-		company = [NSString stringWithFormat:@""];
-		title = [NSString stringWithFormat:@""];
-		subject = [NSString stringWithFormat:@""];
-		comment = [NSString stringWithFormat:@""];
-        
+
     }
 	return self;
 }
@@ -160,15 +154,31 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 - (NSFileWrapper *)fileWrapperOfType:(NSString *)type error:(NSError **)outError
 {
-    NSRange range = NSMakeRange(0,[[textView string] length]);
-	
+   NSRange range = NSMakeRange(0,[[textView string] length]);
+    if ([autor length] <= 0) {
+        autor = [NSString stringWithFormat:@""];
+    }
+    if ([copyright length] <= 0) {
+        copyright = [NSString stringWithFormat:@""];
+    }
+    if ([company length] <= 0) {
+        company = [NSString stringWithFormat:@""];
+    }
+    if ([title length] <= 0) {
+        title = [NSString stringWithFormat:@""];
+    }
+    if ([subject length] <= 0) {
+        subject = [NSString stringWithFormat:@""];
+    }
+    if ([comment length] <= 0) {
+        comment = [NSString stringWithFormat:@""];
+    }
+    if ([keywords count] == 0) {
+        keywords = [NSArray arrayWithObject:@""];
+    }
 	NSDictionary* docAttributes = @{NSAuthorDocumentAttribute: autor, NSCopyrightDocumentAttribute: copyright, NSCompanyDocumentAttribute: company, NSTitleDocumentAttribute: title, NSSubjectDocumentAttribute: subject, NSCommentDocumentAttribute: comment, NSKeywordsDocumentAttribute: keywords};
-
-	
-
 	NSFileWrapper * wrapper = [[NSFileWrapper alloc]
 							   initRegularFileWithContents:[[textView textStorage] RTFFromRange:range documentAttributes:docAttributes]];
-	
 	if ( outError != NULL ) {
 		*outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
 	}
