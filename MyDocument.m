@@ -145,6 +145,9 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 	if (textView) {                                                         
         [[textView textStorage] replaceCharactersInRange:NSMakeRange(0, [[textView string] length]) withAttributedString:rtfSaveData];
+        
+        //add method to search for associated media file in comments and load if given and if URL correct => if URL not correct, give error (?)
+        
 	}
 	if ( outError != NULL ) {
 		*outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
@@ -176,6 +179,9 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     if ([keywords count] == 0) {
         keywords = [NSArray arrayWithObject:@""];
     }
+    
+    //add method to check if assocciated media file should be saved, if there is already one saved => if it should not be saved: delete, if there, otherwise overwrite or write
+    
 	NSDictionary* docAttributes = @{NSAuthorDocumentAttribute: autor, NSCopyrightDocumentAttribute: copyright, NSCompanyDocumentAttribute: company, NSTitleDocumentAttribute: title, NSSubjectDocumentAttribute: subject, NSCommentDocumentAttribute: comment, NSKeywordsDocumentAttribute: keywords};
 	NSFileWrapper * wrapper = [[NSFileWrapper alloc]
 							   initRegularFileWithContents:[[textView textStorage] RTFFromRange:range documentAttributes:docAttributes]];

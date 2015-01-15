@@ -66,11 +66,9 @@
 
 - (BOOL)shortcutRecorder:(SRRecorderControl *)aRecorder shouldUnconditionallyAllowModifierFlags:(NSUInteger)aModifierFlags forKeyCode:(unsigned short)aKeyCode
 {
-    // Keep required flags required.
     if ((aModifierFlags & aRecorder.requiredModifierFlags) != aRecorder.requiredModifierFlags)
         return NO;
     
-    // Don't allow disallowed flags.
     if ((aModifierFlags & aRecorder.allowedModifierFlags) != aModifierFlags)
         return NO;
     
@@ -239,13 +237,6 @@
 }
 
 
-
-/*- (BOOL)shortcutRecorder:(SRRecorderControl *)aRecorder isKeyCode:(signed short)keyCode andFlagsTaken:(unsigned int)flags reason:(NSString **)aReason
-{
-	BOOL taken = NO;
-	
-	return taken;
-}*/
 
 
 
