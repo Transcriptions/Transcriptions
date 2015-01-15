@@ -129,6 +129,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     NSButton* myHelpButton = [[NSButton alloc] initWithFrame:NSMakeRect(titleBarView.bounds.size.width - 30,titleBarView.bounds.origin.y, 25, 25)];
     [myHelpButton setBezelStyle:NSHelpButtonBezelStyle];
     [myHelpButton setTitle:@""];
+    [myHelpButton setAutoresizingMask:NSViewMinXMargin | NSViewMinYMargin];
     [myHelpButton setAction:@selector(showHelp:)];
     [myHelpButton setTarget:[NSApplication sharedApplication]];
     [titleBarView addSubview:myHelpButton];
