@@ -33,6 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 #import "MyDocument.h"
+#include <unistd.h>
 
 
 static void *TSCPlayerItemStatusContext = &TSCPlayerItemStatusContext;
@@ -55,6 +56,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 @synthesize subject;
 @synthesize comment;
 @synthesize keywords;
+@synthesize mediaFileBookmark;
 
 @synthesize player;
 @synthesize playerLayer;
@@ -127,6 +129,57 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     [myHelpButton setAction:@selector(showHelp:)];
     [myHelpButton setTarget:[NSApplication sharedApplication]];
     [titleBarView addSubview:myHelpButton];
+    if ([comment length] > 0)
+    {
+        NSString* foundUrlString;
+        if ([comment rangeOfString:@"[[associatedMediaURL:"].location != NSNotFound)
+        {
+         foundUrlString = [NSString stringWithString:[self getDataBetweenFromString:comment leftString:@"[[associatedMediaURL:" rightString:@"]]" leftOffset:21]];
+        }
+        if ([foundUrlString length] > 0) {
+            NSData *myData = [[NSData alloc] initWithBase64EncodedString:foundUrlString options:0];
+            [self setMediaFileBookmark:myData];
+            if (mediaFileBookmark)
+            {
+                NSError *error = nil;
+                BOOL bookmarkDataIsStale;
+                NSURL *bookmarkFileURL = nil;
+                bookmarkFileURL = [NSURL
+                                   URLByResolvingBookmarkData:mediaFileBookmark
+                                   options:NSURLBookmarkResolutionWithSecurityScope
+                                   relativeToURL:nil
+                                   bookmarkDataIsStale:&bookmarkDataIsStale
+                                   error:&error];
+                [bookmarkFileURL startAccessingSecurityScopedResource];
+//                if ([[NSFileManager defaultManager] isReadableFileAtPath:bookmarkFileURL.path]) {
+//                    NSLog(@"FileManager: Yes.");
+//                }
+//                if (access([[bookmarkFileURL path] UTF8String], R_OK) != 0)
+//                {
+//                    NSLog(@"Sandbox: No.");
+//                }
+                NSError *err;
+                if ([bookmarkFileURL checkResourceIsReachableAndReturnError:&err] == NO)
+                {
+                    [[NSAlert alertWithError:err] runModal];
+                }
+                else if([bookmarkFileURL isFileURL] == YES)
+                {
+                    AVURLAsset *asset = [AVAsset assetWithURL:bookmarkFileURL];
+                    NSArray *assetKeysToLoadAndTest = @[@"playable", @"hasProtectedContent", @"tracks", @"duration"];
+                    NSImage *typeImage = [[NSWorkspace sharedWorkspace] iconForFileType:[bookmarkFileURL pathExtension]];
+                    [typeImage setSize:NSMakeSize(32, 32)];
+                    [mTextField setStringValue:[bookmarkFileURL lastPathComponent]];
+                    [typeImageView setImage:typeImage];
+                    [asset loadValuesAsynchronouslyForKeys:assetKeysToLoadAndTest completionHandler:^(void) {
+                        dispatch_async(dispatch_get_main_queue(), ^(void) {
+                            [self setUpPlaybackOfAsset:asset withKeys:assetKeysToLoadAndTest];
+                        });
+                    }];
+                }
+            }
+        }
+    }
 }
 
 #pragma mark loadsave
@@ -142,17 +195,35 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 	subject = docAttributes[NSSubjectDocumentAttribute];
 	comment = docAttributes[NSCommentDocumentAttribute];
 	keywords = docAttributes[NSKeywordsDocumentAttribute];
-
-	if (textView) {                                                         
-        [[textView textStorage] replaceCharactersInRange:NSMakeRange(0, [[textView string] length]) withAttributedString:rtfSaveData];
-        
-        //add method to search for associated media file in comments and load if given and if URL correct => if URL not correct, give error (?)
-        
-	}
+    
+    if ([rtfSaveData length] > 0) {
+         [[textView textStorage] replaceCharactersInRange:NSMakeRange(0, [[textView string] length]) withAttributedString:rtfSaveData];
+    }
+    if ([keywords count] == 1) {
+        NSString* firstObject = [keywords objectAtIndex:0];
+        if ([firstObject isEqualToString:@""]) {
+            keywords = nil;
+        }
+    }
 	if ( outError != NULL ) {
 		*outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
 	}
 	return YES;
+}
+
+- (NSString *)getDataBetweenFromString:(NSString *)data leftString:(NSString *)leftData rightString:(NSString *)rightData leftOffset:(NSInteger)leftPos;
+{
+    NSInteger left, right;
+    NSString *foundData;
+    NSScanner *scanner=[NSScanner scannerWithString:data];
+    [scanner scanUpToString:leftData intoString: nil];
+    left = [scanner scanLocation];
+    [scanner setScanLocation:left + leftPos];
+    [scanner scanUpToString:rightData intoString: nil];
+    right = [scanner scanLocation] + 1;
+    left += leftPos;
+    foundData = [NSString stringWithString:[data substringWithRange: NSMakeRange(left, (right - left) - 1)]];
+    return foundData;
 }
 
 - (NSFileWrapper *)fileWrapperOfType:(NSString *)type error:(NSError **)outError
@@ -180,8 +251,40 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         keywords = [NSArray arrayWithObject:@""];
     }
     
-    //add method to check if assocciated media file should be saved, if there is already one saved => if it should not be saved: delete, if there, otherwise overwrite or write
-    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"mediaFileAssoc"] boolValue] == YES)
+    {
+        if ([comment length] > 0)
+        {
+            if ([comment rangeOfString:@"[[associatedMediaURL:"].location != NSNotFound) {
+                NSString* foundUrlString = [self getDataBetweenFromString:comment leftString:@"[[associatedMediaURL:" rightString:@"]]" leftOffset:21];
+                if ([foundUrlString length] > 0)
+                {
+                    NSString* toBeRemoved = [NSString stringWithFormat:@"[[associatedMediaURL:%@]]",foundUrlString];
+                    NSString* newComment = [comment stringByReplacingOccurrencesOfString:toBeRemoved withString:@""];
+                    comment = newComment;
+                }
+            }
+        }
+        NSError *error = nil;
+        BOOL bookmarkDataIsStale;
+        NSURL *bookmarkFileURL = nil;
+        bookmarkFileURL = [NSURL
+                           URLByResolvingBookmarkData:mediaFileBookmark
+                           options:NSURLBookmarkResolutionWithSecurityScope
+                           relativeToURL:nil
+                           bookmarkDataIsStale:&bookmarkDataIsStale
+                           error:&error];
+        NSError* err;
+        NSURL* fileUrl = [self urlOfCurrentlyPlayingInPlayer:self.player];
+        if ([[fileUrl path] compare:[bookmarkFileURL path]] == NSOrderedSame && [fileUrl checkResourceIsReachableAndReturnError:&err] == YES && [fileUrl isFileURL] == YES)
+        {
+            NSString *utfString = [mediaFileBookmark base64EncodedStringWithOptions:(nil)];
+            NSString* urlForComment = [NSString stringWithFormat:@"[[associatedMediaURL:%@]]",utfString];
+            NSString* commentString = [NSString stringWithFormat:@"%@%@",comment, urlForComment];
+            comment = commentString;
+            [commentTextField setStringValue:comment];
+        }
+    }
 	NSDictionary* docAttributes = @{NSAuthorDocumentAttribute: autor, NSCopyrightDocumentAttribute: copyright, NSCompanyDocumentAttribute: company, NSTitleDocumentAttribute: title, NSSubjectDocumentAttribute: subject, NSCommentDocumentAttribute: comment, NSKeywordsDocumentAttribute: keywords};
 	NSFileWrapper * wrapper = [[NSFileWrapper alloc]
 							   initRegularFileWithContents:[[textView textStorage] RTFFromRange:range documentAttributes:docAttributes]];
@@ -195,28 +298,46 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 #pragma mark media loading and unloading
 
-- (NSString *)path
-{
-	if (!_path){_path = @"";}
-	return _path;
-}
-- (void)setPath:(NSString *)someString{
-		if(!_path){
-			_path = someString;
-		}
-		else{
-			if (_path != someString)
-			_path = someString;
-		}
-}
+//- (NSString *)path
+//{
+//	if (!_path){_path = @"";}
+//	return _path;
+//}
+//- (void)setPath:(NSString *)someString{
+//		if(!_path){
+//			_path = someString;
+//		}
+//		else{
+//			if (_path != someString)
+//			_path = someString;
+//		}
+//}
 
 - (IBAction)openMovieFile:(id)sender
 {
+    if (mediaFileBookmark) {
+        NSError *error = nil;
+        BOOL bookmarkDataIsStale;
+        NSURL *bookmarkFileURL = nil;
+        bookmarkFileURL = [NSURL
+                           URLByResolvingBookmarkData:mediaFileBookmark
+                           options:NSURLBookmarkResolutionWithSecurityScope
+                           relativeToURL:nil
+                           bookmarkDataIsStale:&bookmarkDataIsStale
+                           error:&error];
+        [bookmarkFileURL stopAccessingSecurityScopedResource];
+    }
     NSOpenPanel *panel = [[NSOpenPanel alloc] init];
     [panel beginSheetModalForWindow:appWindow
                   completionHandler:^(NSInteger result) {
                       if (result == NSFileHandlingPanelOKButton) {
                           NSArray* filesToOpen = [panel URLs];
+                          NSError *error = nil;
+                          [self setMediaFileBookmark:[filesToOpen[0]
+                                          bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope
+                                          includingResourceValuesForKeys:nil
+                                          relativeToURL:nil
+                                          error:&error]];
                           NSImage *typeImage = [[NSWorkspace sharedWorkspace] iconForFileType:[filesToOpen[0] pathExtension]];
                           [typeImage setSize:NSMakeSize(32, 32)];
                           [mTextField setStringValue:[filesToOpen[0] lastPathComponent]];
@@ -255,22 +376,22 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 	}
 }
 
-- (void)openMovieFromDrag:(NSNotification*)note
-{
-	NSURL* movieURL = [note object];
-	NSString* URLString = [movieURL absoluteString];
-	NSImage *typeImage = [[NSWorkspace sharedWorkspace] iconForFileType:[URLString pathExtension]];
-	[typeImage setSize:NSMakeSize(32, 32)];
-	[mTextField setStringValue:[URLString lastPathComponent]];
-	[typeImageView setImage:typeImage];
-    AVURLAsset *asset = [AVAsset assetWithURL:movieURL];
-    NSArray *assetKeysToLoadAndTest = @[@"playable", @"hasProtectedContent", @"tracks", @"duration"];
-    [asset loadValuesAsynchronouslyForKeys:assetKeysToLoadAndTest completionHandler:^(void) {
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            [self setUpPlaybackOfAsset:asset withKeys:assetKeysToLoadAndTest];
-        });
-    }];
-}
+//- (void)openMovieFromDrag:(NSNotification*)note
+//{
+//	NSURL* movieURL = [note object];
+//	NSString* URLString = [movieURL absoluteString];
+//	NSImage *typeImage = [[NSWorkspace sharedWorkspace] iconForFileType:[URLString pathExtension]];
+//	[typeImage setSize:NSMakeSize(32, 32)];
+//	[mTextField setStringValue:[URLString lastPathComponent]];
+//	[typeImageView setImage:typeImage];
+//    AVURLAsset *asset = [AVAsset assetWithURL:movieURL];
+//    NSArray *assetKeysToLoadAndTest = @[@"playable", @"hasProtectedContent", @"tracks", @"duration"];
+//    [asset loadValuesAsynchronouslyForKeys:assetKeysToLoadAndTest completionHandler:^(void) {
+//        dispatch_async(dispatch_get_main_queue(), ^(void) {
+//            [self setUpPlaybackOfAsset:asset withKeys:assetKeysToLoadAndTest];
+//        });
+//    }];
+//}
 
 
 

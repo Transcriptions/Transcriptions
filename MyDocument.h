@@ -78,7 +78,7 @@ const double		k_Scrub_Slider_Minimum = 0.0;
 	IBOutlet NSTextField* movieFileField;
 	IBOutlet NSTextField* movieNormalSize;
 	IBOutlet NSTextField* movieCurrentSize;
-	IBOutlet NSTextField* authorTextField;
+	IBOutlet NSTextField* commentTextField;
 	IBOutlet NSSlider* replaySlider;
     NSAttributedString* rtfSaveData;
     NSAttributedString* insertString;
@@ -93,6 +93,7 @@ const double		k_Scrub_Slider_Minimum = 0.0;
 @property(weak) NSString* subject;
 @property(weak) NSString* comment;
 @property(weak) NSArray* keywords;
+@property   NSData* mediaFileBookmark;
 
 @property (strong) AVPlayer *player;
 @property (strong) AVPlayerLayer *playerLayer;
@@ -111,7 +112,7 @@ const double		k_Scrub_Slider_Minimum = 0.0;
 
 
 - (IBAction)openMovieFile:(id)sender;
-- (void)openMovieFromURL:(id)sender;
+//- (void)openMovieFromURL:(id)sender;
 - (void)setNormalSizeDisplay;
 - (void)setCurrentSizeDisplay;
 - (IBAction)rePlay:(id)sender;
