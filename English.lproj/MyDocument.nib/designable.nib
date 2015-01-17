@@ -500,7 +500,7 @@
 																	<double key="NSSize">14</double>
 																	<int key="NSfFlags">1044</int>
 																</object>
-																<string key="NSPlaceholderString">Add a media file here &gt;</string>
+																<string key="NSPlaceholderString">Open a media file here &gt;</string>
 																<reference key="NSControlView" ref="659651042"/>
 																<object class="NSColor" key="NSBackgroundColor" id="703644272">
 																	<int key="NSColorSpace">1</int>
