@@ -181,16 +181,13 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	
 			while (anObject = [theEnumerator nextObject])
 			{
-				
-			NSString* substitution = [NSString stringWithFormat:@"@%@",anObject[@"substString"]];
-     				NSAttributedString* insertion = anObject[@"insertString"];
-					
-					
-					if ([textString rangeOfString:substitution].location != NSNotFound){
-                        [[[self textStorage] mutableString] replaceOccurrencesOfString:substitution withString:[insertion string] options:NSLiteralSearch range:NSMakeRange(0, [[self textStorage] length])];
-						[self setNeedsDisplayInRect:[[[self enclosingScrollView] contentView] visibleRect]];
-						checkKey = NO;
-					}
+                NSString* substitution = [NSString stringWithFormat:@"@%@",anObject[@"substString"]];
+                NSAttributedString* insertion = anObject[@"insertString"];
+                if ([textString rangeOfString:substitution].location != NSNotFound){
+                    [[[self textStorage] mutableString] replaceOccurrencesOfString:substitution withString:[insertion string] options:NSLiteralSearch range:NSMakeRange(0, [[self textStorage] length])];
+                    [self setNeedsDisplayInRect:[[[self enclosingScrollView] contentView] visibleRect]];
+                     checkKey = NO;
+                }
 			}
 	}
 	
