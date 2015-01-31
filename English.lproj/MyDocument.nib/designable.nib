@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">101000</int>
-		<string key="IBDocument.SystemVersion">14C94b</string>
+		<string key="IBDocument.SystemVersion">14C109</string>
 		<string key="IBDocument.InterfaceBuilderVersion">6254</string>
-		<string key="IBDocument.AppKitVersion">1344.60</string>
+		<string key="IBDocument.AppKitVersion">1344.72</string>
 		<string key="IBDocument.HIToolboxVersion">757.30</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -100,7 +100,7 @@
 															<string key="NSFrameSize">{505, 639}</string>
 															<reference key="NSSuperview" ref="649529448"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView" ref="832503866"/>
+															<reference key="NSNextKeyView" ref="925973431"/>
 															<object class="NSTextContainer" key="NSTextContainer" id="833293969">
 																<object class="NSLayoutManager" key="NSLayoutManager">
 																	<object class="NSTextStorage" key="NSTextStorage">
@@ -120,7 +120,7 @@
 																<int key="NSTCFlags">1</int>
 															</object>
 															<object class="NSTextViewSharedData" key="NSSharedData">
-																<int key="NSFlags">1187024871</int>
+																<int key="NSFlags">1086361575</int>
 																<int key="NSTextCheckingTypes">0</int>
 																<nil key="NSMarkedAttributes"/>
 																<object class="NSColor" key="NSBackgroundColor" id="583614857">
@@ -161,13 +161,7 @@
 																	<integer value="1" key="NSUnderline"/>
 																</dictionary>
 																<nil key="NSDefaultParagraphStyle"/>
-																<object class="NSTextFinder" key="NSTextFinder">
-																	<reference key="NSTextFinderClient" ref="719287487"/>
-																	<reference key="NSFindBarContainer" ref="1002847153"/>
-																	<int key="NSTextFinderStyle">2</int>
-																	<bool key="NSIncrementalSearchingEnabled">YES</bool>
-																	<bool key="NSIncrementalSearchingShouldDimContentView">YES</bool>
-																</object>
+																<nil key="NSTextFinder"/>
 																<int key="NSPreferredTextFinderStyle">2</int>
 															</object>
 															<int key="NSTVFlags">6</int>
@@ -237,7 +231,7 @@
 											<string key="NSFrame">{{-1, 0}, {507, 641}}</string>
 											<reference key="NSSuperview" ref="214614479"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="925973431"/>
+											<reference key="NSNextKeyView" ref="649529448"/>
 											<int key="NSsFlags">133138</int>
 											<reference key="NSVScroller" ref="832503866"/>
 											<reference key="NSHScroller" ref="925973431"/>
@@ -486,21 +480,21 @@
 														<object class="NSTextField" id="659651042">
 															<reference key="NSNextResponder" ref="848690647"/>
 															<int key="NSvFlags">266</int>
-															<string key="NSFrame">{{29, 346}, {249, 18}}</string>
+															<string key="NSFrame">{{29, 347}, {249, 18}}</string>
 															<reference key="NSSuperview" ref="848690647"/>
 															<reference key="NSWindow"/>
 															<reference key="NSNextKeyView" ref="846721238"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTextFieldCell" key="NSCell" id="959202675">
 																<int key="NSCellFlags">67108928</int>
-																<int key="NSCellFlags2">1245775936</int>
+																<int key="NSCellFlags2">1245780032</int>
 																<string key="NSContents"/>
 																<object class="NSFont" key="NSSupport">
 																	<bool key="IBIsSystemFont">YES</bool>
 																	<double key="NSSize">14</double>
 																	<int key="NSfFlags">1044</int>
 																</object>
-																<string key="NSPlaceholderString">Open a media file here &gt;</string>
+																<string key="NSPlaceholderString">Open media file here &gt;</string>
 																<reference key="NSControlView" ref="659651042"/>
 																<object class="NSColor" key="NSBackgroundColor" id="703644272">
 																	<int key="NSColorSpace">1</int>
@@ -522,7 +516,7 @@
 																<string>NeXT Encapsulated PostScript v1.2 pasteboard type</string>
 																<string>NeXT TIFF v4.0 pasteboard type</string>
 															</set>
-															<string key="NSFrame">{{5, 343}, {23, 24}}</string>
+															<string key="NSFrame">{{5, 344}, {23, 24}}</string>
 															<reference key="NSSuperview" ref="848690647"/>
 															<reference key="NSWindow"/>
 															<reference key="NSNextKeyView" ref="659651042"/>
@@ -533,7 +527,7 @@
 																<int key="NSAlign">0</int>
 																<int key="NSScale">0</int>
 																<int key="NSStyle">0</int>
-																<bool key="NSAnimates">YES</bool>
+																<bool key="NSAnimates">NO</bool>
 															</object>
 															<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 															<bool key="NSEditable">YES</bool>
@@ -564,7 +558,7 @@
 																			<string key="NSFrameSize">{325, 250}</string>
 																			<reference key="NSSuperview" ref="309074382"/>
 																			<reference key="NSWindow"/>
-																			<reference key="NSNextKeyView" ref="117426202"/>
+																			<reference key="NSNextKeyView" ref="840438220"/>
 																			<bool key="NSEnabled">YES</bool>
 																			<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 																			<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -731,7 +725,7 @@
 															<string key="NSFrame">{{-1, 0}, {327, 268}}</string>
 															<reference key="NSSuperview" ref="195163050"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView" ref="840438220"/>
+															<reference key="NSNextKeyView" ref="309074382"/>
 															<int key="NSsFlags">133170</int>
 															<reference key="NSVScroller" ref="168170204"/>
 															<reference key="NSHScroller" ref="117426202"/>
@@ -838,7 +832,6 @@
 							<string key="NSFrame">{{795, 1}, {30, 25}}</string>
 							<reference key="NSSuperview" ref="568628114"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="613798287">
 								<int key="NSCellFlags">67108864</int>
@@ -1489,7 +1482,6 @@
 						<array class="NSMutableArray" key="NSSubviews"/>
 						<string key="NSFrame">{{119, 3}, {71, 19}}</string>
 						<reference key="NSSuperview" ref="650183830"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="295596557">
 							<int key="NSCellFlags">67108864</int>
@@ -1928,7 +1920,6 @@
 						<array class="NSMutableArray" key="NSSubviews"/>
 						<string key="NSFrame">{{84, 4}, {146, 19}}</string>
 						<reference key="NSSuperview" ref="88784661"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="457201988">
 							<int key="NSCellFlags">-2080374784</int>
@@ -1970,7 +1961,6 @@
 							<string key="NSFrame">{{438, 12}, {82, 32}}</string>
 							<reference key="NSSuperview" ref="1040524169"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="1015847868">
 								<int key="NSCellFlags">-2080374784</int>
