@@ -70,6 +70,19 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 @synthesize repeatingTimer;
 
++ (BOOL)autosavesInPlace
+{
+    return YES;
+}
+
++ (BOOL)autosavesDrafts
+{
+    return YES;
+}
+
++ (BOOL)preservesVersions {
+    return YES;
+}
 
 - (instancetype)init
 {
@@ -79,6 +92,8 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     }
 	return self;
 }
+
+
 
 
 - (NSString *)windowNibName
@@ -103,22 +118,23 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
   [insertTableView setDelegate:self];
   [insertTableView registerForDraggedTypes:@[NSStringPboardType, NSRTFPboardType]];
   [infoPanel setMinSize:[infoPanel frame].size];
-  NSTimeInterval autosaveInterval = 3;
-  [[NSDocumentController sharedDocumentController] setAutosavingDelay:autosaveInterval];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(processTextEditing) name:NSTextDidChangeNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openMovieFromDrag:) name:@"movieFileDrag" object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createTimeStamp:) name:@"automaticTimestamp" object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jumpToTimeStamp:) name:@"aTimestampPressed" object:nil];
-    [self setPlayer:[[AVPlayer alloc] init]];
-    [self addObserver:self forKeyPath:@"player.rate" options:NSKeyValueObservingOptionNew context:TSCPlayerRateContext];
-    [self addObserver:self forKeyPath:@"player.currentItem.status" options:NSKeyValueObservingOptionNew context:TSCPlayerItemStatusContext];
-    [self setTimestampLineNumber];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(processTextEditing) name:NSTextDidChangeNotification object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openMovieFromDrag:) name:@"movieFileDrag" object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createTimeStamp:) name:@"automaticTimestamp" object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jumpToTimeStamp:) name:@"aTimestampPressed" object:nil];
+  [self setPlayer:[[AVPlayer alloc] init]];
+  [self addObserver:self forKeyPath:@"player.rate" options:NSKeyValueObservingOptionNew context:TSCPlayerRateContext];
+  [self addObserver:self forKeyPath:@"player.currentItem.status" options:NSKeyValueObservingOptionNew context:TSCPlayerItemStatusContext];
+  [self setTimestampLineNumber];
 }
+
 
 
 
 - (void)awakeFromNib
 {
+    NSTimeInterval autosaveInterval = 2.0;
+    [[NSDocumentController sharedDocumentController] setAutosavingDelay:autosaveInterval];
     [[self playerView] setWantsLayer:YES];
     NSButton *closeButton = [appWindow standardWindowButton:NSWindowCloseButton];
     NSView *titleBarView = closeButton.superview;
@@ -182,6 +198,50 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     }
 }
 
+- (BOOL)revertToContentsOfURL:(NSURL *)inAbsoluteURL
+                       ofType:(NSString *)inTypeName
+                        error:(NSError **)outError {
+
+    BOOL reverted = [super revertToContentsOfURL:inAbsoluteURL
+                                          ofType:inTypeName
+                                           error:outError];
+    if (reverted) {
+    }
+    return YES;
+}
+
+
+- (void)close
+{
+    [super close];
+}
+
+-(void)dealloc
+{
+    [[self player] pause];
+    [[self player] removeTimeObserver:[self timeObserverToken]];
+    [self setTimeObserverToken:nil];
+    [self removeObserver:self forKeyPath:@"player.rate"];
+    [self removeObserver:self forKeyPath:@"player.currentItem.status"];
+    if ([self playerLayer])
+        [self removeObserver:self forKeyPath:@"playerLayer.readyForDisplay"];
+    [[self player] replaceCurrentItemWithPlayerItem:nil];
+    
+}
+
+
+#pragma mark text edit processing
+- (void)processTextEditing
+{
+    
+}
+
+- (void)textDidChange:(NSNotification *)notification
+{
+    [self updateChangeCount:NSChangeDone];
+}
+
+
 #pragma mark loadsave
 
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)wrapper ofType:(NSString *)type error:(NSError **)outError
@@ -195,7 +255,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 	subject = docAttributes[NSSubjectDocumentAttribute];
 	comment = docAttributes[NSCommentDocumentAttribute];
 	keywords = docAttributes[NSKeywordsDocumentAttribute];
-    
     if ([rtfSaveData length] > 0) {
          [[textView textStorage] replaceCharactersInRange:NSMakeRange(0, [[textView string] length]) withAttributedString:rtfSaveData];
     }
@@ -297,21 +356,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 
 #pragma mark media loading and unloading
-
-//- (NSString *)path
-//{
-//	if (!_path){_path = @"";}
-//	return _path;
-//}
-//- (void)setPath:(NSString *)someString{
-//		if(!_path){
-//			_path = someString;
-//		}
-//		else{
-//			if (_path != someString)
-//			_path = someString;
-//		}
-//}
 
 - (IBAction)openMovieFile:(id)sender
 {
@@ -496,17 +540,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     }
 }
 
-- (void)close
-{
-    [[self player] pause];
-    [[self player] removeTimeObserver:[self timeObserverToken]];
-    [self setTimeObserverToken:nil];
-    [self removeObserver:self forKeyPath:@"player.rate"];
-    [self removeObserver:self forKeyPath:@"player.currentItem.status"];
-    if ([self playerLayer])
-        [self removeObserver:self forKeyPath:@"playerLayer.readyForDisplay"];
-    [super close];
-}
 
 
 #pragma mark CMTime methods
@@ -703,22 +736,25 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 - (void)jumpToTimeStamp:(NSNotification *)note
 {
-    NSString* timestampTimeString = [note object];
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"timestampReplay"] boolValue] == YES )
-	{
-		CMTime timeToAdd   = CMTimeMakeWithSeconds([replaySlider intValue],1);
-        CMTime resultTime  = CMTimeSubtract([self cmtimeForTimeStampString:timestampTimeString],timeToAdd);
-        [[self player] seekToTime:resultTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
-        float myRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"currentRate"];
-        [[self player] play];
-        [self.player setRate:myRate];
-	}
-    else
-    {
-        [[self player] seekToTime:[self cmtimeForTimeStampString:timestampTimeString] toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+    NSButton* tsButton = [note object];
+    if (tsButton.window == appWindow) {
+        NSString* timestampTimeString = tsButton.title;
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"timestampReplay"] boolValue] == YES )
+        {
+            CMTime timeToAdd   = CMTimeMakeWithSeconds([replaySlider intValue],1);
+            CMTime resultTime  = CMTimeSubtract([self cmtimeForTimeStampString:timestampTimeString],timeToAdd);
+            [[self player] seekToTime:resultTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+            float myRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"currentRate"];
+            [[self player] play];
+            [self.player setRate:myRate];
+        }
+        else
+        {
+            [[self player] seekToTime:[self cmtimeForTimeStampString:timestampTimeString] toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+        }
+        [self setTimestampLineNumber];
+        [self startRepeatingTimer:self];
     }
-    [self setTimestampLineNumber];
-    [self startRepeatingTimer:self];
 }
 
 - (CMTime)cmtimeForTimeStampString:(NSString *)tsString
@@ -990,11 +1026,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     return YES;
 }
 
-#pragma mark text edit processing
-- (void)processTextEditing
-{
-    
-}
+
 
 #pragma mark timestamp line numbers
 

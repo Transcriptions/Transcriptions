@@ -304,7 +304,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 
 - (void)timeStampPressed:(id)sender
 {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"aTimestampPressed" object:[sender title]];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"aTimestampPressed" object:sender];
 
 }
 
