@@ -239,6 +239,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 - (void)textDidChange:(NSNotification *)notification
 {
     [self updateChangeCount:NSChangeDone];
+    [textView setNeedsDisplay:YES];
 }
 
 
@@ -1095,29 +1096,41 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
             break;
         }
     }
-    if (![currentTimeStampTimeString isEqual:[NSNull null]]) {
-        NSArray* lines = [[self->textView string] componentsSeparatedByString:@"\n"];
-        int newTimeStampLineNumber = 0;
-        int i;
-        int emptyString = 0;
-        for (i=0;i<[lines count];i++) {
-            if (![lines[i] isEqualToString:@"\n"]&&[lines[i] length] > 0)
-            {
-                        if ([lines[i] rangeOfString:[NSString stringWithFormat:@"#%@#", currentTimeStampTimeString]].location != NSNotFound)
+    if (!(currentTimeStampTimeString.length == 0)) {
+        CMTime comparisonTimeStampTime = [self cmtimeForTimeStampString:currentTimeStampTimeString];
+        CMTime currentTime = CMTimeAbsoluteValue([[self player] currentTime]);
+        int32_t comparison = CMTimeCompare(comparisonTimeStampTime, currentTime);
+        if (comparison <= 0) {
+            NSArray* lines = [[self->textView string] componentsSeparatedByString:@"\n"];
+            int newTimeStampLineNumber = 0;
+            int i;
+            int emptyString = 0;
+            for (i=0;i<[lines count];i++) {
+                if (![lines[i] isEqualToString:@"\n"]&&[lines[i] length] > 0)
                 {
-                    int insertNumber = (i + 1) - emptyString;
-                    newTimeStampLineNumber = insertNumber;
-                    break;
+                            if ([lines[i] rangeOfString:[NSString stringWithFormat:@"#%@#", currentTimeStampTimeString]].location != NSNotFound)
+                    {
+                        int insertNumber = (i + 1) - emptyString;
+                        newTimeStampLineNumber = insertNumber;
+                        break;
+                    }
+                }
+                else{
+                    emptyString += 1;
                 }
             }
-            else{
-                emptyString += 1;
+            if (newTimeStampLineNumber > 0 && playerItem) {
+                [textView setTimeLineNumber:newTimeStampLineNumber];
+                [textView setNeedsDisplay:YES];
             }
+            else{
+                [textView setTimeLineNumber:0];
+            }
+        }else{
+            [textView setTimeLineNumber:0];
         }
-        if (newTimeStampLineNumber > 0 && playerItem) {
-            [textView setTimeLineNumber:newTimeStampLineNumber];
-            [textView setNeedsDisplay:YES];
-        }
+    }else{
+        [textView setTimeLineNumber:0];
     }
 }
 
