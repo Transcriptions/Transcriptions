@@ -1,0 +1,1 @@
+Check out the [app overview](http://www.unet.univie.ac.at/~a0206600/transcriptionsAppOverview.pdf) to get started.
