@@ -979,18 +979,14 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 - (void)showInfoSheet: (NSWindow *)window
 {
-    [NSApp beginSheet:infoPanel modalForWindow:window modalDelegate:self didEndSelector:@selector(didEndSheet:returnCode:contextInfo:) contextInfo:nil];
+    [self.windowForSheet beginSheet:infoPanel completionHandler:^(NSModalResponse returnCode) {
+		[infoPanel orderOut:self];
+	}];
 }
-
 
 - (void)closeInfoSheet: (id)sender
 {
-    [NSApp endSheet:infoPanel];
-}
-
-- (void)didEndSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{
-    [sheet orderOut:self];
+    [self.windowForSheet endSheet:infoPanel];
 }
 
 
@@ -1002,14 +998,17 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 - (void)showURLSheet: (NSWindow *)window
 {
-	[NSApp beginSheet:URLPanel modalForWindow:window modalDelegate:self didEndSelector:@selector(didEndSheet:returnCode:contextInfo:) contextInfo:nil];
+	[self.windowForSheet beginSheet:URLPanel completionHandler:^(NSModalResponse returnCode) {
+		[URLPanel orderOut:self];
+	}];
+	// FIXME: Is this still necessary? Looks like a hack. ;)
 	[URLPanel setMinSize:[URLPanel frame].size];
 	[URLPanel setMaxSize:[URLPanel frame].size];
 }
 
 - (void)closeURLSheet: (id)sender
 {
-	[NSApp endSheet:URLPanel];
+	[self.windowForSheet endSheet:URLPanel];
 }
 
 
