@@ -17,7 +17,7 @@ For Mac OSX 10.9 Mavericks and below, use version 0.8 that can be found [here](h
 ## Features: ##
 
   * Media with tape behavior
-  * Customizeable media-control shortcuts([->shortcut recorder](http://code.google.com/p/shortcutrecorder))
+  * Customizeable media-control shortcuts([->shortcut recorder](https://github.com/Kentzo/ShortcutRecorder))
   * Timestamps
   * Text substitution
   * Footpedal-support([->audiotranskription.de](http://www.audiotranskription.de/deutsch/transkription/usb-fussschalter-f-pro/usb-fussschalter-f-pro.html))
