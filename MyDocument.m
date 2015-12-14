@@ -181,7 +181,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
                 }
                 else if([bookmarkFileURL isFileURL] == YES)
                 {
-                    AVURLAsset *asset = [AVAsset assetWithURL:bookmarkFileURL];
+                    AVURLAsset *asset = [AVURLAsset assetWithURL:bookmarkFileURL];
                     NSArray *assetKeysToLoadAndTest = @[@"playable", @"hasProtectedContent", @"tracks", @"duration"];
                     NSImage *typeImage = [[NSWorkspace sharedWorkspace] iconForFileType:[bookmarkFileURL pathExtension]];
                     [typeImage setSize:NSMakeSize(32, 32)];
@@ -387,7 +387,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
                           [typeImage setSize:NSMakeSize(32, 32)];
                           [mTextField setStringValue:[filesToOpen[0] lastPathComponent]];
                           [typeImageView setImage:typeImage];
-                          AVURLAsset *asset = [AVAsset assetWithURL:filesToOpen[0]];
+                          AVURLAsset *asset = [AVURLAsset assetWithURL:filesToOpen[0]];
                           NSArray *assetKeysToLoadAndTest = @[@"playable", @"hasProtectedContent", @"tracks", @"duration"];
                           [asset loadValuesAsynchronouslyForKeys:assetKeysToLoadAndTest completionHandler:^(void) {
                               dispatch_async(dispatch_get_main_queue(), ^(void) {
@@ -411,7 +411,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 		[typeImage setSize:NSMakeSize(32, 32)];
 		[mTextField setStringValue:[URLString lastPathComponent]];
 		[typeImageView setImage:typeImage];
-        AVURLAsset *asset = [AVAsset assetWithURL:movieURL];
+        AVURLAsset *asset = [AVURLAsset assetWithURL:movieURL];
         NSArray *assetKeysToLoadAndTest = @[@"playable", @"hasProtectedContent", @"tracks", @"duration"];
         [asset loadValuesAsynchronouslyForKeys:assetKeysToLoadAndTest completionHandler:^(void) {
             dispatch_async(dispatch_get_main_queue(), ^(void) {
