@@ -97,7 +97,7 @@
 		0A6636FD19A7F0DA00856956 /* Transcriptions.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Transcriptions.entitlements; sourceTree = "<group>"; };
 		0AA11EFA1973421800B78642 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		0AA11EFB1973421800B78642 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/System/Library/Frameworks/AVKit.framework; sourceTree = DEVELOPER_DIR; };
-		0AA11EFE19734A5100B78642 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		0AA11EFE19734A5100B78642 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainMenu.xib; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		0AA11F04197560FD00B78642 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		0AA11F07197566BD00B78642 /* TODO.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = TODO.rtf; sourceTree = "<group>"; };
 		0AA24F091A441B03006CDEB1 /* TSCHelperFolder */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TSCHelperFolder; sourceTree = "<group>"; };
