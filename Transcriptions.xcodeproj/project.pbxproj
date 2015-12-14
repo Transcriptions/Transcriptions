@@ -59,6 +59,13 @@
 			remoteGlobalIDString = E273122E1349EC9000A84433;
 			remoteInfo = PTHotKey.framework;
 		};
+		3DDFA9C81C1F617500AFB0B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0ADD23411998E930007D81D3 /* ShortcutRecorder.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0D6B2468180304DE00CE1142;
+			remoteInfo = Demo;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -146,6 +153,7 @@
 			children = (
 				0ADD23481998E930007D81D3 /* ShortcutRecorder.framework */,
 				0ADD234A1998E930007D81D3 /* PTHotKey.framework */,
+				3DDFA9C91C1F617500AFB0B1 /* Demo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -380,6 +388,13 @@
 			fileType = wrapper.framework;
 			path = PTHotKey.framework;
 			remoteRef = 0ADD23491998E930007D81D3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3DDFA9C91C1F617500AFB0B1 /* Demo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Demo.app;
+			remoteRef = 3DDFA9C81C1F617500AFB0B1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
