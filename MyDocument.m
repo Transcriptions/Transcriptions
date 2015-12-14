@@ -761,6 +761,8 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 - (CMTime)cmtimeForTimeStampString:(NSString *)tsString
 {
 	NSArray* timeComponents = [tsString componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@":-."]];
+	if (timeComponents.count < 4)  return kCMTimeInvalid;
+	
     float hours = [timeComponents[0] floatValue];
     float minutes = [timeComponents[1] floatValue];
     float seconds = [timeComponents[2] floatValue];
