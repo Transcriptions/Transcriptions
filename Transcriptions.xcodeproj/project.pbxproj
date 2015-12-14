@@ -94,7 +94,7 @@
 		0AA11F04197560FD00B78642 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		0AA11F07197566BD00B78642 /* TODO.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = TODO.rtf; sourceTree = "<group>"; };
 		0AA24F091A441B03006CDEB1 /* TSCHelperFolder */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TSCHelperFolder; sourceTree = "<group>"; };
-		0ADD23411998E930007D81D3 /* ShortcutRecorder.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShortcutRecorder.xcodeproj; path = ShortcutRecorder/ShortcutRecorder.xcodeproj; sourceTree = "<group>"; };
+		0ADD23411998E930007D81D3 /* ShortcutRecorder.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShortcutRecorder.xcodeproj; path = External/ShortcutRecorder/ShortcutRecorder.xcodeproj; sourceTree = "<group>"; };
 		0ADD23521998EE62007D81D3 /* ShortcutRecorder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ShortcutRecorder.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Transcriptions-awvpsdcysfuossetopnllmdgodky/Build/Products/Debug/ShortcutRecorder.framework"; sourceTree = "<group>"; };
 		0ADD23541998EE68007D81D3 /* PTHotKey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PTHotKey.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Transcriptions-awvpsdcysfuossetopnllmdgodky/Build/Products/Debug/PTHotKey.framework"; sourceTree = "<group>"; };
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -313,7 +313,7 @@
 				LastUpgradeCheck = 0710;
 				TargetAttributes = {
 					8D15AC270486D014006FF6A4 = {
-						DevelopmentTeam = M9AG4A3F6L;
+						DevelopmentTeam = FK9S39L3SK;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
 								enabled = 1;
