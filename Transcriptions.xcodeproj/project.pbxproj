@@ -310,7 +310,7 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0710;
 				TargetAttributes = {
 					8D15AC270486D014006FF6A4 = {
 						DevelopmentTeam = M9AG4A3F6L;
@@ -482,6 +482,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
+				PRODUCT_BUNDLE_IDENTIFIER = com.davidhas.Transcriptions;
 				PRODUCT_NAME = Transcriptions;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
@@ -510,6 +511,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
+				PRODUCT_BUNDLE_IDENTIFIER = com.davidhas.Transcriptions;
 				PRODUCT_NAME = Transcriptions;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
@@ -522,6 +524,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "Mac Developer";
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;

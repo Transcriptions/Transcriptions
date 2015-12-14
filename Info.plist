@@ -34,7 +34,7 @@
 	<key>CFBundleHelpBookName</key>
 	<string>Transcriptions-Help</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.davidhas.Transcriptions</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
