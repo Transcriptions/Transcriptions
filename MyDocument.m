@@ -53,27 +53,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 @implementation MyDocument
 
-@synthesize autor;
-@synthesize copyright;
-@synthesize company;
-@synthesize title;
-@synthesize subject;
-@synthesize comment;
-@synthesize keywords;
-@synthesize mediaFileBookmark;
-
-@synthesize player;
-@synthesize playerLayer;
-@synthesize noVideoImage;
-@synthesize playerView;
-@synthesize playPauseButton;
-@synthesize fastForwardButton;
-@synthesize rewindButton;
-@synthesize timeSlider;
-@synthesize timeObserverToken;
-
-@synthesize repeatingTimer;
-
 + (BOOL)autosavesInPlace
 {
     return YES;
@@ -110,23 +89,23 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
   [super windowControllerDidLoadNib:windowController];
   [[windowController window] setMovableByWindowBackground:YES];
   [[windowController window] setContentBorderThickness:32.0 forEdge:NSMinYEdge];
-  [[[self playerView] layer] setBackgroundColor:CGColorGetConstantColor(kCGColorBlack)];
-  if (rtfSaveData) {
-        [[textView textStorage] replaceCharactersInRange:NSMakeRange(0, [[textView string] length]) withAttributedString:rtfSaveData];
+  [[_playerView layer] setBackgroundColor:CGColorGetConstantColor(kCGColorBlack)];
+  if (_rtfSaveData) {
+        [_textView.textStorage replaceCharactersInRange:NSMakeRange(0, _textView.string.length) withAttributedString:_rtfSaveData];
   }
-  [textView setAllowsUndo:YES];
-  [textView toggleRuler:self];
-  [textView setDelegate:self];
-  [mTextField  setDelegate:self];
-  [mainSplitView setDelegate:self];
-  [insertTableView setDelegate:self];
-  [insertTableView registerForDraggedTypes:@[NSStringPboardType, NSRTFPboardType]];
-  [infoPanel setMinSize:[infoPanel frame].size];
+  [_textView setAllowsUndo:YES];
+  [_textView toggleRuler:self];
+  [_textView setDelegate:self];
+  [_mTextField  setDelegate:self];
+  [_mainSplitView setDelegate:self];
+  [_insertTableView setDelegate:self];
+  [_insertTableView registerForDraggedTypes:@[NSStringPboardType, NSRTFPboardType]];
+  [_infoPanel setMinSize:_infoPanel.frame.size];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(processTextEditing) name:NSTextDidChangeNotification object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openMovieFromDrag:) name:@"movieFileDrag" object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createTimeStamp:) name:@"automaticTimestamp" object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jumpToTimeStamp:) name:@"aTimestampPressed" object:nil];
-  [self setPlayer:[[AVPlayer alloc] init]];
+  _player = [[AVPlayer alloc] init];
   [self addObserver:self forKeyPath:@"player.rate" options:NSKeyValueObservingOptionNew context:TSCPlayerRateContext];
   [self addObserver:self forKeyPath:@"player.currentItem.status" options:NSKeyValueObservingOptionNew context:TSCPlayerItemStatusContext];
   [self setTimestampLineNumber];
@@ -139,8 +118,8 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 {
     NSTimeInterval autosaveInterval = 2.0;
     [[NSDocumentController sharedDocumentController] setAutosavingDelay:autosaveInterval];
-    [[self playerView] setWantsLayer:YES];
-    NSButton *closeButton = [appWindow standardWindowButton:NSWindowCloseButton];
+    [_playerView setWantsLayer:YES];
+    NSButton *closeButton = [_appWindow standardWindowButton:NSWindowCloseButton];
     NSView *titleBarView = closeButton.superview;
     NSButton* myHelpButton = [[NSButton alloc] initWithFrame:NSMakeRect(titleBarView.bounds.size.width - 30,titleBarView.bounds.origin.y, 25, 25)];
     [myHelpButton setBezelStyle:NSHelpButtonBezelStyle];
@@ -149,23 +128,23 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     [myHelpButton setAction:@selector(showHelp:)];
     [myHelpButton setTarget:[NSApplication sharedApplication]];
     [titleBarView addSubview:myHelpButton];
-    if ([comment length] > 0)
+    if ([_comment length] > 0)
     {
         NSString* foundUrlString;
-        if ([comment rangeOfString:@"[[associatedMediaURL:"].location != NSNotFound)
+        if ([_comment rangeOfString:@"[[associatedMediaURL:"].location != NSNotFound)
         {
-         foundUrlString = [NSString stringWithString:[self getDataBetweenFromString:comment leftString:@"[[associatedMediaURL:" rightString:@"]]" leftOffset:21]];
+         foundUrlString = [NSString stringWithString:[self getDataBetweenFromString:_comment leftString:@"[[associatedMediaURL:" rightString:@"]]" leftOffset:21]];
         }
         if ([foundUrlString length] > 0) {
             NSData *myData = [[NSData alloc] initWithBase64EncodedString:foundUrlString options:0];
             [self setMediaFileBookmark:myData];
-            if (mediaFileBookmark)
+            if (_mediaFileBookmark)
             {
                 NSError *error = nil;
                 BOOL bookmarkDataIsStale;
                 NSURL *bookmarkFileURL = nil;
                 bookmarkFileURL = [NSURL
-                                   URLByResolvingBookmarkData:mediaFileBookmark
+                                   URLByResolvingBookmarkData:_mediaFileBookmark
                                    options:NSURLBookmarkResolutionWithSecurityScope
                                    relativeToURL:nil
                                    bookmarkDataIsStale:&bookmarkDataIsStale
@@ -189,8 +168,8 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
                     NSArray *assetKeysToLoadAndTest = @[@"playable", @"hasProtectedContent", @"tracks", @"duration"];
                     NSImage *typeImage = [[NSWorkspace sharedWorkspace] iconForFileType:[bookmarkFileURL pathExtension]];
                     [typeImage setSize:NSMakeSize(32, 32)];
-                    [mTextField setStringValue:[bookmarkFileURL lastPathComponent]];
-                    [typeImageView setImage:typeImage];
+                    [_mTextField setStringValue:[bookmarkFileURL lastPathComponent]];
+                    [_typeImageView setImage:typeImage];
                     [asset loadValuesAsynchronouslyForKeys:assetKeysToLoadAndTest completionHandler:^(void) {
                         dispatch_async(dispatch_get_main_queue(), ^(void) {
                             [self setUpPlaybackOfAsset:asset withKeys:assetKeysToLoadAndTest];
@@ -225,7 +204,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     [[self player] pause];
     [[self player] removeTimeObserver:[self timeObserverToken]];
     [self setTimeObserverToken:nil];
-	if (player) {
+	if (_player) {
 		[self removeObserver:self forKeyPath:@"player.rate" context:TSCPlayerRateContext];
 		[self removeObserver:self forKeyPath:@"player.currentItem.status" context:TSCPlayerItemStatusContext];
 	}
@@ -245,7 +224,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 - (void)textDidChange:(NSNotification *)notification
 {
     [self updateChangeCount:NSChangeDone];
-    [textView setNeedsDisplay:YES];
+    [_textView setNeedsDisplay:YES];
 }
 
 
@@ -275,7 +254,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 - (BOOL)readFromRTFData:(NSData *)data error:(NSError **)outError
 {
 	NSDictionary* docAttributes = [[NSDictionary alloc] init];
-	rtfSaveData = [[NSAttributedString alloc] initWithRTF:data documentAttributes:&docAttributes];
+	_rtfSaveData = [[NSAttributedString alloc] initWithRTF:data documentAttributes:&docAttributes];
 	// Contrary to the Apple guidelines, we use self here, even though we are called from an -init… method.
 	// This is currently necessary, because for some reason these values will be clobbered using key value coding.
 	// Probably due to the bindings in the info panel.
@@ -287,13 +266,13 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 	self.subject = docAttributes[NSSubjectDocumentAttribute];
 	self.comment = docAttributes[NSCommentDocumentAttribute];
 	self.keywords = docAttributes[NSKeywordsDocumentAttribute];
-    if ([rtfSaveData length] > 0) {
-         [[textView textStorage] replaceCharactersInRange:NSMakeRange(0, [[textView string] length]) withAttributedString:rtfSaveData];
+    if ([_rtfSaveData length] > 0) {
+         [_textView.textStorage replaceCharactersInRange:NSMakeRange(0, _textView.string.length) withAttributedString:_rtfSaveData];
     }
-    if ([keywords count] == 1) {
-        NSString* firstObject = [keywords objectAtIndex:0];
+    if ([_keywords count] == 1) {
+        NSString* firstObject = [_keywords objectAtIndex:0];
         if ([firstObject isEqualToString:@""]) {
-            keywords = nil;
+            _keywords = nil;
         }
     }
 	return YES;
@@ -346,10 +325,10 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 		[string replaceCharactersInRange:insertionCursor withString:@"\n"];
 	}
 	
-	rtfSaveData = text;
+	_rtfSaveData = text;
 	
-    if ([rtfSaveData length] > 0) {
-         [[textView textStorage] replaceCharactersInRange:NSMakeRange(0, textView.string.length) withAttributedString:rtfSaveData];
+    if ([_rtfSaveData length] > 0) {
+         [_textView.textStorage replaceCharactersInRange:NSMakeRange(0, _textView.string.length) withAttributedString:_rtfSaveData];
     }
 	
 	return YES;
@@ -372,40 +351,40 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 - (NSFileWrapper *)fileWrapperOfType:(NSString *)type error:(NSError **)outError
 {
-   NSRange range = NSMakeRange(0,[[textView string] length]);
-    if ([autor length] <= 0) {
-        autor = [NSString stringWithFormat:@""];
+   NSRange range = NSMakeRange(0, _textView.string.length);
+    if ([_autor length] <= 0) {
+        _autor = [NSString stringWithFormat:@""];
     }
-    if ([copyright length] <= 0) {
-        copyright = [NSString stringWithFormat:@""];
+    if ([_copyright length] <= 0) {
+        _copyright = [NSString stringWithFormat:@""];
     }
-    if ([company length] <= 0) {
-        company = [NSString stringWithFormat:@""];
+    if ([_company length] <= 0) {
+        _company = [NSString stringWithFormat:@""];
     }
-    if ([title length] <= 0) {
-        title = [NSString stringWithFormat:@""];
+    if ([_title length] <= 0) {
+        _title = [NSString stringWithFormat:@""];
     }
-    if ([subject length] <= 0) {
-        subject = [NSString stringWithFormat:@""];
+    if ([_subject length] <= 0) {
+        _subject = [NSString stringWithFormat:@""];
     }
-    if ([comment length] <= 0) {
-        comment = [NSString stringWithFormat:@""];
+    if ([_comment length] <= 0) {
+        _comment = [NSString stringWithFormat:@""];
     }
-    if ([keywords count] == 0) {
-        keywords = [NSArray arrayWithObject:@""];
+    if ([_keywords count] == 0) {
+        _keywords = [NSArray arrayWithObject:@""];
     }
     
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"mediaFileAssoc"] boolValue] == YES)
     {
-        if ([comment length] > 0)
+        if ([_comment length] > 0)
         {
-            if ([comment rangeOfString:@"[[associatedMediaURL:"].location != NSNotFound) {
-                NSString* foundUrlString = [self getDataBetweenFromString:comment leftString:@"[[associatedMediaURL:" rightString:@"]]" leftOffset:21];
+            if ([_comment rangeOfString:@"[[associatedMediaURL:"].location != NSNotFound) {
+                NSString* foundUrlString = [self getDataBetweenFromString:_comment leftString:@"[[associatedMediaURL:" rightString:@"]]" leftOffset:21];
                 if ([foundUrlString length] > 0)
                 {
                     NSString* toBeRemoved = [NSString stringWithFormat:@"[[associatedMediaURL:%@]]",foundUrlString];
-                    NSString* newComment = [comment stringByReplacingOccurrencesOfString:toBeRemoved withString:@""];
-                    comment = newComment;
+                    NSString* newComment = [_comment stringByReplacingOccurrencesOfString:toBeRemoved withString:@""];
+                    _comment = newComment;
                 }
             }
         }
@@ -413,7 +392,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         BOOL bookmarkDataIsStale;
         NSURL *bookmarkFileURL = nil;
         bookmarkFileURL = [NSURL
-                           URLByResolvingBookmarkData:mediaFileBookmark
+                           URLByResolvingBookmarkData:_mediaFileBookmark
                            options:NSURLBookmarkResolutionWithSecurityScope
                            relativeToURL:nil
                            bookmarkDataIsStale:&bookmarkDataIsStale
@@ -422,16 +401,24 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         NSURL* fileUrl = [self urlOfCurrentlyPlayingInPlayer:self.player];
         if ([[fileUrl path] compare:[bookmarkFileURL path]] == NSOrderedSame && [fileUrl checkResourceIsReachableAndReturnError:&err] == YES && [fileUrl isFileURL] == YES)
         {
-            NSString *utfString = [mediaFileBookmark base64EncodedStringWithOptions:(nil)];
+            NSString *utfString = [_mediaFileBookmark base64EncodedStringWithOptions:0];
             NSString* urlForComment = [NSString stringWithFormat:@"[[associatedMediaURL:%@]]",utfString];
-            NSString* commentString = [NSString stringWithFormat:@"%@%@",comment, urlForComment];
-            comment = commentString;
-            [commentTextField setStringValue:comment];
+            NSString* commentString = [NSString stringWithFormat:@"%@%@", _comment, urlForComment];
+            _comment = commentString;
+            [_commentTextField setStringValue:_comment];
         }
     }
-	NSDictionary* docAttributes = @{NSAuthorDocumentAttribute: autor, NSCopyrightDocumentAttribute: copyright, NSCompanyDocumentAttribute: company, NSTitleDocumentAttribute: title, NSSubjectDocumentAttribute: subject, NSCommentDocumentAttribute: comment, NSKeywordsDocumentAttribute: keywords};
+	NSDictionary* docAttributes = @{
+									NSAuthorDocumentAttribute: _autor,
+									NSCopyrightDocumentAttribute: _copyright,
+									NSCompanyDocumentAttribute: _company,
+									NSTitleDocumentAttribute: _title,
+									NSSubjectDocumentAttribute: _subject,
+									NSCommentDocumentAttribute: _comment,
+									NSKeywordsDocumentAttribute: _keywords
+									};
 	NSFileWrapper * wrapper = [[NSFileWrapper alloc]
-							   initRegularFileWithContents:[[textView textStorage] RTFFromRange:range documentAttributes:docAttributes]];
+							   initRegularFileWithContents:[[_textView textStorage] RTFFromRange:range documentAttributes:docAttributes]];
 	if ( outError != NULL ) {
 		*outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
 	}
@@ -444,12 +431,12 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 - (IBAction)openMovieFile:(id)sender
 {
-    if (mediaFileBookmark) {
+    if (_mediaFileBookmark) {
         NSError *error = nil;
         BOOL bookmarkDataIsStale;
         NSURL *bookmarkFileURL = nil;
         bookmarkFileURL = [NSURL
-                           URLByResolvingBookmarkData:mediaFileBookmark
+                           URLByResolvingBookmarkData:_mediaFileBookmark
                            options:NSURLBookmarkResolutionWithSecurityScope
                            relativeToURL:nil
                            bookmarkDataIsStale:&bookmarkDataIsStale
@@ -457,7 +444,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         [bookmarkFileURL stopAccessingSecurityScopedResource];
     }
     NSOpenPanel *panel = [[NSOpenPanel alloc] init];
-    [panel beginSheetModalForWindow:appWindow
+    [panel beginSheetModalForWindow:_appWindow
                   completionHandler:^(NSInteger result) {
                       if (result == NSFileHandlingPanelOKButton) {
                           NSArray* filesToOpen = [panel URLs];
@@ -469,8 +456,8 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
                                           error:&error]];
                           NSImage *typeImage = [[NSWorkspace sharedWorkspace] iconForFileType:[filesToOpen[0] pathExtension]];
                           [typeImage setSize:NSMakeSize(32, 32)];
-                          [mTextField setStringValue:[filesToOpen[0] lastPathComponent]];
-                          [typeImageView setImage:typeImage];
+                          [_mTextField setStringValue:[filesToOpen[0] lastPathComponent]];
+                          [_typeImageView setImage:typeImage];
                           AVURLAsset *asset = [AVURLAsset assetWithURL:filesToOpen[0]];
                           NSArray *assetKeysToLoadAndTest = @[@"playable", @"hasProtectedContent", @"tracks", @"duration"];
                           [asset loadValuesAsynchronouslyForKeys:assetKeysToLoadAndTest completionHandler:^(void) {
@@ -486,15 +473,15 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 - (void)openMovieFromURL:(id)sender
 {
-	if ([URLTextField stringValue] != nil)
+	NSString *URLString;
+	if ((URLString = _URLTextField.stringValue) != nil)
 	{
-		NSString* URLString = [URLTextField stringValue];
 		NSURL *movieURL = [NSURL URLWithString:URLString];
-		[NSApp endSheet:URLPanel];
+		[NSApp endSheet:_URLPanel];
 		NSImage *typeImage = [[NSWorkspace sharedWorkspace] iconForFileType:[URLString pathExtension]];
 		[typeImage setSize:NSMakeSize(32, 32)];
-		[mTextField setStringValue:[URLString lastPathComponent]];
-		[typeImageView setImage:typeImage];
+		[_mTextField setStringValue:[URLString lastPathComponent]];
+		[_typeImageView setImage:typeImage];
         AVURLAsset *asset = [AVURLAsset assetWithURL:movieURL];
         NSArray *assetKeysToLoadAndTest = @[@"playable", @"hasProtectedContent", @"tracks", @"duration"];
         [asset loadValuesAsynchronouslyForKeys:assetKeysToLoadAndTest completionHandler:^(void) {
@@ -543,23 +530,23 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     if ([[asset tracksWithMediaType:AVMediaTypeVideo] count] != 0)
     {
         AVPlayerLayer *newPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:[self player]];
-        [newPlayerLayer setFrame:[[[self playerView] layer] bounds]];
+        [newPlayerLayer setFrame:_playerView.layer.bounds];
         [newPlayerLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
         [newPlayerLayer setHidden:YES];
-        [[[self playerView] layer] addSublayer:newPlayerLayer];
+        [_playerView.layer addSublayer:newPlayerLayer];
         [self setPlayerLayer:newPlayerLayer];
         [self addObserver:self forKeyPath:@"playerLayer.readyForDisplay" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:TSCPlayerLayerReadyForDisplay];
     }
     else
     {
         [self stopLoadingAnimationAndHandleError:nil];
-        [[self noVideoImage] setHidden:NO];
+        [_noVideoImage setHidden:NO];
     }
     AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:asset];
     [[self player] replaceCurrentItemWithPlayerItem:playerItem];
     [self setTimeObserverToken:[[self player] addPeriodicTimeObserverForInterval:CMTimeMake(1, 10) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-        [[self timeSlider] setDoubleValue:CMTimeGetSeconds(time)];
-        [mTimeDisplay setStringValue:[self CMTimeAsString:time]];
+        [_timeSlider setDoubleValue:CMTimeGetSeconds(time)];
+        [_mTimeDisplay setStringValue:[self CMTimeAsString:time]];
     }]];
 }
 
@@ -582,20 +569,20 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
                 break;
         }
         
-        [[self playPauseButton] setEnabled:enable];
-        [[self fastForwardButton] setEnabled:enable];
-        [[self rewindButton] setEnabled:enable];
+        [_playPauseButton setEnabled:enable];
+        [_fastForwardButton setEnabled:enable];
+        [_rewindButton setEnabled:enable];
     }
     else if (context == TSCPlayerRateContext)
     {
-        float _rate = [change[NSKeyValueChangeNewKey] floatValue];
-        if (_rate == 0.f)
+        float rate = [change[NSKeyValueChangeNewKey] floatValue];
+        if (rate == 0.f)
         {
             //[[self playPauseButton] setTitle:@"Play"];
         }
         else
         {
-            [[NSUserDefaults standardUserDefaults] setFloat:_rate forKey:@"currentRate"];
+            [[NSUserDefaults standardUserDefaults] setFloat:rate forKey:@"currentRate"];
             //[[self playPauseButton] setTitle:@"Pause"];
         }
     }
@@ -686,7 +673,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         AVPlayerItem *playerItem = [[self player] currentItem];
         if ([playerItem status] == AVPlayerItemStatusReadyToPlay)
         {
-            [mDuration setStringValue:[self CMTimeAsString:[[playerItem asset] duration]]];
+            [_mDuration setStringValue:[self CMTimeAsString:[[playerItem asset] duration]]];
         }
     }
 }
@@ -712,10 +699,10 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     [sizeString appendFormat:@"%.0f", movieSize.width];
     [sizeString appendString:@" x "];
     [sizeString appendFormat:@"%.0f", movieSize.height];
-    [movieNormalSize setStringValue:sizeString];
+    [_movieNormalSize setStringValue:sizeString];
     }
     else{
-        [movieNormalSize setStringValue:@""];
+        [_movieNormalSize setStringValue:@""];
     }
 }
 
@@ -723,14 +710,14 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 {
 	{
 		NSSize mCurrentSize;
-		mCurrentSize = [playerView bounds].size;
+		mCurrentSize = _playerView.bounds.size;
 		NSMutableString *sizeString = [NSMutableString string];
 		
 		[sizeString appendFormat:@"%.0f", mCurrentSize.width];
 		[sizeString appendString:@" x "];
 		[sizeString appendFormat:@"%.0f", mCurrentSize.height];
 		
-		[movieCurrentSize setStringValue:sizeString];
+		[_movieCurrentSize setStringValue:sizeString];
 	}
 }
 
@@ -739,7 +726,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 	 if (self.player.currentItem)
     {
         CMTime currentTime = [[self player] currentTime];
-        CMTime timeToAdd   = CMTimeMakeWithSeconds([replaySlider intValue],1);
+        CMTime timeToAdd   = CMTimeMakeWithSeconds(_replaySlider.intValue, 1);
         CMTime resultTime  = CMTimeSubtract(currentTime,timeToAdd);
         [[self player] seekToTime:resultTime];
         float myRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"currentRate"];
@@ -861,10 +848,10 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 			textRange.length += newlineLength;
 		}
 		
-		NSUInteger insertionLocation = NSMaxRange(textView.selectedRange); // Define insertion point as the location at the end of the current selection.
+		NSUInteger insertionLocation = NSMaxRange(_textView.selectedRange); // Define insertion point as the location at the end of the current selection.
 		NSRange insertionRange = NSMakeRange(insertionLocation, 0);
 
-		[textView insertText:text replacementRange:insertionRange]; // This also enables undo support.
+		[_textView insertText:text replacementRange:insertionRange]; // This also enables undo support.
 		
         [self setTimestampLineNumber];
 	}
@@ -873,11 +860,11 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 - (void)jumpToTimeStamp:(NSNotification *)note
 {
     NSButton* tsButton = [note object];
-    if (tsButton.window == appWindow) {
+    if (tsButton.window == _appWindow) {
         NSString* timestampTimeString = tsButton.title;
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"timestampReplay"] boolValue] == YES )
         {
-            CMTime timeToAdd   = CMTimeMakeWithSeconds([replaySlider intValue],1);
+            CMTime timeToAdd   = CMTimeMakeWithSeconds(_replaySlider.intValue, 1);
             CMTime resultTime  = CMTimeSubtract([self cmtimeForTimeStampString:timestampTimeString],timeToAdd);
             [[self player] seekToTime:resultTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
             float myRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"currentRate"];
@@ -934,32 +921,32 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 - (void)openHUDPanel:(id)sender
 {
-	if (![HUDPanel isVisible]){
-		if ([[[HUDPanel contentView] subviews] count] == 0){
+	if (![_HUDPanel isVisible]){
+		if ([[[_HUDPanel contentView] subviews] count] == 0){
 			
-			NSRect initialFrame = [self newFrameForNewHUD:HUDPanel contentView:firstSubView];
-			[HUDPanel setContentSize:[firstSubView frame].size];
-			[HUDPanel setTitle:@"Media Controls"];
-			[[HUDPanel contentView] addSubview:firstSubView];
-			[[HUDPanel contentView] setWantsLayer:YES];
-			[HUDPanel setMinSize:initialFrame.size];
-		}else if ([[[HUDPanel contentView] subviews] containsObject:secondSubView])
+			NSRect initialFrame = [self newFrameForNewHUD:_HUDPanel contentView:_firstSubView];
+			[_HUDPanel setContentSize:[_firstSubView frame].size];
+			[_HUDPanel setTitle:@"Media Controls"];
+			[[_HUDPanel contentView] addSubview:_firstSubView];
+			[[_HUDPanel contentView] setWantsLayer:YES];
+			[_HUDPanel setMinSize:initialFrame.size];
+		}else if ([[[_HUDPanel contentView] subviews] containsObject:_secondSubView])
 		{
-			NSRect changeAfterOpenFrame = [self newFrameForNewHUD:HUDPanel contentView:firstSubView];
+			NSRect changeAfterOpenFrame = [self newFrameForNewHUD:_HUDPanel contentView:_firstSubView];
 			[NSAnimationContext beginGrouping];
 
-			[HUDPanel setTitle:@"Media Controls"];
-			[[[HUDPanel contentView] animator] replaceSubview:secondSubView with:firstSubView];
-			[[HUDPanel animator] setFrame:changeAfterOpenFrame display:YES];	
+			[_HUDPanel setTitle:@"Media Controls"];
+			[[[_HUDPanel contentView] animator] replaceSubview:_secondSubView with:_firstSubView];
+			[[_HUDPanel animator] setFrame:changeAfterOpenFrame display:YES];
 			
 			[NSAnimationContext endGrouping];
-			[HUDPanel setMinSize:changeAfterOpenFrame.size];
+			[_HUDPanel setMinSize:changeAfterOpenFrame.size];
 
 		}
 		
-		[HUDPanel orderFront:sender];
+		[_HUDPanel orderFront:sender];
 	
-		[infoButton setAction: @selector(closeHUDPanel:)];
+		[_infoButton setAction: @selector(closeHUDPanel:)];
 	}else{
 		[self closeHUDPanel:self];
 	}
@@ -967,9 +954,9 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 - (void)closeHUDPanel:(id)sender
 {
-	if ([HUDPanel isVisible]){
-		[HUDPanel orderOut:sender];
-		[infoButton setAction: @selector(openHUDPanel:)];
+	if ([_HUDPanel isVisible]){
+		[_HUDPanel orderOut:sender];
+		[_infoButton setAction: @selector(openHUDPanel:)];
 	}else{
 		[self openHUDPanel:self];
 	}
@@ -977,41 +964,41 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 - (void)showMediaInfo:(id)sender
 {
-	NSRect newFrame = [self newFrameForNewHUD:HUDPanel contentView:secondSubView];
+	NSRect newFrame = [self newFrameForNewHUD:_HUDPanel contentView:_secondSubView];
 	
 	[NSAnimationContext beginGrouping];
 	
-	[HUDPanel setTitle:@"Media Information"];
+	[_HUDPanel setTitle:@"Media Information"];
 
-	[[[HUDPanel contentView] animator] replaceSubview:firstSubView with:secondSubView];
-	[[HUDPanel animator] setFrame:newFrame display:YES];
+	[[[_HUDPanel contentView] animator] replaceSubview:_firstSubView with:_secondSubView];
+	[[_HUDPanel animator] setFrame:newFrame display:YES];
 
 	[NSAnimationContext endGrouping];
-	[HUDPanel setMinSize:newFrame.size];
+	[_HUDPanel setMinSize:newFrame.size];
 	
 	if (self.player.currentItem){
 		[self setNormalSizeDisplay];
 		[self setCurrentSizeDisplay];
 		[self setDurationDisplay];
-		[movieFileField setStringValue:[[self urlOfCurrentlyPlayingInPlayer:self.player] absoluteString]];
+		[_movieFileField setStringValue:[[self urlOfCurrentlyPlayingInPlayer:self.player] absoluteString]];
 	}
 }
 
--(NSURL *)urlOfCurrentlyPlayingInPlayer:(AVPlayer *)_player{
-    AVAsset *currentPlayerAsset = _player.currentItem.asset;
+- (NSURL *)urlOfCurrentlyPlayingInPlayer:(AVPlayer *)player {
+    AVAsset *currentPlayerAsset = player.currentItem.asset;
     if (![currentPlayerAsset isKindOfClass:AVURLAsset.class]) return nil;
     return [(AVURLAsset *)currentPlayerAsset URL];
 }
 
 - (void)showMediaControls:(id)sender
 {
-	NSRect firstFrame = [self newFrameForNewHUD:HUDPanel contentView:firstSubView];
+	NSRect firstFrame = [self newFrameForNewHUD:_HUDPanel contentView:_firstSubView];
 	[NSAnimationContext beginGrouping];
-	[HUDPanel setTitle:@"Media Controls"];
-	[[[HUDPanel contentView] animator] replaceSubview:secondSubView with:firstSubView];
-	[[HUDPanel animator] setFrame:firstFrame display:YES];
+	[_HUDPanel setTitle:@"Media Controls"];
+	[[[_HUDPanel contentView] animator] replaceSubview:_secondSubView with:_firstSubView];
+	[[_HUDPanel animator] setFrame:firstFrame display:YES];
 	[NSAnimationContext endGrouping];
-	[HUDPanel setMinSize:firstFrame.size];
+	[_HUDPanel setMinSize:firstFrame.size];
 }
 
 -(NSRect)newFrameForNewHUD:(NSPanel*)panel contentView:(NSView *)view {
@@ -1075,12 +1062,12 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 // ==> ADD BETTER CALCULATIONS FOR WORD AND CHARACTER COUNTS
 - (void)startSheet:(id)sender
 {
-	NSArray* charArray = [[textView textStorage] characters];
+	NSArray* charArray = [[_textView textStorage] characters];
 	NSString* charRepresentation = [NSString stringWithFormat:@"%lu", (unsigned long)[charArray count]];
 	//see:http://www.cocoadev.com/index.pl?NSStringCategory 
 	NSMutableCharacterSet* wordSet = [NSMutableCharacterSet letterCharacterSet];
 	[wordSet addCharactersInString:@"-"];
-	NSScanner* scanner      = [NSScanner scannerWithString:[textView string]];
+	NSScanner* scanner      = [NSScanner scannerWithString:[_textView string]];
 	NSMutableArray* wordArray      = [NSMutableArray array];
 	[scanner setCharactersToBeSkipped:[wordSet invertedSet]];
 	while (![scanner isAtEnd])
@@ -1093,7 +1080,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 		}
 	}
 	NSString* wordRepresentation = [NSString stringWithFormat:@"%lu",(unsigned long)[[wordArray copy] count]];
-	NSArray *lines = [[textView string] componentsSeparatedByString:@"\n"];	
+	NSArray *lines = [[_textView string] componentsSeparatedByString:@"\n"];	
 	int i;
 	int emptyString = 0;
 	int parNumber = 0;
@@ -1107,45 +1094,45 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 				emptyString += 1;
 			}
 	}
-	[paragraphTextField setStringValue:s];
-	[wordTextField setStringValue:wordRepresentation];
-	[charTextField setStringValue:charRepresentation];
-	[self showInfoSheet:appWindow];
+	[_paragraphTextField setStringValue:s];
+	[_wordTextField setStringValue:wordRepresentation];
+	[_charTextField setStringValue:charRepresentation];
+	[self showInfoSheet:_appWindow];
 }
 
 
 - (void)showInfoSheet: (NSWindow *)window
 {
-    [self.windowForSheet beginSheet:infoPanel completionHandler:^(NSModalResponse returnCode) {
-		[infoPanel orderOut:self];
+    [self.windowForSheet beginSheet:_infoPanel completionHandler:^(NSModalResponse returnCode) {
+		[_infoPanel orderOut:self];
 	}];
 }
 
 - (void)closeInfoSheet: (id)sender
 {
-    [self.windowForSheet endSheet:infoPanel];
+    [self.windowForSheet endSheet:_infoPanel];
 }
 
 
 - (void)startURLSheet:(id)sender
 {
-	[self showURLSheet:appWindow];
+	[self showURLSheet:_appWindow];
 }
 
 
 - (void)showURLSheet: (NSWindow *)window
 {
-	[self.windowForSheet beginSheet:URLPanel completionHandler:^(NSModalResponse returnCode) {
-		[URLPanel orderOut:self];
+	[self.windowForSheet beginSheet:_URLPanel completionHandler:^(NSModalResponse returnCode) {
+		[_URLPanel orderOut:self];
 	}];
 	// FIXME: Is this still necessary? Looks like a hack. ;)
-	[URLPanel setMinSize:[URLPanel frame].size];
-	[URLPanel setMaxSize:[URLPanel frame].size];
+	[_URLPanel setMinSize:[_URLPanel frame].size];
+	[_URLPanel setMaxSize:[_URLPanel frame].size];
 }
 
 - (void)closeURLSheet: (id)sender
 {
-	[self.windowForSheet endSheet:URLPanel];
+	[self.windowForSheet endSheet:_URLPanel];
 }
 
 
@@ -1169,7 +1156,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 - (void)setTimestampLineNumber
 {
-    NSString* theString = [textView string];
+    NSString* theString = [_textView string];
     NSMutableArray* myTimeValueArray = [NSMutableArray arrayWithCapacity:10];
     if ([theString length] != 0)
     {
@@ -1237,7 +1224,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         CMTime currentTime = CMTimeAbsoluteValue([[self player] currentTime]);
         int32_t comparison = CMTimeCompare(comparisonTimeStampTime, currentTime);
         if (comparison <= 0) {
-            NSArray* lines = [[self->textView string] componentsSeparatedByString:@"\n"];
+            NSArray* lines = [[self->_textView string] componentsSeparatedByString:@"\n"];
             int newTimeStampLineNumber = 0;
             int i;
             int emptyString = 0;
@@ -1256,17 +1243,17 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
                 }
             }
             if (newTimeStampLineNumber > 0 && playerItem) {
-                [textView setTimeLineNumber:newTimeStampLineNumber];
-                [textView setNeedsDisplay:YES];
+                [_textView setTimeLineNumber:newTimeStampLineNumber];
+                [_textView setNeedsDisplay:YES];
             }
             else{
-                [textView setTimeLineNumber:0];
+                [_textView setTimeLineNumber:0];
             }
         }else{
-            [textView setTimeLineNumber:0];
+            [_textView setTimeLineNumber:0];
         }
     }else{
-        [textView setTimeLineNumber:0];
+        [_textView setTimeLineNumber:0];
     }
 }
 
@@ -1292,7 +1279,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 {
     NSTextView *printTextView = [[NSTextView alloc] initWithFrame:NSMakeRect(0, 0, 468, 648)];
     [printTextView setEditable:false];
-    [[printTextView textStorage] setAttributedString:[textView attributedString]];
+    [[printTextView textStorage] setAttributedString:[_textView attributedString]];
     NSPrintOperation *printOperation;
     printOperation = [NSPrintOperation printOperationWithView:printTextView];
     [printOperation runOperation];
