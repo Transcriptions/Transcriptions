@@ -641,7 +641,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         long long timeInTenthSeconds = time.value * 10 /time.timescale;
         tenthSeconds =  timeInTenthSeconds % 10;
     }
-	return [NSString stringWithFormat:@"%lu:%lu:%lu.%lld" , (unsigned long)dHours, (unsigned long)dMinutes, (unsigned long)dSeconds, tenthSeconds];
+	return [NSString stringWithFormat:@"%02lu:%02lu:%02lu.%02lld" , (unsigned long)dHours, (unsigned long)dMinutes, (unsigned long)dSeconds, tenthSeconds];
 }
 
 
