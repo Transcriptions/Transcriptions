@@ -276,7 +276,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 {
 	NSDictionary* docAttributes = [[NSDictionary alloc] init];
 	rtfSaveData = [[NSAttributedString alloc] initWithRTF:data documentAttributes:&docAttributes];
-	// Contrary to the Apple guidelines, we use self here, even though we are calle from an -init… method.
+	// Contrary to the Apple guidelines, we use self here, even though we are called from an -init… method.
 	// This is currently necessary, because for some reason these values will be clobbered using key value coding.
 	// Probably due to the bindings in the info panel.
 	// CHANGEME: Keep the doc attributes around and do this after the NIB has been loaded.
@@ -1169,7 +1169,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 - (void)setTimestampLineNumber
 {
-    NSString* theString = [self->textView string];
+    NSString* theString = [textView string];
     NSMutableArray* myTimeValueArray = [NSMutableArray arrayWithCapacity:10];
     if ([theString length] != 0)
     {
