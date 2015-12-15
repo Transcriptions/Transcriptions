@@ -19,13 +19,13 @@
 		0A3D20B81A2DD9140066C34E /* transcriptions-icon_SOUND.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0A3D20B11A2DD9140066C34E /* transcriptions-icon_SOUND.pdf */; };
 		0A3D20B91A2DD9140066C34E /* transcriptions-icon_TIME-STAMP.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0A3D20B21A2DD9140066C34E /* transcriptions-icon_TIME-STAMP.pdf */; };
 		0AA11EFF19734A5100B78642 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AA11EFE19734A5100B78642 /* MainMenu.xib */; };
-		0AA11F02197560EC00B78642 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA11EFB1973421800B78642 /* AVKit.framework */; };
-		0AA11F03197560F100B78642 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA11EFA1973421800B78642 /* AVFoundation.framework */; };
 		0AA11F061975610C00B78642 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA11F04197560FD00B78642 /* CoreMedia.framework */; };
 		0AA11F08197566BD00B78642 /* TODO.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0AA11F07197566BD00B78642 /* TODO.rtf */; };
 		0AA24F0A1A441B03006CDEB1 /* TSCHelperFolder in Resources */ = {isa = PBXBuildFile; fileRef = 0AA24F091A441B03006CDEB1 /* TSCHelperFolder */; };
 		3D94AC971C20422600397DA6 /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADD23481998E930007D81D3 /* ShortcutRecorder.framework */; };
 		3D94AC981C20422900397DA6 /* PTHotKey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADD234A1998E930007D81D3 /* PTHotKey.framework */; };
+		3D94AC9B1C20429800397DA6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D94AC991C20429800397DA6 /* AVFoundation.framework */; };
+		3D94AC9C1C20429800397DA6 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D94AC9A1C20429800397DA6 /* AVKit.framework */; };
 		3DDFA9FC1C1F725A00AFB0B1 /* SubRip.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3DDFA9F71C1F723600AFB0B1 /* SubRip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DDFA9FD1C1F728900AFB0B1 /* SubRip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DDFA9F71C1F723600AFB0B1 /* SubRip.framework */; };
 		633A4FD50E4F0E1700B4D45A /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 633A4FD40E4F0E1700B4D45A /* CoreServices.framework */; };
@@ -140,8 +140,6 @@
 		0A3D20B11A2DD9140066C34E /* transcriptions-icon_SOUND.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "transcriptions-icon_SOUND.pdf"; sourceTree = "<group>"; };
 		0A3D20B21A2DD9140066C34E /* transcriptions-icon_TIME-STAMP.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "transcriptions-icon_TIME-STAMP.pdf"; sourceTree = "<group>"; };
 		0A6636FD19A7F0DA00856956 /* Transcriptions.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Transcriptions.entitlements; sourceTree = "<group>"; };
-		0AA11EFA1973421800B78642 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
-		0AA11EFB1973421800B78642 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/System/Library/Frameworks/AVKit.framework; sourceTree = DEVELOPER_DIR; };
 		0AA11EFE19734A5100B78642 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainMenu.xib; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		0AA11F04197560FD00B78642 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		0AA11F07197566BD00B78642 /* TODO.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = TODO.rtf; sourceTree = "<group>"; };
@@ -152,6 +150,8 @@
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32DBCF750370BD2300C91783 /* Transcriptions_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Transcriptions_Prefix.pch; sourceTree = "<group>"; };
+		3D94AC991C20429800397DA6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		3D94AC9A1C20429800397DA6 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		3DDFA9EB1C1F723600AFB0B1 /* SubRip.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SubRip.xcodeproj; path = "External/SubRip-for-Mac/SubRip.xcodeproj"; sourceTree = "<group>"; };
 		633A4FD40E4F0E1700B4D45A /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		633A50620E4F284C00B4D45A /* TSCKeyBindingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCKeyBindingsController.h; sourceTree = "<group>"; };
@@ -179,9 +179,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D94AC9B1C20429800397DA6 /* AVFoundation.framework in Frameworks */,
+				3D94AC9C1C20429800397DA6 /* AVKit.framework in Frameworks */,
 				0AA11F061975610C00B78642 /* CoreMedia.framework in Frameworks */,
-				0AA11F03197560F100B78642 /* AVFoundation.framework in Frameworks */,
-				0AA11F02197560EC00B78642 /* AVKit.framework in Frameworks */,
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
 				633A4FD50E4F0E1700B4D45A /* CoreServices.framework in Frameworks */,
 				3D94AC971C20422600397DA6 /* ShortcutRecorder.framework in Frameworks */,
@@ -206,9 +206,9 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3D94AC991C20429800397DA6 /* AVFoundation.framework */,
+				3D94AC9A1C20429800397DA6 /* AVKit.framework */,
 				0AA11F04197560FD00B78642 /* CoreMedia.framework */,
-				0AA11EFA1973421800B78642 /* AVFoundation.framework */,
-				0AA11EFB1973421800B78642 /* AVKit.framework */,
 				633A4FD40E4F0E1700B4D45A /* CoreServices.framework */,
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
 			);
