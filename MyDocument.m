@@ -274,13 +274,17 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 {
 	NSDictionary* docAttributes = [[NSDictionary alloc] init];
 	rtfSaveData = [[NSAttributedString alloc] initWithRTF:data documentAttributes:&docAttributes];
-    autor  = docAttributes[NSAuthorDocumentAttribute];
-	copyright = docAttributes[NSCopyrightDocumentAttribute];
-	company = docAttributes[NSCompanyDocumentAttribute];
-	title = docAttributes[NSTitleDocumentAttribute];
-	subject = docAttributes[NSSubjectDocumentAttribute];
-	comment = docAttributes[NSCommentDocumentAttribute];
-	keywords = docAttributes[NSKeywordsDocumentAttribute];
+	// Contrary to the Apple guidelines, we use self here, even though we are calle from an -init… method.
+	// This is currently necessary, because for some reason these values will be clobbered using key value coding.
+	// Probably due to the bindings in the info panel.
+	// CHANGEME: Keep the doc attributes around and do this after the NIB has been loaded.
+    self.autor  = docAttributes[NSAuthorDocumentAttribute];
+	self.copyright = docAttributes[NSCopyrightDocumentAttribute];
+	self.company = docAttributes[NSCompanyDocumentAttribute];
+	self.title = docAttributes[NSTitleDocumentAttribute];
+	self.subject = docAttributes[NSSubjectDocumentAttribute];
+	self.comment = docAttributes[NSCommentDocumentAttribute];
+	self.keywords = docAttributes[NSKeywordsDocumentAttribute];
     if ([rtfSaveData length] > 0) {
          [[textView textStorage] replaceCharactersInRange:NSMakeRange(0, [[textView string] length]) withAttributedString:rtfSaveData];
     }

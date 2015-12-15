@@ -86,14 +86,14 @@ const double		k_Scrub_Slider_Minimum = 0.0;
 	NSString* _path;
 }
 
-@property(weak) NSString* autor;
-@property(weak) NSString* copyright;
-@property(weak) NSString* company;
-@property(weak) NSString* title;
-@property(weak) NSString* subject;
-@property(weak) NSString* comment;
-@property(weak) NSArray* keywords;
-@property   NSData* mediaFileBookmark;
+@property (strong) NSString* autor;
+@property (strong) NSString* copyright;
+@property (strong) NSString* company;
+@property (strong) NSString* title;
+@property (strong) NSString* subject;
+@property (strong) NSString* comment;
+@property (strong) NSArray* keywords;
+@property (strong) NSData* mediaFileBookmark;
 
 @property (strong) AVPlayer *player;
 @property (strong) AVPlayerLayer *playerLayer;
