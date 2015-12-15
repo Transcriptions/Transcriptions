@@ -35,6 +35,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import "MyDocument.h"
 #include <unistd.h>
 
+#import <SubRip/SubRip.h>
+#import <SubRip/DTCoreTextConstants.h>
+
+NSString * const	SRTDocumentType		= @"de.geheimwerk.subrip";
 
 static void *TSCPlayerItemStatusContext = &TSCPlayerItemStatusContext;
 static void *TSCPlayerRateContext = &TSCPlayerRateContext;
@@ -247,8 +251,29 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)wrapper ofType:(NSString *)type error:(NSError **)outError
 {
+	if (!wrapper.regularFile)  return NO;
+	
+	NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
+	
+	if ([workspace type:type conformsToType:(NSString *)kUTTypeRTF]) {
+		return [self readFromRTFData:wrapper.regularFileContents
+							   error:outError];
+	}
+	else if ([workspace type:type conformsToType:SRTDocumentType]) {
+		return [self readFromSRTData:wrapper.regularFileContents
+							   error:outError];
+	}
+	else {
+		return [self readFromData:wrapper.regularFileContents
+						   ofType:type
+							error:outError];
+	}
+}
+
+- (BOOL)readFromRTFData:(NSData *)data error:(NSError **)outError
+{
 	NSDictionary* docAttributes = [[NSDictionary alloc] init];
-	rtfSaveData = [[NSAttributedString alloc] initWithRTF:[wrapper regularFileContents] documentAttributes:&docAttributes];
+	rtfSaveData = [[NSAttributedString alloc] initWithRTF:data documentAttributes:&docAttributes];
     autor  = docAttributes[NSAuthorDocumentAttribute];
 	copyright = docAttributes[NSCopyrightDocumentAttribute];
 	company = docAttributes[NSCompanyDocumentAttribute];
@@ -265,9 +290,62 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
             keywords = nil;
         }
     }
-	if ( outError != NULL ) {
-		*outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
+	return YES;
+}
+
+- (BOOL)readFromSRTData:(NSData *)data error:(NSError **)outError
+{
+	SubRip *subRip = [[SubRip alloc] initWithData:data
+										encoding:NSUTF8StringEncoding
+										   error:outError];
+	
+	if (subRip == nil) {
+		return NO;
 	}
+	
+	CGFloat defaultSize = 13.0; // FIXME: Implement user defaults, also for _textView.
+	NSString *defaultFontName = @"Helvetica";
+	
+	[subRip parseTagsWithOptions:@{
+								   DTDefaultFontFamily : defaultFontName,
+								   NSTextSizeMultiplierDocumentOption : @(defaultSize/12.0)
+								   }];
+	
+	NSMutableArray *subtitleItems = subRip.subtitleItems;
+	
+	NSMutableAttributedString *text = [[NSMutableAttributedString alloc] init];
+	NSMutableString *string = text.mutableString;
+	
+	for (SubRipItem *subRipItem in subtitleItems) {
+		CMTime startTime = subRipItem.startTime;
+		CMTime endTime = subRipItem.endTime;
+
+		NSAttributedString *itemText = subRipItem.attributedText;
+		
+		//NSRange insertionRange =
+		[self insertTimeStampStringForCMTime:startTime
+										  at:string.length
+									intoText:text
+									  string:string];
+
+		[text appendAttributedString:itemText];
+		
+		NSRange insertionRange =
+		[self insertTimeStampStringForCMTime:endTime
+										  at:string.length
+									intoText:text
+									  string:string];
+		
+		NSRange insertionCursor = NSMakeRange(NSMaxRange(insertionRange), 0);
+		[string replaceCharactersInRange:insertionCursor withString:@"\n"];
+	}
+	
+	rtfSaveData = text;
+	
+    if ([rtfSaveData length] > 0) {
+         [[textView textStorage] replaceCharactersInRange:NSMakeRange(0, textView.string.length) withAttributedString:rtfSaveData];
+    }
+	
 	return YES;
 }
 
@@ -715,22 +793,73 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 #pragma mark timeStamp methods
 
+- (NSDictionary *)timeStampAttributes
+{
+	return @{
+			 NSForegroundColorAttributeName: [NSColor grayColor],
+			 //NSFontAttributeName: [NSFont systemFontOfSize:12], // We just disable this and use the current default size.
+			 };
+}
+
+- (NSRange)insertTimeStampStringForCMTime:(CMTime)time
+									   at:(NSUInteger)insertionLocation
+								 intoText:(NSMutableAttributedString *)text
+								   string:(NSMutableString *)string
+{
+	NSRange insertionCursor = NSMakeRange(insertionLocation, 0);
+	NSRange insertionRange = insertionCursor;
+	
+	NSString *timeString = [self CMTimeAsString:time];
+	
+	NSString * const prefix = @" #";
+	const NSUInteger prefixLength = 2;
+	const NSUInteger prefixSpaceOffset = 1;
+	
+	NSString * const suffix = @"# ";
+	const NSUInteger suffixLength = 2;
+	const NSUInteger suffixSpaceOffset = 1;
+	
+	[string replaceCharactersInRange:insertionCursor withString:prefix];		insertionCursor.location += prefixLength;
+	[string replaceCharactersInRange:insertionCursor withString:timeString];	insertionCursor.location += timeString.length;
+	[string replaceCharactersInRange:insertionCursor withString:suffix];		insertionCursor.location += suffixLength;
+	
+	insertionRange.length = insertionCursor.location - insertionRange.location;
+	
+	NSRange attributesRange = insertionRange;
+	insertionRange.location += prefixSpaceOffset;
+	insertionRange.length -= prefixSpaceOffset + suffixSpaceOffset;
+	[text addAttributes:self.timeStampAttributes range:attributesRange];
+	
+	return insertionRange;
+}
+
 - (void)createTimeStamp:(id)sender
 {
-	if(self.player.currentItem){
-		NSMutableDictionary* stampAttributes;
-		stampAttributes = [NSMutableDictionary dictionaryWithObject:[NSColor grayColor] forKey:NSForegroundColorAttributeName];
-		stampAttributes[NSFontAttributeName] = [NSFont systemFontOfSize:12];
-        NSString* timeString = [self CMTimeAsString:[self.player currentTime]];
-		NSString* stringToInsert = [NSString stringWithFormat:@"#%@#", timeString];
-		[textView insertText:@" "];
-		[textView insertText:stringToInsert];
-		[textView insertText:@" "];
-		[[textView textStorage] addAttributes:stampAttributes  range:[[textView string] rangeOfString:stringToInsert]];
-		if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"autoTimestamp"] boolValue] == YES)
-		{
-			[textView insertText:@"\n"];
+	if (self.player.currentItem) {
+		NSMutableAttributedString *text = [[NSMutableAttributedString alloc] init];
+		NSMutableString *string = text.mutableString;
+		CMTime time = self.player.currentTime;
+		
+		NSRange textRange =
+		[self insertTimeStampStringForCMTime:time
+										  at:0
+									intoText:text
+									  string:string];
+		NSRange insertionCursor = NSMakeRange(NSMaxRange(textRange), 0);
+		
+		if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"autoTimestamp"] boolValue] == YES) {
+			NSString * const newline = @"\n";
+			const NSUInteger newlineLength = 1;
+			
+			[string replaceCharactersInRange:insertionCursor withString:newline];
+			textRange.length += newlineLength;
 		}
+		
+		NSUInteger insertionLocation = NSMaxRange(textView.selectedRange); // Define insertion point as the location at the end of the current selection.
+		NSRange insertionRange = NSMakeRange(insertionLocation, 0);
+
+		[textView insertText:text replacementRange:insertionRange]; // This also enables undo support.
+		
         [self setTimestampLineNumber];
 	}
 }

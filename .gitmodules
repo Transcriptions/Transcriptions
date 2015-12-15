@@ -1,3 +1,6 @@
 [submodule "External/ShortcutRecorder"]
 	path = External/ShortcutRecorder
 	url = git@github.com:JanX2/ShortcutRecorder.git
+[submodule "External/SubRip-for-Mac"]
+	path = External/SubRip-for-Mac
+	url = git@github.com:JanX2/SubRip-for-Mac.git
