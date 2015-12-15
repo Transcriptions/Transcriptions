@@ -225,8 +225,10 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     [[self player] pause];
     [[self player] removeTimeObserver:[self timeObserverToken]];
     [self setTimeObserverToken:nil];
-    [self removeObserver:self forKeyPath:@"player.rate"];
-    [self removeObserver:self forKeyPath:@"player.currentItem.status"];
+	if (player) {
+		[self removeObserver:self forKeyPath:@"player.rate" context:TSCPlayerRateContext];
+		[self removeObserver:self forKeyPath:@"player.currentItem.status" context:TSCPlayerItemStatusContext];
+	}
     if ([self playerLayer])
         [self removeObserver:self forKeyPath:@"playerLayer.readyForDisplay"];
     [[self player] replaceCurrentItemWithPlayerItem:nil];
