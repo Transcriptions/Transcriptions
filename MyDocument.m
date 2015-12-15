@@ -128,14 +128,14 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     [myHelpButton setAction:@selector(showHelp:)];
     [myHelpButton setTarget:[NSApplication sharedApplication]];
     [titleBarView addSubview:myHelpButton];
-    if ([_comment length] > 0)
+    if (_comment.length > 0)
     {
         NSString* foundUrlString;
         if ([_comment rangeOfString:@"[[associatedMediaURL:"].location != NSNotFound)
         {
          foundUrlString = [NSString stringWithString:[self getDataBetweenFromString:_comment leftString:@"[[associatedMediaURL:" rightString:@"]]" leftOffset:21]];
         }
-        if ([foundUrlString length] > 0) {
+        if (foundUrlString.length > 0) {
             NSData *myData = [[NSData alloc] initWithBase64EncodedString:foundUrlString options:0];
             [self setMediaFileBookmark:myData];
             if (_mediaFileBookmark)
@@ -266,7 +266,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 	self.subject = docAttributes[NSSubjectDocumentAttribute];
 	self.comment = docAttributes[NSCommentDocumentAttribute];
 	self.keywords = docAttributes[NSKeywordsDocumentAttribute];
-    if ([_rtfSaveData length] > 0) {
+    if (_rtfSaveData.length > 0) {
          [_textView.textStorage replaceCharactersInRange:NSMakeRange(0, _textView.string.length) withAttributedString:_rtfSaveData];
     }
     if ([_keywords count] == 1) {
@@ -327,7 +327,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 	
 	_rtfSaveData = text;
 	
-    if ([_rtfSaveData length] > 0) {
+    if (_rtfSaveData.length > 0) {
          [_textView.textStorage replaceCharactersInRange:NSMakeRange(0, _textView.string.length) withAttributedString:_rtfSaveData];
     }
 	
@@ -352,35 +352,35 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 - (NSFileWrapper *)fileWrapperOfType:(NSString *)type error:(NSError **)outError
 {
    NSRange range = NSMakeRange(0, _textView.string.length);
-    if ([_autor length] <= 0) {
-        _autor = [NSString stringWithFormat:@""];
+    if (_autor.length <= 0) {
+        _autor = @"";
     }
-    if ([_copyright length] <= 0) {
-        _copyright = [NSString stringWithFormat:@""];
+    if (_copyright.length <= 0) {
+        _copyright = @"";
     }
-    if ([_company length] <= 0) {
-        _company = [NSString stringWithFormat:@""];
+    if (_company.length <= 0) {
+        _company = @"";
     }
-    if ([_title length] <= 0) {
-        _title = [NSString stringWithFormat:@""];
+    if (_title.length <= 0) {
+        _title = @"";
     }
-    if ([_subject length] <= 0) {
-        _subject = [NSString stringWithFormat:@""];
+    if (_subject.length <= 0) {
+        _subject = @"";
     }
-    if ([_comment length] <= 0) {
-        _comment = [NSString stringWithFormat:@""];
+    if (_comment.length <= 0) {
+        _comment = @"";
     }
-    if ([_keywords count] == 0) {
+    if (_keywords.count == 0) {
         _keywords = [NSArray arrayWithObject:@""];
     }
     
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"mediaFileAssoc"] boolValue] == YES)
     {
-        if ([_comment length] > 0)
+        if (_comment.length > 0)
         {
             if ([_comment rangeOfString:@"[[associatedMediaURL:"].location != NSNotFound) {
                 NSString* foundUrlString = [self getDataBetweenFromString:_comment leftString:@"[[associatedMediaURL:" rightString:@"]]" leftOffset:21];
-                if ([foundUrlString length] > 0)
+                if (foundUrlString.length > 0)
                 {
                     NSString* toBeRemoved = [NSString stringWithFormat:@"[[associatedMediaURL:%@]]",foundUrlString];
                     NSString* newComment = [_comment stringByReplacingOccurrencesOfString:toBeRemoved withString:@""];
@@ -1158,7 +1158,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 {
     NSString* theString = [_textView string];
     NSMutableArray* myTimeValueArray = [NSMutableArray arrayWithCapacity:10];
-    if ([theString length] != 0)
+    if (theString.length != 0)
     {
         NSScanner* lineScanner = [NSScanner scannerWithString:theString];
         NSCharacterSet* rauteSet = [NSCharacterSet characterSetWithCharactersInString:@"#"];
@@ -1173,7 +1173,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
             scanned = [lineScanner scanString:@"#" intoString:&rauteA] &&
             [lineScanner scanUpToCharactersFromSet:rauteSet intoString:&tscTimeValue] &&
             [lineScanner scanString:@"#" intoString:&rauteB];
-            if (scanned && [tscTimeValue length] > 0){
+            if (scanned && tscTimeValue.length > 0){
                 if([myTimeValueArray count] > 1)
                 {
                     [myTimeValueArray removeObjectIdenticalTo:tscTimeValue];
