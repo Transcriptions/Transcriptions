@@ -378,7 +378,7 @@
 				LastUpgradeCheck = 0710;
 				TargetAttributes = {
 					8D15AC270486D014006FF6A4 = {
-						DevelopmentTeam = FK9S39L3SK;
+						DevelopmentTeam = M9AG4A3F6L;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
 								enabled = 1;
