@@ -82,6 +82,8 @@ const double		k_Scrub_Slider_Minimum = 0.0;
 	IBOutlet NSButton *_fastForwardButton;
 	IBOutlet NSButton *_rewindButton;
 	IBOutlet NSSlider *_timeSlider;
+	
+	NSDictionary *_docAttributes;
 }
 
 

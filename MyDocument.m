@@ -116,6 +116,18 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 - (void)awakeFromNib
 {
+	self.autor  = _docAttributes[NSAuthorDocumentAttribute];
+	self.copyright = _docAttributes[NSCopyrightDocumentAttribute];
+	self.company = _docAttributes[NSCompanyDocumentAttribute];
+	self.title = _docAttributes[NSTitleDocumentAttribute];
+	self.subject = _docAttributes[NSSubjectDocumentAttribute];
+	self.comment = _docAttributes[NSCommentDocumentAttribute];
+	self.keywords = _docAttributes[NSKeywordsDocumentAttribute];
+	
+	if (_rtfSaveData.length > 0) {
+		[_textView.textStorage replaceCharactersInRange:NSMakeRange(0, _textView.string.length) withAttributedString:_rtfSaveData];
+	}
+	
     NSTimeInterval autosaveInterval = 2.0;
     [[NSDocumentController sharedDocumentController] setAutosavingDelay:autosaveInterval];
     [_playerView setWantsLayer:YES];
@@ -253,22 +265,10 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 - (BOOL)readFromRTFData:(NSData *)data error:(NSError **)outError
 {
-	NSDictionary* docAttributes = [[NSDictionary alloc] init];
+	NSDictionary *docAttributes;
 	_rtfSaveData = [[NSAttributedString alloc] initWithRTF:data documentAttributes:&docAttributes];
-	// Contrary to the Apple guidelines, we use self here, even though we are called from an -init… method.
-	// This is currently necessary, because for some reason these values will be clobbered using key value coding.
-	// Probably due to the bindings in the info panel.
-	// CHANGEME: Keep the doc attributes around and do this after the NIB has been loaded.
-    self.autor  = docAttributes[NSAuthorDocumentAttribute];
-	self.copyright = docAttributes[NSCopyrightDocumentAttribute];
-	self.company = docAttributes[NSCompanyDocumentAttribute];
-	self.title = docAttributes[NSTitleDocumentAttribute];
-	self.subject = docAttributes[NSSubjectDocumentAttribute];
-	self.comment = docAttributes[NSCommentDocumentAttribute];
-	self.keywords = docAttributes[NSKeywordsDocumentAttribute];
-    if (_rtfSaveData.length > 0) {
-         [_textView.textStorage replaceCharactersInRange:NSMakeRange(0, _textView.string.length) withAttributedString:_rtfSaveData];
-    }
+	_docAttributes = docAttributes;
+	
     if ([_keywords count] == 1) {
         NSString* firstObject = [_keywords objectAtIndex:0];
         if ([firstObject isEqualToString:@""]) {
@@ -326,10 +326,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 	}
 	
 	_rtfSaveData = text;
-	
-    if (_rtfSaveData.length > 0) {
-         [_textView.textStorage replaceCharactersInRange:NSMakeRange(0, _textView.string.length) withAttributedString:_rtfSaveData];
-    }
 	
 	return YES;
 }
