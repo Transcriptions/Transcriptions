@@ -48,46 +48,46 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 
 -(void)awakeFromNib{
 	
-	[[self textStorage] setDelegate:self];
+	self.textStorage.delegate = self;
 	
 	drawParagraphNumbers = YES;
-	[self setFont:[NSFont fontWithName:@"Helvetica" size:13]];
+	self.font = [NSFont fontWithName:@"Helvetica" size:13];
 	[self refresh];
 	[self insertText:@""];
     [self setUsesFindBar:YES];
-    [[[self enclosingScrollView] contentView] setPostsBoundsChangedNotifications: YES];
+    [self.enclosingScrollView.contentView setPostsBoundsChangedNotifications: YES];
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter] ;
     [center addObserver: self
                selector: @selector(boundsDidChangeNotification:)
                    name: NSViewBoundsDidChangeNotification
-                 object: [[self enclosingScrollView] contentView]];
+                 object: self.enclosingScrollView.contentView];
 	paragraphAttributes = [[NSMutableDictionary alloc] init];
 	paragraphAttributes[NSFontAttributeName] = [NSFont boldSystemFontOfSize:9];
 	paragraphAttributes[NSForegroundColorAttributeName] = [NSColor colorWithDeviceWhite:.50 alpha:1.0];
-	[[self window] setAcceptsMouseMovedEvents:YES];
+	[self.window setAcceptsMouseMovedEvents:YES];
     self.timeLineNumber = 0;
 	
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent 
 {
-    NSLayoutManager *layoutManager = [self layoutManager];
-    NSTextContainer *textContainer = [self textContainer];
-    unsigned glyphIndex, textLength = [[self textStorage] length];
-    NSPoint point = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    NSLayoutManager *layoutManager = self.layoutManager;
+    NSTextContainer *textContainer = self.textContainer;
+    unsigned glyphIndex, textLength = self.textStorage.length;
+    NSPoint point = [self convertPoint:theEvent.locationInWindow fromView:nil];
     NSRange lineGlyphRange = NSMakeRange(0, textLength);
     NSRange lineCharRange;
     NSRect glyphRect;
     
-	point.x -= [self textContainerOrigin].x;
-    point.y -= [self textContainerOrigin].y;
+	point.x -= self.textContainerOrigin.x;
+    point.y -= self.textContainerOrigin.y;
 	glyphIndex = [layoutManager glyphIndexForPoint:point inTextContainer:textContainer];
 	glyphRect = [layoutManager boundingRectForGlyphRange:NSMakeRange(glyphIndex, 1) inTextContainer:textContainer];
     if (NSPointInRect(point, glyphRect)) {
 		(void)[layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex effectiveRange:&lineGlyphRange];        
         lineCharRange = [layoutManager characterRangeForGlyphRange:lineGlyphRange actualGlyphRange:NULL];
         
-		NSString* theString = [[[self attributedString] attributedSubstringFromRange:lineCharRange] string];
+		NSString* theString = [[self attributedString] attributedSubstringFromRange:lineCharRange].string;
 
 		if (theString)
 		{
@@ -100,10 +100,10 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 			NSString* rauteA;
 			NSString* rauteB;
 			
-			while ([lineScanner isAtEnd] == NO && [lineScanner scanLocation] != NSNotFound)
+			while (lineScanner.atEnd == NO && lineScanner.scanLocation != NSNotFound)
 			{
 				BOOL scanned;
-				if([[theString substringFromIndex:[lineScanner scanLocation]] compare:@"#"] != NSOrderedSame)
+				if([[theString substringFromIndex:lineScanner.scanLocation] compare:@"#"] != NSOrderedSame)
 				 {[lineScanner scanUpToCharactersFromSet:rauteSet intoString:NULL];}
 				 
 				scanned = [lineScanner scanString:@"#" intoString:&rauteA] &&
@@ -115,26 +115,26 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 					NSString* buttonString = [newString stringByAppendingString:rauteB];
 					
 					
-					NSRect wordRect = [layoutManager boundingRectForGlyphRange:[[self string] rangeOfString:buttonString] inTextContainer:textContainer];
+					NSRect wordRect = [layoutManager boundingRectForGlyphRange:[self.string rangeOfString:buttonString] inTextContainer:textContainer];
 					NSRect buttonRect = NSMakeRect(wordRect.origin.x - 1, wordRect.origin.y, wordRect.size.width + 2, wordRect.size.height + 2);
 					NSButton* timeButton = [[NSButton alloc] initWithFrame:buttonRect];
 					[timeButton setEnabled:NO];
 					NSButtonCell* timeButtonCell = [[NSButtonCell alloc] init];
 					//only used in borderless buttons:
-                    [timeButtonCell setBackgroundColor:[NSColor magentaColor]];
+                    timeButtonCell.backgroundColor = [NSColor magentaColor];
                     ///
-					[timeButtonCell setBezelStyle:NSRoundRectBezelStyle];
-					[timeButtonCell setTitle:tscTimeValue];
-					[timeButtonCell setGradientType:NSGradientConcaveWeak];
+					timeButtonCell.bezelStyle = NSRoundRectBezelStyle;
+					timeButtonCell.title = tscTimeValue;
+					timeButtonCell.gradientType = NSGradientConcaveWeak;
 					[timeButtonCell setTransparent:NO];
-					[timeButton setCell:timeButtonCell];
-					[timeButton setAction:@selector(timeStampPressed:)];
+					timeButton.cell = timeButtonCell;
+					timeButton.action = @selector(timeStampPressed:);
 					[timeValueArray removeObjectIdenticalTo:timeButton];
 					[timeValueArray addObject:timeButton];
 			
 					}
 			
-				[self setSubviews:timeValueArray];
+				self.subviews = timeValueArray;
 
 				
 			}
@@ -142,9 +142,9 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 			
 		
 	}else{
-		for (int x = 0;x < [[self subviews] count];x++)
+		for (int x = 0;x < self.subviews.count;x++)
 		{
-			[[self subviews][x] removeFromSuperview];
+			[self.subviews[x] removeFromSuperview];
 			[self setNeedsDisplay:YES];
 		}
 	}
@@ -155,15 +155,15 @@ Original code can be found here:http://roventskij.net/index.php?p=3
     spaceCheck = NO;
     enterCheck = NO;
 	
-	NSString* charString = [theEvent characters];
+	NSString* charString = theEvent.characters;
 	
 	if ([charString compare:@"@"] == NSOrderedSame){
 		checkKey = YES;	
 	}
 	
-	if ([[theEvent characters] compare:@" "] == NSOrderedSame){
+	if ([theEvent.characters compare:@" "] == NSOrderedSame){
 		spaceCheck = YES;
-	}else if ([[theEvent characters] compare:@"\r"] == NSOrderedSame)
+	}else if ([theEvent.characters compare:@"\r"] == NSOrderedSame)
 	{
 		enterCheck = YES;
 	}else{
@@ -173,10 +173,10 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	
 	if((checkKey) && ((spaceCheck)||(enterCheck))){
 		
-		NSString* textString = [[self textStorage] string];
+		NSString* textString = self.textStorage.string;
 		
 		
-		NSEnumerator *theEnumerator = [[insertions arrangedObjects] objectEnumerator];
+		NSEnumerator *theEnumerator = [insertions.arrangedObjects objectEnumerator];
 		id anObject;
 	
 			while (anObject = [theEnumerator nextObject])
@@ -184,8 +184,8 @@ Original code can be found here:http://roventskij.net/index.php?p=3
                 NSString* substitution = [NSString stringWithFormat:@"@%@",anObject[@"substString"]];
                 NSAttributedString* insertion = anObject[@"insertString"];
                 if ([textString rangeOfString:substitution].location != NSNotFound){
-                    [[[self textStorage] mutableString] replaceOccurrencesOfString:substitution withString:[insertion string] options:NSLiteralSearch range:NSMakeRange(0, [[self textStorage] length])];
-                    [self setNeedsDisplayInRect:[[[self enclosingScrollView] contentView] visibleRect]];
+                    [self.textStorage.mutableString replaceOccurrencesOfString:substitution withString:insertion.string options:NSLiteralSearch range:NSMakeRange(0, self.textStorage.length)];
+                    [self setNeedsDisplayInRect:self.enclosingScrollView.contentView.visibleRect];
                      checkKey = NO;
                 }
 			}
@@ -202,40 +202,40 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 - (void)drawRect:(NSRect)aRect
 {
         if (!drawParagraphNumbers) {
-            NSSize tcSize = [[self textContainer] containerSize];
-            tcSize.width = [self frame].size.width;
-            [[self textContainer] setContainerSize:tcSize];
+            NSSize tcSize = self.textContainer.containerSize;
+            tcSize.width = self.frame.size.width;
+            self.textContainer.containerSize = tcSize;
             [super drawRect:aRect];
             return;
         }
-        NSSize tcSize = [[self textContainer] containerSize];
-        tcSize.width = [self frame].size.width+35.0;
-        [[self textContainer] setContainerSize:tcSize];
+        NSSize tcSize = self.textContainer.containerSize;
+        tcSize.width = self.frame.size.width+35.0;
+        self.textContainer.containerSize = tcSize;
         [super drawRect:aRect];
         [[NSColor colorWithDeviceWhite:0.95 alpha:1.0] set];
-        NSRect documentVisibleRect = [[self enclosingScrollView] documentVisibleRect];
+        NSRect documentVisibleRect = self.enclosingScrollView.documentVisibleRect;
         documentVisibleRect.origin.y -= 35.0;
         documentVisibleRect.size.height += 65.0;
         NSRect marginRect = documentVisibleRect;
         marginRect.size.width = 35.0;
         NSRectFill(marginRect);
-        CGContextSetShouldAntialias([[NSGraphicsContext currentContext] graphicsPort], NO);
+        CGContextSetShouldAntialias([NSGraphicsContext currentContext].graphicsPort, NO);
         [[NSColor lightGrayColor] set];
         NSPoint p1 = NSMakePoint(35.0,marginRect.origin.y);
         NSPoint p2 = NSMakePoint(35.0,marginRect.origin.y+marginRect.size.height);
         [NSBezierPath strokeLineFromPoint:p1 toPoint:p2];
-        CGContextSetShouldAntialias([[NSGraphicsContext currentContext] graphicsPort], YES);
+        CGContextSetShouldAntialias([NSGraphicsContext currentContext].graphicsPort, YES);
         NSRange lineRange;
         NSRect lineRect;
-        NSArray* lines = [[self string] componentsSeparatedByString:@"\n"];
-        NSLayoutManager* layoutManager = [self layoutManager];
+        NSArray* lines = [self.string componentsSeparatedByString:@"\n"];
+        NSLayoutManager* layoutManager = self.layoutManager;
         int i;
         int pos = 0;
         int emptyString = 0;
         NSString* s;
         NSSize stringSize;
-        for (i=0;i<[lines count];i++) {
-            if (pos <[[self string] length]) {
+        for (i=0;i<lines.count;i++) {
+            if (pos <self.string.length) {
                 lineRect = [layoutManager lineFragmentRectForGlyphAtIndex:pos effectiveRange:&lineRange];
                 pos += [lines[i] length]+1;
                 lineRect.size.width = 16.0;
@@ -248,7 +248,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
                             [[NSColor colorWithCalibratedRed:0.37 green:0.42 blue:0.49 alpha:1.0] set];
                             [aPath moveToPoint:NSMakePoint(1.0, lineRect.origin.y)];
                             [aPath lineToPoint:NSMakePoint(35.0, lineRect.origin.y)];
-                            [aPath setLineCapStyle:NSSquareLineCapStyle];
+                            aPath.lineCapStyle = NSSquareLineCapStyle;
                             [aPath stroke];
                             NSColor *startingColor;
                             NSColor *endingColor;
@@ -284,11 +284,11 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	
 	if (drawParagraphNumbers)
 	{
-		[[self textContainer] setLineFragmentPadding:38.0];
-		[[self textContainer] setWidthTracksTextView:NO];
+		self.textContainer.lineFragmentPadding = 38.0;
+		[self.textContainer setWidthTracksTextView:NO];
 	} else {
-		[[self textContainer] setLineFragmentPadding:2.0];
-		[[self textContainer] setWidthTracksTextView:YES];
+		self.textContainer.lineFragmentPadding = 2.0;
+		[self.textContainer setWidthTracksTextView:YES];
 	}
 	
 	[self setNeedsDisplay:YES];

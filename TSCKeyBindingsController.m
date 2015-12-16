@@ -231,8 +231,8 @@
 - (void)setKeyEquivalent:(NSString*)keyEquivalent withModifierMask:(unsigned int)flags ofMenuItem:(NSMenuItem*)aMenuItem;
 {
 		
-	[aMenuItem setKeyEquivalent:keyEquivalent];
-	[aMenuItem setKeyEquivalentModifierMask:flags];
+	aMenuItem.keyEquivalent = keyEquivalent;
+	aMenuItem.keyEquivalentModifierMask = flags;
 		
 }
 

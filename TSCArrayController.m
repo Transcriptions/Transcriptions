@@ -49,7 +49,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 - (void)add:(id)sender
 {
 	[super add:sender];
-	NSData *saveData=[NSArchiver archivedDataWithRootObject:[self arrangedObjects]];
+	NSData *saveData = [NSArchiver archivedDataWithRootObject:self.arrangedObjects];
 	[[NSUserDefaults standardUserDefaults] setObject:saveData forKey:@"substitutionArray"];
 }
 
@@ -57,14 +57,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
 	
 	[super remove:sender];
-	NSData *saveData=[NSArchiver archivedDataWithRootObject:[self arrangedObjects]];
+	NSData *saveData = [NSArchiver archivedDataWithRootObject:self.arrangedObjects];
 	[[NSUserDefaults standardUserDefaults] setObject:saveData forKey:@"substitutionArray"];
 }
 
 - (void)objectDidEndEditing:(id)editor
 {
 	[super objectDidEndEditing:editor];
-	NSData *saveData=[NSArchiver archivedDataWithRootObject:[self arrangedObjects]];
+	NSData *saveData = [NSArchiver archivedDataWithRootObject:self.arrangedObjects];
 	[[NSUserDefaults standardUserDefaults] setObject:saveData forKey:@"substitutionArray"];
 	
 }
