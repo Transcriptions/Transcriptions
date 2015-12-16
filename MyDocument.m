@@ -211,7 +211,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     [super close];
 }
 
--(void)dealloc
+- (void)dealloc
 {
     [[self player] pause];
     [[self player] removeTimeObserver:[self timeObserverToken]];
