@@ -413,8 +413,8 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 									NSCommentDocumentAttribute: _comment,
 									NSKeywordsDocumentAttribute: _keywords
 									};
-	NSFileWrapper * wrapper = [[NSFileWrapper alloc]
-							   initRegularFileWithContents:[[_textView textStorage] RTFFromRange:range documentAttributes:docAttributes]];
+	NSFileWrapper *wrapper = [[NSFileWrapper alloc]
+							   initRegularFileWithContents:[_textView.textStorage RTFFromRange:range documentAttributes:docAttributes]];
 	if ( outError != NULL ) {
 		*outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
 	}
@@ -1058,7 +1058,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 // ==> ADD BETTER CALCULATIONS FOR WORD AND CHARACTER COUNTS
 - (void)startSheet:(id)sender
 {
-	NSArray* charArray = [[_textView textStorage] characters];
+	NSArray* charArray = _textView.textStorage.characters;
 	NSString* charRepresentation = [NSString stringWithFormat:@"%lu", (unsigned long)[charArray count]];
 	//see:http://www.cocoadev.com/index.pl?NSStringCategory 
 	NSMutableCharacterSet* wordSet = [NSMutableCharacterSet letterCharacterSet];
@@ -1275,7 +1275,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 {
     NSTextView *printTextView = [[NSTextView alloc] initWithFrame:NSMakeRect(0, 0, 468, 648)];
     [printTextView setEditable:false];
-    [[printTextView textStorage] setAttributedString:[_textView attributedString]];
+    [printTextView.textStorage setAttributedString:_textView.attributedString];
     NSPrintOperation *printOperation;
     printOperation = [NSPrintOperation printOperationWithView:printTextView];
     [printOperation runOperation];
