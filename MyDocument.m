@@ -93,12 +93,12 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
   if (_rtfSaveData) {
         [_textView.textStorage replaceCharactersInRange:NSMakeRange(0, _textView.string.length) withAttributedString:_rtfSaveData];
   }
-  [_textView setAllowsUndo:YES];
+  _textView.allowsUndo = YES;
   [_textView toggleRuler:self];
   _textView.delegate = self;
   _mTextField.delegate = self;
   _mainSplitView.delegate = self;
-  [_insertTableView setDelegate:self];
+  _insertTableView.delegate = self;
   [_insertTableView registerForDraggedTypes:@[NSStringPboardType, NSRTFPboardType]];
   _infoPanel.minSize = _infoPanel.frame.size;
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(processTextEditing) name:NSTextDidChangeNotification object:nil];
@@ -130,7 +130,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 	
     NSTimeInterval autosaveInterval = 2.0;
     [NSDocumentController sharedDocumentController].autosavingDelay = autosaveInterval;
-    [_playerView setWantsLayer:YES];
+    _playerView.wantsLayer = YES;
     NSButton *closeButton = [_appWindow standardWindowButton:NSWindowCloseButton];
     NSView *titleBarView = closeButton.superview;
     NSButton* myHelpButton = [[NSButton alloc] initWithFrame:NSMakeRect(titleBarView.bounds.size.width - 30,titleBarView.bounds.origin.y, 25, 25)];
@@ -215,7 +215,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 {
     [self.player pause];
     [self.player removeTimeObserver:self.timeObserverToken];
-    [self setTimeObserverToken:nil];
+    self.timeObserverToken = nil;
 	if (_player) {
 		[self removeObserver:self forKeyPath:@"player.rate" context:TSCPlayerRateContext];
 		[self removeObserver:self forKeyPath:@"player.currentItem.status" context:TSCPlayerItemStatusContext];
@@ -236,7 +236,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 - (void)textDidChange:(NSNotification *)notification
 {
     [self updateChangeCount:NSChangeDone];
-    [_textView setNeedsDisplay:YES];
+    _textView.needsDisplay = YES;
 }
 
 
@@ -493,9 +493,9 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 //	NSURL* movieURL = [note object];
 //	NSString* URLString = [movieURL absoluteString];
 //	NSImage *typeImage = [[NSWorkspace sharedWorkspace] iconForFileType:[URLString pathExtension]];
-//	[typeImage setSize:NSMakeSize(32, 32)];
-//	[mTextField setStringValue:[URLString lastPathComponent]];
-//	[typeImageView setImage:typeImage];
+//	typeImage.size = NSMakeSize(32, 32);
+//	mTextField.stringValue = [URLString lastPathComponent];
+//	typeImageView.image = typeImage;
 //    AVURLAsset *asset = [AVAsset assetWithURL:movieURL];
 //    NSArray *assetKeysToLoadAndTest = @[@"playable", @"hasProtectedContent", @"tracks", @"duration"];
 //    [asset loadValuesAsynchronouslyForKeys:assetKeysToLoadAndTest completionHandler:^(void) {
@@ -528,7 +528,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         AVPlayerLayer *newPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
         newPlayerLayer.frame = _playerView.layer.bounds;
         newPlayerLayer.autoresizingMask = kCALayerWidthSizable | kCALayerHeightSizable;
-        [newPlayerLayer setHidden:YES];
+        newPlayerLayer.hidden = YES;
         [_playerView.layer addSublayer:newPlayerLayer];
         self.playerLayer = newPlayerLayer;
         [self addObserver:self forKeyPath:@"playerLayer.readyForDisplay" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:TSCPlayerLayerReadyForDisplay];
@@ -536,7 +536,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     else
     {
         [self stopLoadingAnimationAndHandleError:nil];
-        [_noVideoImage setHidden:NO];
+        _noVideoImage.hidden = NO;
     }
     AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:asset];
     [self.player replaceCurrentItemWithPlayerItem:playerItem];
@@ -921,7 +921,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 		if (_HUDPanel.contentView.subviews.count == 0){
 			
 			NSRect initialFrame = [self newFrameForNewHUD:_HUDPanel contentView:_firstSubView];
-			[_HUDPanel setContentSize:_firstSubView.frame.size];
+			_HUDPanel.contentSize = _firstSubView.frame.size;
 			_HUDPanel.title = @"Media Controls";
 			[_HUDPanel.contentView addSubview:_firstSubView];
 			[_HUDPanel.contentView setWantsLayer:YES];
@@ -1240,7 +1240,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
             }
             if (newTimeStampLineNumber > 0 && playerItem) {
                 _textView.timeLineNumber = newTimeStampLineNumber;
-                [_textView setNeedsDisplay:YES];
+                _textView.needsDisplay = YES;
             }
             else{
                 _textView.timeLineNumber = 0;
@@ -1274,7 +1274,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 - (IBAction)printThisDocument:(id)sender
 {
     NSTextView *printTextView = [[NSTextView alloc] initWithFrame:NSMakeRect(0, 0, 468, 648)];
-    [printTextView setEditable:false];
+    printTextView.editable = false;
     [printTextView.textStorage setAttributedString:_textView.attributedString];
     NSPrintOperation *printOperation;
     printOperation = [NSPrintOperation printOperationWithView:printTextView];
