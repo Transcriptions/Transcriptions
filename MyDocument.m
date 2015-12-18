@@ -326,6 +326,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 	}
 	
 	_rtfSaveData = text;
+	self.fileType = (NSString *)kUTTypeRTF;
 	
 	return YES;
 }
