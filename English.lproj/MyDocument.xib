@@ -744,18 +744,18 @@ AAAAAHMAAAAAAAAAAAAAAAAAAAODA
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <button verticalHuggingPriority="750" id="100796">
-                    <rect key="frame" x="84" y="4" width="146" height="19"/>
+                    <rect key="frame" x="84" y="6" width="146" height="17"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                    <buttonCell key="cell" type="roundRect" title="Media Information" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="100797">
+                    <buttonCell key="cell" type="roundRect" title="Media Information" bezelStyle="roundedRect" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="100797">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="cellTitle"/>
+                        <font key="font" metaFont="smallSystem"/>
                     </buttonCell>
                     <connections>
                         <action selector="showMediaInfo:" target="-2" id="100809"/>
                     </connections>
                 </button>
                 <slider toolTip="Set Replay Time" focusRingType="none" verticalHuggingPriority="750" id="100795">
-                    <rect key="frame" x="34" y="96" width="240" height="17"/>
+                    <rect key="frame" x="34" y="93" width="240" height="20"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <contentFilters>
                         <ciFilter name="CIMaximumComponent">
@@ -764,15 +764,13 @@ AAAAAHMAAAAAAAAAAAAAAAAAAAODA
                             </configuration>
                         </ciFilter>
                     </contentFilters>
-                    <sliderCell key="cell" controlSize="small" focusRingType="none" alignment="left" maxValue="10" doubleValue="2.2222222222222223" tickMarkPosition="below" numberOfTickMarks="10" allowsTickMarkValuesOnly="YES" sliderType="linear" id="100798">
-                        <font key="font" metaFont="smallSystem"/>
-                    </sliderCell>
+                    <sliderCell key="cell" controlSize="small" focusRingType="none" alignment="left" maxValue="10" doubleValue="2.2222222222222223" tickMarkPosition="below" numberOfTickMarks="10" allowsTickMarkValuesOnly="YES" sliderType="linear" id="100798"/>
                 </slider>
                 <textField toolTip="Set Volume" verticalHuggingPriority="750" id="100794">
                     <rect key="frame" x="133" y="81" width="48" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Volume:" bezelStyle="round" id="100799">
-                        <font key="font" size="11" name="Helvetica"/>
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Volume:" bezelStyle="round" id="100799">
+                        <font key="font" metaFont="smallSystem"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="backgroundColor" red="1" green="1" blue="0.79435486" alpha="1" colorSpace="calibratedRGB"/>
                     </textFieldCell>
@@ -780,14 +778,14 @@ AAAAAHMAAAAAAAAAAAAAAAAAAAODA
                 <textField toolTip="Set Replay Time" verticalHuggingPriority="750" id="100793">
                     <rect key="frame" x="134" y="113" width="45" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="RePlay:" bezelStyle="round" id="100800">
-                        <font key="font" size="11" name="Helvetica"/>
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="RePlay:" bezelStyle="round" id="100800">
+                        <font key="font" metaFont="smallSystem"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="backgroundColor" red="1" green="1" blue="0.79435486" alpha="1" colorSpace="calibratedRGB"/>
                     </textFieldCell>
                 </textField>
                 <slider toolTip="Set Volume" focusRingType="none" verticalHuggingPriority="750" id="100792">
-                    <rect key="frame" x="34" y="65" width="240" height="17"/>
+                    <rect key="frame" x="34" y="62" width="240" height="20"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <contentFilters>
                         <ciFilter name="CIMaximumComponent">
@@ -796,18 +794,16 @@ AAAAAHMAAAAAAAAAAAAAAAAAAAODA
                             </configuration>
                         </ciFilter>
                     </contentFilters>
-                    <sliderCell key="cell" controlSize="small" focusRingType="none" alignment="left" maxValue="2" doubleValue="1" tickMarkPosition="below" numberOfTickMarks="1" sliderType="linear" id="100801">
-                        <font key="font" metaFont="smallSystem"/>
-                    </sliderCell>
+                    <sliderCell key="cell" controlSize="small" focusRingType="none" alignment="left" maxValue="2" doubleValue="1" tickMarkPosition="below" numberOfTickMarks="1" sliderType="linear" id="100801"/>
                     <connections>
                         <binding destination="-2" name="value" keyPath="volume" id="100928"/>
                     </connections>
                 </slider>
                 <textField toolTip="Set Movie Rate" verticalHuggingPriority="750" id="100888">
-                    <rect key="frame" x="273" y="42" width="32" height="14"/>
+                    <rect key="frame" x="273" y="42" width="41" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="100%" bezelStyle="round" id="100889">
-                        <font key="font" size="11" name="Helvetica"/>
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="100%" bezelStyle="round" id="100889">
+                        <font key="font" metaFont="smallSystem"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="backgroundColor" red="1" green="1" blue="0.79435486" alpha="1" colorSpace="calibratedRGB"/>
                     </textFieldCell>
@@ -815,8 +811,8 @@ AAAAAHMAAAAAAAAAAAAAAAAAAAODA
                 <textField toolTip="Set Movie Rate" verticalHuggingPriority="750" id="100892">
                     <rect key="frame" x="273" y="72" width="38" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="100%" bezelStyle="round" id="100893">
-                        <font key="font" size="11" name="Helvetica"/>
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="100%" bezelStyle="round" id="100893">
+                        <font key="font" metaFont="smallSystem"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="backgroundColor" red="1" green="1" blue="0.79435486" alpha="1" colorSpace="calibratedRGB"/>
                     </textFieldCell>
@@ -824,8 +820,8 @@ AAAAAHMAAAAAAAAAAAAAAAAAAAODA
                 <textField toolTip="Set Movie Rate" verticalHuggingPriority="750" id="100896">
                     <rect key="frame" x="273" y="103" width="38" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="10s" bezelStyle="round" id="100897">
-                        <font key="font" size="11" name="Helvetica"/>
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="10s" bezelStyle="round" id="100897">
+                        <font key="font" metaFont="smallSystem"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="backgroundColor" red="1" green="1" blue="0.79435486" alpha="1" colorSpace="calibratedRGB"/>
                     </textFieldCell>
@@ -833,8 +829,8 @@ AAAAAHMAAAAAAAAAAAAAAAAAAAODA
                 <textField toolTip="Set Movie Rate" verticalHuggingPriority="750" id="100894">
                     <rect key="frame" x="12" y="103" width="23" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="0s" bezelStyle="round" id="100895">
-                        <font key="font" size="11" name="Helvetica"/>
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="0s" bezelStyle="round" id="100895">
+                        <font key="font" metaFont="smallSystem"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="backgroundColor" red="1" green="1" blue="0.79435486" alpha="1" colorSpace="calibratedRGB"/>
                     </textFieldCell>
@@ -842,17 +838,17 @@ AAAAAHMAAAAAAAAAAAAAAAAAAAODA
                 <textField toolTip="Set Movie Rate" verticalHuggingPriority="750" id="100890">
                     <rect key="frame" x="7" y="72" width="28" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="0%" bezelStyle="round" id="100891">
-                        <font key="font" size="11" name="Helvetica"/>
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="0%" bezelStyle="round" id="100891">
+                        <font key="font" metaFont="smallSystem"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="backgroundColor" red="1" green="1" blue="0.79435486" alpha="1" colorSpace="calibratedRGB"/>
                     </textFieldCell>
                 </textField>
                 <textField toolTip="Set Movie Rate" verticalHuggingPriority="750" id="100886">
-                    <rect key="frame" x="4" y="42" width="31" height="14"/>
+                    <rect key="frame" x="1" y="42" width="34" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="-40%" bezelStyle="round" id="100887">
-                        <font key="font" size="11" name="Helvetica"/>
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="-40%" bezelStyle="round" id="100887">
+                        <font key="font" metaFont="smallSystem"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="backgroundColor" red="1" green="1" blue="0.79435486" alpha="1" colorSpace="calibratedRGB"/>
                     </textFieldCell>
@@ -860,14 +856,14 @@ AAAAAHMAAAAAAAAAAAAAAAAAAAODA
                 <textField toolTip="Set Movie Rate" verticalHuggingPriority="750" id="100791">
                     <rect key="frame" x="139" y="52" width="36" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Rate:" bezelStyle="round" id="100802">
-                        <font key="font" size="11" name="Helvetica"/>
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Rate:" bezelStyle="round" id="100802">
+                        <font key="font" metaFont="smallSystem"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="backgroundColor" red="1" green="1" blue="0.79435486" alpha="1" colorSpace="calibratedRGB"/>
                     </textFieldCell>
                 </textField>
                 <slider toolTip="Set Movie Rate" focusRingType="none" verticalHuggingPriority="750" id="100790">
-                    <rect key="frame" x="34" y="35" width="240" height="17"/>
+                    <rect key="frame" x="34" y="32" width="240" height="20"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <contentFilters>
                         <ciFilter name="CIMaximumComponent">
@@ -876,9 +872,7 @@ AAAAAHMAAAAAAAAAAAAAAAAAAAODA
                             </configuration>
                         </ciFilter>
                     </contentFilters>
-                    <sliderCell key="cell" controlSize="small" continuous="YES" state="on" focusRingType="none" alignment="left" minValue="0.40000000000000002" maxValue="1" doubleValue="1" tickMarkPosition="below" numberOfTickMarks="1" sliderType="linear" id="100803">
-                        <font key="font" metaFont="smallSystem"/>
-                    </sliderCell>
+                    <sliderCell key="cell" controlSize="small" continuous="YES" state="on" focusRingType="none" alignment="left" minValue="0.40000000000000002" maxValue="1" doubleValue="1" tickMarkPosition="below" numberOfTickMarks="1" sliderType="linear" id="100803"/>
                     <connections>
                         <binding destination="-2" name="value" keyPath="player.rate" id="100943"/>
                     </connections>
