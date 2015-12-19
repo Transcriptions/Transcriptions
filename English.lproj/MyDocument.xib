@@ -150,6 +150,13 @@
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
+                                                        <connections>
+                                                            <binding destination="-2" name="value" keyPath="currentTime" id="xYF-nY-Aon">
+                                                                <dictionary key="options">
+                                                                    <string key="NSValueTransformerName">JXCMTimeStringTransformer</string>
+                                                                </dictionary>
+                                                            </binding>
+                                                        </connections>
                                                     </textField>
                                                     <button toolTip="Timestamp" verticalHuggingPriority="750" id="100666">
                                                         <rect key="frame" x="5" y="3" width="30" height="25"/>
@@ -180,8 +187,16 @@
                                                             <font key="font" metaFont="smallSystem"/>
                                                         </sliderCell>
                                                         <connections>
-                                                            <binding destination="-2" name="value" keyPath="currentTime" previousBinding="100939" id="100940"/>
-                                                            <binding destination="-2" name="maxValue" keyPath="duration" id="100939"/>
+                                                            <binding destination="-2" name="maxValue" keyPath="duration" id="siR-Gp-rQ0">
+                                                                <dictionary key="options">
+                                                                    <string key="NSValueTransformerName">JXCMTimeNumberTransformer</string>
+                                                                </dictionary>
+                                                            </binding>
+                                                            <binding destination="-2" name="value" keyPath="currentTime" previousBinding="siR-Gp-rQ0" id="DBa-Sr-MJg">
+                                                                <dictionary key="options">
+                                                                    <string key="NSValueTransformerName">JXCMTimeNumberTransformer</string>
+                                                                </dictionary>
+                                                            </binding>
                                                         </connections>
                                                     </slider>
                                                     <customView id="100923">

@@ -26,6 +26,9 @@
 		3D94AC981C20422900397DA6 /* PTHotKey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADD234A1998E930007D81D3 /* PTHotKey.framework */; };
 		3D94AC9B1C20429800397DA6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D94AC991C20429800397DA6 /* AVFoundation.framework */; };
 		3D94AC9C1C20429800397DA6 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D94AC9A1C20429800397DA6 /* AVKit.framework */; };
+		3DC14B9B1C258E900069150A /* JXCMTimeNumberTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC14B9A1C258E900069150A /* JXCMTimeNumberTransformer.m */; };
+		3DC14B9E1C258FBF0069150A /* TSCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC14B9D1C258FBF0069150A /* TSCAppDelegate.m */; };
+		3DC14BA11C2598D90069150A /* JXCMTimeStringTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC14BA01C2598D90069150A /* JXCMTimeStringTransformer.m */; };
 		3DDFA9FC1C1F725A00AFB0B1 /* SubRip.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3DDFA9F71C1F723600AFB0B1 /* SubRip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DDFA9FD1C1F728900AFB0B1 /* SubRip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DDFA9F71C1F723600AFB0B1 /* SubRip.framework */; };
 		633A4FD50E4F0E1700B4D45A /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 633A4FD40E4F0E1700B4D45A /* CoreServices.framework */; };
@@ -152,6 +155,12 @@
 		32DBCF750370BD2300C91783 /* Transcriptions_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Transcriptions_Prefix.pch; sourceTree = "<group>"; };
 		3D94AC991C20429800397DA6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		3D94AC9A1C20429800397DA6 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		3DC14B991C258E900069150A /* JXCMTimeNumberTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JXCMTimeNumberTransformer.h; sourceTree = "<group>"; };
+		3DC14B9A1C258E900069150A /* JXCMTimeNumberTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JXCMTimeNumberTransformer.m; sourceTree = "<group>"; };
+		3DC14B9C1C258FBF0069150A /* TSCAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCAppDelegate.h; sourceTree = "<group>"; };
+		3DC14B9D1C258FBF0069150A /* TSCAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCAppDelegate.m; sourceTree = "<group>"; };
+		3DC14B9F1C2598D90069150A /* JXCMTimeStringTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JXCMTimeStringTransformer.h; sourceTree = "<group>"; };
+		3DC14BA01C2598D90069150A /* JXCMTimeStringTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JXCMTimeStringTransformer.m; sourceTree = "<group>"; };
 		3DDFA9EB1C1F723600AFB0B1 /* SubRip.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SubRip.xcodeproj; path = "External/SubRip-for-Mac/SubRip.xcodeproj"; sourceTree = "<group>"; };
 		633A4FD40E4F0E1700B4D45A /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		633A50620E4F284C00B4D45A /* TSCKeyBindingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCKeyBindingsController.h; sourceTree = "<group>"; };
@@ -240,6 +249,7 @@
 				639E92AD0E4D0B7F0006FDEE /* Controllers */,
 				639E92AC0E4D0B5C0006FDEE /* Views */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
+				3DC14B951C258E620069150A /* Transformers */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
@@ -253,6 +263,8 @@
 			children = (
 				63C8682A0DDA097500DC3670 /* MyDocument.h */,
 				63C8682B0DDA097500DC3670 /* MyDocument.m */,
+				3DC14B9C1C258FBF0069150A /* TSCAppDelegate.h */,
+				3DC14B9D1C258FBF0069150A /* TSCAppDelegate.m */,
 				0A32C27D19A3723C007B8415 /* TSCSplitViewDelegate.h */,
 				0A32C27E19A3723C007B8415 /* TSCSplitViewDelegate.m */,
 			);
@@ -303,6 +315,17 @@
 				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3DC14B951C258E620069150A /* Transformers */ = {
+			isa = PBXGroup;
+			children = (
+				3DC14B991C258E900069150A /* JXCMTimeNumberTransformer.h */,
+				3DC14B9A1C258E900069150A /* JXCMTimeNumberTransformer.m */,
+				3DC14B9F1C2598D90069150A /* JXCMTimeStringTransformer.h */,
+				3DC14BA01C2598D90069150A /* JXCMTimeStringTransformer.m */,
+			);
+			name = Transformers;
 			sourceTree = "<group>";
 		};
 		3DDFA9EC1C1F723600AFB0B1 /* Products */ = {
@@ -516,9 +539,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DC14BA11C2598D90069150A /* JXCMTimeStringTransformer.m in Sources */,
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
+				3DC14B9E1C258FBF0069150A /* TSCAppDelegate.m in Sources */,
 				63C8682C0DDA097500DC3670 /* MyDocument.m in Sources */,
 				63C8682F0DDA097B00DC3670 /* TSCArrayController.m in Sources */,
+				3DC14B9B1C258E900069150A /* JXCMTimeNumberTransformer.m in Sources */,
 				0A32C27F19A3723C007B8415 /* TSCSplitViewDelegate.m in Sources */,
 				63C868320DDA098500DC3670 /* TSCTextView.m in Sources */,
 				633A50640E4F284C00B4D45A /* TSCKeyBindingsController.m in Sources */,

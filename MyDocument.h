@@ -97,9 +97,10 @@ const double		k_Scrub_Slider_Minimum = 0.0;
 @property (nonatomic, strong) NSData *mediaFileBookmark;
 
 @property (nonatomic, strong) AVPlayer *player;
+@property (nonatomic, strong) AVPlayerItem *playerItem;
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
-@property (nonatomic, assign) double currentTime;
-@property (nonatomic, readonly) double duration;
+@property (nonatomic, assign) CMTime currentTime;
+@property (nonatomic, readonly) CMTime duration;
 @property (nonatomic, assign) float volume;
 @property (nonatomic, strong) id timeObserverToken;
 

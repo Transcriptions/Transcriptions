@@ -39,10 +39,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import <SubRip/DTCoreTextConstants.h>
 
 NSString * const	SRTDocumentType		= @"de.geheimwerk.subrip";
+NSString * const	TSCPlayerItemStatusKeyPath			= @"status";
 
 static void *TSCPlayerItemStatusContext = &TSCPlayerItemStatusContext;
 static void *TSCPlayerRateContext = &TSCPlayerRateContext;
 static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
+static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 
 @interface MyDocument ()
 
@@ -543,11 +545,21 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         [self stopLoadingAnimationAndHandleError:nil];
         _noVideoImage.hidden = NO;
     }
-    AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:asset];
-    [self.player replaceCurrentItemWithPlayerItem:playerItem];
+	
+    _playerItem = [AVPlayerItem playerItemWithAsset:asset];
+	[_playerItem addObserver:self
+				  forKeyPath:TSCPlayerItemStatusKeyPath
+					 options:0
+					 context:TSCPlayerItemReadyToPlay];
+	
+    [self.player replaceCurrentItemWithPlayerItem:_playerItem];
+	
+	__weak typeof(self) weakSelf = self;
     self.timeObserverToken = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 10) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-        _timeSlider.doubleValue = CMTimeGetSeconds(time);
-        _mTimeDisplay.stringValue = [self CMTimeAsString:time];
+		__strong typeof(self) strongSelf = weakSelf;
+		[strongSelf willChangeValueForKey:@"currentTime"];
+		[strongSelf didChangeValueForKey:@"currentTime"];
+		[strongSelf updateTimestampLineNumber];
     }];
 }
 
@@ -595,6 +607,15 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
             [self.playerLayer setHidden:NO];
         }
     }
+    else if (context == TSCPlayerItemReadyToPlay)
+    {
+		if (_playerItem.status == AVPlayerItemStatusReadyToPlay) {
+			[self willChangeValueForKey:@"duration"];
+			[self didChangeValueForKey:@"duration"];
+		}
+		
+		[_playerItem removeObserver:self forKeyPath:TSCPlayerItemStatusKeyPath];
+	}
     else
     {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -638,23 +659,28 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     return [NSSet setWithObjects:@"player.currentItem", @"player.currentItem.status", nil];
 }
 
-- (double)duration
+- (CMTime)duration
 {
     AVPlayerItem *playerItem = self.player.currentItem;
-    if (playerItem.status == AVPlayerItemStatusReadyToPlay)
-        return CMTimeGetSeconds(playerItem.asset.duration);
-    else
-        return 0.f;
+	if (playerItem.status == AVPlayerItemStatusReadyToPlay) {
+		CMTime duration = playerItem.asset.duration;
+        return duration;
+	}
+	else {
+        return kCMTimeZero;
+	}
 }
 
-- (double)currentTime
+- (CMTime)currentTime
 {
-    return CMTimeGetSeconds([self.player currentTime]);
+    return [self.player currentTime];
 }
 
-- (void)setCurrentTime:(double)time
+- (void)setCurrentTime:(CMTime)time
 {
-    [self.player seekToTime:CMTimeMakeWithSeconds(time, 1) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+	[self.player seekToTime:time
+			toleranceBefore:kCMTimeZero
+			 toleranceAfter:kCMTimeZero];
 	[self updateTimestampLineNumber];
 }
 
@@ -666,18 +692,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 
 #pragma mark media-methods
-
-- (void)setDurationDisplay
-{
-    if (self.player.currentItem)
-    {
-        AVPlayerItem *playerItem = self.player.currentItem;
-        if (playerItem.status == AVPlayerItemStatusReadyToPlay)
-        {
-            _mDuration.stringValue = [self CMTimeAsString:playerItem.asset.duration];
-        }
-    }
-}
 
 - (float)volume
 {
@@ -741,9 +755,8 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 {
     if (self.player.rate == 0.f)
     {
-        if (self.currentTime == self.duration)
-        {
-            self.currentTime = 0.f;
+        if (CMTIME_COMPARE_INLINE(self.currentTime, ==, self.duration)) {
+            self.currentTime = kCMTimeZero;
         }
         float myRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"currentRate"];
         [self.player play];
@@ -976,7 +989,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 	if (self.player.currentItem){
 		[self setNormalSizeDisplay];
 		[self setCurrentSizeDisplay];
-		[self setDurationDisplay];
 		_movieFileField.stringValue = [self urlOfCurrentlyPlayingInPlayer:self.player].absoluteString;
 	}
 }
