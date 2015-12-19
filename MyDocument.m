@@ -69,10 +69,11 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 - (instancetype)init
 {
-   self = [super init];
-	if(self){
-
-    }
+	self = [super init];
+	
+	if (self) {
+	}
+	
 	return self;
 }
 
@@ -81,7 +82,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 - (NSString *)windowNibName
 {
-        return @"MyDocument";
+	return @"MyDocument";
 }
 
 - (void)windowControllerDidLoadNib:(NSWindowController *)windowController
@@ -728,7 +729,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         [self.player seekToTime:resultTime];
         float myRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"currentRate"];
         [self.player play];
-        (self.player).rate = myRate;
+        self.player.rate = myRate;
         [self updateTimestampLineNumber];
     }
 }
@@ -743,7 +744,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         }
         float myRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"currentRate"];
         [self.player play];
-        (self.player).rate = myRate;
+        self.player.rate = myRate;
         [self updateTimestampLineNumber];
     }
     else
