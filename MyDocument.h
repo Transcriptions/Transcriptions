@@ -130,7 +130,7 @@ const double		k_Scrub_Slider_Minimum = 0.0;
 - (IBAction)writeFeedback:(id)sender;
 - (IBAction)redirectToDonationPage:(id)sender;
 
-- (void)setTimestampLineNumber;
+- (void)updateTimestampLineNumber;
 - (IBAction)startRepeatingTimer:(id)sender;
 - (IBAction)stopRepeatingTimer:(id)sender;
 

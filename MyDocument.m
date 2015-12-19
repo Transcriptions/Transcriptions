@@ -108,7 +108,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
   _player = [[AVPlayer alloc] init];
   [self addObserver:self forKeyPath:@"player.rate" options:NSKeyValueObservingOptionNew context:TSCPlayerRateContext];
   [self addObserver:self forKeyPath:@"player.currentItem.status" options:NSKeyValueObservingOptionNew context:TSCPlayerItemStatusContext];
-  [self setTimestampLineNumber];
+  [self updateTimestampLineNumber];
 }
 
 
@@ -651,7 +651,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 - (void)setCurrentTime:(double)time
 {
     [self.player seekToTime:CMTimeMakeWithSeconds(time, 1) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
-     [self setTimestampLineNumber];
+	[self updateTimestampLineNumber];
 }
 
 + (NSSet *)keyPathsForValuesAffectingVolume
@@ -729,8 +729,8 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         float myRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"currentRate"];
         [self.player play];
         (self.player).rate = myRate;
-        [self setTimestampLineNumber];
         [self startRepeatingTimer:self];
+        [self updateTimestampLineNumber];
     }
 }
 
@@ -745,7 +745,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         float myRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"currentRate"];
         [self.player play];
         (self.player).rate = myRate;
-        [self setTimestampLineNumber];
+        [self updateTimestampLineNumber];
         [self startRepeatingTimer:self];
     }
     else
@@ -850,7 +850,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 		[_textView insertText:text replacementRange:insertionRange]; // This also enables undo support.
 		
-        [self setTimestampLineNumber];
+        [self updateTimestampLineNumber];
 	}
 }
 
@@ -872,7 +872,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         {
             [self.player seekToTime:[self cmtimeForTimeStampString:timestampTimeString] toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
         }
-        [self setTimestampLineNumber];
+        [self updateTimestampLineNumber];
         [self startRepeatingTimer:self];
     }
 }
@@ -1151,7 +1151,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 
 #pragma mark timestamp line numbers
 
-- (void)setTimestampLineNumber
+- (void)updateTimestampLineNumber
 {
     NSString* theString = _textView.string;
     NSMutableArray* myTimeValueArray = [NSMutableArray arrayWithCapacity:10];
@@ -1259,7 +1259,7 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
     [self.repeatingTimer invalidate];
     
     NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:0.5
-                                                      target:self selector:@selector(setTimestampLineNumber)
+                                                      target:self selector:@selector(updateTimestampLineNumber)
                                                     userInfo:nil repeats:YES];
     self.repeatingTimer = timer;
 }
