@@ -9,7 +9,6 @@
                 <outlet property="_HUDPanel" destination="100494" id="100513"/>
                 <outlet property="_URLPanel" destination="100729" id="100739"/>
                 <outlet property="_URLTextField" destination="100737" id="100746"/>
-                <outlet property="_textView" destination="100914" id="B9Z-8k-H8L"/>
                 <outlet property="_appContentView" destination="6" id="100900"/>
                 <outlet property="_appWindow" destination="5" id="100270"/>
                 <outlet property="_charTextField" destination="100633" id="100645"/>
@@ -31,6 +30,7 @@
                 <outlet property="_playerView" destination="100923" id="100924"/>
                 <outlet property="_replaySlider" destination="100795" id="100804"/>
                 <outlet property="_secondSubView" destination="100694" id="100716"/>
+                <outlet property="_textView" destination="100914" id="B9Z-8k-H8L"/>
                 <outlet property="_timeSlider" destination="100655" id="100926"/>
                 <outlet property="_typeImageView" destination="100691" id="100693"/>
                 <outlet property="_window" destination="5" id="100271"/>
