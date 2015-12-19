@@ -103,8 +103,6 @@ const double		k_Scrub_Slider_Minimum = 0.0;
 @property (nonatomic, assign) float volume;
 @property (nonatomic, strong) id timeObserverToken;
 
-@property (nonatomic, weak) NSTimer *repeatingTimer;
-
 @property (nonatomic, copy) NSString *path;
 
 - (IBAction)openMovieFile:(id)sender;
@@ -131,8 +129,6 @@ const double		k_Scrub_Slider_Minimum = 0.0;
 - (IBAction)redirectToDonationPage:(id)sender;
 
 - (void)updateTimestampLineNumber;
-- (IBAction)startRepeatingTimer:(id)sender;
-- (IBAction)stopRepeatingTimer:(id)sender;
 
 - (IBAction)printThisDocument:(id)sender;
 

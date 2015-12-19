@@ -729,7 +729,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         float myRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"currentRate"];
         [self.player play];
         (self.player).rate = myRate;
-        [self startRepeatingTimer:self];
         [self updateTimestampLineNumber];
     }
 }
@@ -746,12 +745,10 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         [self.player play];
         (self.player).rate = myRate;
         [self updateTimestampLineNumber];
-        [self startRepeatingTimer:self];
     }
     else
     {
         [self.player pause];
-        [self stopRepeatingTimer:self];
     }
 }
 
@@ -873,7 +870,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
             [self.player seekToTime:[self cmtimeForTimeStampString:timestampTimeString] toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
         }
         [self updateTimestampLineNumber];
-        [self startRepeatingTimer:self];
     }
 }
 
@@ -1253,22 +1249,6 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         _textView.timeLineNumber = 0;
     }
 }
-
-- (IBAction)startRepeatingTimer:sender {
-    
-    [self.repeatingTimer invalidate];
-    
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:0.5
-                                                      target:self selector:@selector(updateTimestampLineNumber)
-                                                    userInfo:nil repeats:YES];
-    self.repeatingTimer = timer;
-}
-
-- (IBAction)stopRepeatingTimer:sender {
-    [self.repeatingTimer invalidate];
-    self.repeatingTimer = nil;
-}
-
 
 #pragma mark printing
 
