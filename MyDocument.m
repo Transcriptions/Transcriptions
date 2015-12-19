@@ -533,7 +533,10 @@ static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
         newPlayerLayer.hidden = YES;
         [_playerView.layer addSublayer:newPlayerLayer];
         self.playerLayer = newPlayerLayer;
-        [self addObserver:self forKeyPath:@"playerLayer.readyForDisplay" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:TSCPlayerLayerReadyForDisplay];
+        [self addObserver:self
+			   forKeyPath:@"playerLayer.readyForDisplay"
+				  options:(NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew)
+				  context:TSCPlayerLayerReadyForDisplay];
     }
     else
     {
