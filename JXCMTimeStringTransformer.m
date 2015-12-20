@@ -62,6 +62,11 @@ NSString * timecodeStringForCMTime(CMTime time) {
 			(int)fractional_seconds];
 }
 
++ (NSString *)timecodeStringForCMTime:(CMTime)time;
+{
+	return timecodeStringForCMTime(time);
+}
+
 - (id)transformedValue:(id)value
 {
 	if (!value)  return nil;
@@ -112,7 +117,7 @@ NS_INLINE CMTime convertSecondsFractionalSecondsToCMTime(int seconds, int fracti
 	}
 }
 
-+ (CMTime)parseTimecodeStringIntoCMTime:(NSString *)timecodeString;
++ (CMTime)CMTimeForTimecodeString:(NSString *)timecodeString;
 {
 	int fractionalSeconds;
 	int totalNumSeconds;
@@ -130,7 +135,7 @@ NS_INLINE CMTime convertSecondsFractionalSecondsToCMTime(int seconds, int fracti
 {
 	if (!string)  return nil;
 	
-	CMTime time = [self.class parseTimecodeStringIntoCMTime:string];
+	CMTime time = [self.class CMTimeForTimecodeString:string];
 	
 	NSValue *value = [NSValue valueWithCMTime:time];
 	return value;

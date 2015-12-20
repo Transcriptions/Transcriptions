@@ -13,11 +13,13 @@
 
 @interface JXCMTimeStringTransformer : NSValueTransformer
 
++ (NSString *)timecodeStringForCMTime:(CMTime)time;
+
 + (void)parseTimecodeString:(NSString *)timecodeString
 				intoSeconds:(int *)totalNumSeconds
 		  fractionalSeconds:(int *)fractionalSeconds;
 
-+ (CMTime)parseTimecodeStringIntoCMTime:(NSString *)timecodeString;
++ (CMTime)CMTimeForTimecodeString:(NSString *)timecodeString;
 
 @end
 
