@@ -828,7 +828,7 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 	if (self.player.currentItem) {
 		NSMutableAttributedString *text = [[NSMutableAttributedString alloc] init];
 		NSMutableString *string = text.mutableString;
-		CMTime time = self.player.currentTime;
+		CMTime time = self.currentTime;
 		
 		NSRange textRange =
 		[self insertTimeStampStringForCMTime:time
