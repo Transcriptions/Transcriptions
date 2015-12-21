@@ -40,6 +40,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import "JXCMTimeStringTransformer.h"
 
+#import "NSString+TSCTimeStamp.h"
+#import "TSCTimeSourceRange.h"
+
+
 NSString * const	SRTDocumentType		= @"de.geheimwerk.subrip";
 NSString * const	TSCPlayerItemStatusKeyPath			= @"status";
 
@@ -1138,105 +1142,105 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 
 - (void)updateTimestampLineNumber
 {
-    NSString* theString = _textView.string;
-    NSMutableArray* myTimeValueArray = [NSMutableArray arrayWithCapacity:10];
-    if (theString.length != 0)
-    {
-        NSScanner* lineScanner = [NSScanner scannerWithString:theString];
-        NSCharacterSet* rauteSet = [NSCharacterSet characterSetWithCharactersInString:@"#"];
-        NSString* tscTimeValue;
-        NSString* rauteA;
-        NSString* rauteB;
-        while (lineScanner.atEnd == NO && lineScanner.scanLocation != NSNotFound)
-        {
-            BOOL scanned;
-            if([[theString substringFromIndex:lineScanner.scanLocation] compare:@"#"] != NSOrderedSame)
-            {[lineScanner scanUpToCharactersFromSet:rauteSet intoString:NULL];}
-            scanned = [lineScanner scanString:@"#" intoString:&rauteA] &&
-            [lineScanner scanUpToCharactersFromSet:rauteSet intoString:&tscTimeValue] &&
-            [lineScanner scanString:@"#" intoString:&rauteB];
-            if (scanned && tscTimeValue.length > 0){
-                if(myTimeValueArray.count > 1)
-                {
-                    [myTimeValueArray removeObjectIdenticalTo:tscTimeValue];
-                }
-                [myTimeValueArray addObject:tscTimeValue];
-            }
-        }
-    }
-    AVPlayerItem *playerItem = self.player.currentItem;
-    [myTimeValueArray addObject:[self CMTimeAsString:CMTimeAbsoluteValue(playerItem.asset.duration)]];
-    NSArray* myTimeArray = [myTimeValueArray copy];
-    NSArray *sortedValues = [myTimeArray sortedArrayUsingComparator: ^(id obj1, id obj2) {
-        CMTime a = [self cmtimeForTimeStampString:obj1];
-        CMTime b = [self cmtimeForTimeStampString:obj2];
-        if (CMTimeCompare(a, b) < 0)
-            return NSOrderedAscending;
-        else if (CMTimeCompare(a, b) > 0)
-            return NSOrderedDescending;
-        else
-            return NSOrderedSame;
-    }];
-    NSString *currentTimeStampTimeString = [[NSString alloc] init];
-    for (int x = 0; x < sortedValues.count; x++) {
-        CMTime timeStampTime = [self cmtimeForTimeStampString:sortedValues[x]];
-        CMTime timeStampTimeNext;
-        if (x < sortedValues.count - 1)
-        {
-            timeStampTimeNext   = [self cmtimeForTimeStampString:sortedValues[x + 1]];
-        }else{
-            timeStampTimeNext   = CMTimeAbsoluteValue(playerItem.asset.duration);
-        }
-        CMTime currentTime = CMTimeAbsoluteValue([self.player currentTime]);
-        if (CMTimeCompare(timeStampTime,currentTime) >= 0 && CMTimeCompare(timeStampTime, timeStampTimeNext) < 0)
-        {
-            if (x == 0)
-            {
-                currentTimeStampTimeString = sortedValues[x];
-            }
-            else
-            {
-                currentTimeStampTimeString = sortedValues[x - 1];
-            }
-            break;
-        }
-    }
-    if (!(currentTimeStampTimeString.length == 0)) {
-        CMTime comparisonTimeStampTime = [self cmtimeForTimeStampString:currentTimeStampTimeString];
-        CMTime currentTime = CMTimeAbsoluteValue([self.player currentTime]);
-        int32_t comparison = CMTimeCompare(comparisonTimeStampTime, currentTime);
-        if (comparison <= 0) {
-            NSArray* lines = [self->_textView.string componentsSeparatedByString:@"\n"];
-            int newTimeStampLineNumber = 0;
-            int i;
-            int emptyString = 0;
-            for (i=0;i<lines.count;i++) {
-                if (![lines[i] isEqualToString:@"\n"]&&[lines[i] length] > 0)
-                {
-                            if ([lines[i] rangeOfString:[NSString stringWithFormat:@"#%@#", currentTimeStampTimeString]].location != NSNotFound)
-                    {
-                        int insertNumber = (i + 1) - emptyString;
-                        newTimeStampLineNumber = insertNumber;
-                        break;
-                    }
-                }
-                else{
-                    emptyString += 1;
-                }
-            }
-            if (newTimeStampLineNumber > 0 && playerItem) {
-                _textView.timeLineNumber = newTimeStampLineNumber;
-                _textView.needsDisplay = YES;
-            }
-            else{
-                _textView.timeLineNumber = 0;
-            }
-        }else{
-            _textView.timeLineNumber = 0;
-        }
-    }else{
-        _textView.timeLineNumber = 0;
-    }
+	if (!_playerItem) {
+		_textView.timeLineNumber = 0;
+		return;
+	}
+	
+	NSString * const theString = _textView.string;
+	const CMTime currentTime = CMTimeAbsoluteValue(self.currentTime);
+	const CMTime mediaEndTime = CMTimeAbsoluteValue(self.duration);
+	
+	const NSRange fullRange = NSMakeRange(0, theString.length);
+
+	// FIXME: Cache timeStampsSorted until invalidated by a change to the text.
+	NSMutableArray *timeStamps = [NSMutableArray array];
+	[theString enumerateTimeStampsInRange:fullRange
+							   usingBlock:^(NSString *timeCode, NSRange timeStampRange, BOOL *stop) {
+								   if (timeStampRange.length > 0) {
+									   CMTime time = [JXCMTimeStringTransformer CMTimeForTimecodeString:timeCode];
+									   TSCTimeSourceRange *timeStamp =
+									   [TSCTimeSourceRange timeSourceRangeWithTime:time
+																			 range:timeStampRange];
+									   
+									   [timeStamps addObject:timeStamp];
+								   }
+							   }];
+	
+	TSCTimeSourceRange *mediaEndStamp =
+	[TSCTimeSourceRange timeSourceRangeWithTime:mediaEndTime
+										  range:NSMakeRange(NSNotFound, 0)];
+	[timeStamps addObject:mediaEndStamp];
+	
+	NSMutableArray *timeStampsSorted = [timeStamps mutableCopy];
+	[timeStampsSorted sortUsingComparator:^(TSCTimeSourceRange *timeStamp1, TSCTimeSourceRange *timeStamp2) {
+		CMTime a = timeStamp1.time;
+		CMTime b = timeStamp2.time;
+		
+		int32_t comparisonResult = CMTimeCompare(a, b);
+		switch (comparisonResult) {
+			case -1:
+				return NSOrderedAscending;
+				break;
+				
+			case 1:
+				return NSOrderedDescending;
+				break;
+				
+			default:
+				return NSOrderedSame;
+				break;
+		}
+	}];
+	
+	TSCTimeSourceRange *closestTimeStamp = nil;
+	
+	if (timeStampsSorted.count > 0) {
+		TSCTimeSourceRange *firstTimeStamp = timeStampsSorted.firstObject;
+		closestTimeStamp = firstTimeStamp;
+	}
+	
+	TSCTimeSourceRange *previousTimeStamp = nil;
+	for (TSCTimeSourceRange *thisTimeStamp in timeStampsSorted) {
+		if (previousTimeStamp != nil) {
+			CMTime previousTime = previousTimeStamp.time;
+			CMTime thisTime = thisTimeStamp.time;
+			
+			if (CMTIME_COMPARE_INLINE(previousTime, <=, currentTime) &&
+				CMTIME_COMPARE_INLINE(currentTime, <, thisTime)) {
+				closestTimeStamp = previousTimeStamp;
+				break;
+			}
+		}
+		
+		previousTimeStamp = thisTimeStamp;
+	}
+	
+	if (closestTimeStamp) {
+		//CMTime closestTime = closestStamp.time;
+		NSRange closestRange = closestTimeStamp.range;
+		//NSLog(@"%@", closestStamp);
+		
+		// FIXME: Rewrite so that we tell the text view which range we want to have the line marked for.
+		// It should have a range-to-line mapping already.
+		__block NSUInteger lineNumber = 1;
+		[theString enumerateSubstringsInRange:fullRange
+									  options:(NSStringEnumerationSubstringNotRequired | NSStringEnumerationByLines)
+								   usingBlock:^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
+									   if (NSLocationInRange(closestRange.location, substringRange)) {
+										   *stop = YES;
+										   return;
+									   }
+									   
+									   lineNumber++;
+								   }];
+		
+		_textView.timeLineNumber = lineNumber;
+		_textView.needsDisplay = YES;
+	}
+	else {
+		_textView.timeLineNumber = 0;
+	}
 }
 
 #pragma mark printing
