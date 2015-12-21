@@ -38,7 +38,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 
 #import "TSCTextView.h"
 
-
+#import "NSString+TSCTimeStamp.h"
 
 
 @implementation TSCTextView
@@ -73,80 +73,70 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 {
     NSLayoutManager *layoutManager = self.layoutManager;
     NSTextContainer *textContainer = self.textContainer;
-    unsigned glyphIndex, textLength = self.textStorage.length;
-    NSPoint point = [self convertPoint:theEvent.locationInWindow fromView:nil];
-    NSRange lineGlyphRange = NSMakeRange(0, textLength);
-    NSRange lineCharRange;
+    NSUInteger glyphIndex, textLength = self.textStorage.length;
+    NSPoint point = [self convertPoint:theEvent.locationInWindow
+							  fromView:nil];
     NSRect glyphRect;
     
 	point.x -= self.textContainerOrigin.x;
     point.y -= self.textContainerOrigin.y;
-	glyphIndex = [layoutManager glyphIndexForPoint:point inTextContainer:textContainer];
-	glyphRect = [layoutManager boundingRectForGlyphRange:NSMakeRange(glyphIndex, 1) inTextContainer:textContainer];
+	glyphIndex = [layoutManager glyphIndexForPoint:point
+								   inTextContainer:textContainer];
+	glyphRect = [layoutManager boundingRectForGlyphRange:NSMakeRange(glyphIndex, 1)
+										 inTextContainer:textContainer];
     if (NSPointInRect(point, glyphRect)) {
-		(void)[layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex effectiveRange:&lineGlyphRange];        
-        lineCharRange = [layoutManager characterRangeForGlyphRange:lineGlyphRange actualGlyphRange:NULL];
-        
-		NSString* theString = [[self attributedString] attributedSubstringFromRange:lineCharRange].string;
-
-		if (theString)
-		{
-			NSScanner* lineScanner = [NSScanner scannerWithString:theString];
-			NSCharacterSet* rauteSet = [NSCharacterSet characterSetWithCharactersInString:@"#"];
-			
-			NSMutableArray* timeValueArray = [[NSMutableArray alloc] init];
-
-			NSString* tscTimeValue;
-			NSString* rauteA;
-			NSString* rauteB;
-			
-			while (lineScanner.atEnd == NO && lineScanner.scanLocation != NSNotFound)
-			{
-				BOOL scanned;
-				if([[theString substringFromIndex:lineScanner.scanLocation] compare:@"#"] != NSOrderedSame)
-				 {[lineScanner scanUpToCharactersFromSet:rauteSet intoString:NULL];}
-				 
-				scanned = [lineScanner scanString:@"#" intoString:&rauteA] &&
-					[lineScanner scanUpToCharactersFromSet:rauteSet intoString:&tscTimeValue] &&
-					[lineScanner scanString:@"#" intoString:&rauteB];
-				if (scanned){
-					
-					NSString* newString = [rauteA stringByAppendingString:tscTimeValue];
-					NSString* buttonString = [newString stringByAppendingString:rauteB];
-					
-					
-					NSRect wordRect = [layoutManager boundingRectForGlyphRange:[self.string rangeOfString:buttonString] inTextContainer:textContainer];
-					NSRect buttonRect = NSMakeRect(wordRect.origin.x - 1, wordRect.origin.y, wordRect.size.width + 2, wordRect.size.height + 2);
-					NSButton* timeButton = [[NSButton alloc] initWithFrame:buttonRect];
-					[timeButton setEnabled:NO];
-					NSButtonCell* timeButtonCell = [[NSButtonCell alloc] init];
-					//only used in borderless buttons:
-                    timeButtonCell.backgroundColor = [NSColor magentaColor];
-                    ///
-					timeButtonCell.bezelStyle = NSRoundRectBezelStyle;
-					timeButtonCell.title = tscTimeValue;
-					timeButtonCell.gradientType = NSGradientConcaveWeak;
-					[timeButtonCell setTransparent:NO];
-					timeButton.cell = timeButtonCell;
-					timeButton.action = @selector(timeStampPressed:);
-					[timeValueArray removeObjectIdenticalTo:timeButton];
-					[timeValueArray addObject:timeButton];
-			
-					}
-			
-				self.subviews = timeValueArray;
-
-				
-			}
-		}
-			
+		NSUInteger characterIndex = [layoutManager characterIndexForGlyphAtIndex:glyphIndex];
 		
-	}else{
-		for (int x = 0;x < self.subviews.count;x++)
-		{
-			[self.subviews[x] removeFromSuperview];
-			[self setNeedsDisplay:YES];
-		}
+		NSRange lineGlyphRange = NSMakeRange(0, textLength);
+		[layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex
+										effectiveRange:&lineGlyphRange];
+        NSRange lineCharRange =
+		[layoutManager characterRangeForGlyphRange:lineGlyphRange
+								  actualGlyphRange:NULL];
+		
+		NSString *theString = self.string;
+		
+		NSMutableArray *timeButtonArray = [[NSMutableArray alloc] init];
+
+		[theString enumerateTimeStampsInRange:lineCharRange
+								   usingBlock:^(NSString *timeCode, NSRange timeStampRange, BOOL *stop) {
+									   if ((timeStampRange.length > 0) &&
+										   (NSLocationInRange(characterIndex, timeStampRange))) {
+										   NSRange glyphRange = [layoutManager glyphRangeForCharacterRange:timeStampRange
+																					  actualCharacterRange:NULL];
+										   NSRect wordRect = [layoutManager boundingRectForGlyphRange:glyphRange
+																					  inTextContainer:textContainer];
+										   NSRect buttonRect = NSMakeRect(wordRect.origin.x - 1,
+																		  wordRect.origin.y,
+																		  wordRect.size.width + 2,
+																		  wordRect.size.height + 2);
+										   
+										   NSButton *timeButton = [[NSButton alloc] initWithFrame:buttonRect];
+										   timeButton.enabled = NO;
+										   
+										   NSButtonCell *timeButtonCell = [[NSButtonCell alloc] init];
+										   //only used in borderless buttons:
+										   timeButtonCell.backgroundColor = [NSColor magentaColor];
+										   ///
+										   timeButtonCell.bezelStyle = NSRoundRectBezelStyle;
+										   //timeButtonCell.title = timeCode;
+										   timeButtonCell.title = @"";
+										   timeButtonCell.gradientType = NSGradientConcaveWeak;
+										   timeButtonCell.transparent = NO;
+										   timeButtonCell.representedObject = timeCode;
+
+										   timeButton.cell = timeButtonCell;
+										   timeButton.action = @selector(timeStampPressed:);
+										   
+										   [timeButtonArray addObject:timeButton];
+									   }
+								   }];
+		
+		self.subviews = timeButtonArray;
+	}
+	else {
+		self.subviews = @[];
+		[self setNeedsDisplay:YES];
 	}
 }
 

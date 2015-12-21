@@ -862,7 +862,7 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 {
     NSButton* tsButton = note.object;
     if (tsButton.window == _appWindow) {
-        NSString* timestampTimeString = tsButton.title;
+        NSString *timestampTimeString = tsButton.cell.representedObject;
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"timestampReplay"] boolValue] == YES )
         {
             CMTime timeToAdd   = CMTimeMakeWithSeconds(_replaySlider.intValue, 1);
