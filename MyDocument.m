@@ -38,6 +38,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import <SubRip/SubRip.h>
 #import <SubRip/DTCoreTextConstants.h>
 
+#import "JXCMTimeStringTransformer.h"
+
 NSString * const	SRTDocumentType		= @"de.geheimwerk.subrip";
 NSString * const	TSCPlayerItemStatusKeyPath			= @"status";
 
@@ -638,22 +640,6 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 
 #pragma mark CMTime methods
 
--(NSString *)CMTimeAsString:(CMTime)time
-{
-    NSUInteger dTotalSeconds = CMTimeGetSeconds(time);
-    NSUInteger dHours = floor(dTotalSeconds / 3600);
-    NSUInteger dMinutes = floor(dTotalSeconds % 3600 / 60);
-    NSUInteger dSeconds = floor(dTotalSeconds % 3600 % 60);
-    long long tenthSeconds = 0;
-    if(time.timescale)
-    {
-        long long timeInTenthSeconds = time.value * 10 /time.timescale;
-        tenthSeconds =  timeInTenthSeconds % 10;
-    }
-	return [NSString stringWithFormat:@"%02lu:%02lu:%02lu.%02lld" , (unsigned long)dHours, (unsigned long)dMinutes, (unsigned long)dSeconds, tenthSeconds];
-}
-
-
 + (NSSet *)keyPathsForValuesAffectingDuration
 {
     return [NSSet setWithObjects:@"player.currentItem", @"player.currentItem.status", nil];
@@ -813,7 +799,7 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 	NSRange insertionCursor = NSMakeRange(insertionLocation, 0);
 	NSRange insertionRange = insertionCursor;
 	
-	NSString *timeString = [self CMTimeAsString:time];
+	NSString *timeString = [JXCMTimeStringTransformer timecodeStringForCMTime:time];
 	
 	NSString * const prefix = @" #";
 	const NSUInteger prefixLength = 2;
@@ -876,7 +862,7 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"timestampReplay"] boolValue] == YES )
         {
             CMTime timeToAdd   = CMTimeMakeWithSeconds(_replaySlider.intValue, 1);
-            CMTime resultTime  = CMTimeSubtract([self cmtimeForTimeStampString:timestampTimeString],timeToAdd);
+            CMTime resultTime  = CMTimeSubtract([JXCMTimeStringTransformer CMTimeForTimecodeString:timestampTimeString], timeToAdd);
             [self.player seekToTime:resultTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
             float myRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"currentRate"];
             [self.player play];
@@ -884,23 +870,10 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
         }
         else
         {
-            [self.player seekToTime:[self cmtimeForTimeStampString:timestampTimeString] toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+            [self.player seekToTime:[JXCMTimeStringTransformer CMTimeForTimecodeString:timestampTimeString] toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
         }
         [self updateTimestampLineNumber];
     }
-}
-
-- (CMTime)cmtimeForTimeStampString:(NSString *)tsString
-{
-	NSArray* timeComponents = [tsString componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@":-."]];
-	if (timeComponents.count < 4)  return kCMTimeInvalid;
-	
-    float hours = [timeComponents[0] floatValue];
-    float minutes = [timeComponents[1] floatValue];
-    float seconds = [timeComponents[2] floatValue];
-    float tenthsecond  = [timeComponents[3] floatValue];
-    Float64 timeInSeconds = (hours * 3600.0f) + (minutes * 60.0f) + seconds + (tenthsecond * 0.1f);    
-    return CMTimeMakeWithSeconds(timeInSeconds, 1);
 }
 
 
