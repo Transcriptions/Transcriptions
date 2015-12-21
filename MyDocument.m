@@ -886,7 +886,7 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
         proposedMax = splitView.frame.size.width - 250;
     }
     
-    return proposedMax ;
+    return proposedMax;
 }
 
 - (BOOL)splitView:(NSSplitView *)splitView canCollapseSubview:(NSView *)subview
