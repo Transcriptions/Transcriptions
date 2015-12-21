@@ -15,7 +15,7 @@
 
 + (NSString *)timecodeStringForCMTime:(CMTime)time;
 
-+ (void)parseTimecodeString:(NSString *)timecodeString
++ (BOOL)parseTimecodeString:(NSString *)timecodeString
 				intoSeconds:(int *)totalNumSeconds
 		  fractionalSeconds:(int *)fractionalSeconds;
 

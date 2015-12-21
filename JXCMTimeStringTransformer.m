@@ -83,11 +83,13 @@ NS_INLINE int totalSecondsForHoursMinutesSeconds(int hours, int minutes, int sec
 	return (hours * 3600) + (minutes * 60) + seconds;
 }
 
-+ (void)parseTimecodeString:(NSString *)timecodeString
++ (BOOL)parseTimecodeString:(NSString *)timecodeString
 				intoSeconds:(int *)totalNumSeconds
 		  fractionalSeconds:(int *)fractionalSeconds;
 {
 	NSArray *timeComponents = [timecodeString componentsSeparatedByString:@":"];
+	
+	if (timeComponents.count != 3)  return NO;
 	
 	int hours = [(NSString *)[timeComponents objectAtIndex:0] intValue];
 	int minutes = [(NSString *)[timeComponents objectAtIndex:1] intValue];
@@ -101,7 +103,10 @@ NS_INLINE int totalSecondsForHoursMinutesSeconds(int hours, int minutes, int sec
 	else {
 		*fractionalSeconds = [(NSString *)[secondsComponents objectAtIndex:1] intValue];
 	}
+	
 	*totalNumSeconds = totalSecondsForHoursMinutesSeconds(hours, minutes, seconds);
+	
+	return YES;
 }
 
 NS_INLINE CMTime convertSecondsFractionalSecondsToCMTime(int seconds, int fractionalSeconds) {
@@ -122,11 +127,17 @@ NS_INLINE CMTime convertSecondsFractionalSecondsToCMTime(int seconds, int fracti
 	int fractionalSeconds;
 	int totalNumSeconds;
 	
+	BOOL success =
 	[self parseTimecodeString:timecodeString
 				  intoSeconds:&totalNumSeconds
 			fractionalSeconds:&fractionalSeconds];
 	
-	CMTime time = convertSecondsFractionalSecondsToCMTime(totalNumSeconds, fractionalSeconds);
+	CMTime time;
+	if (success) {
+		time = convertSecondsFractionalSecondsToCMTime(totalNumSeconds, fractionalSeconds);
+	} else {
+		time = kCMTimeInvalid;
+	}
 	
 	return time;
 }
