@@ -274,25 +274,23 @@ Original code can be found here:http://roventskij.net/index.php?p=3
         }
 }
 
-- (void) boundsDidChangeNotification: (NSNotification *) notification
+- (void)boundsDidChangeNotification:(NSNotification *)notification
 {
     [self setNeedsDisplay: YES];
 }
 
 - (void)refresh
 {
-	
-	if (drawParagraphNumbers)
-	{
+	if (drawParagraphNumbers) {
 		self.textContainer.lineFragmentPadding = 38.0;
 		[self.textContainer setWidthTracksTextView:NO];
-	} else {
+	}
+	else {
 		self.textContainer.lineFragmentPadding = 2.0;
 		[self.textContainer setWidthTracksTextView:YES];
 	}
-	
+
 	[self setNeedsDisplay:YES];
-	
 }
 
 - (void)showParagraphs:(id)sender
@@ -305,7 +303,6 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 - (void)timeStampPressed:(id)sender
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"aTimestampPressed" object:sender];
-
 }
 
 @end
