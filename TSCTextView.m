@@ -231,9 +231,9 @@ Original code can be found here:http://roventskij.net/index.php?p=3
         NSRect lineRect;
         NSArray* lines = [self.string componentsSeparatedByString:@"\n"];
         NSLayoutManager* layoutManager = self.layoutManager;
-        int i;
-        int pos = 0;
-        int emptyString = 0;
+        NSUInteger i;
+        NSUInteger pos = 0;
+        NSUInteger emptyString = 0;
         NSString* s;
         NSSize stringSize;
         for (i=0;i<lines.count;i++) {
@@ -243,8 +243,8 @@ Original code can be found here:http://roventskij.net/index.php?p=3
                 lineRect.size.width = 16.0;
                 if ([lines[i] length] > 0){
                     if (NSContainsRect(documentVisibleRect,lineRect)) {
-                        int insertNumber = (i + 1) - emptyString;
-                        int timeLine = self.timeLineNumber;
+                        NSUInteger insertNumber = (i + 1) - emptyString;
+                        NSUInteger timeLine = self.timeLineNumber;
                         if (insertNumber == timeLine) {
                             NSBezierPath* aPath = [NSBezierPath bezierPath];
                             [[NSColor colorWithCalibratedRed:0.37 green:0.42 blue:0.49 alpha:1.0] set];
@@ -264,7 +264,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
                             NSBezierPath *bezierPath = [NSBezierPath bezierPathWithRect:NSMakeRect(0.0, lineRect.origin.y, 34.6, 30.0)];
                             [aGradient drawInBezierPath:bezierPath angle:270];
                         }
-                        s = [NSString stringWithFormat:@"%i", insertNumber];
+                        s = [NSString stringWithFormat:@"%lu", (unsigned long)insertNumber];
                         stringSize = [s sizeWithAttributes:nil];
                         [s drawAtPoint:NSMakePoint(32.0-stringSize.width,lineRect.origin.y+1) withAttributes:_paragraphAttributes];
                     }
