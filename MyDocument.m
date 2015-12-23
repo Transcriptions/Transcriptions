@@ -1143,7 +1143,7 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 - (void)updateTimestampLineNumber
 {
 	if (!_playerItem) {
-		_textView.timeLineNumber = 0;
+		_textView.highlightLineNumber = 0;
 		return;
 	}
 	
@@ -1241,11 +1241,11 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 									   lineIndex++;
 								   }];
 		
-		_textView.timeLineNumber = (lineIndex + 1) - emptyStringCount;
+		_textView.highlightLineNumber = (lineIndex + 1) - emptyStringCount;
 		_textView.needsDisplay = YES;
 	}
 	else {
-		_textView.timeLineNumber = 0;
+		_textView.highlightLineNumber = 0;
 	}
 }
 

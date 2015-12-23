@@ -46,7 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	BOOL _enterCharacterCheck;
 }
 
-@property NSUInteger timeLineNumber;
+@property NSUInteger highlightLineNumber;
 
 - (void)refresh;
 - (void)showParagraphs:(id)sender;

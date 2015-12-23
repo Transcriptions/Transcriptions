@@ -53,7 +53,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 								  NSForegroundColorAttributeName: [NSColor colorWithDeviceWhite:.50 alpha:1.0],
 								  } mutableCopy];
 		
-		_timeLineNumber = 0;
+		_highlightLineNumber = 0;
 	}
 	
 	return self;
@@ -266,7 +266,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 		 if (lineLength > 0) {
 			 if (NSContainsRect(documentVisibleRect, lineRect)) {
 				 NSUInteger lineNumber = (lineIndex + 1) - emptyStringCount;
-				 NSUInteger highlightLineNumber = self.timeLineNumber;
+				 NSUInteger highlightLineNumber = self.highlightLineNumber;
 				 
 				 if (lineNumber == highlightLineNumber) {
 					 NSBezierPath *aPath = [NSBezierPath bezierPath];
