@@ -1223,7 +1223,8 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 		
 		// FIXME: Rewrite so that we tell the text view which range we want to have the line marked for.
 		// It should have a range-to-line mapping already.
-		__block NSUInteger lineNumber = 1;
+		__block NSUInteger lineIndex = 0;
+		__block NSUInteger emptyStringCount = 0;
 		[theString enumerateSubstringsInRange:fullRange
 									  options:(NSStringEnumerationSubstringNotRequired | NSStringEnumerationByLines)
 								   usingBlock:^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
@@ -1232,10 +1233,15 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 										   return;
 									   }
 									   
-									   lineNumber++;
+									   NSUInteger lineLength = substringRange.length;
+									   if (lineLength == 0) {
+										   emptyStringCount += 1;
+									   }
+									   
+									   lineIndex++;
 								   }];
 		
-		_textView.timeLineNumber = lineNumber;
+		_textView.timeLineNumber = (lineIndex + 1) - emptyStringCount;
 		_textView.needsDisplay = YES;
 	}
 	else {
