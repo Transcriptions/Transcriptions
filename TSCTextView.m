@@ -43,29 +43,38 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 
 @implementation TSCTextView
 
-@synthesize timeLineNumber;
-
-
--(void)awakeFromNib{
+- (instancetype)init
+{
+	self = [super init];
 	
+	if (self) {
+		_paragraphAttributes = [@{
+								  NSFontAttributeName: [NSFont boldSystemFontOfSize:9],
+								  NSForegroundColorAttributeName: [NSColor colorWithDeviceWhite:.50 alpha:1.0],
+								  } mutableCopy];
+		
+		_timeLineNumber = 0;
+	}
+	
+	return self;
+}
+
+- (void)awakeFromNib
+{
 	self.textStorage.delegate = self;
 	
 	drawParagraphNumbers = YES;
 	self.font = [NSFont fontWithName:@"Helvetica" size:13];
 	[self refresh];
 	[self insertText:@""];
-    [self setUsesFindBar:YES];
-    [self.enclosingScrollView.contentView setPostsBoundsChangedNotifications: YES];
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter] ;
-    [center addObserver: self
-               selector: @selector(boundsDidChangeNotification:)
-                   name: NSViewBoundsDidChangeNotification
-                 object: self.enclosingScrollView.contentView];
-	paragraphAttributes = [[NSMutableDictionary alloc] init];
-	paragraphAttributes[NSFontAttributeName] = [NSFont boldSystemFontOfSize:9];
-	paragraphAttributes[NSForegroundColorAttributeName] = [NSColor colorWithDeviceWhite:.50 alpha:1.0];
-	[self.window setAcceptsMouseMovedEvents:YES];
-    self.timeLineNumber = 0;
+    self.usesFindBar = YES;
+    self.enclosingScrollView.contentView.postsBoundsChangedNotifications = YES;
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self
+               selector:@selector(boundsDidChangeNotification:)
+                   name:NSViewBoundsDidChangeNotification
+                 object:self.enclosingScrollView.contentView];
+	self.window.acceptsMouseMovedEvents = YES;
 	
 }
 
@@ -255,7 +264,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
                         }
                         s = [NSString stringWithFormat:@"%i", insertNumber];
                         stringSize = [s sizeWithAttributes:nil];
-                        [s drawAtPoint:NSMakePoint(32.0-stringSize.width,lineRect.origin.y+1) withAttributes:paragraphAttributes];
+                        [s drawAtPoint:NSMakePoint(32.0-stringSize.width,lineRect.origin.y+1) withAttributes:_paragraphAttributes];
                     }
                 }
                 else{
