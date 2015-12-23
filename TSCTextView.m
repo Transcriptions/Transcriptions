@@ -203,77 +203,101 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 
 - (void)drawRect:(NSRect)aRect
 {
-        if (!_drawParagraphNumbers) {
-            NSSize tcSize = self.textContainer.containerSize;
-            tcSize.width = self.frame.size.width;
-            self.textContainer.containerSize = tcSize;
-            [super drawRect:aRect];
-            return;
-        }
-        NSSize tcSize = self.textContainer.containerSize;
-        tcSize.width = self.frame.size.width+35.0;
-        self.textContainer.containerSize = tcSize;
-        [super drawRect:aRect];
-        [[NSColor colorWithDeviceWhite:0.95 alpha:1.0] set];
-        NSRect documentVisibleRect = self.enclosingScrollView.documentVisibleRect;
-        documentVisibleRect.origin.y -= 35.0;
-        documentVisibleRect.size.height += 65.0;
-        NSRect marginRect = documentVisibleRect;
-        marginRect.size.width = 35.0;
-        NSRectFill(marginRect);
-        CGContextSetShouldAntialias([NSGraphicsContext currentContext].graphicsPort, NO);
-        [[NSColor lightGrayColor] set];
-        NSPoint p1 = NSMakePoint(35.0,marginRect.origin.y);
-        NSPoint p2 = NSMakePoint(35.0,marginRect.origin.y+marginRect.size.height);
-        [NSBezierPath strokeLineFromPoint:p1 toPoint:p2];
-        CGContextSetShouldAntialias([NSGraphicsContext currentContext].graphicsPort, YES);
-        NSRange lineRange;
-        NSRect lineRect;
-        NSArray* lines = [self.string componentsSeparatedByString:@"\n"];
-        NSLayoutManager* layoutManager = self.layoutManager;
-        NSUInteger i;
-        NSUInteger pos = 0;
-        NSUInteger emptyString = 0;
-        NSString* s;
-        NSSize stringSize;
-        for (i=0;i<lines.count;i++) {
-            if (pos <self.string.length) {
-                lineRect = [layoutManager lineFragmentRectForGlyphAtIndex:pos effectiveRange:&lineRange];
-                pos += [lines[i] length]+1;
-                lineRect.size.width = 16.0;
-                if ([lines[i] length] > 0){
-                    if (NSContainsRect(documentVisibleRect,lineRect)) {
-                        NSUInteger insertNumber = (i + 1) - emptyString;
-                        NSUInteger timeLine = self.timeLineNumber;
-                        if (insertNumber == timeLine) {
-                            NSBezierPath* aPath = [NSBezierPath bezierPath];
-                            [[NSColor colorWithCalibratedRed:0.37 green:0.42 blue:0.49 alpha:1.0] set];
-                            [aPath moveToPoint:NSMakePoint(1.0, lineRect.origin.y)];
-                            [aPath lineToPoint:NSMakePoint(35.0, lineRect.origin.y)];
-                            aPath.lineCapStyle = NSSquareLineCapStyle;
-                            [aPath stroke];
-                            NSColor *startingColor;
-                            NSColor *endingColor;
-                            NSGradient* aGradient;
-                            endingColor = [NSColor yellowColor];
-                            startingColor = [NSColor colorWithDeviceWhite:0.95 alpha:1.0];
-                            aGradient = [[NSGradient alloc]
-                                         initWithStartingColor:startingColor
-                                         endingColor:endingColor];
-                            
-                            NSBezierPath *bezierPath = [NSBezierPath bezierPathWithRect:NSMakeRect(0.0, lineRect.origin.y, 34.6, 30.0)];
-                            [aGradient drawInBezierPath:bezierPath angle:270];
-                        }
-                        s = [NSString stringWithFormat:@"%lu", (unsigned long)insertNumber];
-                        stringSize = [s sizeWithAttributes:nil];
-                        [s drawAtPoint:NSMakePoint(32.0-stringSize.width,lineRect.origin.y+1) withAttributes:_paragraphAttributes];
-                    }
-                }
-                else {
-                    emptyString += 1;
-                }
-            }
-        }
+	const CGFloat marginWidth = 35.0;
+	
+	NSSize tcSize = self.textContainer.containerSize;
+	tcSize.width = self.frame.size.width;
+	
+	if (_drawParagraphNumbers) {
+		tcSize.width += marginWidth;
+	}
+	
+	self.textContainer.containerSize = tcSize;
+	[super drawRect:aRect];
+	
+	if (!_drawParagraphNumbers) {
+		return;
+	}
+	
+	NSColor *backgroundColor = [NSColor colorWithDeviceWhite:0.95 alpha:1.0];
+	[backgroundColor set];
+	
+	NSRect documentVisibleRect = self.enclosingScrollView.documentVisibleRect;
+	documentVisibleRect.origin.y -= 35.0;
+	documentVisibleRect.size.height += 65.0;
+	
+	NSRect marginRect = documentVisibleRect;
+	marginRect.size.width = marginWidth;
+	NSRectFill(marginRect);
+	
+	CGContextSetShouldAntialias([NSGraphicsContext currentContext].graphicsPort, NO);
+	[[NSColor lightGrayColor] set];
+	
+	NSPoint p1 = NSMakePoint(marginWidth, marginRect.origin.y);
+	NSPoint p2 = NSMakePoint(marginWidth, marginRect.origin.y + marginRect.size.height);
+	[NSBezierPath strokeLineFromPoint:p1 toPoint:p2];
+	
+	CGContextSetShouldAntialias([NSGraphicsContext currentContext].graphicsPort, YES);
+	
+	NSLayoutManager *layoutManager = self.layoutManager;
+	
+	NSString * const theString = self.string;
+	const NSRange fullRange = NSMakeRange(0, theString.length);
+	
+	__block NSUInteger lineIndex = 0;
+	__block NSUInteger emptyStringCount = 0;
+	[theString enumerateSubstringsInRange:fullRange
+								  options:(NSStringEnumerationSubstringNotRequired | NSStringEnumerationByLines)
+							   usingBlock:
+	 ^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
+		 const NSRange lineGlyphRange =
+		 [layoutManager glyphRangeForCharacterRange:substringRange
+							   actualCharacterRange:NULL];
+		 
+		 const NSUInteger firstGlyphIndex = lineGlyphRange.location;
+		 
+		 NSRect lineRect = [layoutManager lineFragmentRectForGlyphAtIndex:firstGlyphIndex
+														   effectiveRange:NULL];
+		 
+		 lineRect.size.width = 16.0;
+		 
+		 NSUInteger lineLength = substringRange.length;
+		 
+		 if (lineLength > 0) {
+			 if (NSContainsRect(documentVisibleRect, lineRect)) {
+				 NSUInteger lineNumber = (lineIndex + 1) - emptyStringCount;
+				 NSUInteger highlightLineNumber = self.timeLineNumber;
+				 
+				 if (lineNumber == highlightLineNumber) {
+					 NSBezierPath *aPath = [NSBezierPath bezierPath];
+					 [[NSColor colorWithCalibratedRed:0.37 green:0.42 blue:0.49 alpha:1.0] set];
+					 [aPath moveToPoint:NSMakePoint(1.0, lineRect.origin.y)];
+					 [aPath lineToPoint:NSMakePoint(marginWidth, lineRect.origin.y)];
+					 aPath.lineCapStyle = NSSquareLineCapStyle;
+					 [aPath stroke];
+					 
+					 NSColor *endingColor = [NSColor yellowColor];
+					 NSColor *startingColor = backgroundColor;
+					 NSGradient *aGradient =
+					 [[NSGradient alloc] initWithStartingColor:startingColor
+												   endingColor:endingColor];
+					 
+					 NSBezierPath *bezierPath = [NSBezierPath bezierPathWithRect:NSMakeRect(0.0, lineRect.origin.y, 34.6, 30.0)];
+					 [aGradient drawInBezierPath:bezierPath angle:270];
+				 }
+				 
+				 NSString *numberString = [NSString stringWithFormat:@"%lu", (unsigned long)lineNumber];
+				 NSSize stringSize = [numberString sizeWithAttributes:_paragraphAttributes];
+				 [numberString drawAtPoint:NSMakePoint(32.0 - stringSize.width, lineRect.origin.y + 1)
+							withAttributes:_paragraphAttributes];
+			 }
+		 }
+		 else {
+			 emptyStringCount += 1;
+		 }
+		 
+		 lineIndex++;
+	 }];
 }
 
 - (void)boundsDidChangeNotification:(NSNotification *)notification
