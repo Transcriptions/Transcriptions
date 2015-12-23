@@ -140,53 +140,54 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	}
 }
 
-- (void)keyDown:(NSEvent *)theEvent {
+- (void)keyDown:(NSEvent *)theEvent
+{
+	NSString *eventCharacters = theEvent.characters;
 	
-    spaceCheck = NO;
-    enterCheck = NO;
-	
-	NSString* charString = theEvent.characters;
-	
-	if ([charString compare:@"@"] == NSOrderedSame){
-		checkKey = YES;	
+	if ([eventCharacters isEqualToString:@"@"]) {
+		_atCharacterKey = YES;
 	}
 	
-	if ([theEvent.characters compare:@" "] == NSOrderedSame){
-		spaceCheck = YES;
-	}else if ([theEvent.characters compare:@"\r"] == NSOrderedSame)
-	{
-		enterCheck = YES;
-	}else{
-		spaceCheck = NO;
-		enterCheck = NO;
+	if ([eventCharacters isEqualToString:@" "]) {
+		_spaceCharacterCheck = YES;
+		_enterCharacterCheck = NO;
+	}
+	else if ([eventCharacters isEqualToString:@"\r"]) {
+		_spaceCharacterCheck = NO;
+		_enterCharacterCheck = YES;
+	}
+	else {
+		_spaceCharacterCheck = NO;
+		_enterCharacterCheck = NO;
 	}
 	
-	if((checkKey) && ((spaceCheck)||(enterCheck))){
+	if (_atCharacterKey &&
+		(_spaceCharacterCheck || _enterCharacterCheck)) {
+		NSString *textString = self.textStorage.string;
 		
-		NSString* textString = self.textStorage.string;
-		
-		
-		NSEnumerator *theEnumerator = [insertions.arrangedObjects objectEnumerator];
-		id anObject;
-	
-			while (anObject = [theEnumerator nextObject])
-			{
-                NSString* substitution = [NSString stringWithFormat:@"@%@",anObject[@"substString"]];
-                NSAttributedString* insertion = anObject[@"insertString"];
-                if ([textString rangeOfString:substitution].location != NSNotFound){
-                    [self.textStorage.mutableString replaceOccurrencesOfString:substitution withString:insertion.string options:NSLiteralSearch range:NSMakeRange(0, self.textStorage.length)];
-                    [self setNeedsDisplayInRect:self.enclosingScrollView.contentView.visibleRect];
-                     checkKey = NO;
-                }
+		for (id anObject in insertions.arrangedObjects) {
+			NSString *searchString = [NSString stringWithFormat:@"@%@", anObject[@"substString"]];
+			NSAttributedString *replacement = anObject[@"insertString"];
+			NSString *replacementString = replacement.string;
+			if ([textString rangeOfString:searchString].location != NSNotFound) {
+				[self.textStorage.mutableString replaceOccurrencesOfString:searchString
+																withString:replacementString
+																   options:0 // Allow for representational Unicode differences.
+																	 range:NSMakeRange(0, self.textStorage.length)];
+				[self setNeedsDisplayInRect:self.enclosingScrollView.contentView.visibleRect];
+				_atCharacterKey = NO;
 			}
+		}
 	}
 	
-    
-	if (enterCheck && [[[NSUserDefaults standardUserDefaults] objectForKey:@"autoTimestamp"] boolValue] == YES){
+	BOOL autoTimestamp = [[[NSUserDefaults standardUserDefaults] objectForKey:@"autoTimestamp"] boolValue];
 	
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"automaticTimestamp" object:self];
+	if (_enterCharacterCheck && autoTimestamp) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"automaticTimestamp"
+															object:self];
 	}
-	[self interpretKeyEvents:@[theEvent]];	
+	
+	[self interpretKeyEvents:@[theEvent]];
 }
 
 - (void)drawRect:(NSRect)aRect

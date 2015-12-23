@@ -40,11 +40,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	IBOutlet TSCArrayController* insertions;
 	NSMutableDictionary* paragraphAttributes;
 	BOOL drawParagraphNumbers;
-	BOOL checkKey;
-	BOOL spaceCheck;
-	BOOL enterCheck;
     int timeLineNumber;
 
+	BOOL _atCharacterKey;
+	BOOL _spaceCharacterCheck;
+	BOOL _enterCharacterCheck;
 }
 
 @property int timeLineNumber;
