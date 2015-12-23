@@ -149,6 +149,8 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	}
 }
 
+// This is called for every key-press.
+// The ivars accumulate previous key sequences that trigger special behavior.
 - (void)keyDown:(NSEvent *)theEvent
 {
 	NSString *eventCharacters = theEvent.characters;
