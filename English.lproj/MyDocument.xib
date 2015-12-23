@@ -74,7 +74,7 @@
                                                     <size key="minSize" width="490" height="639"/>
                                                     <size key="maxSize" width="993" height="10000000"/>
                                                     <connections>
-                                                        <outlet property="insertions" destination="100305" id="100918"/>
+                                                        <outlet property="_insertions" destination="100305" id="d8H-Ow-sPO"/>
                                                     </connections>
                                                 </textView>
                                             </subviews>

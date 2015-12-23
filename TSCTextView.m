@@ -174,7 +174,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 		(_spaceCharacterCheck || _enterCharacterCheck)) {
 		NSString *textString = self.textStorage.string;
 		
-		for (id anObject in insertions.arrangedObjects) {
+		for (id anObject in _insertions.arrangedObjects) {
 			NSString *searchString = [NSString stringWithFormat:@"@%@", anObject[@"substString"]];
 			NSAttributedString *replacement = anObject[@"insertString"];
 			NSString *replacementString = replacement.string;
