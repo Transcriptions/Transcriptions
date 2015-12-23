@@ -269,7 +269,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
                         [s drawAtPoint:NSMakePoint(32.0-stringSize.width,lineRect.origin.y+1) withAttributes:_paragraphAttributes];
                     }
                 }
-                else{
+                else {
                     emptyString += 1;
                 }
             }
@@ -278,7 +278,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 
 - (void)boundsDidChangeNotification:(NSNotification *)notification
 {
-    [self setNeedsDisplay: YES];
+    [self setNeedsDisplay:YES];
 }
 
 - (void)refresh
