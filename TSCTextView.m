@@ -63,7 +63,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 {
 	self.textStorage.delegate = self;
 	
-	drawParagraphNumbers = YES;
+	_drawParagraphNumbers = YES;
 	self.font = [NSFont fontWithName:@"Helvetica" size:13];
 	[self refresh];
 	[self insertText:@""];
@@ -201,7 +201,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 
 - (void)drawRect:(NSRect)aRect
 {
-        if (!drawParagraphNumbers) {
+        if (!_drawParagraphNumbers) {
             NSSize tcSize = self.textContainer.containerSize;
             tcSize.width = self.frame.size.width;
             self.textContainer.containerSize = tcSize;
@@ -281,7 +281,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 
 - (void)refresh
 {
-	if (drawParagraphNumbers) {
+	if (_drawParagraphNumbers) {
 		self.textContainer.lineFragmentPadding = 38.0;
 		[self.textContainer setWidthTracksTextView:NO];
 	}
@@ -295,7 +295,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 
 - (void)showParagraphs:(id)sender
 {
-	drawParagraphNumbers = (BOOL)[sender state];
+	_drawParagraphNumbers = (BOOL)[sender state];
 	[self refresh];
 }
 

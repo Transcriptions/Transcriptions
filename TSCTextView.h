@@ -39,7 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 	IBOutlet TSCArrayController* insertions;
 	NSMutableDictionary *_paragraphAttributes;
-	BOOL drawParagraphNumbers;
+	BOOL _drawParagraphNumbers;
 
 	BOOL _atCharacterKey;
 	BOOL _spaceCharacterCheck;
