@@ -44,7 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import "TSCTimeSourceRange.h"
 
 
-NSString * const	SRTDocumentType		= @"de.geheimwerk.subrip";
+NSString * const	SRTDocumentType		= @"org.niltsh.mplayerx-subrip";
 NSString * const	TSCPlayerItemStatusKeyPath			= @"status";
 
 static void *TSCPlayerItemStatusContext = &TSCPlayerItemStatusContext;

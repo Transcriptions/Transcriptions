@@ -33,7 +33,7 @@
 			<string>Viewer</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>de.geheimwerk.subrip</string>
+				<string>org.niltsh.mplayerx-subrip</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
@@ -72,36 +72,12 @@
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
-				<string>de.geheimwerk.subrip</string>
 				<string>public.plain-text</string>
 			</array>
 			<key>UTTypeDescription</key>
 			<string>SubRip Subtitle</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.niltsh.mplayerx-subrip</string>
-			<key>UTTypeReferenceURL</key>
-			<string>http://en.wikipedia.org/wiki/SubRip</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>srt</string>
-				</array>
-			</dict>
-		</dict>
-	</array>
-	<key>UTExportedTypeDeclarations</key>
-	<array>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>org.niltsh.mplayerx-subrip</string>
-				<string>public.plain-text</string>
-			</array>
-			<key>UTTypeDescription</key>
-			<string>SubRip Subtitle</string>
-			<key>UTTypeIdentifier</key>
-			<string>de.geheimwerk.subrip</string>
 			<key>UTTypeReferenceURL</key>
 			<string>http://en.wikipedia.org/wiki/SubRip</string>
 			<key>UTTypeTagSpecification</key>
