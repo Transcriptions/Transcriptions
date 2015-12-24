@@ -266,9 +266,7 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 							   error:outError];
 	}
 	else {
-		return [self readFromData:wrapper.regularFileContents
-						   ofType:type
-							error:outError];
+		return NO;
 	}
 }
 
@@ -1120,22 +1118,6 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 {
 	[self.windowForSheet endSheet:_URLPanel];
 }
-
-
-- (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
-{
-    if (outError != NULL)
-        *outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
-    return nil;
-}
-
-- (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError
-{
-    if (outError != NULL)
-        *outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
-    return YES;
-}
-
 
 
 #pragma mark timestamp line numbers
