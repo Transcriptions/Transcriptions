@@ -132,7 +132,14 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 	self.subject = _docAttributes[NSSubjectDocumentAttribute];
 	self.comment = _docAttributes[NSCommentDocumentAttribute];
 	self.keywords = _docAttributes[NSKeywordsDocumentAttribute];
-	
+
+	if (_keywords.count == 1) {
+		NSString *firstObject = _keywords[0];
+		if ([firstObject isEqualToString:@""]) {
+			_keywords = nil;
+		}
+	}
+
 	if (_rtfSaveData.length > 0) {
 		[_textView.textStorage replaceCharactersInRange:NSMakeRange(0, _textView.string.length) withAttributedString:_rtfSaveData];
 	}
@@ -292,12 +299,6 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 	
 	_docAttributes = docAttributes;
 	
-    if (_keywords.count == 1) {
-        NSString* firstObject = _keywords[0];
-        if ([firstObject isEqualToString:@""]) {
-            _keywords = nil;
-        }
-    }
 	return YES;
 }
 
