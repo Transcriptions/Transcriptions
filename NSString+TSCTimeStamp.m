@@ -23,6 +23,7 @@
 	});
 	
 	NSScanner *scanner = [NSScanner scannerWithString:self];
+	scanner.charactersToBeSkipped = nil;
 	scanner.scanLocation = range.location;
 	
 	NSUInteger scanLocation;
