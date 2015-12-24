@@ -371,7 +371,8 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 
 - (NSFileWrapper *)fileWrapperOfType:(NSString *)type error:(NSError **)outError
 {
-   NSRange range = NSMakeRange(0, _textView.string.length);
+	NSRange range = NSMakeRange(0, _textView.string.length);
+	
     if (_autor.length <= 0) {
         _autor = @"";
     }
