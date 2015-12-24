@@ -82,21 +82,24 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 {
     NSLayoutManager *layoutManager = self.layoutManager;
     NSTextContainer *textContainer = self.textContainer;
-    NSUInteger glyphIndex, textLength = self.textStorage.length;
+	
     NSPoint point = [self convertPoint:theEvent.locationInWindow
 							  fromView:nil];
-    NSRect glyphRect;
-    
+	
 	point.x -= self.textContainerOrigin.x;
     point.y -= self.textContainerOrigin.y;
-	glyphIndex = [layoutManager glyphIndexForPoint:point
-								   inTextContainer:textContainer];
-	glyphRect = [layoutManager boundingRectForGlyphRange:NSMakeRange(glyphIndex, 1)
-										 inTextContainer:textContainer];
+	
+	NSUInteger glyphIndex =
+	[layoutManager glyphIndexForPoint:point
+					  inTextContainer:textContainer];
+	NSRect glyphRect =
+	[layoutManager boundingRectForGlyphRange:NSMakeRange(glyphIndex, 1)
+							 inTextContainer:textContainer];
+	
     if (NSPointInRect(point, glyphRect)) {
 		NSUInteger characterIndex = [layoutManager characterIndexForGlyphAtIndex:glyphIndex];
 		
-		NSRange lineGlyphRange = NSMakeRange(0, textLength);
+		NSRange lineGlyphRange;
 		[layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex
 										effectiveRange:&lineGlyphRange];
         NSRange lineCharRange =
@@ -111,30 +114,28 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 								   usingBlock:^(NSString *timeCode, NSRange timeStampRange, BOOL *stop) {
 									   if ((timeStampRange.length > 0) &&
 										   (NSLocationInRange(characterIndex, timeStampRange))) {
-										   NSRange glyphRange = [layoutManager glyphRangeForCharacterRange:timeStampRange
-																					  actualCharacterRange:NULL];
-										   NSRect wordRect = [layoutManager boundingRectForGlyphRange:glyphRange
-																					  inTextContainer:textContainer];
-										   NSRect buttonRect = NSMakeRect(wordRect.origin.x - 1,
-																		  wordRect.origin.y,
-																		  wordRect.size.width + 2,
-																		  wordRect.size.height + 2);
+										   NSRange timeStampGlyphRange =
+										   [layoutManager glyphRangeForCharacterRange:timeStampRange
+																 actualCharacterRange:NULL];
 										   
-										   NSButton *timeButton = [[NSButton alloc] initWithFrame:buttonRect];
-										   timeButton.enabled = NO;
+										   NSRect timeStampRect =
+										   [layoutManager boundingRectForGlyphRange:timeStampGlyphRange
+																	inTextContainer:textContainer];
+										   
+										   NSRect buttonRect = NSMakeRect(timeStampRect.origin.x - 1,
+																		  timeStampRect.origin.y,
+																		  timeStampRect.size.width + 2,
+																		  timeStampRect.size.height + 2);
 										   
 										   NSButtonCell *timeButtonCell = [[NSButtonCell alloc] init];
-										   //only used in borderless buttons:
-										   timeButtonCell.backgroundColor = [NSColor magentaColor];
-										   ///
 										   timeButtonCell.bezelStyle = NSRoundRectBezelStyle;
-										   //timeButtonCell.title = timeCode;
 										   timeButtonCell.title = @"";
-										   timeButtonCell.gradientType = NSGradientConcaveWeak;
-										   timeButtonCell.transparent = NO;
+										   
 										   timeButtonCell.representedObject = timeCode;
 
+										   NSButton *timeButton = [[NSButton alloc] initWithFrame:buttonRect];
 										   timeButton.cell = timeButtonCell;
+										   timeButton.target = nil; // Explicitly setting this to first responder.
 										   timeButton.action = @selector(timeStampPressed:);
 										   
 										   [timeButtonArray addObject:timeButton];
@@ -145,7 +146,6 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	}
 	else {
 		self.subviews = @[];
-		[self setNeedsDisplay:YES];
 	}
 }
 
