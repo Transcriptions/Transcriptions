@@ -49,7 +49,9 @@
 		 [scanner scanString:@"#"
 				  intoString:NULL]);
 		
-		if (scanned && timeCode) {
+		if (scanned &&
+			timeCode &&
+			(timeCode.length > 0)) {
 			timeStampRange.length = scanner.scanLocation - timeStampRange.location;
 			
 			BOOL stop = NO;
