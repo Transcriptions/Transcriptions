@@ -251,6 +251,11 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 
 #pragma mark loadsave
 
++ (BOOL)canConcurrentlyReadDocumentsOfType:(NSString *)typeName
+{
+	return YES;
+}
+
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)wrapper ofType:(NSString *)type error:(NSError **)outError
 {
 	if (!wrapper.regularFile)  return NO;
