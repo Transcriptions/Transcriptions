@@ -96,6 +96,19 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	[layoutManager boundingRectForGlyphRange:NSMakeRange(glyphIndex, 1)
 							 inTextContainer:textContainer];
 	
+	NSString * const theString = self.string;
+	const NSRange fullRange = NSMakeRange(0, theString.length);
+	
+	NSDictionary *markAttributes = @{
+	  NSForegroundColorAttributeName: [NSColor blackColor],
+	  };
+	
+	// Remove previous temporary attributes.
+	for (NSString *attributeKey in markAttributes.allKeys) {
+		[layoutManager removeTemporaryAttribute:attributeKey
+							  forCharacterRange:fullRange];
+	}
+	
     if (NSPointInRect(point, glyphRect)) {
 		NSUInteger characterIndex = [layoutManager characterIndexForGlyphAtIndex:glyphIndex];
 		
@@ -106,14 +119,16 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 		[layoutManager characterRangeForGlyphRange:lineGlyphRange
 								  actualGlyphRange:NULL];
 		
-		NSString *theString = self.string;
-		
 		NSMutableArray *timeButtonArray = [[NSMutableArray alloc] init];
 
 		[theString enumerateTimeStampsInRange:lineCharRange
 								   usingBlock:^(NSString *timeCode, NSRange timeStampRange, BOOL *stop) {
 									   if ((timeStampRange.length > 0) &&
 										   (NSLocationInRange(characterIndex, timeStampRange))) {
+										   
+										   [layoutManager addTemporaryAttributes:markAttributes
+															   forCharacterRange:timeStampRange];
+										   
 										   NSRange timeStampGlyphRange =
 										   [layoutManager glyphRangeForCharacterRange:timeStampRange
 																 actualCharacterRange:NULL];
