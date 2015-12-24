@@ -278,7 +278,18 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 - (BOOL)readFromRTFData:(NSData *)data error:(NSError **)outError
 {
 	NSDictionary *docAttributes;
-	_rtfSaveData = [[NSAttributedString alloc] initWithRTF:data documentAttributes:&docAttributes];
+	NSDictionary *docReadOptions = @{
+									 NSDocumentTypeDocumentOption: NSRTFTextDocumentType
+									 };
+	
+	_rtfSaveData = [[NSAttributedString alloc] initWithData:data
+													options:docReadOptions
+										 documentAttributes:&docAttributes
+													  error:outError];
+	if (!_rtfSaveData) {
+		return NO;
+	}
+	
 	_docAttributes = docAttributes;
 	
     if (_keywords.count == 1) {
