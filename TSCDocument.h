@@ -39,9 +39,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import "AVKit/AVKit.h"
 @class AVPlayer, AVPlayerLayer;
 
-const NSTimeInterval	k_Scrub_Slider_Update_Interval = 0.1;
-const double		k_Scrub_Slider_Minimum = 0.0;
-
 @interface TSCDocument : NSDocument <NSTextViewDelegate, NSTextFieldDelegate, NSSplitViewDelegate, NSTableViewDelegate>
 {
 	//NSProgressIndicator *loadingSpinner;
@@ -73,8 +70,6 @@ const double		k_Scrub_Slider_Minimum = 0.0;
 	IBOutlet NSTextField *_commentTextField;
 	IBOutlet NSSlider *_replaySlider;
     NSAttributedString *_rtfSaveData;
-    NSAttributedString *_insertString;
-	NSNumber *_rate;
 	
 	IBOutlet NSImageView *_noVideoImage;
 	IBOutlet NSView *_playerView;
