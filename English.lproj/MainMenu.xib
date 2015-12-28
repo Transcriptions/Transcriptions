@@ -719,6 +719,7 @@
         <menuItem title="Item" id="wUD-To-rcT">
             <modifierMask key="keyEquivalentModifierMask"/>
         </menuItem>
+        <customObject id="rFp-hb-Q0Y" customClass="TSCAppController"/>
         <customObject id="7JD-I1-bdC" customClass="TSCAppDelegate"/>
         <customObject id="2dH-Cs-weP" customClass="TSCKeyBindingsController">
             <connections>
