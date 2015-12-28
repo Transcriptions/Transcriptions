@@ -25,6 +25,7 @@
 		3D5725031C27535F00C23542 /* TSCTimeSourceRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D5725021C27535F00C23542 /* TSCTimeSourceRange.m */; };
 		3D5725121C277BE100C23542 /* NSString+TSCTimeStamp.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D5725111C277BE100C23542 /* NSString+TSCTimeStamp.m */; };
 		3D9062A51C31CB8900863F29 /* TSCAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9062A41C31CB8900863F29 /* TSCAppController.m */; };
+		3D9062AB1C31CC3300863F29 /* TSCDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9062AA1C31CC3300863F29 /* TSCDocumentController.m */; };
 		3D94AC971C20422600397DA6 /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADD23481998E930007D81D3 /* ShortcutRecorder.framework */; };
 		3D94AC981C20422900397DA6 /* PTHotKey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADD234A1998E930007D81D3 /* PTHotKey.framework */; };
 		3D94AC9B1C20429800397DA6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D94AC991C20429800397DA6 /* AVFoundation.framework */; };
@@ -162,6 +163,8 @@
 		3D5725111C277BE100C23542 /* NSString+TSCTimeStamp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TSCTimeStamp.m"; sourceTree = "<group>"; };
 		3D9062A31C31CB8900863F29 /* TSCAppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCAppController.h; sourceTree = "<group>"; };
 		3D9062A41C31CB8900863F29 /* TSCAppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCAppController.m; sourceTree = "<group>"; };
+		3D9062A91C31CC3300863F29 /* TSCDocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCDocumentController.h; sourceTree = "<group>"; };
+		3D9062AA1C31CC3300863F29 /* TSCDocumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCDocumentController.m; sourceTree = "<group>"; };
 		3D94AC991C20429800397DA6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		3D94AC9A1C20429800397DA6 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		3DC14B991C258E900069150A /* JXCMTimeNumberTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JXCMTimeNumberTransformer.h; sourceTree = "<group>"; };
@@ -278,6 +281,8 @@
 				3D9062A41C31CB8900863F29 /* TSCAppController.m */,
 				3DC14B9C1C258FBF0069150A /* TSCAppDelegate.h */,
 				3DC14B9D1C258FBF0069150A /* TSCAppDelegate.m */,
+				3D9062A91C31CC3300863F29 /* TSCDocumentController.h */,
+				3D9062AA1C31CC3300863F29 /* TSCDocumentController.m */,
 				0A32C27D19A3723C007B8415 /* TSCSplitViewDelegate.h */,
 				0A32C27E19A3723C007B8415 /* TSCSplitViewDelegate.m */,
 				3D5725011C27535F00C23542 /* TSCTimeSourceRange.h */,
@@ -570,6 +575,7 @@
 				3DC14B9E1C258FBF0069150A /* TSCAppDelegate.m in Sources */,
 				63C8682C0DDA097500DC3670 /* MyDocument.m in Sources */,
 				3D5725031C27535F00C23542 /* TSCTimeSourceRange.m in Sources */,
+				3D9062AB1C31CC3300863F29 /* TSCDocumentController.m in Sources */,
 				63C8682F0DDA097B00DC3670 /* TSCArrayController.m in Sources */,
 				3DC14B9B1C258E900069150A /* JXCMTimeNumberTransformer.m in Sources */,
 				0A32C27F19A3723C007B8415 /* TSCSplitViewDelegate.m in Sources */,

@@ -8,13 +8,19 @@
 
 #import "TSCAppController.h"
 
-@implementation TSCAppController
+#import "TSCDocumentController.h"
+
+@implementation TSCAppController {
+	TSCDocumentController *_dc;
+}
+
 
 - (instancetype)init
 {
 	self = [super init];
 	
 	if (self) {
+		_dc = [[TSCDocumentController alloc] init];
 	}
 	
 	return self;
