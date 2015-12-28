@@ -275,12 +275,12 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				63C8682A0DDA097500DC3670 /* TSCDocument.h */,
-				63C8682B0DDA097500DC3670 /* TSCDocument.m */,
 				3D9062A31C31CB8900863F29 /* TSCAppController.h */,
 				3D9062A41C31CB8900863F29 /* TSCAppController.m */,
 				3DC14B9C1C258FBF0069150A /* TSCAppDelegate.h */,
 				3DC14B9D1C258FBF0069150A /* TSCAppDelegate.m */,
+				63C8682A0DDA097500DC3670 /* TSCDocument.h */,
+				63C8682B0DDA097500DC3670 /* TSCDocument.m */,
 				3D9062A91C31CC3300863F29 /* TSCDocumentController.h */,
 				3D9062AA1C31CC3300863F29 /* TSCDocumentController.m */,
 				0A32C27D19A3723C007B8415 /* TSCSplitViewDelegate.h */,
