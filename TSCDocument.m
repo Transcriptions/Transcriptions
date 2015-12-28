@@ -32,7 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 
-#import "MyDocument.h"
+#import "TSCDocument.h"
 #include <unistd.h>
 
 #import <SubRip/SubRip.h>
@@ -52,14 +52,14 @@ static void *TSCPlayerRateContext = &TSCPlayerRateContext;
 static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 
-@interface MyDocument ()
+@interface TSCDocument ()
 
 - (void)setUpPlaybackOfAsset:(AVAsset *)asset withKeys:(NSArray *)keys;
 - (void)stopLoadingAnimationAndHandleError:(NSError *)error;
 
 @end
 
-@implementation MyDocument
+@implementation TSCDocument
 
 + (BOOL)autosavesInPlace
 {
@@ -90,7 +90,7 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 
 - (NSString *)windowNibName
 {
-	return @"MyDocument";
+	return @"TSCDocument";
 }
 
 - (void)windowControllerDidLoadNib:(NSWindowController *)windowController

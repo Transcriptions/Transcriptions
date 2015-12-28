@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 const NSTimeInterval	k_Scrub_Slider_Update_Interval = 0.1;
 const double		k_Scrub_Slider_Minimum = 0.0;
 
-@interface MyDocument : NSDocument <NSTextViewDelegate, NSTextFieldDelegate, NSSplitViewDelegate, NSTableViewDelegate>
+@interface TSCDocument : NSDocument <NSTextViewDelegate, NSTextFieldDelegate, NSSplitViewDelegate, NSTableViewDelegate>
 {
 	//NSProgressIndicator *loadingSpinner;
     //NSTextField *unplayableLabel;

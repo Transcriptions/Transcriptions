@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="MyDocument">
+        <customObject id="-2" userLabel="File's Owner" customClass="TSCDocument">
             <connections>
                 <outlet property="_HUDPanel" destination="100494" id="100513"/>
                 <outlet property="_URLPanel" destination="100729" id="100739"/>

@@ -39,12 +39,12 @@
 		633A50640E4F284C00B4D45A /* TSCKeyBindingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633A50630E4F284C00B4D45A /* TSCKeyBindingsController.m */; };
 		63637E400E38F4B4004B1CFF /* scroller.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 63637E3F0E38F4B4004B1CFF /* scroller.tiff */; };
 		638524B70DDE6A7200BAA0DB /* timestamp.icns in Resources */ = {isa = PBXBuildFile; fileRef = 638524B60DDE6A7200BAA0DB /* timestamp.icns */; };
-		63C8682C0DDA097500DC3670 /* MyDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C8682B0DDA097500DC3670 /* MyDocument.m */; };
+		63C8682C0DDA097500DC3670 /* TSCDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C8682B0DDA097500DC3670 /* TSCDocument.m */; };
 		63C8682F0DDA097B00DC3670 /* TSCArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C8682E0DDA097B00DC3670 /* TSCArrayController.m */; };
 		63C868320DDA098500DC3670 /* TSCTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C868310DDA098500DC3670 /* TSCTextView.m */; };
 		63C8683B0DDA099D00DC3670 /* movieIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 63C8683A0DDA099D00DC3670 /* movieIcon.icns */; };
 		63C8683D0DDA09A200DC3670 /* TranscribeIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 63C8683C0DDA09A200DC3670 /* TranscribeIcon.icns */; };
-		63C868430DDA09E700DC3670 /* MyDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63C868400DDA09E700DC3670 /* MyDocument.xib */; };
+		63C868430DDA09E700DC3670 /* TSCDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63C868400DDA09E700DC3670 /* TSCDocument.xib */; };
 		63C868460DDA0A0200DC3670 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 63C868440DDA0A0200DC3670 /* Credits.rtf */; };
 		63CAE13F0E365CF20048E152 /* resizeImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CAE13E0E365CF20048E152 /* resizeImage.png */; };
 		63CAE1770E3665370048E152 /* controls.icns in Resources */ = {isa = PBXBuildFile; fileRef = 63CAE1760E3665370048E152 /* controls.icns */; };
@@ -179,15 +179,15 @@
 		633A50630E4F284C00B4D45A /* TSCKeyBindingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCKeyBindingsController.m; sourceTree = "<group>"; };
 		63637E3F0E38F4B4004B1CFF /* scroller.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = scroller.tiff; sourceTree = "<group>"; };
 		638524B60DDE6A7200BAA0DB /* timestamp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = timestamp.icns; sourceTree = "<group>"; };
-		63C8682A0DDA097500DC3670 /* MyDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDocument.h; sourceTree = "<group>"; };
-		63C8682B0DDA097500DC3670 /* MyDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDocument.m; sourceTree = "<group>"; };
+		63C8682A0DDA097500DC3670 /* TSCDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCDocument.h; sourceTree = "<group>"; };
+		63C8682B0DDA097500DC3670 /* TSCDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCDocument.m; sourceTree = "<group>"; };
 		63C8682D0DDA097B00DC3670 /* TSCArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCArrayController.h; sourceTree = "<group>"; };
 		63C8682E0DDA097B00DC3670 /* TSCArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCArrayController.m; sourceTree = "<group>"; };
 		63C868300DDA098500DC3670 /* TSCTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCTextView.h; sourceTree = "<group>"; };
 		63C868310DDA098500DC3670 /* TSCTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCTextView.m; sourceTree = "<group>"; };
 		63C8683A0DDA099D00DC3670 /* movieIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = movieIcon.icns; sourceTree = "<group>"; };
 		63C8683C0DDA09A200DC3670 /* TranscribeIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = TranscribeIcon.icns; sourceTree = "<group>"; };
-		63C868410DDA09E700DC3670 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MyDocument.xib; sourceTree = "<group>"; };
+		63C868410DDA09E700DC3670 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/TSCDocument.xib; sourceTree = "<group>"; };
 		63C868450DDA0A0200DC3670 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		63C868520DDA0A9300DC3670 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63CAE13E0E365CF20048E152 /* resizeImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resizeImage.png; sourceTree = "<group>"; };
@@ -275,8 +275,8 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				63C8682A0DDA097500DC3670 /* MyDocument.h */,
-				63C8682B0DDA097500DC3670 /* MyDocument.m */,
+				63C8682A0DDA097500DC3670 /* TSCDocument.h */,
+				63C8682B0DDA097500DC3670 /* TSCDocument.m */,
 				3D9062A31C31CB8900863F29 /* TSCAppController.h */,
 				3D9062A41C31CB8900863F29 /* TSCAppController.m */,
 				3DC14B9C1C258FBF0069150A /* TSCAppDelegate.h */,
@@ -317,7 +317,7 @@
 				63637E3F0E38F4B4004B1CFF /* scroller.tiff */,
 				63CAE1760E3665370048E152 /* controls.icns */,
 				63C868520DDA0A9300DC3670 /* Info.plist */,
-				63C868400DDA09E700DC3670 /* MyDocument.xib */,
+				63C868400DDA09E700DC3670 /* TSCDocument.xib */,
 				63C8683C0DDA09A200DC3670 /* TranscribeIcon.icns */,
 				63C8683A0DDA099D00DC3670 /* movieIcon.icns */,
 				63C868440DDA0A0200DC3670 /* Credits.rtf */,
@@ -546,7 +546,7 @@
 				0A3D20B71A2DD9140066C34E /* transcriptions-icon_PLAY.pdf in Resources */,
 				0A3D20B61A2DD9140066C34E /* transcriptions-icon_OPEN.pdf in Resources */,
 				0A3D20B31A2DD9140066C34E /* transcriptions-icon_CONTROLS.pdf in Resources */,
-				63C868430DDA09E700DC3670 /* MyDocument.xib in Resources */,
+				63C868430DDA09E700DC3670 /* TSCDocument.xib in Resources */,
 				0AA24F0A1A441B03006CDEB1 /* TSCHelperFolder in Resources */,
 				0A3D20B41A2DD9140066C34E /* transcriptions-icon_INFO.pdf in Resources */,
 				63C868460DDA0A0200DC3670 /* Credits.rtf in Resources */,
@@ -573,7 +573,7 @@
 				3D5725121C277BE100C23542 /* NSString+TSCTimeStamp.m in Sources */,
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
 				3DC14B9E1C258FBF0069150A /* TSCAppDelegate.m in Sources */,
-				63C8682C0DDA097500DC3670 /* MyDocument.m in Sources */,
+				63C8682C0DDA097500DC3670 /* TSCDocument.m in Sources */,
 				3D5725031C27535F00C23542 /* TSCTimeSourceRange.m in Sources */,
 				3D9062AB1C31CC3300863F29 /* TSCDocumentController.m in Sources */,
 				63C8682F0DDA097B00DC3670 /* TSCArrayController.m in Sources */,
@@ -613,12 +613,12 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		63C868400DDA09E700DC3670 /* MyDocument.xib */ = {
+		63C868400DDA09E700DC3670 /* TSCDocument.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				63C868410DDA09E700DC3670 /* English */,
 			);
-			name = MyDocument.xib;
+			name = TSCDocument.xib;
 			sourceTree = "<group>";
 		};
 		63C868440DDA0A0200DC3670 /* Credits.rtf */ = {
