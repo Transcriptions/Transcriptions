@@ -350,7 +350,13 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 	}
 	
 	_rtfSaveData = text;
+#if 1
+	NSURL *fileURL = self.fileURL;
+	fileURL = [fileURL URLByDeletingPathExtension];
+	fileURL = [fileURL URLByAppendingPathExtension:@"rtf"];
+	self.fileURL = fileURL;
 	self.fileType = (NSString *)kUTTypeRTF;
+#endif
 	
 	return YES;
 }
