@@ -392,63 +392,61 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 {
 	NSRange range = NSMakeRange(0, _textView.string.length);
 	
-    if (_autor.length <= 0) {
-        _autor = @"";
-    }
-    if (_copyright.length <= 0) {
-        _copyright = @"";
-    }
-    if (_company.length <= 0) {
-        _company = @"";
-    }
-    if (_title.length <= 0) {
-        _title = @"";
-    }
-    if (_subject.length <= 0) {
-        _subject = @"";
-    }
-    if (_comment.length <= 0) {
-        _comment = @"";
-    }
-    if (_keywords.count == 0) {
-        _keywords = @[@""];
-    }
-    
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"mediaFileAssoc"] boolValue] == YES)
-    {
-        if (_comment.length > 0)
-        {
-            if ([_comment rangeOfString:@"[[associatedMediaURL:"].location != NSNotFound) {
-                NSString* foundUrlString = [self getDataBetweenFromString:_comment leftString:@"[[associatedMediaURL:" rightString:@"]]" leftOffset:21];
-                if (foundUrlString.length > 0)
-                {
-                    NSString* toBeRemoved = [NSString stringWithFormat:@"[[associatedMediaURL:%@]]",foundUrlString];
-                    NSString* newComment = [_comment stringByReplacingOccurrencesOfString:toBeRemoved withString:@""];
-                    _comment = newComment;
-                }
-            }
-        }
-        NSError *error = nil;
-        BOOL bookmarkDataIsStale;
-        NSURL *bookmarkFileURL = nil;
-        bookmarkFileURL = [NSURL
-                           URLByResolvingBookmarkData:_mediaFileBookmark
-                           options:NSURLBookmarkResolutionWithSecurityScope
-                           relativeToURL:nil
-                           bookmarkDataIsStale:&bookmarkDataIsStale
-                           error:&error];
-        NSError *err;
-        NSURL *fileUrl = [self URLCurrentlyPlayingInPlayer:self.player];
-        if ([fileUrl.path compare:bookmarkFileURL.path] == NSOrderedSame && [fileUrl checkResourceIsReachableAndReturnError:&err] == YES && fileUrl.fileURL == YES)
-        {
-            NSString *utfString = [_mediaFileBookmark base64EncodedStringWithOptions:0];
-            NSString* urlForComment = [NSString stringWithFormat:@"[[associatedMediaURL:%@]]",utfString];
-            NSString* commentString = [NSString stringWithFormat:@"%@%@", _comment, urlForComment];
-            _comment = commentString;
-            _commentTextField.stringValue = _comment;
-        }
-    }
-	NSDictionary* docAttributes = @{
+	if (_autor.length <= 0) {
+		_autor = @"";
+	}
+	if (_copyright.length <= 0) {
+		_copyright = @"";
+	}
+	if (_company.length <= 0) {
+		_company = @"";
+	}
+	if (_title.length <= 0) {
+		_title = @"";
+	}
+	if (_subject.length <= 0) {
+		_subject = @"";
+	}
+	if (_comment.length <= 0) {
+		_comment = @"";
+	}
+	if (_keywords.count == 0) {
+		_keywords = @[@""];
+	}
+	
+	if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"mediaFileAssoc"] boolValue] == YES) {
+		if (_comment.length > 0) {
+			if ([_comment rangeOfString:@"[[associatedMediaURL:"].location != NSNotFound) {
+				NSString *foundUrlString = [self getDataBetweenFromString:_comment leftString:@"[[associatedMediaURL:" rightString:@"]]" leftOffset:21];
+				if (foundUrlString.length > 0) {
+					NSString *toBeRemoved = [NSString stringWithFormat:@"[[associatedMediaURL:%@]]", foundUrlString];
+					NSString *newComment = [_comment stringByReplacingOccurrencesOfString:toBeRemoved withString:@""];
+					_comment = newComment;
+				}
+			}
+		}
+		
+		NSError *error = nil;
+		NSURL *bookmarkFileURL = nil;
+		bookmarkFileURL = [NSURL URLByResolvingBookmarkData:_mediaFileBookmark
+													options:NSURLBookmarkResolutionWithSecurityScope
+											  relativeToURL:nil
+										bookmarkDataIsStale:NULL
+													  error:&error];
+		NSError *err;
+		NSURL *fileUrl = [self URLCurrentlyPlayingInPlayer:self.player];
+		if ([fileUrl.absoluteString isEqualToString:bookmarkFileURL.absoluteString] &&
+			([fileUrl checkResourceIsReachableAndReturnError:&err] == YES) &&
+			(fileUrl.fileURL == YES)) {
+			NSString *utfString = [_mediaFileBookmark base64EncodedStringWithOptions:0];
+			NSString *urlForComment = [NSString stringWithFormat:@"[[associatedMediaURL:%@]]", utfString];
+			NSString *commentString = [NSString stringWithFormat:@"%@%@", _comment, urlForComment];
+			_comment = commentString;
+			_commentTextField.stringValue = _comment;
+		}
+	}
+	
+	NSDictionary *docAttributes = @{
 									NSAuthorDocumentAttribute: _autor,
 									NSCopyrightDocumentAttribute: _copyright,
 									NSCompanyDocumentAttribute: _company,
@@ -457,12 +455,19 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 									NSCommentDocumentAttribute: _comment,
 									NSKeywordsDocumentAttribute: _keywords
 									};
-	NSFileWrapper *wrapper = [[NSFileWrapper alloc]
-							   initRegularFileWithContents:[_textView.textStorage RTFFromRange:range documentAttributes:docAttributes]];
-	if ( outError != NULL ) {
+	
+	NSData *RTFData = [_textView.textStorage RTFFromRange:range documentAttributes:docAttributes];
+	if (!RTFData) {
+		return nil;
+	}
+	
+	NSFileWrapper *wrapper = [[NSFileWrapper alloc] initRegularFileWithContents:RTFData];
+	
+	if (!wrapper && (outError != NULL)) {
 		*outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
 	}
-    return wrapper;
+	
+	return wrapper;
 }
 
 
