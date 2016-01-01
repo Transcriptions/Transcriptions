@@ -437,8 +437,8 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
                            relativeToURL:nil
                            bookmarkDataIsStale:&bookmarkDataIsStale
                            error:&error];
-        NSError* err;
-        NSURL* fileUrl = [self urlOfCurrentlyPlayingInPlayer:self.player];
+        NSError *err;
+        NSURL *fileUrl = [self urlOfCurrentlyPlayingInPlayer:self.player];
         if ([fileUrl.path compare:bookmarkFileURL.path] == NSOrderedSame && [fileUrl checkResourceIsReachableAndReturnError:&err] == YES && fileUrl.fileURL == YES)
         {
             NSString *utfString = [_mediaFileBookmark base64EncodedStringWithOptions:0];
