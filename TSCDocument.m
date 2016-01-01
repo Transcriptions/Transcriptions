@@ -471,43 +471,37 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 
 - (IBAction)openMovieFile:(id)sender
 {
-    if (_mediaFileBookmark) {
-        NSError *error = nil;
-        BOOL bookmarkDataIsStale;
-        NSURL *bookmarkFileURL = nil;
-        bookmarkFileURL = [NSURL
-                           URLByResolvingBookmarkData:_mediaFileBookmark
-                           options:NSURLBookmarkResolutionWithSecurityScope
-                           relativeToURL:nil
-                           bookmarkDataIsStale:&bookmarkDataIsStale
-                           error:&error];
-        [bookmarkFileURL stopAccessingSecurityScopedResource];
-    }
-    NSOpenPanel *panel = [[NSOpenPanel alloc] init];
-    [panel beginSheetModalForWindow:_appWindow
-                  completionHandler:^(NSInteger result) {
-                      if (result == NSFileHandlingPanelOKButton) {
-                          NSArray* filesToOpen = panel.URLs;
-                          NSError *error = nil;
-                          self.mediaFileBookmark = [filesToOpen[0]
-                                          bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope
-                                          includingResourceValuesForKeys:nil
-                                          relativeToURL:nil
-                                          error:&error];
-                          NSImage *typeImage = [[NSWorkspace sharedWorkspace] iconForFileType:[filesToOpen[0] pathExtension]];
-                          typeImage.size = NSMakeSize(32, 32);
-                          _mTextField.stringValue = [filesToOpen[0] lastPathComponent];
-                          _typeImageView.image = typeImage;
-                          AVURLAsset *asset = [AVURLAsset assetWithURL:filesToOpen[0]];
-                          NSArray *assetKeysToLoadAndTest = @[@"playable", @"hasProtectedContent", @"tracks", @"duration"];
-                          [asset loadValuesAsynchronouslyForKeys:assetKeysToLoadAndTest completionHandler:^(void) {
-                              dispatch_async(dispatch_get_main_queue(), ^(void) {
-                                  [self setUpPlaybackOfAsset:asset withKeys:assetKeysToLoadAndTest];
-                              });
-                          }];
-
-                      }
-                  }];
+	NSURL *fileURL = nil;
+	
+	if (_mediaFileBookmark) {
+		NSError *error = nil;
+		BOOL bookmarkDataIsStale;
+		fileURL =
+		[NSURL URLByResolvingBookmarkData:_mediaFileBookmark
+								  options:NSURLBookmarkResolutionWithSecurityScope
+							relativeToURL:nil
+					  bookmarkDataIsStale:&bookmarkDataIsStale
+									error:&error];
+	}
+	
+	NSOpenPanel *panel = [[NSOpenPanel alloc] init];
+	panel.allowedFileTypes = AVURLAsset.audiovisualTypes;
+	panel.directoryURL = fileURL; // This just works on recent versions of OS X.
+	
+	[panel beginSheetModalForWindow:_appWindow
+				  completionHandler:^(NSInteger result) {
+					  if (result == NSFileHandlingPanelOKButton) {
+						  NSArray *filesToOpen = panel.URLs;
+						  NSError *error = nil;
+						  NSURL *sheetFileURL = filesToOpen[0];
+						  self.mediaFileBookmark =
+						  [sheetFileURL bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope
+								 includingResourceValuesForKeys:nil
+												  relativeToURL:nil
+														  error:&error];
+						  [self loadAndSetupAssetWithURL:sheetFileURL];
+					  }
+				  }];
 }
 
 
