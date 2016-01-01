@@ -95,29 +95,41 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 
 - (void)windowControllerDidLoadNib:(NSWindowController *)windowController
 {
-  [super windowControllerDidLoadNib:windowController];
-  [windowController.window setMovableByWindowBackground:YES];
-  [windowController.window setContentBorderThickness:32.0 forEdge:NSMinYEdge];
-  _playerView.layer.backgroundColor = CGColorGetConstantColor(kCGColorBlack);
-  if (_rtfSaveData) {
-        [_textView.textStorage replaceCharactersInRange:NSMakeRange(0, _textView.string.length) withAttributedString:_rtfSaveData];
-  }
-  _textView.allowsUndo = YES;
-  [_textView toggleRuler:self];
-  _textView.delegate = self;
-  _mTextField.delegate = self;
-  _mainSplitView.delegate = self;
-  _insertTableView.delegate = self;
-  [_insertTableView registerForDraggedTypes:@[NSStringPboardType, NSRTFPboardType]];
-  _infoPanel.minSize = _infoPanel.frame.size;
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(processTextEditing) name:NSTextDidChangeNotification object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openMovieFromDrag:) name:@"movieFileDrag" object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createTimeStamp:) name:@"automaticTimestamp" object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jumpToTimeStamp:) name:@"aTimestampPressed" object:nil];
-  _player = [[AVPlayer alloc] init];
-  [self addObserver:self forKeyPath:@"player.rate" options:NSKeyValueObservingOptionNew context:TSCPlayerRateContext];
-  [self addObserver:self forKeyPath:@"player.currentItem.status" options:NSKeyValueObservingOptionNew context:TSCPlayerItemStatusContext];
-  [self updateTimestampLineNumber];
+	[super windowControllerDidLoadNib:windowController];
+	
+	[windowController.window setMovableByWindowBackground:YES];
+	[windowController.window setContentBorderThickness:32.0
+											   forEdge:NSMinYEdge];
+	
+	_playerView.layer.backgroundColor = CGColorGetConstantColor(kCGColorBlack);
+	
+	if (_rtfSaveData) {
+		[_textView.textStorage replaceCharactersInRange:NSMakeRange(0, _textView.string.length) withAttributedString:_rtfSaveData];
+	}
+	
+	_textView.allowsUndo = YES;
+	[_textView toggleRuler:self];
+	
+	_textView.delegate = self;
+	_mTextField.delegate = self;
+	_mainSplitView.delegate = self;
+	_insertTableView.delegate = self;
+	
+	[_insertTableView registerForDraggedTypes:@[NSStringPboardType, NSRTFPboardType]];
+	
+	_infoPanel.minSize = _infoPanel.frame.size;
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(processTextEditing) name:NSTextDidChangeNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openMovieFromDrag:) name:@"movieFileDrag" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createTimeStamp:) name:@"automaticTimestamp" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jumpToTimeStamp:) name:@"aTimestampPressed" object:nil];
+	
+	_player = [[AVPlayer alloc] init];
+	
+	[self addObserver:self forKeyPath:@"player.rate" options:NSKeyValueObservingOptionNew context:TSCPlayerRateContext];
+	[self addObserver:self forKeyPath:@"player.currentItem.status" options:NSKeyValueObservingOptionNew context:TSCPlayerItemStatusContext];
+	
+	[self updateTimestampLineNumber];
 }
 
 
