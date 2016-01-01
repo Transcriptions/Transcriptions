@@ -144,81 +144,81 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 	self.subject = _docAttributes[NSSubjectDocumentAttribute];
 	self.comment = _docAttributes[NSCommentDocumentAttribute];
 	self.keywords = _docAttributes[NSKeywordsDocumentAttribute];
-
+	
 	if (_keywords.count == 1) {
 		NSString *firstObject = _keywords[0];
 		if ([firstObject isEqualToString:@""]) {
 			_keywords = nil;
 		}
 	}
-
+	
 	if (_rtfSaveData.length > 0) {
 		[_textView.textStorage replaceCharactersInRange:NSMakeRange(0, _textView.string.length) withAttributedString:_rtfSaveData];
 	}
 	
-    NSTimeInterval autosaveInterval = 2.0;
-    [NSDocumentController sharedDocumentController].autosavingDelay = autosaveInterval;
-    _playerView.wantsLayer = YES;
-    NSButton *closeButton = [_appWindow standardWindowButton:NSWindowCloseButton];
-    NSView *titleBarView = closeButton.superview;
-    NSButton* myHelpButton = [[NSButton alloc] initWithFrame:NSMakeRect(titleBarView.bounds.size.width - 30,titleBarView.bounds.origin.y, 25, 25)];
-    myHelpButton.bezelStyle = NSHelpButtonBezelStyle;
-    myHelpButton.title = @"";
-    myHelpButton.autoresizingMask = NSViewMinXMargin | NSViewMinYMargin;
-    myHelpButton.action = @selector(showHelp:);
-    myHelpButton.target = [NSApplication sharedApplication];
-    [titleBarView addSubview:myHelpButton];
-    if (_comment.length > 0)
-    {
-        NSString* foundUrlString;
-        if ([_comment rangeOfString:@"[[associatedMediaURL:"].location != NSNotFound)
-        {
-         foundUrlString = [NSString stringWithString:[self getDataBetweenFromString:_comment leftString:@"[[associatedMediaURL:" rightString:@"]]" leftOffset:21]];
-        }
-        if (foundUrlString.length > 0) {
-            NSData *myData = [[NSData alloc] initWithBase64EncodedString:foundUrlString options:0];
-            self.mediaFileBookmark = myData;
-            if (_mediaFileBookmark)
-            {
-                NSError *error = nil;
-                BOOL bookmarkDataIsStale;
-                NSURL *bookmarkFileURL = nil;
-                bookmarkFileURL = [NSURL
-                                   URLByResolvingBookmarkData:_mediaFileBookmark
-                                   options:NSURLBookmarkResolutionWithSecurityScope
-                                   relativeToURL:nil
-                                   bookmarkDataIsStale:&bookmarkDataIsStale
-                                   error:&error];
-                [bookmarkFileURL startAccessingSecurityScopedResource];
-//                if ([[NSFileManager defaultManager] isReadableFileAtPath:bookmarkFileURL.path]) {
-//                    NSLog(@"FileManager: Yes.");
-//                }
-//                if (access([[bookmarkFileURL path] UTF8String], R_OK) != 0)
-//                {
-//                    NSLog(@"Sandbox: No.");
-//                }
-                NSError *err;
-                if ([bookmarkFileURL checkResourceIsReachableAndReturnError:&err] == NO)
-                {
-                    [[NSAlert alertWithError:err] runModal];
-                }
-                else if(bookmarkFileURL.fileURL == YES)
-                {
-                    AVURLAsset *asset = [AVURLAsset assetWithURL:bookmarkFileURL];
-                    NSArray *assetKeysToLoadAndTest = @[@"playable", @"hasProtectedContent", @"tracks", @"duration"];
-                    NSImage *typeImage = [[NSWorkspace sharedWorkspace] iconForFileType:bookmarkFileURL.pathExtension];
-                    typeImage.size = NSMakeSize(32, 32);
-                    _mTextField.stringValue = bookmarkFileURL.lastPathComponent;
-                    _typeImageView.image = typeImage;
-                    [asset loadValuesAsynchronouslyForKeys:assetKeysToLoadAndTest completionHandler:^(void) {
-                        dispatch_async(dispatch_get_main_queue(), ^(void) {
-                            [self setUpPlaybackOfAsset:asset withKeys:assetKeysToLoadAndTest];
-                        });
-                    }];
-                }
-            }
-        }
-    }
+	NSTimeInterval autosaveInterval = 2.0;
+	NSDocumentController.sharedDocumentController.autosavingDelay = autosaveInterval;
+	
+	_playerView.wantsLayer = YES;
+	
+	NSButton *closeButton = [_appWindow standardWindowButton:NSWindowCloseButton];
+	NSView *titleBarView = closeButton.superview;
+	
+	NSButton *myHelpButton = [[NSButton alloc] initWithFrame:NSMakeRect(titleBarView.bounds.size.width - 30, titleBarView.bounds.origin.y, 25, 25)];
+	myHelpButton.bezelStyle = NSHelpButtonBezelStyle;
+	myHelpButton.title = @"";
+	myHelpButton.autoresizingMask = NSViewMinXMargin | NSViewMinYMargin;
+	myHelpButton.action = @selector(showHelp:);
+	myHelpButton.target = [NSApplication sharedApplication];
+	
+	[titleBarView addSubview:myHelpButton];
+	
+	if (_comment.length > 0) {
+		NSString *foundURLString;
+		if ([_comment rangeOfString:@"[[associatedMediaURL:"].location != NSNotFound) {
+			foundURLString = [NSString stringWithString:[self getDataBetweenFromString:_comment leftString:@"[[associatedMediaURL:" rightString:@"]]" leftOffset:21]];
+		}
+		
+		if (foundURLString.length > 0) {
+			NSData *myData = [[NSData alloc] initWithBase64EncodedString:foundURLString options:0];
+			self.mediaFileBookmark = myData;
+			if (_mediaFileBookmark) {
+				NSError *error = nil;
+				
+				NSURL *bookmarkFileURL =
+				[NSURL URLByResolvingBookmarkData:_mediaFileBookmark
+										  options:NSURLBookmarkResolutionWithSecurityScope
+									relativeToURL:nil
+							  bookmarkDataIsStale:NULL
+											error:&error];
+				
+				[bookmarkFileURL startAccessingSecurityScopedResource];
+				
+#if 0
+				if ([[NSFileManager defaultManager] isReadableFileAtPath:bookmarkFileURL.path]) {
+					NSLog(@"FileManager: Yes.");
+				}
+				if (access([[bookmarkFileURL path] UTF8String], R_OK) != 0) {
+					NSLog(@"Sandbox: No.");
+				}
+#endif
+				
+				NSError *err;
+				if ([bookmarkFileURL checkResourceIsReachableAndReturnError:&err] == NO) {
+					NSAlert *alert = [NSAlert alertWithError:err];
+					[alert beginSheetModalForWindow:self.windowForSheet
+								  completionHandler:^(NSModalResponse returnCode) {
+								  }];
+				}
+				else if (bookmarkFileURL.fileURL) {
+					[self loadAndSetupAssetWithURL:bookmarkFileURL];
+				}
+				
+				[bookmarkFileURL stopAccessingSecurityScopedResource];
+				
+			}
+		}
+	}
 }
 
 - (BOOL)revertToContentsOfURL:(NSURL *)inAbsoluteURL
