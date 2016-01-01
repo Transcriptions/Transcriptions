@@ -551,6 +551,22 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 
 
 
+- (void)loadAndSetupAssetWithURL:(NSURL *)fileURL
+{
+	NSImage *typeImage = [NSWorkspace.sharedWorkspace iconForFileType:fileURL.pathExtension];
+	typeImage.size = NSMakeSize(32, 32);
+	_mTextField.stringValue = fileURL.lastPathComponent;
+	_typeImageView.image = typeImage;
+	
+	NSArray *assetKeysToLoadAndTest = @[@"playable", @"hasProtectedContent", @"tracks", @"duration"];
+	AVURLAsset *asset = [AVURLAsset assetWithURL:fileURL];
+	[asset loadValuesAsynchronouslyForKeys:assetKeysToLoadAndTest completionHandler:^ (void) {
+		dispatch_async(dispatch_get_main_queue(), ^ (void) {
+			[self setUpPlaybackOfAsset:asset withKeys:assetKeysToLoadAndTest];
+		});
+	}];
+}
+
 - (void)setUpPlaybackOfAsset:(AVAsset *)asset withKeys:(NSArray *)keys
 {
     for (NSString *key in keys)
