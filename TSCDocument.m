@@ -438,7 +438,7 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
                            bookmarkDataIsStale:&bookmarkDataIsStale
                            error:&error];
         NSError *err;
-        NSURL *fileUrl = [self urlOfCurrentlyPlayingInPlayer:self.player];
+        NSURL *fileUrl = [self URLCurrentlyPlayingInPlayer:self.player];
         if ([fileUrl.path compare:bookmarkFileURL.path] == NSOrderedSame && [fileUrl checkResourceIsReachableAndReturnError:&err] == YES && fileUrl.fileURL == YES)
         {
             NSString *utfString = [_mediaFileBookmark base64EncodedStringWithOptions:0];
@@ -1010,11 +1010,11 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 	if (self.player.currentItem){
 		[self setNormalSizeDisplay];
 		[self setCurrentSizeDisplay];
-		_movieFileField.stringValue = [self urlOfCurrentlyPlayingInPlayer:self.player].absoluteString;
+		_movieFileField.stringValue = [self URLCurrentlyPlayingInPlayer:self.player].absoluteString;
 	}
 }
 
-- (NSURL *)urlOfCurrentlyPlayingInPlayer:(AVPlayer *)player {
+- (NSURL *)URLCurrentlyPlayingInPlayer:(AVPlayer *)player {
     AVAsset *currentPlayerAsset = player.currentItem.asset;
     if (![currentPlayerAsset isKindOfClass:AVURLAsset.class]) return nil;
     return ((AVURLAsset *)currentPlayerAsset).URL;
