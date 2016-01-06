@@ -486,6 +486,37 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 	}
 }
 
+// From TextEdit sample code.
+// For details, see:
+// https://forums.developer.apple.com/message/92795#92795
+// TL;DR: Fix for “When I manually do a Command+S to save the document, thereafter autosaving stops working.”
+/* When we save, we send a notification so that views that are currently coalescing undo actions can break that. This is done for two reasons, one technical and the other HI oriented.
+ 
+ Firstly, since the dirty state tracking is based on undo, for a coalesced set of changes that span over a save operation, the changes that occur between the save and the next time the undo coalescing stops will not mark the document as dirty. Secondly, allowing the user to undo back to the precise point of a save is good UI.
+ 
+ In addition we overwrite this method as a way to tell that the document has been saved successfully. If so, we set the save time parameters in the document.
+ */
+- (void)saveToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation completionHandler:(void (^)(NSError *error))handler {
+	// Note that we do the breakUndoCoalescing call even during autosave, which means the user's undo of long typing will take them back to the last spot an autosave occured. This might seem confusing, and a more elaborate solution may be possible (cause an autosave without having to breakUndoCoalescing), but since this change is coming late in Leopard, we decided to go with the lower risk fix.
+	//[self.windowControllers makeObjectsPerformSelector:@selector(breakUndoCoalescing)];
+	[self breakUndoCoalescing];
+
+	[self performAsynchronousFileAccessUsingBlock:^(void (^fileAccessCompletionHandler)(void)) {
+		//currentSaveOperation = saveOperation;
+		[super saveToURL:absoluteURL ofType:typeName forSaveOperation:saveOperation completionHandler:^(NSError *error) {
+			//self.encodingForSaving = NoStringEncoding;   // This is set during prepareSavePanel:, but should be cleared for future save operation without save panel
+			fileAccessCompletionHandler();
+			handler(error);
+		}];
+	}];
+	
+}
+
+- (void)breakUndoCoalescing
+{
+	[_textView breakUndoCoalescing];
+}
+
 
 #pragma mark media loading and unloading
 
