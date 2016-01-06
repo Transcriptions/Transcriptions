@@ -286,8 +286,20 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 							   error:outError];
 	}
 	else if ([workspace type:type conformsToType:SRTDocumentType]) {
-		return [self readFromSRTData:wrapper.regularFileContents
+		BOOL result =
+		[self readFromSRTData:wrapper.regularFileContents
 							   error:outError];
+		
+		if (result) {
+			NSURL *fileURL = self.fileURL;
+			fileURL = [fileURL URLByDeletingPathExtension];
+			fileURL = [fileURL URLByAppendingPathExtension:@"rtf"];
+			self.fileURL = fileURL;
+			
+			self.fileType = (NSString *)kUTTypeRTF;
+		}
+		
+		return result;
 	}
 	else {
 		return NO;
@@ -362,13 +374,6 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 	}
 	
 	_rtfSaveData = text;
-#if 1
-	NSURL *fileURL = self.fileURL;
-	fileURL = [fileURL URLByDeletingPathExtension];
-	fileURL = [fileURL URLByAppendingPathExtension:@"rtf"];
-	self.fileURL = fileURL;
-	self.fileType = (NSString *)kUTTypeRTF;
-#endif
 	
 	return YES;
 }
@@ -470,6 +475,27 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 	return wrapper;
 }
 
+- (void)saveDocumentWithDelegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo
+{
+	NSNumber *isWritableNum;
+	BOOL retrieved = [self.fileURL getResourceValue:&isWritableNum
+											 forKey:NSURLIsWritableKey
+											  error:NULL];
+	
+	if (!retrieved ||
+		(retrieved &&
+		 !isWritableNum.boolValue)) {
+		[self runModalSavePanelForSaveOperation:NSSaveAsOperation
+									   delegate:delegate
+								didSaveSelector:didSaveSelector
+									contextInfo:contextInfo];
+	}
+	else {
+		[super saveDocumentWithDelegate:delegate
+						didSaveSelector:didSaveSelector
+							contextInfo:contextInfo];
+	}
+}
 
 
 #pragma mark media loading and unloading
