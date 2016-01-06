@@ -192,19 +192,10 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 							  bookmarkDataIsStale:NULL
 											error:&error];
 				
-				[bookmarkFileURL startAccessingSecurityScopedResource];
-				
-#if 0
-				if ([[NSFileManager defaultManager] isReadableFileAtPath:bookmarkFileURL.path]) {
-					NSLog(@"FileManager: Yes.");
-				}
-				if (access([[bookmarkFileURL path] UTF8String], R_OK) != 0) {
-					NSLog(@"Sandbox: No.");
-				}
-#endif
-				
 				NSError *err;
 				if ([bookmarkFileURL checkResourceIsReachableAndReturnError:&err] == NO) {
+					NSLog(@"%@", err);
+
 					NSAlert *alert = [NSAlert alertWithError:err];
 					[alert beginSheetModalForWindow:self.windowForSheet
 								  completionHandler:^(NSModalResponse returnCode) {
@@ -213,8 +204,6 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 				else if (bookmarkFileURL.fileURL) {
 					[self loadAndSetupAssetWithURL:bookmarkFileURL];
 				}
-				
-				[bookmarkFileURL stopAccessingSecurityScopedResource];
 				
 			}
 		}
@@ -583,11 +572,23 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 	_mTextField.stringValue = fileURL.lastPathComponent;
 	_typeImageView.image = typeImage;
 	
+	[fileURL startAccessingSecurityScopedResource];
+	
+#if 0
+	if ([[NSFileManager defaultManager] isReadableFileAtPath:fileURL.path]) {
+		NSLog(@"FileManager: Yes.");
+	}
+	if (access([fileURL.path UTF8String], R_OK) != 0) {
+		NSLog(@"Sandbox: No.");
+	}
+#endif
+
 	NSArray *assetKeysToLoadAndTest = @[@"playable", @"hasProtectedContent", @"tracks", @"duration"];
 	AVURLAsset *asset = [AVURLAsset assetWithURL:fileURL];
 	[asset loadValuesAsynchronouslyForKeys:assetKeysToLoadAndTest completionHandler:^ (void) {
 		dispatch_async(dispatch_get_main_queue(), ^ (void) {
 			[self setUpPlaybackOfAsset:asset withKeys:assetKeysToLoadAndTest];
+			[fileURL stopAccessingSecurityScopedResource];
 		});
 	}];
 }
