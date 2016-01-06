@@ -567,6 +567,7 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 
 - (void)loadAndSetupAssetWithURL:(NSURL *)fileURL
 {
+	// FIXME: Rewrite using UTIs.
 	NSImage *typeImage = [NSWorkspace.sharedWorkspace iconForFileType:fileURL.pathExtension];
 	typeImage.size = NSMakeSize(32, 32);
 	_mTextField.stringValue = fileURL.lastPathComponent;
