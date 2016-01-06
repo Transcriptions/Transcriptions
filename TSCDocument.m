@@ -504,6 +504,8 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 									error:&error];
 	}
 	
+	// FIXME: Use the panel’s delegate to only optionally enable the most suitable media file.
+	
 	NSOpenPanel *panel = [[NSOpenPanel alloc] init];
 	panel.allowedFileTypes = AVURLAsset.audiovisualTypes;
 	panel.directoryURL = fileURL; // This just works on recent versions of OS X.
