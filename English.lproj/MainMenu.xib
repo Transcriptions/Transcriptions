@@ -656,7 +656,7 @@
                                     <binding destination="7ho-hK-os5" name="value" keyPath="values.autoTimestamp" id="Fvi-2y-Z3e"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Timestamp RePlay" id="Xj5-sm-w8N">
+                            <menuItem title="Timestamp Replay" id="Xj5-sm-w8N">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <binding destination="7ho-hK-os5" name="value" keyPath="values.timestampReplay" id="JNT-Gz-Wn2"/>
