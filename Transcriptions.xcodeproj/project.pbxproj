@@ -22,6 +22,7 @@
 		0AA11F061975610C00B78642 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA11F04197560FD00B78642 /* CoreMedia.framework */; };
 		0AA11F08197566BD00B78642 /* TODO.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0AA11F07197566BD00B78642 /* TODO.rtf */; };
 		0AA24F0A1A441B03006CDEB1 /* TSCHelperFolder in Resources */ = {isa = PBXBuildFile; fileRef = 0AA24F091A441B03006CDEB1 /* TSCHelperFolder */; };
+		3D41D26D1C4573FF0069C5B8 /* AVPlayer+TSCPlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41D26C1C4573FF0069C5B8 /* AVPlayer+TSCPlay.m */; };
 		3D5725031C27535F00C23542 /* TSCTimeSourceRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D5725021C27535F00C23542 /* TSCTimeSourceRange.m */; };
 		3D5725121C277BE100C23542 /* NSString+TSCTimeStamp.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D5725111C277BE100C23542 /* NSString+TSCTimeStamp.m */; };
 		3D9062A51C31CB8900863F29 /* TSCAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9062A41C31CB8900863F29 /* TSCAppController.m */; };
@@ -157,6 +158,8 @@
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32DBCF750370BD2300C91783 /* Transcriptions_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Transcriptions_Prefix.pch; sourceTree = "<group>"; };
+		3D41D26B1C4573FF0069C5B8 /* AVPlayer+TSCPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AVPlayer+TSCPlay.h"; sourceTree = "<group>"; };
+		3D41D26C1C4573FF0069C5B8 /* AVPlayer+TSCPlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVPlayer+TSCPlay.m"; sourceTree = "<group>"; };
 		3D5725011C27535F00C23542 /* TSCTimeSourceRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCTimeSourceRange.h; sourceTree = "<group>"; };
 		3D5725021C27535F00C23542 /* TSCTimeSourceRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCTimeSourceRange.m; sourceTree = "<group>"; };
 		3D5725101C277BE100C23542 /* NSString+TSCTimeStamp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TSCTimeStamp.h"; sourceTree = "<group>"; };
@@ -340,6 +343,8 @@
 		3D57250C1C27781600C23542 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				3D41D26B1C4573FF0069C5B8 /* AVPlayer+TSCPlay.h */,
+				3D41D26C1C4573FF0069C5B8 /* AVPlayer+TSCPlay.m */,
 				3D5725101C277BE100C23542 /* NSString+TSCTimeStamp.h */,
 				3D5725111C277BE100C23542 /* NSString+TSCTimeStamp.m */,
 			);
@@ -568,6 +573,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D41D26D1C4573FF0069C5B8 /* AVPlayer+TSCPlay.m in Sources */,
 				3D9062A51C31CB8900863F29 /* TSCAppController.m in Sources */,
 				3DC14BA11C2598D90069150A /* JXCMTimeStringTransformer.m in Sources */,
 				3D5725121C277BE100C23542 /* NSString+TSCTimeStamp.m in Sources */,

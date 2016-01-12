@@ -40,6 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import "JXCMTimeStringTransformer.h"
 
+#import "AVPlayer+TSCPlay.h"
 #import "NSString+TSCTimeStamp.h"
 #import "TSCTimeSourceRange.h"
 
@@ -858,9 +859,7 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
         CMTime timeToAdd   = CMTimeMakeWithSeconds(_replaySlider.intValue, 1);
         CMTime resultTime  = CMTimeSubtract(currentTime,timeToAdd);
         [self.player seekToTime:resultTime];
-        float myRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"currentRate"];
-        [self.player play];
-        self.player.rate = myRate;
+        [self.player playWithCurrentUserDefaultRate];
         [self updateTimestampLineNumber];
     }
 }
@@ -872,9 +871,7 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
         if (CMTIME_COMPARE_INLINE(self.currentTime, ==, self.duration)) {
             self.currentTime = kCMTimeZero;
         }
-        float myRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"currentRate"];
-        [self.player play];
-        self.player.rate = myRate;
+		[self.player playWithCurrentUserDefaultRate];
         [self updateTimestampLineNumber];
     }
     else
@@ -992,9 +989,7 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
             CMTime timeToAdd   = CMTimeMakeWithSeconds(_replaySlider.intValue, 1);
             CMTime resultTime  = CMTimeSubtract([JXCMTimeStringTransformer CMTimeForTimecodeString:timestampTimeString], timeToAdd);
             [self.player seekToTime:resultTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
-            float myRate = [[NSUserDefaults standardUserDefaults] floatForKey:@"currentRate"];
-            [self.player play];
-            (self.player).rate = myRate;
+            [self.player playWithCurrentUserDefaultRate];
         }
         else
         {
