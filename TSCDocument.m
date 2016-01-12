@@ -317,9 +317,22 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 
 - (BOOL)readFromSRTData:(NSData *)data error:(NSError **)outError
 {
+	NSStringEncoding encoding =
+	[NSString stringEncodingForData:data
+					encodingOptions:nil
+					convertedString:NULL
+				usedLossyConversion:NULL];
+	
+	if ((encoding == 0) ||
+		(encoding == NSASCIIStringEncoding)) {
+		encoding = NSUTF8StringEncoding;
+	}
+
+	// FIXME: Remember detected encoding and later store in file metadata.
+	
 	SubRip *subRip = [[SubRip alloc] initWithData:data
-										encoding:NSUTF8StringEncoding
-										   error:outError];
+										 encoding:encoding
+											error:outError];
 	
 	if (subRip == nil) {
 		return NO;
