@@ -122,7 +122,7 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(processTextEditing) name:NSTextDidChangeNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openMovieFromDrag:) name:@"movieFileDrag" object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createTimeStamp:) name:@"automaticTimestamp" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createAutomaticTimeStamp:) name:@"automaticTimestamp" object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jumpToTimeStamp:) name:@"aTimestampPressed" object:nil];
 	
 	_player = [[AVPlayer alloc] init];
@@ -950,6 +950,17 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 
 - (void)createTimeStamp:(id)sender
 {
+	[self insertTimeStampAfterSelectionAppendingNewline:NO];
+}
+
+- (void)createAutomaticTimeStamp:(id)sender
+{
+	// No need to check [[[NSUserDefaults standardUserDefaults] objectForKey:@"autoTimestamp"] boolValue].
+	[self insertTimeStampAfterSelectionAppendingNewline:YES];
+}
+
+- (void)insertTimeStampAfterSelectionAppendingNewline:(BOOL)appendNewline
+{
 	if (self.player.currentItem) {
 		NSMutableAttributedString *text = [[NSMutableAttributedString alloc] init];
 		NSMutableString *string = text.mutableString;
@@ -962,7 +973,7 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 									  string:string];
 		NSRange insertionCursor = NSMakeRange(NSMaxRange(textRange), 0);
 		
-		if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"autoTimestamp"] boolValue] == YES) {
+		if (appendNewline) {
 			NSString * const newline = @"\n";
 			const NSUInteger newlineLength = 1;
 			
