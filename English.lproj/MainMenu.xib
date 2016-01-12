@@ -662,6 +662,12 @@
                                     <binding destination="7ho-hK-os5" name="value" keyPath="values.timestampReplay" id="JNT-Gz-Wn2"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Timestamp Auto-Play" id="wgS-kn-JX7">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <binding destination="7ho-hK-os5" name="value" keyPath="values.timestampAutoPlay" id="WpM-cv-E9P"/>
+                                </connections>
+                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>

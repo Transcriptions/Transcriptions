@@ -1001,6 +1001,7 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		CMTime newTime = [JXCMTimeStringTransformer CMTimeForTimecodeString:timestampTimeString];
 		BOOL timestampReplay = [[defaults objectForKey:@"timestampReplay"] boolValue];
+		BOOL timestampAutoPlay = [[defaults objectForKey:@"timestampAutoPlay"] boolValue];
 		
 		if (timestampReplay) {
 			CMTime timeToSubstract = CMTimeMakeWithSeconds(_replaySlider.intValue, 1);
@@ -1009,7 +1010,7 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 		
 		[self.player seekToTime:newTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
 		
-		if (timestampReplay) {
+		if (timestampReplay || timestampAutoPlay) {
 			[self.player playWithCurrentUserDefaultRate];
 		}
 		
