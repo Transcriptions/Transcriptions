@@ -91,6 +91,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @property (nonatomic, strong) NSArray *keywords;
 @property (nonatomic, strong) NSData *mediaFileBookmark;
 
+@property (nonatomic, assign) NSStringEncoding detectedImportTextEncoding;
+
 @property (nonatomic, strong) AVPlayer *player;
 @property (nonatomic, strong) AVPlayerItem *playerItem;
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;

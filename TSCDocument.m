@@ -328,8 +328,6 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 		encoding = NSUTF8StringEncoding;
 	}
 
-	// FIXME: Remember detected encoding and later store in file metadata.
-	
 	SubRip *subRip = [[SubRip alloc] initWithData:data
 										 encoding:encoding
 											error:outError];
@@ -337,6 +335,9 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 	if (subRip == nil) {
 		return NO;
 	}
+	
+	// FIXME: store detected encoding in file metadata.
+	_detectedImportTextEncoding = encoding;
 	
 	CGFloat defaultSize = 13.0; // FIXME: Implement user defaults, also for _textView.
 	NSString *defaultFontName = @"Helvetica";
