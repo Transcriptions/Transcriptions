@@ -992,22 +992,29 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 
 - (void)jumpToTimeStamp:(NSNotification *)note
 {
-    NSButton* tsButton = note.object;
-    if (tsButton.window == _appWindow) {
-        NSString *timestampTimeString = tsButton.cell.representedObject;
-        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"timestampReplay"] boolValue] == YES )
-        {
-            CMTime timeToAdd   = CMTimeMakeWithSeconds(_replaySlider.intValue, 1);
-            CMTime resultTime  = CMTimeSubtract([JXCMTimeStringTransformer CMTimeForTimecodeString:timestampTimeString], timeToAdd);
-            [self.player seekToTime:resultTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
-            [self.player playWithCurrentUserDefaultRate];
-        }
-        else
-        {
-            [self.player seekToTime:[JXCMTimeStringTransformer CMTimeForTimecodeString:timestampTimeString] toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
-        }
-        [self updateTimestampLineNumber];
-    }
+	NSButton *tsButton = note.object;
+	NSWindow *tsButtonWindow = tsButton.window;
+	
+	if (tsButtonWindow == _appWindow) {
+		NSString *timestampTimeString = tsButton.cell.representedObject;
+		
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		CMTime newTime = [JXCMTimeStringTransformer CMTimeForTimecodeString:timestampTimeString];
+		BOOL timestampReplay = [[defaults objectForKey:@"timestampReplay"] boolValue];
+		
+		if (timestampReplay) {
+			CMTime timeToSubstract = CMTimeMakeWithSeconds(_replaySlider.intValue, 1);
+			newTime = CMTimeSubtract(newTime, timeToSubstract);
+		}
+		
+		[self.player seekToTime:newTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+		
+		if (timestampReplay) {
+			[self.player playWithCurrentUserDefaultRate];
+		}
+		
+		[self updateTimestampLineNumber];
+	}
 }
 
 
