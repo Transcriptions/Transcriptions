@@ -650,7 +650,7 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="JJP-n9-zIB"/>
-                            <menuItem title="Auto Timestamp" id="07l-zR-mTH">
+                            <menuItem title="Automatic Timestamps" id="07l-zR-mTH">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <binding destination="7ho-hK-os5" name="value" keyPath="values.autoTimestamp" id="Fvi-2y-Z3e"/>
