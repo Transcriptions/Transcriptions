@@ -23,6 +23,7 @@
 		0AA11F08197566BD00B78642 /* TODO.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0AA11F07197566BD00B78642 /* TODO.rtf */; };
 		0AA24F0A1A441B03006CDEB1 /* TSCHelperFolder in Resources */ = {isa = PBXBuildFile; fileRef = 0AA24F091A441B03006CDEB1 /* TSCHelperFolder */; };
 		3D41D26D1C4573FF0069C5B8 /* AVPlayer+TSCPlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41D26C1C4573FF0069C5B8 /* AVPlayer+TSCPlay.m */; };
+		3D41D2701C457FF70069C5B8 /* NSString+TSCWhitespace.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41D26F1C457FF70069C5B8 /* NSString+TSCWhitespace.m */; };
 		3D5725031C27535F00C23542 /* TSCTimeSourceRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D5725021C27535F00C23542 /* TSCTimeSourceRange.m */; };
 		3D5725121C277BE100C23542 /* NSString+TSCTimeStamp.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D5725111C277BE100C23542 /* NSString+TSCTimeStamp.m */; };
 		3D9062A51C31CB8900863F29 /* TSCAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9062A41C31CB8900863F29 /* TSCAppController.m */; };
@@ -160,6 +161,8 @@
 		32DBCF750370BD2300C91783 /* Transcriptions_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Transcriptions_Prefix.pch; sourceTree = "<group>"; };
 		3D41D26B1C4573FF0069C5B8 /* AVPlayer+TSCPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AVPlayer+TSCPlay.h"; sourceTree = "<group>"; };
 		3D41D26C1C4573FF0069C5B8 /* AVPlayer+TSCPlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVPlayer+TSCPlay.m"; sourceTree = "<group>"; };
+		3D41D26E1C457FF70069C5B8 /* NSString+TSCWhitespace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TSCWhitespace.h"; sourceTree = "<group>"; };
+		3D41D26F1C457FF70069C5B8 /* NSString+TSCWhitespace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TSCWhitespace.m"; sourceTree = "<group>"; };
 		3D5725011C27535F00C23542 /* TSCTimeSourceRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCTimeSourceRange.h; sourceTree = "<group>"; };
 		3D5725021C27535F00C23542 /* TSCTimeSourceRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCTimeSourceRange.m; sourceTree = "<group>"; };
 		3D5725101C277BE100C23542 /* NSString+TSCTimeStamp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TSCTimeStamp.h"; sourceTree = "<group>"; };
@@ -347,6 +350,8 @@
 				3D41D26C1C4573FF0069C5B8 /* AVPlayer+TSCPlay.m */,
 				3D5725101C277BE100C23542 /* NSString+TSCTimeStamp.h */,
 				3D5725111C277BE100C23542 /* NSString+TSCTimeStamp.m */,
+				3D41D26E1C457FF70069C5B8 /* NSString+TSCWhitespace.h */,
+				3D41D26F1C457FF70069C5B8 /* NSString+TSCWhitespace.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -587,6 +592,7 @@
 				0A32C27F19A3723C007B8415 /* TSCSplitViewDelegate.m in Sources */,
 				63C868320DDA098500DC3670 /* TSCTextView.m in Sources */,
 				633A50640E4F284C00B4D45A /* TSCKeyBindingsController.m in Sources */,
+				3D41D2701C457FF70069C5B8 /* NSString+TSCWhitespace.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

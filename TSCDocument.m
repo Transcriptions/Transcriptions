@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import "AVPlayer+TSCPlay.h"
 #import "NSString+TSCTimeStamp.h"
+#import "NSString+TSCWhitespace.h"
 #import "TSCTimeSourceRange.h"
 
 
@@ -363,7 +364,10 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 		[self insertTimeStampStringForCMTime:startTime
 										  at:string.length
 									intoText:text
-									  string:string];
+									  string:string
+								prependSpace:NO
+								 appendSpace:YES
+							  timeStampRange:NULL];
 
 		[text appendAttributedString:itemText];
 		
@@ -371,7 +375,10 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 		[self insertTimeStampStringForCMTime:endTime
 										  at:string.length
 									intoText:text
-									  string:string];
+									  string:string
+								prependSpace:YES
+								 appendSpace:YES
+							  timeStampRange:NULL];
 		
 		NSRange insertionCursor = NSMakeRange(NSMaxRange(insertionRange), 0);
 		[string replaceCharactersInRange:insertionCursor withString:@"\n"];
@@ -918,32 +925,54 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 
 - (NSRange)insertTimeStampStringForCMTime:(CMTime)time
 									   at:(NSUInteger)insertionLocation
-								 intoText:(NSMutableAttributedString *)text
-								   string:(NSMutableString *)string
+								 intoText:(NSMutableAttributedString * _Nonnull)text
+								   string:(NSMutableString * _Nonnull)string
+							 prependSpace:(BOOL)prependSpace
+							  appendSpace:(BOOL)appendSpace
+						   timeStampRange:(NSRange *)timeStampRangePtr
 {
+	NSInteger stringLength = string.length;
+	NSAssert((insertionLocation <= stringLength), @"Invalid insertionLocation."); // Equality to string.length is legal. This signifies an append.
+	
 	NSRange insertionCursor = NSMakeRange(insertionLocation, 0);
 	NSRange insertionRange = insertionCursor;
 	
+	NSRange timeStampRange = NSMakeRange(NSNotFound, 0);
+
 	NSString *timeString = [JXCMTimeStringTransformer timecodeStringForCMTime:time];
 	
-	NSString * const prefix = @" #";
-	const NSUInteger prefixLength = 2;
-	const NSUInteger prefixSpaceOffset = 1;
+	NSString * const space = @" ";
+	const NSUInteger spaceLength = 1;
+
+	NSString * const prefix = @"#";
+	const NSUInteger prefixLength = 1;
 	
-	NSString * const suffix = @"# ";
-	const NSUInteger suffixLength = 2;
-	const NSUInteger suffixSpaceOffset = 1;
+	NSString * const suffix = @"#";
+	const NSUInteger suffixLength = 1;
 	
+	if (prependSpace) {
+		[string replaceCharactersInRange:insertionCursor withString:space];		insertionCursor.location += spaceLength;
+	}
+	
+	timeStampRange.location = insertionCursor.location;
+
 	[string replaceCharactersInRange:insertionCursor withString:prefix];		insertionCursor.location += prefixLength;
 	[string replaceCharactersInRange:insertionCursor withString:timeString];	insertionCursor.location += timeString.length;
 	[string replaceCharactersInRange:insertionCursor withString:suffix];		insertionCursor.location += suffixLength;
 	
+	timeStampRange.length = insertionCursor.location - timeStampRange.location;
+
+	if (appendSpace) {
+		[string replaceCharactersInRange:insertionCursor withString:space];		insertionCursor.location += spaceLength;
+	}
+	
 	insertionRange.length = insertionCursor.location - insertionRange.location;
 	
-	NSRange attributesRange = insertionRange;
-	insertionRange.location += prefixSpaceOffset;
-	insertionRange.length -= prefixSpaceOffset + suffixSpaceOffset;
-	[text addAttributes:self.timeStampAttributes range:attributesRange];
+	[text addAttributes:self.timeStampAttributes range:timeStampRange];
+	
+	if (timeStampRangePtr != NULL) {
+		*timeStampRangePtr = timeStampRange;
+	}
 	
 	return insertionRange;
 }
@@ -966,25 +995,36 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 		NSMutableString *string = text.mutableString;
 		CMTime time = self.currentTime;
 		
-		NSRange textRange =
+		NSUInteger insertionLocation = NSMaxRange(_textView.selectedRange); // Define insertion point as the location at the end of the current selection.
+		NSRange insertionRange = NSMakeRange(insertionLocation, 0);
+		
+		TSCLocalWhitespace hasWhitespace = [_textView.textStorage.string localWhitespaceForLocation:insertionLocation];
+		
+		NSRange timeStampRange;
+		
+		NSRange insertedRange =
 		[self insertTimeStampStringForCMTime:time
 										  at:0
 									intoText:text
-									  string:string];
-		NSRange insertionCursor = NSMakeRange(NSMaxRange(textRange), 0);
+									  string:string
+								prependSpace:!hasWhitespace.prefix
+								 appendSpace:!hasWhitespace.suffix
+							  timeStampRange:&timeStampRange];
+		NSRange insertionCursor = NSMakeRange(NSMaxRange(timeStampRange), 0);
 		
 		if (appendNewline) {
 			NSString * const newline = @"\n";
 			const NSUInteger newlineLength = 1;
 			
 			[string replaceCharactersInRange:insertionCursor withString:newline];
-			textRange.length += newlineLength;
+			timeStampRange.length += newlineLength;
 		}
 		
-		NSUInteger insertionLocation = NSMaxRange(_textView.selectedRange); // Define insertion point as the location at the end of the current selection.
-		NSRange insertionRange = NSMakeRange(insertionLocation, 0);
-
 		[_textView insertText:text replacementRange:insertionRange]; // This also enables undo support.
+		
+		insertedRange.location = insertionLocation;
+		NSUInteger insertedRangeEnd = NSMaxRange(insertedRange);
+		_textView.selectedRange = NSMakeRange(insertedRangeEnd, 0);
 		
         [self updateTimestampLineNumber];
 	}
