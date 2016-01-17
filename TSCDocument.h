@@ -39,6 +39,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import "AVKit/AVKit.h"
 @class AVPlayer, AVPlayerLayer;
 
+FOUNDATION_EXPORT NSString * const TSCErrorDomain;
+
+typedef NS_ENUM(NSInteger, TSCErrorCode) {
+	TSCErrorWriteInapplicableStringEncodingError = 1,
+};
+
 @interface TSCDocument : NSDocument <NSTextViewDelegate, NSTextFieldDelegate, NSSplitViewDelegate, NSTableViewDelegate>
 {
 	//NSProgressIndicator *loadingSpinner;

@@ -54,6 +54,9 @@ static void *TSCPlayerRateContext = &TSCPlayerRateContext;
 static void *TSCPlayerLayerReadyForDisplay = &TSCPlayerLayerReadyForDisplay;
 static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 
+NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
+
+
 @interface TSCDocument ()
 
 - (void)setUpPlaybackOfAsset:(AVAsset *)asset withKeys:(NSArray *)keys;
@@ -404,6 +407,27 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
     return foundData;
 }
 
+- (NSArray *)writableTypesForSaveOperation:(NSSaveOperationType)saveOperation
+{
+	NSArray *writableTypes = [super writableTypesForSaveOperation:saveOperation];
+	
+	switch (saveOperation) {
+		case NSSaveToOperation:
+		{
+			NSMutableArray *exportableTypes = [writableTypes mutableCopy];
+			[exportableTypes removeObject:(NSString *)kUTTypeRTF];
+			return exportableTypes;
+			break;
+		}
+		default:
+		{
+			return writableTypes;
+			break;
+		}
+	}
+	
+}
+
 - (NSFileWrapper *)fileWrapperOfType:(NSString *)type error:(NSError **)outError
 {
 	NSRange range = NSMakeRange(0, _textView.string.length);
@@ -428,6 +452,18 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 	}
 	if (_keywords.count == 0) {
 		_keywords = @[@""];
+	}
+	
+	NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
+	if ([workspace type:type conformsToType:SRTDocumentType]) {
+		return [self SRTFileWrapperForTimeStampedText:_textView.textStorage
+												error:outError];
+	}
+	else if ([workspace type:type conformsToType:(NSString *)kUTTypeRTF]) {
+		// Continue onwards.
+	}
+	else {
+		return nil;
 	}
 	
 	if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"mediaFileAssoc"] boolValue] == YES) {
@@ -478,6 +514,91 @@ static void *TSCPlayerItemReadyToPlay = &TSCPlayerItemReadyToPlay;
 	}
 	
 	NSFileWrapper *wrapper = [[NSFileWrapper alloc] initRegularFileWithContents:RTFData];
+	
+	if (!wrapper && (outError != NULL)) {
+		*outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
+	}
+	
+	return wrapper;
+}
+
+- (NSFileWrapper *)SRTFileWrapperForTimeStampedText:(NSAttributedString *)text
+											  error:(NSError **)outError;
+{
+	NSString *string = text.string;
+	
+	NSMutableArray *subtitleItems = [NSMutableArray array];
+	
+	// FIXME: Check that the time stamps in the text are sorted ascending. Display error with the first offending line otherwise.
+	
+	const NSRange fullRange = NSMakeRange(0, string.length);
+	
+	__block CMTime previousTime = kCMTimeZero;
+	__block NSRange previousRange = NSMakeRange(0, 0);
+	
+	[string enumerateTimeStampsInRange:fullRange
+							usingBlock:
+	 ^(NSString *timeCode, NSRange timeStampRange, BOOL *stop) {
+		 if (timeStampRange.length > 0) {
+			 CMTime time = [JXCMTimeStringTransformer CMTimeForTimecodeString:timeCode];
+			 
+			 NSUInteger subtitleStart = NSMaxRange(previousRange);
+			 NSUInteger subtitleEnd = timeStampRange.location;
+			 NSRange subtitleRange = NSMakeRange(subtitleStart, subtitleEnd - subtitleStart);
+			 
+			 if (![string isBlankRange:subtitleRange]) {
+				 SubRipItem *subRipItem = [[SubRipItem alloc] init];
+				 
+				 NSMutableAttributedString *currentText = [[text attributedSubstringFromRange:subtitleRange] mutableCopy];
+				 NSMutableString *currentMutableString = currentText.mutableString;
+				 CFStringTrimWhitespace((__bridge CFMutableStringRef)currentMutableString);
+				 
+				 subRipItem.attributedText = currentText;
+				 
+				 subRipItem.startTime = previousTime;
+				 subRipItem.endTime = time;
+				 
+				 [subtitleItems addObject:subRipItem];
+			 }
+			 
+			 previousTime = time;
+			 previousRange = timeStampRange;
+		 }
+	 }];
+	
+	SubRip *subRip = [[SubRip alloc] initWithSubtitleItems:subtitleItems];
+	
+	NSString *subRipString = [subRip srtStringWithLineBreaksInSubtitlesAllowed:YES];
+	
+	NSData *SRTData = nil;
+	
+	NSStringEncoding encoding = _detectedImportTextEncoding ?: NSUTF8StringEncoding;
+	
+	if (![subRipString canBeConvertedToEncoding:encoding]) {
+		encoding = NSUTF8StringEncoding;
+	}
+	
+	SRTData = [subRipString dataUsingEncoding:encoding
+						 allowLossyConversion:NO];
+	
+	if (!SRTData) {
+		if (outError) {
+			NSString *description =
+			[NSString stringWithFormat:NSLocalizedString(@"The string couldn’t be converted to the text encoding %@.", @""),
+			 [NSString localizedNameOfStringEncoding:encoding]];
+			NSDictionary *userInfo = @{
+									   NSLocalizedDescriptionKey: description,
+									   NSStringEncodingErrorKey: @(encoding)
+									   };
+			*outError = [NSError errorWithDomain:TSCErrorDomain
+											code:TSCErrorWriteInapplicableStringEncodingError
+										userInfo:userInfo];
+		}
+		
+		return nil;
+	}
+	
+	NSFileWrapper *wrapper = [[NSFileWrapper alloc] initRegularFileWithContents:SRTData];
 	
 	if (!wrapper && (outError != NULL)) {
 		*outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];

@@ -21,6 +21,10 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>TSCDocument</string>
+			<key>NSExportableTypes</key>
+			<array>
+				<string>org.niltsh.mplayerx-subrip</string>
+			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>

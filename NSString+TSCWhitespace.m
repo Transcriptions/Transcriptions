@@ -10,6 +10,27 @@
 
 @implementation NSString (TSCWhitespace)
 
+- (BOOL)isBlankString;
+{
+	const NSRange fullRange = NSMakeRange(0, self.length);
+	
+	return [self isBlankRange:fullRange];
+}
+
+- (BOOL)isBlankRange:(NSRange)range;
+{
+	static NSCharacterSet *nonWhitespaceAndNewlineCharacterSet = nil;
+	static dispatch_once_t onceToken;
+	
+	dispatch_once(&onceToken, ^{
+		nonWhitespaceAndNewlineCharacterSet = [[NSCharacterSet whitespaceAndNewlineCharacterSet] invertedSet];
+	});
+
+	return ([self rangeOfCharacterFromSet:nonWhitespaceAndNewlineCharacterSet
+								  options:NSLiteralSearch
+									range:range].location == NSNotFound);
+}
+
 - (TSCLocalWhitespace)localWhitespaceForLocation:(NSUInteger)location;
 {
 	TSCLocalWhitespace hasWhitespace;
