@@ -1476,7 +1476,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	[timeStamps addObject:mediaEndStamp];
 	
 	NSMutableArray *timeStampsSorted = [timeStamps mutableCopy];
-	[timeStampsSorted sortUsingComparator:^(TSCTimeSourceRange *timeStamp1, TSCTimeSourceRange *timeStamp2) {
+	[timeStampsSorted sortWithOptions:NSSortStable usingComparator:^(TSCTimeSourceRange *timeStamp1, TSCTimeSourceRange *timeStamp2) {
 		CMTime a = timeStamp1.time;
 		CMTime b = timeStamp2.time;
 		
