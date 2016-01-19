@@ -33,10 +33,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 #import <Cocoa/Cocoa.h>
+#import <CoreMedia/CoreMedia.h>
+#import <AVFoundation/AVFoundation.h>
+#import <AVKit/AVKit.h>
+
 #import "TSCTextView.h"
-#import "CoreMedia/CoreMedia.h"
-#import "AVFoundation/AVFoundation.h"
-#import "AVKit/AVKit.h"
+
 @class AVPlayer, AVPlayerLayer;
 
 FOUNDATION_EXPORT NSString * const TSCErrorDomain;
