@@ -26,6 +26,10 @@
 		3D41D2701C457FF70069C5B8 /* NSString+TSCWhitespace.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41D26F1C457FF70069C5B8 /* NSString+TSCWhitespace.m */; };
 		3D5725031C27535F00C23542 /* TSCTimeSourceRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D5725021C27535F00C23542 /* TSCTimeSourceRange.m */; };
 		3D5725121C277BE100C23542 /* NSString+TSCTimeStamp.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D5725111C277BE100C23542 /* NSString+TSCTimeStamp.m */; };
+		3D8B82D41C4E6585002DCBD6 /* TSCTimeSourceRangeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D8B82D31C4E6585002DCBD6 /* TSCTimeSourceRangeTests.m */; };
+		3D8B82D51C4E6B50002DCBD6 /* TSCTimeSourceRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D5725021C27535F00C23542 /* TSCTimeSourceRange.m */; };
+		3D8B82D61C4E6CC2002DCBD6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D94AC991C20429800397DA6 /* AVFoundation.framework */; };
+		3D8B82D71C4E6CDE002DCBD6 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA11F04197560FD00B78642 /* CoreMedia.framework */; };
 		3D9062A51C31CB8900863F29 /* TSCAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9062A41C31CB8900863F29 /* TSCAppController.m */; };
 		3D9062AB1C31CC3300863F29 /* TSCDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9062AA1C31CC3300863F29 /* TSCDocumentController.m */; };
 		3D94AC971C20422600397DA6 /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADD23481998E930007D81D3 /* ShortcutRecorder.framework */; };
@@ -167,6 +171,9 @@
 		3D5725021C27535F00C23542 /* TSCTimeSourceRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCTimeSourceRange.m; sourceTree = "<group>"; };
 		3D5725101C277BE100C23542 /* NSString+TSCTimeStamp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TSCTimeStamp.h"; sourceTree = "<group>"; };
 		3D5725111C277BE100C23542 /* NSString+TSCTimeStamp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TSCTimeStamp.m"; sourceTree = "<group>"; };
+		3D8B82C61C4E651F002DCBD6 /* TranscriptionsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TranscriptionsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D8B82CA1C4E651F002DCBD6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3D8B82D31C4E6585002DCBD6 /* TSCTimeSourceRangeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCTimeSourceRangeTests.m; sourceTree = "<group>"; };
 		3D9062A31C31CB8900863F29 /* TSCAppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCAppController.h; sourceTree = "<group>"; };
 		3D9062A41C31CB8900863F29 /* TSCAppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCAppController.m; sourceTree = "<group>"; };
 		3D9062A91C31CC3300863F29 /* TSCDocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCDocumentController.h; sourceTree = "<group>"; };
@@ -202,6 +209,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3D8B82C31C4E651F002DCBD6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3D8B82D61C4E6CC2002DCBD6 /* AVFoundation.framework in Frameworks */,
+				3D8B82D71C4E6CDE002DCBD6 /* CoreMedia.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D15AC330486D014006FF6A4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -255,6 +271,7 @@
 			isa = PBXGroup;
 			children = (
 				8D15AC370486D014006FF6A4 /* Transcriptions.app */,
+				3D8B82C61C4E651F002DCBD6 /* TranscriptionsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -271,6 +288,7 @@
 				3DC14B951C258E620069150A /* Transformers */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
+				3D8B82C71C4E651F002DCBD6 /* TranscriptionsTests */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 			);
@@ -356,6 +374,15 @@
 			name = Categories;
 			sourceTree = "<group>";
 		};
+		3D8B82C71C4E651F002DCBD6 /* TranscriptionsTests */ = {
+			isa = PBXGroup;
+			children = (
+				3D8B82D31C4E6585002DCBD6 /* TSCTimeSourceRangeTests.m */,
+				3D8B82CA1C4E651F002DCBD6 /* Info.plist */,
+			);
+			path = TranscriptionsTests;
+			sourceTree = "<group>";
+		};
 		3DC14B951C258E620069150A /* Transformers */ = {
 			isa = PBXGroup;
 			children = (
@@ -409,6 +436,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3D8B82C51C4E651F002DCBD6 /* TranscriptionsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3D8B82D21C4E651F002DCBD6 /* Build configuration list for PBXNativeTarget "TranscriptionsTests" */;
+			buildPhases = (
+				3D8B82C21C4E651F002DCBD6 /* Sources */,
+				3D8B82C31C4E651F002DCBD6 /* Frameworks */,
+				3D8B82C41C4E651F002DCBD6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TranscriptionsTests;
+			productName = TranscriptionsTests;
+			productReference = 3D8B82C61C4E651F002DCBD6 /* TranscriptionsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		8D15AC270486D014006FF6A4 /* Transcriptions */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "Transcriptions" */;
@@ -439,6 +483,10 @@
 			attributes = {
 				LastUpgradeCheck = 0710;
 				TargetAttributes = {
+					3D8B82C51C4E651F002DCBD6 = {
+						CreatedOnToolsVersion = 7.2;
+						TestTargetID = 8D15AC270486D014006FF6A4;
+					};
 					8D15AC270486D014006FF6A4 = {
 						DevelopmentTeam = M9AG4A3F6L;
 						SystemCapabilities = {
@@ -494,6 +542,7 @@
 			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* Transcriptions */,
+				3D8B82C51C4E651F002DCBD6 /* TranscriptionsTests */,
 			);
 		};
 /* End PBXProject section */
@@ -544,6 +593,13 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3D8B82C41C4E651F002DCBD6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D15AC2B0486D014006FF6A4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -574,6 +630,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3D8B82C21C4E651F002DCBD6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3D8B82D51C4E6B50002DCBD6 /* TSCTimeSourceRange.m in Sources */,
+				3D8B82D41C4E6585002DCBD6 /* TSCTimeSourceRangeTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D15AC300486D014006FF6A4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -644,6 +709,84 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		3D8B82CD1C4E651F002DCBD6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = TranscriptionsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = de.geheimwerk.TranscriptionsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3D8B82CE1C4E651F002DCBD6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = TranscriptionsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = de.geheimwerk.TranscriptionsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -738,6 +881,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3D8B82D21C4E651F002DCBD6 /* Build configuration list for PBXNativeTarget "TranscriptionsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3D8B82CD1C4E651F002DCBD6 /* Debug */,
+				3D8B82CE1C4E651F002DCBD6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "Transcriptions" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

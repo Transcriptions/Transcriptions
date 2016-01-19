@@ -29,6 +29,70 @@
 	return self;
 }
 
+
+- (BOOL)isEqual:(id)obj
+{
+	// If parameter is nil return NO.
+	if (obj == nil) {
+		return NO;
+	}
+	
+	// If parameter cannot be cast to Diff return NO.
+	if (![obj isKindOfClass:[TSCTimeSourceRange class]]) {
+		return NO;
+	}
+	
+	// Return YES if the fields match.
+	TSCTimeSourceRange *other = (TSCTimeSourceRange *)obj;
+	CMTime  otherTime = other.time;
+	NSRange otherRange = other.range;
+	return (CMTIME_COMPARE_INLINE(otherTime, ==, _time)
+			&& NSEqualRanges(otherRange, _range));
+}
+
+- (BOOL)isEqualToTimeSourceRange:(TSCTimeSourceRange *)other
+{
+	// If parameter is nil return NO.
+	if (other == nil) {
+		return NO;
+	}
+	
+	// Return YES if the fields match.
+	CMTime  otherTime = other.time;
+	NSRange otherRange = other.range;
+	return (CMTIME_COMPARE_INLINE(otherTime, ==, _time)
+			&& NSEqualRanges(otherRange, _range));
+}
+
+- (NSUInteger)hash
+{
+#define NSUINT_BIT (CHAR_BIT * sizeof(NSUInteger))
+#define NSUINTROTATE(val, howmuch) ((((NSUInteger)val) << howmuch) | (((NSUInteger)val) >> (NSUINT_BIT - howmuch)))
+	
+	return ([[NSValue valueWithCMTime:_time] hash] ^ NSUINTROTATE(_range.location, NSUINT_BIT / 2)  ^ _range.length);
+}
+
+
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+	[encoder encodeCMTime:_time forKey:@"time"];
+	[encoder encodeObject:[NSValue valueWithRange:_range]
+				   forKey:@"range"];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)decoder
+{
+	self = [self init];
+	
+	if (self) {
+		_time = [decoder decodeCMTimeForKey:@"time"];
+		_range = [[decoder decodeObjectForKey:@"range"] rangeValue];
+	}
+	
+	return self;
+}
+
+
 - (NSString *)description;
 {
 	NSString *description = [NSString stringWithFormat:@"<%@ %p, time:%@, range:%@>",

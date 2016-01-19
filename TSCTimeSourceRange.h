@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+#import <AVFoundation/AVFoundation.h>
 #import <CoreMedia/CoreMedia.h>
 
-@interface TSCTimeSourceRange : NSObject
+@interface TSCTimeSourceRange : NSObject <NSCoding>
 
 + (instancetype)timeSourceRangeWithTime:(CMTime)time range:(NSRange)range;
 
