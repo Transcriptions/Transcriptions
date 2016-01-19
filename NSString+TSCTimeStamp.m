@@ -10,55 +10,69 @@
 
 @implementation NSString (TSCTimeStamp)
 
+NS_INLINE CFRange CFRangeMakeFromNSRange(NSRange range) {
+	return CFRangeMake((range.location == NSNotFound ? kCFNotFound : range.location), range.length);
+}
+
 - (void)enumerateTimeStampsInRange:(NSRange)range
 						usingBlock:(void (^)(NSString *timeCode, NSRange timeStampRange, BOOL *stop))block;
 {
+	if (range.length == 0)  return;
 	if (self.length == 0)  return;
 	
-	static NSCharacterSet *hashMarkSet = nil;
-	static dispatch_once_t oncePredicate;
+	CFStringRef string = (__bridge CFStringRef)(self);
 	
-	dispatch_once(&oncePredicate, ^{
-		hashMarkSet = [NSCharacterSet characterSetWithCharactersInString:@"#"];
-	});
+	const CFRange subRange = CFRangeMakeFromNSRange(range);
 	
-	NSScanner *scanner = [NSScanner scannerWithString:self];
-	scanner.charactersToBeSkipped = nil;
-	scanner.scanLocation = range.location;
+	CFStringInlineBuffer stringInlineBuffer;
+	CFStringInitInlineBuffer(string, &stringInlineBuffer, subRange);
 	
-	NSUInteger scanLocation;
-	NSUInteger endLocation = NSMaxRange(range);
+	const unichar hashMark = '#';
+	const NSUInteger hashMarkLength = 1;
 	
-	while ((scanner.atEnd == NO) &&
-		   ((scanLocation = scanner.scanLocation) != NSNotFound) &&
-		    (scanLocation < endLocation)) {
+	NSUInteger start = NSNotFound;
+	BOOL accumulate = NO;
+	
+	NSUInteger i; // Index relative to subRange.
+	
+	for (i = 0;
+		 i < subRange.length;
+		 i++) {
+		UniChar codeUnit = CFStringGetCharacterFromInlineBuffer(&stringInlineBuffer, i);
 		
-		NSString *timeCode = nil;
-		NSRange timeStampRange = NSMakeRange(NSNotFound, 0);
-		
-		[scanner scanUpToCharactersFromSet:hashMarkSet
-								intoString:NULL];
-		
-		timeStampRange.location = scanner.scanLocation;
-		
-		BOOL scanned =
-		([scanner scanString:@"#"
-				  intoString:NULL] &&
-		 [scanner scanUpToCharactersFromSet:hashMarkSet
-								 intoString:&timeCode] &&
-		 [scanner scanString:@"#"
-				  intoString:NULL]);
-		
-		if (scanned &&
-			timeCode &&
-			(timeCode.length > 0)) {
-			timeStampRange.length = scanner.scanLocation - timeStampRange.location;
+		if (codeUnit == hashMark) {
+			accumulate = !accumulate;
 			
-			BOOL stop = NO;
-			block(timeCode, timeStampRange, &stop);
-			if (stop) {
-				return;
+			if (start != NSNotFound) {
+				const NSUInteger end = i;
+				
+				NSRange timeStampRange;
+				timeStampRange.location = range.location + start;
+				timeStampRange.length = end - start;
+				
+				NSString *timeCode = [self substringWithRange:timeStampRange];
+				
+				timeStampRange.location -= hashMarkLength;
+				timeStampRange.length += 2 * hashMarkLength;
+				
+				BOOL stop = NO;
+				
+				block(timeCode, timeStampRange, &stop);
+				
+				if (stop) {
+					break;
+				}
+				
+				start = NSNotFound;
 			}
+		}
+		else if (accumulate) {
+			if (start == NSNotFound) {
+				start = i;
+			}
+		}
+		else {
+			continue;
 		}
 	}
 }
