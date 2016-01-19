@@ -320,10 +320,17 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 	return YES;
 }
 
+void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
+{
+	NSRange insertionCursor = NSMakeRange(NSMaxRange(insertionRange), 0);
+	[string replaceCharactersInRange:insertionCursor withString:@"\n"];
+}
+
 - (BOOL)readFromSRTData:(NSData *)data error:(NSError **)outError
 {
 	// TODO: Add option to merge consecutive, identical time stamps (remember previous one and don’t emit, if identical to current)
-	// TODO: Add option for having time stamps in their own row instead of inline.
+	// TODO: Add UI for timeStampsOnSeparateLines (forcing time stamps onto their own row instead of having them inline).
+	BOOL timeStampsOnSeparateLines = NO;
 	
 	NSStringEncoding encoding =
 	[NSString stringEncodingForData:data
@@ -366,7 +373,9 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 
 		NSAttributedString *itemText = subRipItem.attributedText;
 		
-		//NSRange insertionRange =
+		NSRange insertionRange;
+		
+		insertionRange =
 		[self insertTimeStampStringForCMTime:startTime
 										  at:string.length
 									intoText:text
@@ -374,20 +383,29 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 								prependSpace:NO
 								 appendSpace:YES
 							  timeStampRange:NULL];
-
+		
+		if (timeStampsOnSeparateLines) {
+			insertNewlineAfterRange(string, insertionRange);
+		}
+		
 		[text appendAttributedString:itemText];
 		
-		NSRange insertionRange =
+		if (timeStampsOnSeparateLines) {
+			insertionRange.location = string.length;
+			insertionRange.length = 0;
+			insertNewlineAfterRange(string, insertionRange);
+		}
+		
+		insertionRange =
 		[self insertTimeStampStringForCMTime:endTime
 										  at:string.length
 									intoText:text
 									  string:string
-								prependSpace:YES
+								prependSpace:!timeStampsOnSeparateLines
 								 appendSpace:YES
 							  timeStampRange:NULL];
 		
-		NSRange insertionCursor = NSMakeRange(NSMaxRange(insertionRange), 0);
-		[string replaceCharactersInRange:insertionCursor withString:@"\n"];
+		insertNewlineAfterRange(string, insertionRange);
 	}
 	
 	_rtfSaveData = text;
