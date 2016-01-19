@@ -557,11 +557,12 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	__block CMTime previousTime = kCMTimeZero;
 	__block NSRange previousRange = NSMakeRange(0, 0);
 	
+	TSCTimeStampEnumerationOptions options = TSCTimeStampEnumerationStringNotRequired;
+	
 	[string enumerateTimeStampsInRange:fullRange
+								  options:options
 							usingBlock:
-	 ^(NSString *timeCode, NSRange timeStampRange, BOOL *stop) {
-		 CMTime time = [JXCMTimeStringTransformer CMTimeForTimecodeString:timeCode];
-		 
+	 ^(NSString *timeCode, CMTime time, NSRange timeStampRange, BOOL *stop) {
 		 NSUInteger subtitleStart = NSMaxRange(previousRange);
 		 NSUInteger subtitleEnd = timeStampRange.location;
 		 NSRange subtitleRange = NSMakeRange(subtitleStart, subtitleEnd - subtitleStart);
@@ -1457,9 +1458,11 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 
 	// FIXME: Cache timeStampsSorted until invalidated by a change to the text.
 	NSMutableArray *timeStamps = [NSMutableArray array];
+	TSCTimeStampEnumerationOptions options = TSCTimeStampEnumerationStringNotRequired;
+	
 	[theString enumerateTimeStampsInRange:fullRange
-							   usingBlock:^(NSString *timeCode, NSRange timeStampRange, BOOL *stop) {
-								   CMTime time = [JXCMTimeStringTransformer CMTimeForTimecodeString:timeCode];
+								  options:options
+							usingBlock:^(NSString *timeCode, CMTime time, NSRange timeStampRange, BOOL *stop) {
 								   TSCTimeSourceRange *timeStamp =
 								   [TSCTimeSourceRange timeSourceRangeWithTime:time
 																		 range:timeStampRange];

@@ -42,6 +42,8 @@ NS_INLINE void safelyShiftLocationInStringRangeTo(NSRange *range_p, NSUInteger l
 	const NSRange stringRange = NSMakeRange(0, string.length);
 	NSRange range = stringRange;
 	
+	TSCTimeStampEnumerationOptions options = 0;
+
 	for (NSUInteger i = 0; i < stringRange.length; i++) {
 		safelyShiftLocationInStringRangeTo(&range, stringRange.location + i);
 		
@@ -49,8 +51,9 @@ NS_INLINE void safelyShiftLocationInStringRangeTo(NSRange *range_p, NSUInteger l
 		
 		__block NSUInteger j = 0;
 		[string enumerateTimeStampsInRange:range
+								   options:options
 								usingBlock:
-		 ^(NSString *timeCode, NSRange timeStampRange, BOOL *stop) {
+		 ^(NSString *timeCode, CMTime time, NSRange timeStampRange, BOOL *stop) {
 			 // We should not get here, when there are no expected results.
 			 // This would mean that the parser found a false match.
 			 XCTAssertNotNil(expectedResults);

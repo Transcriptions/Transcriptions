@@ -8,6 +8,9 @@
 
 #import "NSString+TSCTimeStamp.h"
 
+#import "JXCMTimeStringTransformer.h"
+
+
 @implementation NSString (TSCTimeStamp)
 
 NS_INLINE CFRange CFRangeMakeFromNSRange(NSRange range) {
@@ -15,10 +18,14 @@ NS_INLINE CFRange CFRangeMakeFromNSRange(NSRange range) {
 }
 
 - (void)enumerateTimeStampsInRange:(NSRange)range
-						usingBlock:(void (^)(NSString *timeCode, NSRange timeStampRange, BOOL *stop))block;
+						   options:(TSCTimeStampEnumerationOptions)options
+						usingBlock:(void (^)(NSString *timeCode, CMTime time, NSRange timeStampRange, BOOL *stop))block;
 {
 	if (range.length == 0)  return;
 	if (self.length == 0)  return;
+	
+	BOOL wantTimeCodeString = !(options & TSCTimeStampEnumerationStringNotRequired);
+	BOOL wantTime = !(options & TSCTimeStampEnumerationTimeNotRequired);
 	
 	CFStringRef string = (__bridge CFStringRef)(self);
 	
@@ -50,14 +57,25 @@ NS_INLINE CFRange CFRangeMakeFromNSRange(NSRange range) {
 				timeStampRange.location = range.location + start;
 				timeStampRange.length = end - start;
 				
-				NSString *timeCode = [self substringWithRange:timeStampRange];
+				NSString *timeCode = nil;
+				if (wantTimeCodeString || wantTime) { // FIXME: Remove dependency of time on timeCode
+					timeCode = [self substringWithRange:timeStampRange];
+				}
+				
+				CMTime time;
+				if (wantTime) {
+					time = [JXCMTimeStringTransformer CMTimeForTimecodeString:timeCode];
+				}
+				else {
+					time = kCMTimeInvalid;
+				}
 				
 				timeStampRange.location -= hashMarkLength;
 				timeStampRange.length += 2 * hashMarkLength;
 				
 				BOOL stop = NO;
 				
-				block(timeCode, timeStampRange, &stop);
+				block(timeCode, time, timeStampRange, &stop);
 				
 				if (stop) {
 					break;

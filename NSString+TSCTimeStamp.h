@@ -7,10 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
+
+typedef NS_OPTIONS(NSUInteger, TSCTimeStampEnumerationOptions) {
+	TSCTimeStampEnumerationStringNotRequired = 1 << 0,
+	TSCTimeStampEnumerationTimeNotRequired = 1 << 1,
+};
 
 @interface NSString (TSCTimeStamp)
 
 - (void)enumerateTimeStampsInRange:(NSRange)range
-						usingBlock:(void (^ _Nonnull)(NSString * _Nonnull timeCode, NSRange timeStampRange, BOOL * _Nonnull stop))block;
+						   options:(TSCTimeStampEnumerationOptions)options
+						usingBlock:(void (^ _Nonnull)(NSString * _Nullable timeCode, CMTime time, NSRange timeStampRange, BOOL * _Nonnull stop))block;
 
 @end

@@ -32,6 +32,7 @@
 		3D8B82D71C4E6CDE002DCBD6 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA11F04197560FD00B78642 /* CoreMedia.framework */; };
 		3D8B82D91C4E7196002DCBD6 /* TSCTimeStampTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D8B82D81C4E7196002DCBD6 /* TSCTimeStampTests.m */; };
 		3D8B82DA1C4E74EF002DCBD6 /* NSString+TSCTimeStamp.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D5725111C277BE100C23542 /* NSString+TSCTimeStamp.m */; };
+		3D8B82DB1C4E83C4002DCBD6 /* JXCMTimeStringTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC14BA01C2598D90069150A /* JXCMTimeStringTransformer.m */; };
 		3D9062A51C31CB8900863F29 /* TSCAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9062A41C31CB8900863F29 /* TSCAppController.m */; };
 		3D9062AB1C31CC3300863F29 /* TSCDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9062AA1C31CC3300863F29 /* TSCDocumentController.m */; };
 		3D94AC971C20422600397DA6 /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADD23481998E930007D81D3 /* ShortcutRecorder.framework */; };
@@ -638,6 +639,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D8B82DB1C4E83C4002DCBD6 /* JXCMTimeStringTransformer.m in Sources */,
 				3D8B82DA1C4E74EF002DCBD6 /* NSString+TSCTimeStamp.m in Sources */,
 				3D8B82D91C4E7196002DCBD6 /* TSCTimeStampTests.m in Sources */,
 				3D8B82D51C4E6B50002DCBD6 /* TSCTimeSourceRange.m in Sources */,

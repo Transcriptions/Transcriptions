@@ -120,9 +120,12 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 								  actualGlyphRange:NULL];
 		
 		NSMutableArray *timeButtonArray = [[NSMutableArray alloc] init];
-
+		
+		TSCTimeStampEnumerationOptions options = TSCTimeStampEnumerationTimeNotRequired;
+		
 		[theString enumerateTimeStampsInRange:lineCharRange
-								   usingBlock:^(NSString *timeCode, NSRange timeStampRange, BOOL *stop) {
+									  options:options
+								   usingBlock:^(NSString *timeCode, CMTime time, NSRange timeStampRange, BOOL *stop) {
 									   if ((NSLocationInRange(characterIndex, timeStampRange))) {
 										   
 										   [layoutManager addTemporaryAttributes:markAttributes
