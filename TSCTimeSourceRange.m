@@ -17,7 +17,7 @@
 	return result;
 }
 
-- (id)initWithTime:(CMTime)time range:(NSRange)range;
+- (instancetype)initWithTime:(CMTime)time range:(NSRange)range;
 {
 	self = [super init];
 	
