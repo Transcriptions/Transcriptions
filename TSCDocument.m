@@ -322,6 +322,9 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 
 - (BOOL)readFromSRTData:(NSData *)data error:(NSError **)outError
 {
+	// TODO: Add option to merge consecutive, identical time stamps (remember previous one and don’t emit, if identical to current)
+	// TODO: Add option for having time stamps in their own row instead of inline.
+	
 	NSStringEncoding encoding =
 	[NSString stringEncodingForData:data
 					encodingOptions:nil
