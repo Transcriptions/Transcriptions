@@ -178,6 +178,7 @@
 		3D8B82CA1C4E651F002DCBD6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D8B82D31C4E6585002DCBD6 /* TSCTimeSourceRangeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCTimeSourceRangeTests.m; sourceTree = "<group>"; };
 		3D8B82D81C4E7196002DCBD6 /* TSCTimeStampTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCTimeStampTests.m; sourceTree = "<group>"; };
+		3D8B82DC1C4EC2DA002DCBD6 /* JXTimeCodeParserCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JXTimeCodeParserCore.h; sourceTree = "<group>"; };
 		3D9062A31C31CB8900863F29 /* TSCAppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCAppController.h; sourceTree = "<group>"; };
 		3D9062A41C31CB8900863F29 /* TSCAppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCAppController.m; sourceTree = "<group>"; };
 		3D9062A91C31CC3300863F29 /* TSCDocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCDocumentController.h; sourceTree = "<group>"; };
@@ -395,6 +396,7 @@
 				3DC14B9A1C258E900069150A /* JXCMTimeNumberTransformer.m */,
 				3DC14B9F1C2598D90069150A /* JXCMTimeStringTransformer.h */,
 				3DC14BA01C2598D90069150A /* JXCMTimeStringTransformer.m */,
+				3D8B82DC1C4EC2DA002DCBD6 /* JXTimeCodeParserCore.h */,
 			);
 			name = Transformers;
 			sourceTree = "<group>";

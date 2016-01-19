@@ -9,6 +9,7 @@
 #import "NSString+TSCTimeStamp.h"
 
 #import "JXCMTimeStringTransformer.h"
+#import "JXTimeCodeParserCore.h"
 
 
 @implementation NSString (TSCTimeStamp)
@@ -40,17 +41,25 @@ NS_INLINE CFRange CFRangeMakeFromNSRange(NSRange range) {
 	NSUInteger start = NSNotFound;
 	BOOL accumulate = NO;
 	
+	const ParserState parserStateDefault = {
+		.position = Hours,
+		.separator = ':',
+		.fractionalSeparator = '.',
+	};
+	ParserState parser = parserStateDefault;
+	
 	NSUInteger i; // Index relative to subRange.
 	
 	for (i = 0;
 		 i < subRange.length;
 		 i++) {
-		UniChar codeUnit = CFStringGetCharacterFromInlineBuffer(&stringInlineBuffer, i);
+		const unichar codeUnit = CFStringGetCharacterFromInlineBuffer(&stringInlineBuffer, i);
 		
 		if (codeUnit == hashMark) {
 			accumulate = !accumulate;
 			
-			if (start != NSNotFound) {
+			if ((start != NSNotFound) &&
+				(parser.position == Fractional)) {
 				const NSUInteger end = i;
 				
 				NSRange timeStampRange;
@@ -58,13 +67,13 @@ NS_INLINE CFRange CFRangeMakeFromNSRange(NSRange range) {
 				timeStampRange.length = end - start;
 				
 				NSString *timeCode = nil;
-				if (wantTimeCodeString || wantTime) { // FIXME: Remove dependency of time on timeCode
+				if (wantTimeCodeString) {
 					timeCode = [self substringWithRange:timeStampRange];
 				}
 				
 				CMTime time;
 				if (wantTime) {
-					time = [JXCMTimeStringTransformer CMTimeForTimecodeString:timeCode];
+					time = convertComponentsToCMTime(parser.components);
 				}
 				else {
 					time = kCMTimeInvalid;
@@ -87,6 +96,19 @@ NS_INLINE CFRange CFRangeMakeFromNSRange(NSRange range) {
 		else if (accumulate) {
 			if (start == NSNotFound) {
 				start = i;
+				
+				parser = parserStateDefault;
+			}
+			
+			parseCodeUnitWithState(codeUnit, &parser);
+			
+			if (parser.error) {
+				// Reset parser.
+				start = NSNotFound;
+				
+				accumulate = NO;
+
+				continue;
 			}
 		}
 		else {

@@ -10,6 +10,8 @@
 
 #import <AVFoundation/AVFoundation.h>
 
+#import "JXTimeCodeParserCore.h"
+
 
 #define USE_MILLISECONDS	0
 
@@ -78,64 +80,41 @@ NSString * timecodeStringForCMTime(CMTime time) {
 }
 
 
-NS_INLINE int totalSecondsForHoursMinutesSeconds(int hours, int minutes, int seconds)
-{
-	return (hours * 3600) + (minutes * 60) + seconds;
-}
-
-+ (BOOL)parseTimecodeString:(NSString *)timecodeString
-				intoSeconds:(int *)totalNumSeconds
-		  fractionalSeconds:(int *)fractionalSeconds;
-{
-	NSArray *timeComponents = [timecodeString componentsSeparatedByString:@":"];
-	
-	if (timeComponents.count != 3)  return NO;
-	
-	int hours = [(NSString *)[timeComponents objectAtIndex:0] intValue];
-	int minutes = [(NSString *)[timeComponents objectAtIndex:1] intValue];
-	
-	NSArray *secondsComponents = [(NSString *)[timeComponents objectAtIndex:2] componentsSeparatedByString:@"."];
-	int seconds = [(NSString *)[secondsComponents objectAtIndex:0] intValue];
-	
-	if (secondsComponents.count < 2) {
-		*fractionalSeconds = -1;
-	}
-	else {
-		*fractionalSeconds = [(NSString *)[secondsComponents objectAtIndex:1] intValue];
-	}
-	
-	*totalNumSeconds = totalSecondsForHoursMinutesSeconds(hours, minutes, seconds);
-	
-	return YES;
-}
-
-NS_INLINE CMTime convertSecondsFractionalSecondsToCMTime(int seconds, int fractionalSeconds) {
-	CMTime secondsTime = CMTimeMake(seconds, 1);
-	CMTime fractionalSecondsTime;
-	
-	if (fractionalSeconds == -1) {
-		return secondsTime;
-	} else {
-		fractionalSecondsTime = CMTimeMake(fractionalSeconds, FractionalSecondTimescale);
-		CMTime time = CMTimeAdd(secondsTime, fractionalSecondsTime);
-		return time;
-	}
-}
-
 + (CMTime)CMTimeForTimecodeString:(NSString *)timecodeString;
 {
-	int fractionalSeconds;
-	int totalNumSeconds;
+	NSUInteger stringLength = timecodeString.length;
 	
-	BOOL success =
-	[self parseTimecodeString:timecodeString
-				  intoSeconds:&totalNumSeconds
-			fractionalSeconds:&fractionalSeconds];
+	if (stringLength == 0)  return kCMTimeInvalid;
+	
+	CFStringRef string = (__bridge CFStringRef)(timecodeString);
+	
+	const CFRange subRange = CFRangeMake(0, stringLength);
+	
+	CFStringInlineBuffer stringInlineBuffer;
+	CFStringInitInlineBuffer(string, &stringInlineBuffer, subRange);
+	
+	const ParserState parserStateDefault = {
+		.position = Hours,
+		.separator = ':',
+		.fractionalSeparator = '.',
+	};
+	ParserState parser = parserStateDefault;
+	
+	NSUInteger i; // Index relative to subRange.
+	
+	for (i = 0;
+		 i < subRange.length;
+		 i++) {
+		const unichar codeUnit = CFStringGetCharacterFromInlineBuffer(&stringInlineBuffer, i);
+		
+		parseCodeUnitWithState(codeUnit, &parser);
+	}
 	
 	CMTime time;
-	if (success) {
-		time = convertSecondsFractionalSecondsToCMTime(totalNumSeconds, fractionalSeconds);
-	} else {
+	if (!parser.error) {
+		time = convertComponentsToCMTime(parser.components);
+	}
+	else {
 		time = kCMTimeInvalid;
 	}
 	
