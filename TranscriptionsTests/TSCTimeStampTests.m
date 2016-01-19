@@ -51,7 +51,9 @@ NS_INLINE void safelyShiftLocationInStringRangeTo(NSRange *range_p, NSUInteger l
 		[string enumerateTimeStampsInRange:range
 								usingBlock:
 		 ^(NSString *timeCode, NSRange timeStampRange, BOOL *stop) {
-			 XCTAssertNotNil(expectedResults); // We should not get here, when there are no expected results.
+			 // We should not get here, when there are no expected results.
+			 // This would mean that the parser found a false match.
+			 XCTAssertNotNil(expectedResults);
 			 
 			 XCTAssertTrue(j < expectedResults.count);
 			 
