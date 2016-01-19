@@ -67,7 +67,7 @@ NS_INLINE void safelyShiftLocationInStringRangeTo(NSRange *range_p, NSUInteger l
 			 j += 1;
 		 }];
 		
-		XCTAssertTrue(j == expectedResults.count);
+		XCTAssertEqual(j, expectedResults.count);
 	}
 }
 
