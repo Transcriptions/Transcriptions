@@ -12,6 +12,7 @@
 typedef NS_OPTIONS(NSUInteger, TSCTimeStampEnumerationOptions) {
 	TSCTimeStampEnumerationStringNotRequired = 1 << 0,
 	TSCTimeStampEnumerationTimeNotRequired = 1 << 1,
+	TSCTimeStampEnumerationDoNotRequireFractionalPart = 1 << 2,
 };
 
 @interface NSString (TSCTimeStamp)

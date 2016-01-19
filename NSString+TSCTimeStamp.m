@@ -27,6 +27,7 @@ NS_INLINE CFRange CFRangeMakeFromNSRange(NSRange range) {
 	
 	BOOL wantTimeCodeString = !(options & TSCTimeStampEnumerationStringNotRequired);
 	BOOL wantTime = !(options & TSCTimeStampEnumerationTimeNotRequired);
+	BOOL doNotRequireFractionalPart = (options & TSCTimeStampEnumerationDoNotRequireFractionalPart);
 	
 	CFStringRef string = (__bridge CFStringRef)(self);
 	
@@ -59,7 +60,9 @@ NS_INLINE CFRange CFRangeMakeFromNSRange(NSRange range) {
 			accumulate = !accumulate;
 			
 			if ((start != NSNotFound) &&
-				(parser.position == Fractional)) {
+				((parser.position == Fractional) ||
+				 (doNotRequireFractionalPart &&
+				  (parser.position == Seconds)))) {
 				const NSUInteger end = i;
 				
 				NSRange timeStampRange;
