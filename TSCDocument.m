@@ -342,7 +342,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 		(encoding == NSASCIIStringEncoding)) {
 		encoding = NSUTF8StringEncoding;
 	}
-
+	
 	SubRip *subRip = [[SubRip alloc] initWithData:data
 										 encoding:encoding
 											error:outError];
@@ -370,7 +370,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	for (SubRipItem *subRipItem in subtitleItems) {
 		CMTime startTime = subRipItem.startTime;
 		CMTime endTime = subRipItem.endTime;
-
+		
 		NSAttributedString *itemText = subRipItem.attributedText;
 		
 		NSRange insertionRange;
