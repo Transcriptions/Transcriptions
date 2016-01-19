@@ -123,8 +123,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 
 		[theString enumerateTimeStampsInRange:lineCharRange
 								   usingBlock:^(NSString *timeCode, NSRange timeStampRange, BOOL *stop) {
-									   if ((timeStampRange.length > 0) &&
-										   (NSLocationInRange(characterIndex, timeStampRange))) {
+									   if ((NSLocationInRange(characterIndex, timeStampRange))) {
 										   
 										   [layoutManager addTemporaryAttributes:markAttributes
 															   forCharacterRange:timeStampRange];

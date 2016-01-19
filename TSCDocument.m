@@ -542,31 +542,29 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 	[string enumerateTimeStampsInRange:fullRange
 							usingBlock:
 	 ^(NSString *timeCode, NSRange timeStampRange, BOOL *stop) {
-		 if (timeStampRange.length > 0) {
-			 CMTime time = [JXCMTimeStringTransformer CMTimeForTimecodeString:timeCode];
+		 CMTime time = [JXCMTimeStringTransformer CMTimeForTimecodeString:timeCode];
+		 
+		 NSUInteger subtitleStart = NSMaxRange(previousRange);
+		 NSUInteger subtitleEnd = timeStampRange.location;
+		 NSRange subtitleRange = NSMakeRange(subtitleStart, subtitleEnd - subtitleStart);
+		 
+		 if (![string isBlankRange:subtitleRange]) {
+			 SubRipItem *subRipItem = [[SubRipItem alloc] init];
 			 
-			 NSUInteger subtitleStart = NSMaxRange(previousRange);
-			 NSUInteger subtitleEnd = timeStampRange.location;
-			 NSRange subtitleRange = NSMakeRange(subtitleStart, subtitleEnd - subtitleStart);
+			 NSMutableAttributedString *currentText = [[text attributedSubstringFromRange:subtitleRange] mutableCopy];
+			 NSMutableString *currentMutableString = currentText.mutableString;
+			 CFStringTrimWhitespace((__bridge CFMutableStringRef)currentMutableString);
 			 
-			 if (![string isBlankRange:subtitleRange]) {
-				 SubRipItem *subRipItem = [[SubRipItem alloc] init];
-				 
-				 NSMutableAttributedString *currentText = [[text attributedSubstringFromRange:subtitleRange] mutableCopy];
-				 NSMutableString *currentMutableString = currentText.mutableString;
-				 CFStringTrimWhitespace((__bridge CFMutableStringRef)currentMutableString);
-				 
-				 subRipItem.attributedText = currentText;
-				 
-				 subRipItem.startTime = previousTime;
-				 subRipItem.endTime = time;
-				 
-				 [subtitleItems addObject:subRipItem];
-			 }
+			 subRipItem.attributedText = currentText;
 			 
-			 previousTime = time;
-			 previousRange = timeStampRange;
+			 subRipItem.startTime = previousTime;
+			 subRipItem.endTime = time;
+			 
+			 [subtitleItems addObject:subRipItem];
 		 }
+		 
+		 previousTime = time;
+		 previousRange = timeStampRange;
 	 }];
 	
 	SubRip *subRip = [[SubRip alloc] initWithSubtitleItems:subtitleItems];
@@ -1443,14 +1441,12 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 	NSMutableArray *timeStamps = [NSMutableArray array];
 	[theString enumerateTimeStampsInRange:fullRange
 							   usingBlock:^(NSString *timeCode, NSRange timeStampRange, BOOL *stop) {
-								   if (timeStampRange.length > 0) {
-									   CMTime time = [JXCMTimeStringTransformer CMTimeForTimecodeString:timeCode];
-									   TSCTimeSourceRange *timeStamp =
-									   [TSCTimeSourceRange timeSourceRangeWithTime:time
-																			 range:timeStampRange];
-									   
-									   [timeStamps addObject:timeStamp];
-								   }
+								   CMTime time = [JXCMTimeStringTransformer CMTimeForTimecodeString:timeCode];
+								   TSCTimeSourceRange *timeStamp =
+								   [TSCTimeSourceRange timeSourceRangeWithTime:time
+																		 range:timeStampRange];
+								   
+								   [timeStamps addObject:timeStamp];
 							   }];
 	
 	TSCTimeSourceRange *mediaEndStamp =
