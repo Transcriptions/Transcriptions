@@ -560,7 +560,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	TSCTimeStampEnumerationOptions options = TSCTimeStampEnumerationStringNotRequired;
 	
 	[string enumerateTimeStampsInRange:fullRange
-								  options:options
+							   options:options
 							usingBlock:
 	 ^(NSString *timeCode, CMTime time, NSRange timeStampRange, BOOL *stop) {
 		 NSUInteger subtitleStart = NSMaxRange(previousRange);
@@ -1462,7 +1462,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	
 	[theString enumerateTimeStampsInRange:fullRange
 								  options:options
-							usingBlock:^(NSString *timeCode, CMTime time, NSRange timeStampRange, BOOL *stop) {
+							   usingBlock:^(NSString *timeCode, CMTime time, NSRange timeStampRange, BOOL *stop) {
 								   TSCTimeSourceRange *timeStamp =
 								   [TSCTimeSourceRange timeSourceRangeWithTime:time
 																		 range:timeStampRange];
