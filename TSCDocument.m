@@ -328,9 +328,10 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 
 - (BOOL)readFromSRTData:(NSData *)data error:(NSError **)outError
 {
-	// TODO: Add option to merge consecutive, identical time stamps (remember previous one and don’t emit, if identical to current)
+	// TODO: Add UI for mergeConsecutiveIdenticalTimeStamps (merge consecutive, identical time stamps).
 	// TODO: Add UI for timeStampsOnSeparateLines (forcing time stamps onto their own row instead of having them inline).
-	BOOL timeStampsOnSeparateLines = NO;
+	BOOL mergeConsecutiveIdenticalTimeStamps = YES;
+	BOOL timeStampsOnSeparateLines = YES;
 	
 	NSStringEncoding encoding =
 	[NSString stringEncodingForData:data
@@ -367,25 +368,35 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	NSMutableAttributedString *text = [[NSMutableAttributedString alloc] init];
 	NSMutableString *string = text.mutableString;
 	
+	CMTime previousEndTime = kCMTimeInvalid;
+	
 	for (SubRipItem *subRipItem in subtitleItems) {
 		CMTime startTime = subRipItem.startTime;
 		CMTime endTime = subRipItem.endTime;
+		
+		BOOL foundIdentical =
+		(mergeConsecutiveIdenticalTimeStamps &&
+			!CMTIME_IS_INVALID(previousEndTime) &&
+			CMTIME_COMPARE_INLINE(previousEndTime, ==, startTime)
+			);
 		
 		NSAttributedString *itemText = subRipItem.attributedText;
 		
 		NSRange insertionRange;
 		
-		insertionRange =
-		[self insertTimeStampStringForCMTime:startTime
-										  at:string.length
-									intoText:text
-									  string:string
-								prependSpace:NO
-								 appendSpace:YES
-							  timeStampRange:NULL];
-		
-		if (timeStampsOnSeparateLines) {
-			insertNewlineAfterRange(string, insertionRange);
+		if (!foundIdentical) {
+			insertionRange =
+			[self insertTimeStampStringForCMTime:startTime
+											  at:string.length
+										intoText:text
+										  string:string
+									prependSpace:NO
+									 appendSpace:YES
+								  timeStampRange:NULL];
+			
+			if (timeStampsOnSeparateLines) {
+				insertNewlineAfterRange(string, insertionRange);
+			}
 		}
 		
 		[text appendAttributedString:itemText];
@@ -406,6 +417,10 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 							  timeStampRange:NULL];
 		
 		insertNewlineAfterRange(string, insertionRange);
+		
+		if (mergeConsecutiveIdenticalTimeStamps) {
+			previousEndTime = endTime;
+		}
 	}
 	
 	_rtfSaveData = text;
