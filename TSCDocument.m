@@ -330,12 +330,12 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 {
 	// TODO: Add UI for mergeConsecutiveIdenticalTimeStamps (merge consecutive time stamps within a given distance).
 	// TODO: Add UI for timeStampsOnSeparateLines (forcing time stamps onto their own row instead of having them inline).
-	BOOL mergeConsecutiveTimeStamps = YES;
-	BOOL mergeIdenticalTimeStampsOnly = NO;
+	BOOL mergeConsecutiveTimeStamps = NO;
+	BOOL mergeIdenticalTimeStampsOnly = YES;
 	CMTime mergeDistance = CMTimeMake(5, 100);
 	CMTime mergeRangeDuration = CMTimeMultiply(mergeDistance, 2);
 	
-	BOOL timeStampsOnSeparateLines = YES;
+	BOOL timeStampsOnSeparateLines = NO;
 	
 	NSStringEncoding encoding =
 	[NSString stringEncodingForData:data
