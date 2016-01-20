@@ -375,21 +375,35 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	CMTime previousEndTime = kCMTimeInvalid;
 	CMTimeRange mergeTimeRange = CMTimeRangeMake(kCMTimeInvalid, mergeRangeDuration);
 	
+	const NSRange invalidRange = NSMakeRange(NSNotFound, 0);
+	NSRange previousEndTimeStampRange = invalidRange;
+	
 	for (SubRipItem *subRipItem in subtitleItems) {
 		CMTime startTime = subRipItem.startTime;
 		CMTime endTime = subRipItem.endTime;
 		
-		BOOL mergeTimeStamps = NO;
+		BOOL insertStartTime = YES;
+		BOOL insertNewlineAfterStartTime = timeStampsOnSeparateLines;
+		
 		if (mergeConsecutiveTimeStamps) {
 			if (!CMTIME_IS_INVALID(previousEndTime)) {
 				if (mergeIdenticalTimeStampsOnly &&
 					CMTIME_COMPARE_INLINE(previousEndTime, ==, startTime)) {
-					mergeTimeStamps = YES;
+					insertStartTime = NO;
 				}
 				else if (!mergeIdenticalTimeStampsOnly) {
 					mergeTimeRange.start = CMTimeSubtract(startTime, mergeDistance);
 					if (CMTimeRangeContainsTime(mergeTimeRange, previousEndTime)) {
-						mergeTimeStamps = YES;
+						[string replaceCharactersInRange:previousEndTimeStampRange withString:@""];
+						
+						CMTime centerTimeRangeDuration = CMTimeSubtract(startTime, previousEndTime);
+						CMTime centerTimeDistance = CMTimeMultiplyByRatio(centerTimeRangeDuration, 1, 2);
+						CMTime centerTime = CMTimeAdd(startTime, centerTimeDistance);
+						
+						startTime = centerTime;
+						
+						insertStartTime = YES;
+						insertNewlineAfterStartTime = YES;
 					}
 				}
 			}
@@ -399,7 +413,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 		
 		NSRange insertionRange;
 		
-		if (!mergeTimeStamps) {
+		if (insertStartTime) {
 			insertionRange =
 			[self insertTimeStampStringForCMTime:startTime
 											  at:string.length
@@ -409,7 +423,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 									 appendSpace:YES
 								  timeStampRange:NULL];
 			
-			if (timeStampsOnSeparateLines) {
+			if (insertNewlineAfterStartTime) {
 				insertNewlineAfterRange(string, insertionRange);
 			}
 		}
@@ -435,6 +449,10 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 		
 		if (mergeConsecutiveTimeStamps) {
 			previousEndTime = endTime;
+			
+			const NSUInteger newlineLength = 1;
+			insertionRange.length += newlineLength;
+			previousEndTimeStampRange = insertionRange;
 		}
 	}
 	
