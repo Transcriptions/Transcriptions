@@ -38,12 +38,13 @@ NS_INLINE void safelyShiftLocationInStringRangeTo(NSRange *range_p, NSUInteger l
 
 - (void)enumerationTestForString:(NSString *)string
 				 expectedResults:(NSDictionary *)stringResults
+						 options:(TSCTimeStampEnumerationOptions)options
+						testName:(NSString *)testName
 {
+	NSUInteger stringLength = string.length;
 	const NSRange stringRange = NSMakeRange(0, string.length);
 	NSRange range = stringRange;
 	
-	TSCTimeStampEnumerationOptions options = 0;
-
 	for (NSUInteger i = 0; i < stringRange.length; i++) {
 		safelyShiftLocationInStringRangeTo(&range, stringRange.location + i);
 		
@@ -58,7 +59,7 @@ NS_INLINE void safelyShiftLocationInStringRangeTo(NSRange *range_p, NSUInteger l
 			 // This would mean that the parser found a false match.
 			 XCTAssertNotNil(expectedResults);
 			 
-			 XCTAssertTrue(j < expectedResults.count);
+			 XCTAssertLessThan(j, expectedResults.count);
 			 
 			 NSString *expectedTimeCode = expectedResults[j];
 			 
@@ -68,20 +69,107 @@ NS_INLINE void safelyShiftLocationInStringRangeTo(NSRange *range_p, NSUInteger l
 		 }];
 		
 		XCTAssertEqual(j, expectedResults.count);
+		
+		if (stringLength > 30) {
+			// Allowing the parsing of long substrings would require a very complicated
+			// test results setup.
+			break;
+		}
 	}
 }
 
 - (void)testEnumeration
 {
-	NSString *string = @"#00:00:00.32#";
-	NSDictionary *stringResults = @{
-		// key: offset in string, value: results array for this offset
-		@(0): @[@"00:00:00.32"],
-		// empty/missing offset entries mean no results.
+	NSDictionary *testsDict =
+  @{
+	// key: test name, value: test pair dictionary
+	@"Example": @{
+			// key: test string to parse, value: results dictionary
+			@"#00:00:00.32#": @{
+					// key: offset in string, value: results array for this offset
+					@(0): @[@"00:00:00.32"],
+					// empty/missing offset entries mean no results for this offset.
+					},
+			},
+	@"Zero": @{
+			@"#00:00:00.00#": @{
+					@(0): @[@"00:00:00.00"],
+					},
+			},
+	@"One Hour": @{
+			@"#01:00:00.00#": @{
+					@(0): @[@"01:00:00.00"],
+					},
+			},
+	@"One Minute": @{
+			@"#00:01:00.00#": @{
+					@(0): @[@"00:01:00.00"],
+					},
+			},
+	@"One Second": @{
+			@"#00:00:01.00#": @{
+					@(0): @[@"00:00:01.00"],
+					},
+			},
+	@"One Centisecond": @{
+			@"#00:00:00.01#": @{
+					@(0): @[@"00:00:00.01"],
+					},
+			},
+	@"One Millisecond": @{
+			@"#00:00:00.001#": @{
+					@(0): @[@"00:00:00.001"],
+					},
+			},
+	@"Missing Values": @{
+			// The parser is very lenient. So this is a valid time code…
+			@"#::.#": @{
+					@(0): @[@"::."],
+					},
+			},
+	@"Too Many Sections": @{
+			// … while this is not. There are too many sections.
+			@"#:::.#": @{},
+			},
+	@"Number Sign": @{
+			@"He went from #1 to #2 in a few short weeks.": @{},
+			},
+	@"Hash Tag": @{
+			// https://twitter.com/thomassanders/status/689137669922750465
+			@"“Our lives begin to end the day we become silent about things that matter.”"
+			" - #MLKDay #BlackLivesMatter": @{},
+			},
+	@"Carol Dweck on Perfectionism": @{
+			// https://www.youtube.com/watch?v=XgUF5WalyDk
+			@""
+			"#00:01:00.06#\n"
+			"As a child, I was perfect. \n"
+			"#00:01:03.39#\n"
+			"I was perfectly good… at least outwardly. \n"
+			"#00:01:09.09#\n"
+			"Inwardly, I had a lot of mischievous thoughts. \n"
+			"#00:01:13.45#\n"
+			: @{
+				@(0): @[@"00:01:00.06",
+						@"00:01:03.39",
+						@"00:01:09.09",
+						@"00:01:13.45",
+						],
+				},
+			},
 	};
-
-	[self enumerationTestForString:string
-				   expectedResults:stringResults];
+	
+	[testsDict enumerateKeysAndObjectsUsingBlock:
+	 ^(NSString *testName, NSDictionary *testPairDict, BOOL * _Nonnull stop) {
+		 [testPairDict enumerateKeysAndObjectsUsingBlock:
+		  ^(NSString *string, NSDictionary *results, BOOL * _Nonnull stop) {
+			  [self enumerationTestForString:string
+							 expectedResults:results
+									 options:0
+									testName:testName];
+		  }];
+		 
+	 }];
 }
 
 #if 0
