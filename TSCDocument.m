@@ -328,9 +328,13 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 
 - (BOOL)readFromSRTData:(NSData *)data error:(NSError **)outError
 {
-	// TODO: Add UI for mergeConsecutiveIdenticalTimeStamps (merge consecutive, identical time stamps).
+	// TODO: Add UI for mergeConsecutiveIdenticalTimeStamps (merge consecutive time stamps within a given distance).
 	// TODO: Add UI for timeStampsOnSeparateLines (forcing time stamps onto their own row instead of having them inline).
-	BOOL mergeConsecutiveIdenticalTimeStamps = YES;
+	BOOL mergeConsecutiveTimeStamps = YES;
+	BOOL mergeIdenticalTimeStampsOnly = NO;
+	CMTime mergeDistance = CMTimeMake(5, 100);
+	CMTime mergeRangeDuration = CMTimeMultiply(mergeDistance, 2);
+	
 	BOOL timeStampsOnSeparateLines = YES;
 	
 	NSStringEncoding encoding =
@@ -369,22 +373,33 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	NSMutableString *string = text.mutableString;
 	
 	CMTime previousEndTime = kCMTimeInvalid;
+	CMTimeRange mergeTimeRange = CMTimeRangeMake(kCMTimeInvalid, mergeRangeDuration);
 	
 	for (SubRipItem *subRipItem in subtitleItems) {
 		CMTime startTime = subRipItem.startTime;
 		CMTime endTime = subRipItem.endTime;
 		
-		BOOL foundIdentical =
-		(mergeConsecutiveIdenticalTimeStamps &&
-			!CMTIME_IS_INVALID(previousEndTime) &&
-			CMTIME_COMPARE_INLINE(previousEndTime, ==, startTime)
-			);
+		BOOL mergeTimeStamps = NO;
+		if (mergeConsecutiveTimeStamps) {
+			if (!CMTIME_IS_INVALID(previousEndTime)) {
+				if (mergeIdenticalTimeStampsOnly &&
+					CMTIME_COMPARE_INLINE(previousEndTime, ==, startTime)) {
+					mergeTimeStamps = YES;
+				}
+				else if (!mergeIdenticalTimeStampsOnly) {
+					mergeTimeRange.start = CMTimeSubtract(startTime, mergeDistance);
+					if (CMTimeRangeContainsTime(mergeTimeRange, previousEndTime)) {
+						mergeTimeStamps = YES;
+					}
+				}
+			}
+		}
 		
 		NSAttributedString *itemText = subRipItem.attributedText;
 		
 		NSRange insertionRange;
 		
-		if (!foundIdentical) {
+		if (!mergeTimeStamps) {
 			insertionRange =
 			[self insertTimeStampStringForCMTime:startTime
 											  at:string.length
@@ -418,7 +433,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 		
 		insertNewlineAfterRange(string, insertionRange);
 		
-		if (mergeConsecutiveIdenticalTimeStamps) {
+		if (mergeConsecutiveTimeStamps) {
 			previousEndTime = endTime;
 		}
 	}
