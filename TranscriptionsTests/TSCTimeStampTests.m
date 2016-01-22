@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 
 #import "NSString+TSCTimeStamp.h"
+#import "JXCMTimeStringTransformer.h"
 
 NS_INLINE void safelyShiftLocationInStringRangeTo(NSRange *range_p, NSUInteger location)
 {
@@ -47,6 +48,9 @@ NS_INLINE void safelyShiftLocationInStringRangeTo(NSRange *range_p, NSUInteger l
 	const NSRange stringRange = NSMakeRange(0, string.length);
 	NSRange range = stringRange;
 	
+	BOOL lenientTest = ((options & TSCTimeStampEnumerationDoNotRequireFractionalPart) ||
+						(options & TSCTimeStampEnumerationDoNotRequireNonFractionalDigitPairs));
+	
 	for (NSUInteger i = 0; i < stringRange.length; i++) {
 		safelyShiftLocationInStringRangeTo(&range, stringRange.location + i);
 		
@@ -66,6 +70,10 @@ NS_INLINE void safelyShiftLocationInStringRangeTo(NSRange *range_p, NSUInteger l
 			 NSString *expectedTimeCode = expectedResults[j];
 			 XCTAssertEqualObjects(timeCode, expectedTimeCode, TEST_INFO);
 			 
+			 if (!lenientTest) {
+				 NSString *timeString = [JXCMTimeStringTransformer timecodeStringForCMTime:time];
+				 XCTAssertEqualObjects(timeCode, timeString, TEST_INFO);
+			 }
 			 
 			 j += 1;
 		 }];
