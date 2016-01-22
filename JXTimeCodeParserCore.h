@@ -79,6 +79,15 @@ NS_INLINE void parseNonFractionalCodeUnit(unichar codeUnit, uint32_t *valuePtr, 
 	}
 }
 
+NS_INLINE void parseFractionalCodeUnit(unichar codeUnit, uint32_t *valuePtr, JXTimeCodeParserState *parser) {
+	if (addDigitToValue(codeUnit, valuePtr)) {
+		parser->components.fractionalDigits += 1;
+	}
+	else {
+		parser->error = YES;
+	}
+}
+
 NS_INLINE void parseCodeUnitWithState(unichar codeUnit, JXTimeCodeParserState *parser) {
 	uint32_t *valuePtr;
 	
@@ -100,13 +109,7 @@ NS_INLINE void parseCodeUnitWithState(unichar codeUnit, JXTimeCodeParserState *p
 			
 		case Fractional:
 			valuePtr = &(parser->components.fractional);
-			
-			if (addDigitToValue(codeUnit, valuePtr)) {
-				parser->components.fractionalDigits += 1;
-			}
-			else {
-				parser->error = YES;
-			}
+			parseFractionalCodeUnit(codeUnit, valuePtr, parser);
 			
 			break;
 			
