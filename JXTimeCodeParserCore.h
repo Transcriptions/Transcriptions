@@ -33,11 +33,11 @@ typedef enum {
 	Minutes,
 	Seconds,
 	Fractional,
-} ParserPosition;
+} JXTimeCodeParserPosition;
 
 typedef struct {
 	JXTimeCodeComponents components;
-	ParserPosition position;
+	JXTimeCodeParserPosition position;
 	unichar separator;
 	unichar fractionalSeparator;
 	BOOL error;
@@ -45,7 +45,7 @@ typedef struct {
 #if DEBUG
 	uint32_t digitCount;
 #endif
-} ParserState;
+} JXTimeCodeParserState;
 
 
 NS_INLINE BOOL ASCIIUnicharIsDigit(unichar c) {
@@ -67,7 +67,7 @@ NS_INLINE BOOL addDigitToValue(unichar codeUnit, uint32_t *value) {
 	
 }
 
-NS_INLINE void parseNonFractionalCodeUnit(unichar codeUnit, uint32_t *valuePtr, ParserState *parser, const unichar separator) {
+NS_INLINE void parseNonFractionalCodeUnit(unichar codeUnit, uint32_t *valuePtr, JXTimeCodeParserState *parser, const unichar separator) {
 	if (addDigitToValue(codeUnit, valuePtr)) {
 #if DEBUG
 		parser->digitCount += 1;
@@ -85,7 +85,7 @@ NS_INLINE void parseNonFractionalCodeUnit(unichar codeUnit, uint32_t *valuePtr, 
 	}
 }
 
-NS_INLINE void parseCodeUnitWithState(unichar codeUnit, ParserState *parser) {
+NS_INLINE void parseCodeUnitWithState(unichar codeUnit, JXTimeCodeParserState *parser) {
 	uint32_t *valuePtr;
 	
 	switch (parser->position) {

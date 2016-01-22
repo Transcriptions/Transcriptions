@@ -93,12 +93,12 @@ NSString * timecodeStringForCMTime(CMTime time) {
 	CFStringInlineBuffer stringInlineBuffer;
 	CFStringInitInlineBuffer(string, &stringInlineBuffer, subRange);
 	
-	const ParserState parserStateDefault = {
+	const JXTimeCodeParserState parserStateDefault = {
 		.position = Hours,
 		.separator = ':',
 		.fractionalSeparator = '.',
 	};
-	ParserState parser = parserStateDefault;
+	JXTimeCodeParserState parser = parserStateDefault;
 	
 	NSUInteger i; // Index relative to subRange.
 	

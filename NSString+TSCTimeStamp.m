@@ -42,12 +42,12 @@ NS_INLINE CFRange CFRangeMakeFromNSRange(NSRange range) {
 	NSUInteger start = NSNotFound;
 	BOOL accumulate = NO;
 	
-	const ParserState parserStateDefault = {
+	const JXTimeCodeParserState parserStateDefault = {
 		.position = Hours,
 		.separator = ':',
 		.fractionalSeparator = '.',
 	};
-	ParserState parser = parserStateDefault;
+	JXTimeCodeParserState parser = parserStateDefault;
 	
 	NSUInteger i; // Index relative to subRange.
 	
