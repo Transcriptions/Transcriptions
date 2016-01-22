@@ -27,7 +27,7 @@ typedef struct {
 	uint32_t fractionalDigits;
 } JXTimeCodeComponents;
 
-typedef enum {
+typedef enum : uint32_t {
 	Undefined = 0,
 	Hours,
 	Minutes,
