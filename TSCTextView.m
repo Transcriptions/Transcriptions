@@ -340,7 +340,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	[self setNeedsDisplay:YES];
 }
 
-- (void)showParagraphs:(id)sender
+- (void)showParagraphNumbers:(id)sender
 {
 	_drawParagraphNumbers = (BOOL)[sender state];
 	[self refresh];
