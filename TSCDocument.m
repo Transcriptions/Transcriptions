@@ -1049,8 +1049,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 
 - (void)rePlay:(id)sender
 {
-	 if (self.player.currentItem)
-    {
+	if (self.player.currentItem) {
         CMTime currentTime = [self.player currentTime];
         CMTime timeToAdd   = CMTimeMakeWithSeconds(_replaySlider.intValue, 1);
         CMTime resultTime  = CMTimeSubtract(currentTime,timeToAdd);
@@ -1354,8 +1353,8 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	_HUDPanel.minSize = firstFrame.size;
 }
 
--(NSRect)newFrameForNewHUD:(NSPanel*)panel contentView:(NSView *)view {
-    
+- (NSRect)newFrameForNewHUD:(NSPanel *)panel contentView:(NSView *)view
+{
 	NSRect newFrameRect = [panel frameRectForContentRect:view.frame];
     NSRect oldFrameRect = panel.frame;
     NSSize newSize = newFrameRect.size;
@@ -1363,13 +1362,14 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
     NSRect frame = panel.frame;
     frame.size = newSize;
     frame.origin.y -= (newSize.height - oldSize.height);
+	
     return frame;
 }
 
 
 # pragma mark HELP and Info
 
--(void)openURLInDefaultBrowser:(id)sender
+- (void)openURLInDefaultBrowser:(id)sender
 {
 	
 	NSURL* url = [NSURL URLWithString:@"http://code.google.com/p/transcriptions/"];
@@ -1380,7 +1380,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 						  launchIdentifiers:NULL];
 }
 
--(IBAction)reportBug:(id)sender{
+- (IBAction)reportBug:(id)sender{
 	
     NSURL* url = [NSURL URLWithString:@"https://code.google.com/p/transcriptions/issues/list"];
     [[NSWorkspace sharedWorkspace] openURLs:@[url]
@@ -1391,7 +1391,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	
 }
 
--(IBAction)writeFeedback:(id)sender{
+- (IBAction)writeFeedback:(id)sender{
     
     NSString* mailToString = @"mailto:transcriptionsdev@gmail.com";
     NSURL* emailURL = [NSURL URLWithString:mailToString];
@@ -1399,7 +1399,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
     
 }
 
--(IBAction)redirectToDonationPage:(id)sender
+- (IBAction)redirectToDonationPage:(id)sender
 {
     NSURL* url = [NSURL URLWithString:@"http://www.unet.univie.ac.at/~a0206600/TranscriptionsDonate.html"];
 	[[NSWorkspace sharedWorkspace] openURLs:@[url]
@@ -1412,7 +1412,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 
 #pragma mark Document Informations Panel METHODS
 
-// ==> ADD BETTER CALCULATIONS FOR WORD AND CHARACTER COUNTS
+// TODO: Add better calculations for word and character counts.
 - (void)startSheet:(id)sender
 {
 	NSArray* charArray = _textView.textStorage.characters;
@@ -1454,14 +1454,14 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 }
 
 
-- (void)showInfoSheet: (NSWindow *)window
+- (void)showInfoSheet:(NSWindow *)window
 {
     [self.windowForSheet beginSheet:_infoPanel completionHandler:^(NSModalResponse returnCode) {
 		[_infoPanel orderOut:self];
 	}];
 }
 
-- (void)closeInfoSheet: (id)sender
+- (void)closeInfoSheet:(id)sender
 {
     [self.windowForSheet endSheet:_infoPanel];
 }
@@ -1473,7 +1473,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 }
 
 
-- (void)showURLSheet: (NSWindow *)window
+- (void)showURLSheet:(NSWindow *)window
 {
 	[self.windowForSheet beginSheet:_URLPanel completionHandler:^(NSModalResponse returnCode) {
 		[_URLPanel orderOut:self];
@@ -1483,7 +1483,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	_URLPanel.maxSize = _URLPanel.frame.size;
 }
 
-- (void)closeURLSheet: (id)sender
+- (void)closeURLSheet:(id)sender
 {
 	[self.windowForSheet endSheet:_URLPanel];
 }
