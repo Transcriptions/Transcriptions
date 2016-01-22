@@ -64,18 +64,22 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	self.textStorage.delegate = self;
 	
 	_drawParagraphNumbers = YES;
+	
 	self.font = [NSFont fontWithName:@"Helvetica" size:13];
-	[self refresh];
-	[self insertText:@""];
+	
     self.usesFindBar = YES;
     self.enclosingScrollView.contentView.postsBoundsChangedNotifications = YES;
+	
+	self.window.acceptsMouseMovedEvents = YES;
+	
+	[self refresh];
+	[self insertText:@""];
+	
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self
                selector:@selector(boundsDidChangeNotification:)
                    name:NSViewBoundsDidChangeNotification
                  object:self.enclosingScrollView.contentView];
-	self.window.acceptsMouseMovedEvents = YES;
-	
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent 
