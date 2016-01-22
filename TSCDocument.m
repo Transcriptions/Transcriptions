@@ -1604,12 +1604,12 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 
 - (IBAction)printThisDocument:(id)sender
 {
-    NSTextView *printTextView = [[NSTextView alloc] initWithFrame:NSMakeRect(0, 0, 468, 648)];
-    printTextView.editable = false;
-    [printTextView.textStorage setAttributedString:_textView.attributedString];
-    NSPrintOperation *printOperation;
-    printOperation = [NSPrintOperation printOperationWithView:printTextView];
-    [printOperation runOperation];
+	NSTextView *printTextView = [[NSTextView alloc] initWithFrame:NSMakeRect(0, 0, 468, 648)];
+	printTextView.editable = NO;
+	[printTextView.textStorage setAttributedString:_textView.attributedString];
+	
+	NSPrintOperation *printOperation = [NSPrintOperation printOperationWithView:printTextView];
+	[printOperation runOperation];
 }
 
 @end
