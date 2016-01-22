@@ -28,7 +28,8 @@ NS_INLINE CFRange CFRangeMakeFromNSRange(NSRange range) {
 	BOOL wantTimeCodeString = !(options & TSCTimeStampEnumerationStringNotRequired);
 	BOOL wantTime = !(options & TSCTimeStampEnumerationTimeNotRequired);
 	BOOL doNotRequireFractionalPart = (options & TSCTimeStampEnumerationDoNotRequireFractionalPart);
-	
+	BOOL requireNonFractionalDigitPairs = !(options & TSCTimeStampEnumerationDoNotRequireNonFractionalDigitPairs);
+
 	CFStringRef string = (__bridge CFStringRef)(self);
 	
 	const CFRange subRange = CFRangeMakeFromNSRange(range);
@@ -42,10 +43,13 @@ NS_INLINE CFRange CFRangeMakeFromNSRange(NSRange range) {
 	NSUInteger start = NSNotFound;
 	BOOL accumulate = NO;
 	
+	const JXTimeCodeParserFlags flags = requireNonFractionalDigitPairs ? JXTimeCodeParserFlagsRequireNonFractionalDigitPairs : 0;
+	
 	const JXTimeCodeParserState parserStateDefault = {
 		.position = Hours,
 		.separator = ':',
 		.fractionalSeparator = '.',
+		.flags = flags,
 	};
 	JXTimeCodeParserState parser = parserStateDefault;
 	

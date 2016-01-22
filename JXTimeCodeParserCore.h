@@ -35,12 +35,17 @@ typedef enum : uint32_t {
 	Fractional,
 } JXTimeCodeParserPosition;
 
+typedef enum : uint8_t {
+    JXTimeCodeParserFlagsRequireNonFractionalDigitPairs = 1 << 0,
+} JXTimeCodeParserFlags;
+
 typedef struct {
 	JXTimeCodeComponents components;
 	JXTimeCodeParserPosition position;
 	uint32_t digitCountForPosition;
 	unichar separator;
 	unichar fractionalSeparator;
+	JXTimeCodeParserFlags flags;
 	BOOL error;
 } JXTimeCodeParserState;
 
@@ -69,6 +74,13 @@ NS_INLINE void parseNonFractionalCodeUnit(unichar codeUnit, uint32_t *valuePtr, 
 		parser->digitCountForPosition += 1;
 	}
 	else if (codeUnit == separator) {
+		const uint32_t strictNonFractionalCodeUnitCount = 2;
+		if ((parser->flags & JXTimeCodeParserFlagsRequireNonFractionalDigitPairs) &&
+			(parser->digitCountForPosition != strictNonFractionalCodeUnitCount)) {
+			parser->error = YES;
+			return;
+		}
+		
 		parser->digitCountForPosition = 0;
 		
 		// Transition to expecting and parsing next position.

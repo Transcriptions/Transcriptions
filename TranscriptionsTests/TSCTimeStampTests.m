@@ -122,13 +122,9 @@ NS_INLINE void safelyShiftLocationInStringRangeTo(NSRange *range_p, NSUInteger l
 					},
 			},
 	@"Missing Values": @{
-			// The parser is very lenient. So this is a valid time code…
-			@"#::.#": @{
-					@(0): @[@"::."],
-					},
+			@"#::.#": @{},
 			},
 	@"Too Many Sections": @{
-			// … while this is not. There are too many sections.
 			@"#:::.#": @{},
 			},
 	@"Number Sign": @{
@@ -166,6 +162,49 @@ NS_INLINE void safelyShiftLocationInStringRangeTo(NSRange *range_p, NSUInteger l
 			  [self enumerationTestForString:string
 							 expectedResults:results
 									 options:0
+									testName:testName];
+		  }];
+		 
+	 }];
+}
+
+- (void)testLenientEnumeration
+{
+	NSDictionary *lenientTestsDict =
+	@{
+	  @"Missing Fractional Part": @{
+			  @"#00:00:01#": @{
+					  @(0): @[@"00:00:01"],
+					  },
+			  },
+	  @"Missing Fractional Digits": @{
+			  @"#00:00:01.#": @{
+					  @(0): @[@"00:00:01."],
+					  },
+			  },
+	  @"Missing Values": @{
+			  // The parser can be very lenient. So this is a valid time code.
+			  @"#::.#": @{
+					  @(0): @[@"::."],
+					  },
+			  },
+	  @"Too Many Sections": @{
+			  // … while this is not. Even with leniency. There are too many sections.
+			  @"#:::.#": @{},
+			  },
+	  };
+	
+	TSCTimeStampEnumerationOptions options =
+	TSCTimeStampEnumerationDoNotRequireFractionalPart |
+	TSCTimeStampEnumerationDoNotRequireNonFractionalDigitPairs;
+	
+	[lenientTestsDict enumerateKeysAndObjectsUsingBlock:
+	 ^(NSString *testName, NSDictionary *testPairDict, BOOL * _Nonnull stop) {
+		 [testPairDict enumerateKeysAndObjectsUsingBlock:
+		  ^(NSString *string, NSDictionary *results, BOOL * _Nonnull stop) {
+			  [self enumerationTestForString:string
+							 expectedResults:results
+									 options:options
 									testName:testName];
 		  }];
 		 
