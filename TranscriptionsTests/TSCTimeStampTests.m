@@ -62,8 +62,8 @@ NS_INLINE void safelyShiftLocationInStringRangeTo(NSRange *range_p, NSUInteger l
 			 XCTAssertLessThan(j, expectedResults.count);
 			 
 			 NSString *expectedTimeCode = expectedResults[j];
-			 
 			 XCTAssertEqualObjects(timeCode, expectedTimeCode);
+			 
 			 
 			 j += 1;
 		 }];
