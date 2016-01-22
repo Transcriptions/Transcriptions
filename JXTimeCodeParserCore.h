@@ -38,13 +38,10 @@ typedef enum : uint32_t {
 typedef struct {
 	JXTimeCodeComponents components;
 	JXTimeCodeParserPosition position;
+	uint32_t digitCountForPosition;
 	unichar separator;
 	unichar fractionalSeparator;
 	BOOL error;
-	
-#if DEBUG
-	uint32_t digitCount;
-#endif
 } JXTimeCodeParserState;
 
 
@@ -69,14 +66,11 @@ NS_INLINE BOOL addDigitToValue(unichar codeUnit, uint32_t *value) {
 
 NS_INLINE void parseNonFractionalCodeUnit(unichar codeUnit, uint32_t *valuePtr, JXTimeCodeParserState *parser, const unichar separator) {
 	if (addDigitToValue(codeUnit, valuePtr)) {
-#if DEBUG
-		parser->digitCount += 1;
-#endif
+		parser->digitCountForPosition += 1;
 	}
 	else if (codeUnit == separator) {
-#if DEBUG
-		parser->digitCount = 0;
-#endif
+		parser->digitCountForPosition = 0;
+		
 		// Transition to expecting and parsing next position.
 		parser->position += 1;
 	}
