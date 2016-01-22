@@ -41,6 +41,8 @@ NS_INLINE void safelyShiftLocationInStringRangeTo(NSRange *range_p, NSUInteger l
 						 options:(TSCTimeStampEnumerationOptions)options
 						testName:(NSString *)testName
 {
+#define TEST_INFO	@"Test name: %@, Source string: %@", testName, string
+	
 	NSUInteger stringLength = string.length;
 	const NSRange stringRange = NSMakeRange(0, string.length);
 	NSRange range = stringRange;
@@ -57,18 +59,18 @@ NS_INLINE void safelyShiftLocationInStringRangeTo(NSRange *range_p, NSUInteger l
 		 ^(NSString *timeCode, CMTime time, NSRange timeStampRange, BOOL *stop) {
 			 // We should not get here, when there are no expected results.
 			 // This would mean that the parser found a false match.
-			 XCTAssertNotNil(expectedResults);
+			 XCTAssertNotNil(expectedResults, TEST_INFO);
 			 
-			 XCTAssertLessThan(j, expectedResults.count);
+			 XCTAssertLessThan(j, expectedResults.count, TEST_INFO);
 			 
 			 NSString *expectedTimeCode = expectedResults[j];
-			 XCTAssertEqualObjects(timeCode, expectedTimeCode);
+			 XCTAssertEqualObjects(timeCode, expectedTimeCode, TEST_INFO);
 			 
 			 
 			 j += 1;
 		 }];
 		
-		XCTAssertEqual(j, expectedResults.count);
+		XCTAssertEqual(j, expectedResults.count, TEST_INFO);
 		
 		if (stringLength > 30) {
 			// Allowing the parsing of long substrings would require a very complicated
