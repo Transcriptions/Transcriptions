@@ -44,6 +44,8 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 @implementation TSCTextView {
 	NSColor *_highlightColor;
 	NSColor *_backgroundColor;
+	
+	NSColor *_highlightSeparatorColor;
 }
 
 - (instancetype)init
@@ -68,6 +70,8 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	
 	_highlightColor = [NSColor yellowColor];
 	_backgroundColor = [NSColor colorWithDeviceWhite:0.95 alpha:1.0];
+	
+	_highlightSeparatorColor = [NSColor colorWithCalibratedRed:0.37 green:0.42 blue:0.49 alpha:1.0];
 	
 	_drawParagraphNumbers = YES;
 	
@@ -249,6 +253,8 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	NSColor * const backgroundColor = _backgroundColor;
 	NSColor * const highlightColor = _highlightColor;
 	
+	NSColor * const highlightSeparatorColor = _highlightSeparatorColor;
+	
 	[backgroundColor set];
 	
 	NSRect documentVisibleRect = self.enclosingScrollView.documentVisibleRect;
@@ -299,7 +305,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 				 
 				 if (lineNumber == highlightLineNumber) {
 					 NSBezierPath *aPath = [NSBezierPath bezierPath];
-					 [[NSColor colorWithCalibratedRed:0.37 green:0.42 blue:0.49 alpha:1.0] set];
+					 [highlightSeparatorColor set];
 					 [aPath moveToPoint:NSMakePoint(1.0, lineRect.origin.y)];
 					 [aPath lineToPoint:NSMakePoint(marginWidth, lineRect.origin.y)];
 					 aPath.lineCapStyle = NSSquareLineCapStyle;
