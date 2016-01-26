@@ -83,7 +83,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	self.window.acceptsMouseMovedEvents = YES;
 	
 	[self refresh];
-	[self insertText:@""];
+	[self insertText:@"" replacementRange:NSMakeRange(0, 0)];
 	
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self
