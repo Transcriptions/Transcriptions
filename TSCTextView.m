@@ -286,7 +286,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 							   usingBlock:
 	 ^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
 		 const NSRange lineGlyphRange =
-		 [layoutManager glyphRangeForCharacterRange:substringRange
+		 [layoutManager glyphRangeForCharacterRange:enclosingRange
 							   actualCharacterRange:NULL];
 		 
 		 const NSUInteger firstGlyphIndex = lineGlyphRange.location;

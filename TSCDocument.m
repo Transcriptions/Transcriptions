@@ -1579,7 +1579,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 		[theString enumerateSubstringsInRange:fullRange
 									  options:(NSStringEnumerationSubstringNotRequired | NSStringEnumerationByLines)
 								   usingBlock:^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
-									   if (NSLocationInRange(closestRange.location, substringRange)) {
+									   if (NSLocationInRange(closestRange.location, enclosingRange)) {
 										   *stop = YES;
 										   return;
 									   }
