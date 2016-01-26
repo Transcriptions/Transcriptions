@@ -48,9 +48,11 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	NSColor *_highlightSeparatorColor;
 }
 
-- (instancetype)init
+- (instancetype)initWithFrame:(NSRect)frameRect
+				textContainer:(NSTextContainer *)container
 {
-	self = [super init];
+	self = [super initWithFrame:frameRect
+				  textContainer:container];
 	
 	if (self) {
 		_paragraphAttributes = [@{
