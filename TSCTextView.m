@@ -281,14 +281,15 @@ NSString * const	TSCLineNumber		= @"TSCLineNumber";
 	NSLayoutManager *layoutManager = self.layoutManager;
 	
 	NSTextStorage *textStorage = self.textStorage;
-	const NSRange fullRange = NSMakeRange(0, textStorage.length);
+	const NSRange visibleTextRange = self.visibleTextRange;
 	
 	[textStorage enumerateAttribute:TSCLineNumber
-							inRange:fullRange
+							inRange:visibleTextRange
 							options:0
 						 usingBlock:
 	 ^(NSNumber * _Nullable lineNum, NSRange attributeRange, BOOL * _Nonnull stop) {
 		 NSUInteger lineNumber = lineNum.unsignedIntegerValue;
+		 //NSLog(@"%tu", lineNumber);
 		 
 		 const NSRange lineGlyphRange =
 		 [layoutManager glyphRangeForCharacterRange:attributeRange
@@ -329,6 +330,31 @@ NSString * const	TSCLineNumber		= @"TSCLineNumber";
 						withAttributes:_paragraphAttributes];
 		 }
 	 }];
+}
+
+- (NSRange)visibleTextRange
+{
+	NSScrollView *scrollView = self.enclosingScrollView;
+	if (!scrollView) {
+		return NSMakeRange(0, 0);
+	}
+	
+	NSLayoutManager *layoutManager = self.layoutManager;
+	NSRect visibleRect = self.visibleRect;
+	
+	NSPoint textContainerOrigin = self.textContainerOrigin;
+	visibleRect.origin.x -= textContainerOrigin.x;
+	visibleRect.origin.y -= textContainerOrigin.y;
+	
+	NSTextContainer *textContainer = self.textContainer;
+
+	NSRange glyphRange =
+	[layoutManager glyphRangeForBoundingRect:visibleRect
+							 inTextContainer:textContainer];
+	NSRange characterRange =
+	[layoutManager characterRangeForGlyphRange:glyphRange
+							  actualGlyphRange:NULL];
+	return characterRange;
 }
 
 - (void)boundsDidChangeNotification:(NSNotification *)notification
