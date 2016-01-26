@@ -1573,26 +1573,10 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 		NSRange closestRange = closestTimeStamp.range;
 		//NSLog(@"%@", closestStamp);
 		
-		// FIXME: Rewrite so that we tell the text view which range we want to have the line marked for.
-		// It should have a range-to-line mapping already.
-		__block NSUInteger lineNumber = 1;
-		[string enumerateSubstringsInRange:fullRange
-								   options:(NSStringEnumerationSubstringNotRequired | NSStringEnumerationByLines)
-								usingBlock:
-		 ^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
-									   if (NSLocationInRange(closestRange.location, enclosingRange)) {
-										   *stop = YES;
-										   return;
-									   }
-									   
-									   lineNumber++;
-								   }];
-		
-		_textView.highlightLineNumber = lineNumber;
-		_textView.needsDisplay = YES;
+		[_textView setHighlightLineNumberForRange:closestRange];
 	}
 	else {
-		_textView.highlightLineNumber = 0;
+		_textView.highlightLineNumber = TSCLineNumberNone;
 	}
 }
 

@@ -41,6 +41,9 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 #import "NSString+TSCTimeStamp.h"
 
 
+NSString * const	TSCLineNumber		= @"TSCLineNumber";
+
+
 @implementation TSCTextView {
 	NSColor *_highlightColor;
 	NSColor *_backgroundColor;
@@ -277,16 +280,18 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	
 	NSLayoutManager *layoutManager = self.layoutManager;
 	
-	NSString * const string = self.string;
-	const NSRange fullRange = NSMakeRange(0, string.length);
+	NSTextStorage *textStorage = self.textStorage;
+	const NSRange fullRange = NSMakeRange(0, textStorage.length);
 	
-	__block NSUInteger lineNumber = 1;
-	[string enumerateSubstringsInRange:fullRange
-								  options:(NSStringEnumerationSubstringNotRequired | NSStringEnumerationByLines)
-							usingBlock:
-	 ^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
+	[textStorage enumerateAttribute:TSCLineNumber
+							inRange:fullRange
+							options:0
+						 usingBlock:
+	 ^(NSNumber * _Nullable lineNum, NSRange attributeRange, BOOL * _Nonnull stop) {
+		 NSUInteger lineNumber = lineNum.unsignedIntegerValue;
+		 
 		 const NSRange lineGlyphRange =
-		 [layoutManager glyphRangeForCharacterRange:enclosingRange
+		 [layoutManager glyphRangeForCharacterRange:attributeRange
 							   actualCharacterRange:NULL];
 		 
 		 const NSUInteger firstGlyphIndex = lineGlyphRange.location;
@@ -323,8 +328,6 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 			 [numberString drawAtPoint:NSMakePoint(32.0 - stringSize.width, lineRect.origin.y + 3)
 						withAttributes:_paragraphAttributes];
 		 }
-		 
-		 lineNumber++;
 	 }];
 }
 
@@ -357,6 +360,111 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 - (void)timeStampPressed:(id)sender
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"aTimestampPressed" object:sender];
+}
+
+
+#if 0
+- (void)textStorage:(NSTextStorage *)textStorage
+ willProcessEditing:(NSTextStorageEditActions)editedMask
+			  range:(NSRange)editedRange
+	 changeInLength:(NSInteger)delta;
+{
+	// We are not using this delegate method, because we require the latest state of the text.
+}
+#endif
+
+- (void)textStorage:(NSTextStorage *)textStorage
+  didProcessEditing:(NSTextStorageEditActions)editedMask
+			  range:(NSRange)editedRange
+	 changeInLength:(NSInteger)delta;
+{
+	if (!(editedMask & NSTextStorageEditedCharacters)) {
+		// We only need to process the text,
+		// if there are actual changes to the characters.
+		return;
+	}
+	
+	if ([textStorage isEqual:self.textStorage]) {
+#if 0
+		const NSRange fullRange = NSMakeRange(0, textStorage.length);
+		NSLog(@"%p, edited: %@, delta: %zd, full: %@", textStorage, NSStringFromRange(editedRange), delta, NSStringFromRange(fullRange));
+#endif
+		
+		[self updateLineNumbersAffectedByEditedRange:editedRange];
+	}
+}
+
+- (void)updateLineNumbersAffectedByEditedRange:(NSRange)editedRange
+{
+	NSTextStorage *textStorage = self.textStorage;
+	NSString * const string = textStorage.string;
+	const NSUInteger stringLength = string.length;
+	
+	const NSRange lineRange = [string lineRangeForRange:editedRange];
+	const NSUInteger affectedRangeStart = lineRange.location;
+
+	const NSRange unaffectedRange = NSMakeRange(0, affectedRangeStart);
+	const NSRange affectedRange = NSMakeRange(affectedRangeStart, stringLength - affectedRangeStart);
+	
+	[textStorage removeAttribute:TSCLineNumber
+						  range:affectedRange];
+	
+	__block NSUInteger initialLineNumber = TSCLineNumberNone;
+	
+	if (unaffectedRange.length > 0) {
+		// Find the previous line number.
+		NSAttributedStringEnumerationOptions previousLineNumberSearchOptions =
+		(NSAttributedStringEnumerationLongestEffectiveRangeNotRequired |
+		 NSAttributedStringEnumerationReverse);
+		
+		[textStorage enumerateAttribute:TSCLineNumber
+								inRange:unaffectedRange
+								options:previousLineNumberSearchOptions
+							 usingBlock:
+		 ^(NSNumber * _Nullable lineNum, NSRange attributeRange, BOOL * _Nonnull stop) {
+			 initialLineNumber = lineNum.unsignedIntegerValue;
+			 *stop = YES;
+			 return;
+		 }];
+	}
+	
+	__block NSUInteger lineNumber = initialLineNumber + 1;
+	[string enumerateSubstringsInRange:affectedRange
+							   options:(NSStringEnumerationSubstringNotRequired | NSStringEnumerationByLines)
+							usingBlock:
+	 ^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
+		 [textStorage addAttribute:TSCLineNumber
+							 value:@(lineNumber)
+							 range:enclosingRange];
+		 
+		 lineNumber++;
+	 }];
+}
+
+- (void)setHighlightLineNumberForRange:(NSRange)range;
+{
+	// TODO: Rewrite using some kind of segmenting search similar to binary search.
+	// In this case make sure, that we select the first match.
+	
+	NSTextStorage *textStorage = self.textStorage;
+	const NSRange fullRange = NSMakeRange(0, textStorage.length);
+	
+	__block NSUInteger lineNumber = TSCLineNumberNone;
+	
+	[textStorage enumerateAttribute:TSCLineNumber
+							inRange:fullRange
+							options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired
+						 usingBlock:
+	 ^(NSNumber * _Nullable lineNum, NSRange attributeRange, BOOL * _Nonnull stop) {
+		 if (NSLocationInRange(range.location, attributeRange)) {
+			 lineNumber = lineNum.unsignedIntegerValue;
+			 *stop = YES;
+			 return;
+		 }
+	 }];
+	
+	_highlightLineNumber = lineNumber;
+	self.needsDisplay = YES;
 }
 
 @end

@@ -35,6 +35,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import "TSCArrayController.h"
 
 
+static const NSUInteger TSCLineNumberNone = 0;
+
+FOUNDATION_EXPORT NSString * const TSCLineNumber;
+
+
 @interface TSCTextView : NSTextView <NSTextStorageDelegate> {
 
 	IBOutlet TSCArrayController *_insertions;
@@ -51,5 +56,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 - (void)refresh;
 - (void)showParagraphNumbers:(id)sender;
 - (void)timeStampPressed:(id)sender;
+
+- (void)setHighlightLineNumberForRange:(NSRange)range;
 
 @end
