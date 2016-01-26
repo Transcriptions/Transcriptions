@@ -320,7 +320,8 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 			 
 			 NSString *numberString = [NSString stringWithFormat:@"%lu", (unsigned long)lineNumber];
 			 NSSize stringSize = [numberString sizeWithAttributes:_paragraphAttributes];
-			 [numberString drawAtPoint:NSMakePoint(32.0 - stringSize.width, lineRect.origin.y + 1)
+			 // FIXME: Calculate real baseline-aligned rect for this specific text line and draw there.
+			 [numberString drawAtPoint:NSMakePoint(32.0 - stringSize.width, lineRect.origin.y + 3)
 						withAttributes:_paragraphAttributes];
 		 }
 		 
