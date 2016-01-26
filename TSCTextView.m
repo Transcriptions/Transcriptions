@@ -283,7 +283,6 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	const NSRange fullRange = NSMakeRange(0, theString.length);
 	
 	__block NSUInteger lineIndex = 0;
-	__block NSUInteger emptyStringCount = 0;
 	[theString enumerateSubstringsInRange:fullRange
 								  options:(NSStringEnumerationSubstringNotRequired | NSStringEnumerationByLines)
 							   usingBlock:
@@ -299,39 +298,32 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 		 
 		 lineRect.size.width = 16.0;
 		 
-		 NSUInteger lineLength = substringRange.length;
-		 
-		 if (lineLength > 0) {
-			 if (NSContainsRect(documentVisibleRect, lineRect)) {
-				 NSUInteger lineNumber = (lineIndex + 1) - emptyStringCount;
-				 const NSUInteger highlightLineNumber = _highlightLineNumber;
+		 if (NSContainsRect(documentVisibleRect, lineRect)) {
+			 NSUInteger lineNumber = (lineIndex + 1);
+			 const NSUInteger highlightLineNumber = _highlightLineNumber;
+			 
+			 if (lineNumber == highlightLineNumber) {
+				 NSBezierPath *aPath = [NSBezierPath bezierPath];
+				 [highlightSeparatorColor set];
+				 [aPath moveToPoint:NSMakePoint(1.0, lineRect.origin.y)];
+				 [aPath lineToPoint:NSMakePoint(marginWidth, lineRect.origin.y)];
+				 aPath.lineCapStyle = NSSquareLineCapStyle;
+				 [aPath stroke];
 				 
-				 if (lineNumber == highlightLineNumber) {
-					 NSBezierPath *aPath = [NSBezierPath bezierPath];
-					 [highlightSeparatorColor set];
-					 [aPath moveToPoint:NSMakePoint(1.0, lineRect.origin.y)];
-					 [aPath lineToPoint:NSMakePoint(marginWidth, lineRect.origin.y)];
-					 aPath.lineCapStyle = NSSquareLineCapStyle;
-					 [aPath stroke];
-					 
-					 NSColor * const endingColor = highlightColor;
-					 NSColor * const startingColor = backgroundColor;
-					 NSGradient *aGradient =
-					 [[NSGradient alloc] initWithStartingColor:startingColor
-												   endingColor:endingColor];
-					 
-					 NSBezierPath *bezierPath = [NSBezierPath bezierPathWithRect:NSMakeRect(0.0, lineRect.origin.y, 34.6, 30.0)];
-					 [aGradient drawInBezierPath:bezierPath angle:270];
-				 }
+				 NSColor * const endingColor = highlightColor;
+				 NSColor * const startingColor = backgroundColor;
+				 NSGradient *aGradient =
+				 [[NSGradient alloc] initWithStartingColor:startingColor
+											   endingColor:endingColor];
 				 
-				 NSString *numberString = [NSString stringWithFormat:@"%lu", (unsigned long)lineNumber];
-				 NSSize stringSize = [numberString sizeWithAttributes:_paragraphAttributes];
-				 [numberString drawAtPoint:NSMakePoint(32.0 - stringSize.width, lineRect.origin.y + 1)
-							withAttributes:_paragraphAttributes];
+				 NSBezierPath *bezierPath = [NSBezierPath bezierPathWithRect:NSMakeRect(0.0, lineRect.origin.y, 34.6, 30.0)];
+				 [aGradient drawInBezierPath:bezierPath angle:270];
 			 }
-		 }
-		 else {
-			 emptyStringCount += 1;
+			 
+			 NSString *numberString = [NSString stringWithFormat:@"%lu", (unsigned long)lineNumber];
+			 NSSize stringSize = [numberString sizeWithAttributes:_paragraphAttributes];
+			 [numberString drawAtPoint:NSMakePoint(32.0 - stringSize.width, lineRect.origin.y + 1)
+						withAttributes:_paragraphAttributes];
 		 }
 		 
 		 lineIndex++;
