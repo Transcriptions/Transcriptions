@@ -261,8 +261,6 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	[backgroundColor set];
 	
 	NSRect documentVisibleRect = self.enclosingScrollView.documentVisibleRect;
-	documentVisibleRect.origin.y -= 35.0;
-	documentVisibleRect.size.height += 65.0;
 	
 	NSRect marginRect = documentVisibleRect;
 	marginRect.size.width = marginWidth;
