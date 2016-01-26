@@ -280,7 +280,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	NSString * const theString = self.string;
 	const NSRange fullRange = NSMakeRange(0, theString.length);
 	
-	__block NSUInteger lineIndex = 0;
+	__block NSUInteger lineNumber = 1;
 	[theString enumerateSubstringsInRange:fullRange
 								  options:(NSStringEnumerationSubstringNotRequired | NSStringEnumerationByLines)
 							   usingBlock:
@@ -297,7 +297,6 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 		 lineRect.size.width = 16.0;
 		 
 		 if (NSContainsRect(documentVisibleRect, lineRect)) {
-			 NSUInteger lineNumber = (lineIndex + 1);
 			 const NSUInteger highlightLineNumber = _highlightLineNumber;
 			 
 			 if (lineNumber == highlightLineNumber) {
@@ -325,7 +324,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 						withAttributes:_paragraphAttributes];
 		 }
 		 
-		 lineIndex++;
+		 lineNumber++;
 	 }];
 }
 

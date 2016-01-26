@@ -1575,7 +1575,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 		
 		// FIXME: Rewrite so that we tell the text view which range we want to have the line marked for.
 		// It should have a range-to-line mapping already.
-		__block NSUInteger lineIndex = 0;
+		__block NSUInteger lineNumber = 1;
 		[theString enumerateSubstringsInRange:fullRange
 									  options:(NSStringEnumerationSubstringNotRequired | NSStringEnumerationByLines)
 								   usingBlock:^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
@@ -1584,10 +1584,10 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 										   return;
 									   }
 									   
-									   lineIndex++;
+									   lineNumber++;
 								   }];
 		
-		_textView.highlightLineNumber = lineIndex + 1;
+		_textView.highlightLineNumber = lineNumber;
 		_textView.needsDisplay = YES;
 	}
 	else {
