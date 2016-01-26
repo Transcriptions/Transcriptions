@@ -811,11 +811,12 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 
 - (void)loadAndSetupAssetWithURL:(NSURL *)fileURL
 {
-	// FIXME: Rewrite using UTIs.
-	NSImage *typeImage = [NSWorkspace.sharedWorkspace iconForFileType:fileURL.pathExtension];
-	typeImage.size = NSMakeSize(32, 32);
+	NSImage *icon = [fileURL getResourceValue:&icon
+									   forKey:NSURLEffectiveIconKey error:NULL] ? icon : nil;
+	
+	icon.size = NSMakeSize(32, 32);
 	_mTextField.stringValue = fileURL.lastPathComponent;
-	_typeImageView.image = typeImage;
+	_typeImageView.image = icon;
 	
 	[fileURL startAccessingSecurityScopedResource];
 	
