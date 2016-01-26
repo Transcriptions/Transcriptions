@@ -123,8 +123,8 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 		NSUInteger characterIndex = [layoutManager characterIndexForGlyphAtIndex:glyphIndex];
 		
 		NSRange lineGlyphRange;
-		[layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex
-										effectiveRange:&lineGlyphRange];
+		(void)[layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex
+											  effectiveRange:&lineGlyphRange];
         NSRange lineCharRange =
 		[layoutManager characterRangeForGlyphRange:lineGlyphRange
 								  actualGlyphRange:NULL];
