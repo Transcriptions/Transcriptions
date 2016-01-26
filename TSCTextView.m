@@ -295,7 +295,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 		 if (lineLength > 0) {
 			 if (NSContainsRect(documentVisibleRect, lineRect)) {
 				 NSUInteger lineNumber = (lineIndex + 1) - emptyStringCount;
-				 NSUInteger highlightLineNumber = self.highlightLineNumber;
+				 const NSUInteger highlightLineNumber = _highlightLineNumber;
 				 
 				 if (lineNumber == highlightLineNumber) {
 					 NSBezierPath *aPath = [NSBezierPath bezierPath];
