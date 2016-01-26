@@ -41,7 +41,10 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 #import "NSString+TSCTimeStamp.h"
 
 
-@implementation TSCTextView
+@implementation TSCTextView {
+	NSColor *_highlightColor;
+	NSColor *_backgroundColor;
+}
 
 - (instancetype)init
 {
@@ -62,6 +65,9 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 - (void)awakeFromNib
 {
 	self.textStorage.delegate = self;
+	
+	_highlightColor = [NSColor yellowColor];
+	_backgroundColor = [NSColor colorWithDeviceWhite:0.95 alpha:1.0];
 	
 	_drawParagraphNumbers = YES;
 	
@@ -240,7 +246,9 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 		return;
 	}
 	
-	NSColor *backgroundColor = [NSColor colorWithDeviceWhite:0.95 alpha:1.0];
+	NSColor * const backgroundColor = _backgroundColor;
+	NSColor * const highlightColor = _highlightColor;
+	
 	[backgroundColor set];
 	
 	NSRect documentVisibleRect = self.enclosingScrollView.documentVisibleRect;
@@ -297,8 +305,8 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 					 aPath.lineCapStyle = NSSquareLineCapStyle;
 					 [aPath stroke];
 					 
-					 NSColor *endingColor = [NSColor yellowColor];
-					 NSColor *startingColor = backgroundColor;
+					 NSColor * const endingColor = highlightColor;
+					 NSColor * const startingColor = backgroundColor;
 					 NSGradient *aGradient =
 					 [[NSGradient alloc] initWithStartingColor:startingColor
 												   endingColor:endingColor];
