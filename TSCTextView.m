@@ -55,12 +55,6 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 				  textContainer:container];
 	
 	if (self) {
-		_paragraphAttributes = [@{
-								  NSFontAttributeName: [NSFont boldSystemFontOfSize:9],
-								  NSForegroundColorAttributeName: [NSColor colorWithDeviceWhite:.50 alpha:1.0],
-								  } mutableCopy];
-		
-		_highlightLineNumber = 0;
 	}
 	
 	return self;
@@ -69,6 +63,13 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 - (void)awakeFromNib
 {
 	self.textStorage.delegate = self;
+	
+	_paragraphAttributes = [@{
+							  NSFontAttributeName: [NSFont boldSystemFontOfSize:9],
+							  NSForegroundColorAttributeName: [NSColor colorWithDeviceWhite:.50 alpha:1.0],
+							  } mutableCopy];
+	
+	_highlightLineNumber = 0;
 	
 	_highlightColor = [NSColor yellowColor];
 	_backgroundColor = [NSColor colorWithDeviceWhite:0.95 alpha:1.0];
