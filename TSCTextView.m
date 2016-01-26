@@ -113,8 +113,8 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	[layoutManager boundingRectForGlyphRange:NSMakeRange(glyphIndex, 1)
 							 inTextContainer:textContainer];
 	
-	NSString * const theString = self.string;
-	const NSRange fullRange = NSMakeRange(0, theString.length);
+	NSString * const string = self.string;
+	const NSRange fullRange = NSMakeRange(0, string.length);
 	
 	NSDictionary *markAttributes = @{
 	  NSForegroundColorAttributeName: [NSColor blackColor],
@@ -140,7 +140,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 		
 		TSCTimeStampEnumerationOptions options = TSCTimeStampEnumerationTimeNotRequired;
 		
-		[theString enumerateTimeStampsInRange:lineCharRange
+		[string enumerateTimeStampsInRange:lineCharRange
 									  options:options
 								   usingBlock:^(NSString *timeCode, CMTime time, NSRange timeStampRange, BOOL *stop) {
 									   if ((NSLocationInRange(characterIndex, timeStampRange))) {
@@ -277,13 +277,13 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	
 	NSLayoutManager *layoutManager = self.layoutManager;
 	
-	NSString * const theString = self.string;
-	const NSRange fullRange = NSMakeRange(0, theString.length);
+	NSString * const string = self.string;
+	const NSRange fullRange = NSMakeRange(0, string.length);
 	
 	__block NSUInteger lineNumber = 1;
-	[theString enumerateSubstringsInRange:fullRange
+	[string enumerateSubstringsInRange:fullRange
 								  options:(NSStringEnumerationSubstringNotRequired | NSStringEnumerationByLines)
-							   usingBlock:
+							usingBlock:
 	 ^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
 		 const NSRange lineGlyphRange =
 		 [layoutManager glyphRangeForCharacterRange:enclosingRange

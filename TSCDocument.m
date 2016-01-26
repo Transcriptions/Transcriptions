@@ -1499,17 +1499,17 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 		return;
 	}
 	
-	NSString * const theString = _textView.string;
+	NSString * const string = _textView.string;
 	const CMTime currentTime = CMTimeAbsoluteValue(self.currentTime);
 	const CMTime mediaEndTime = CMTimeAbsoluteValue(self.duration);
 	
-	const NSRange fullRange = NSMakeRange(0, theString.length);
+	const NSRange fullRange = NSMakeRange(0, string.length);
 
 	// FIXME: Cache timeStampsSorted until invalidated by a change to the text.
 	NSMutableArray *timeStamps = [NSMutableArray array];
 	TSCTimeStampEnumerationOptions options = TSCTimeStampEnumerationStringNotRequired;
 	
-	[theString enumerateTimeStampsInRange:fullRange
+	[string enumerateTimeStampsInRange:fullRange
 								  options:options
 							   usingBlock:^(NSString *timeCode, CMTime time, NSRange timeStampRange, BOOL *stop) {
 								   TSCTimeSourceRange *timeStamp =
@@ -1576,9 +1576,10 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 		// FIXME: Rewrite so that we tell the text view which range we want to have the line marked for.
 		// It should have a range-to-line mapping already.
 		__block NSUInteger lineNumber = 1;
-		[theString enumerateSubstringsInRange:fullRange
-									  options:(NSStringEnumerationSubstringNotRequired | NSStringEnumerationByLines)
-								   usingBlock:^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
+		[string enumerateSubstringsInRange:fullRange
+								   options:(NSStringEnumerationSubstringNotRequired | NSStringEnumerationByLines)
+								usingBlock:
+		 ^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
 									   if (NSLocationInRange(closestRange.location, enclosingRange)) {
 										   *stop = YES;
 										   return;
