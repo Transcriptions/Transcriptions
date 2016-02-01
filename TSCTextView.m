@@ -68,7 +68,7 @@ NSString * const	TSCLineNumber		= @"TSCLineNumber";
 	self.textStorage.delegate = self;
 	
 	_paragraphAttributes = [@{
-							  NSFontAttributeName: [NSFont boldSystemFontOfSize:9],
+							  NSFontAttributeName: [NSFont monospacedDigitSystemFontOfSize:9 weight:NSFontWeightRegular],
 							  NSForegroundColorAttributeName: [NSColor colorWithDeviceWhite:.50 alpha:1.0],
 							  } mutableCopy];
 	
