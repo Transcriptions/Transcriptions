@@ -43,7 +43,7 @@ FOUNDATION_EXPORT NSString * const TSCLineNumber;
 @interface TSCTextView : NSTextView <NSTextStorageDelegate> {
 
 	IBOutlet TSCArrayController *_insertions;
-	NSMutableDictionary *_paragraphAttributes;
+	NSMutableDictionary *_paragraphNumberAttributes;
 	BOOL _drawParagraphNumbers;
 
 	BOOL _atCharacterKey;

@@ -67,10 +67,10 @@ NSString * const	TSCLineNumber		= @"TSCLineNumber";
 {
 	self.textStorage.delegate = self;
 	
-	_paragraphAttributes = [@{
-							  NSFontAttributeName: [NSFont monospacedDigitSystemFontOfSize:9 weight:NSFontWeightRegular],
-							  NSForegroundColorAttributeName: [NSColor colorWithDeviceWhite:.50 alpha:1.0],
-							  } mutableCopy];
+	_paragraphNumberAttributes = [@{
+									NSFontAttributeName: [NSFont monospacedDigitSystemFontOfSize:9 weight:NSFontWeightRegular],
+									NSForegroundColorAttributeName: [NSColor colorWithDeviceWhite:.50 alpha:1.0],
+									} mutableCopy];
 	
 	_highlightLineNumber = 0;
 	
@@ -324,10 +324,10 @@ NSString * const	TSCLineNumber		= @"TSCLineNumber";
 			 }
 			 
 			 NSString *numberString = [NSString stringWithFormat:@"%lu", (unsigned long)lineNumber];
-			 NSSize stringSize = [numberString sizeWithAttributes:_paragraphAttributes];
+			 NSSize stringSize = [numberString sizeWithAttributes:_paragraphNumberAttributes];
 			 // FIXME: Calculate real baseline-aligned rect for this specific text line and draw there.
 			 [numberString drawAtPoint:NSMakePoint(32.0 - stringSize.width, lineRect.origin.y + 3)
-						withAttributes:_paragraphAttributes];
+						withAttributes:_paragraphNumberAttributes];
 		 }
 	 }];
 }
