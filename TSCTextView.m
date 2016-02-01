@@ -240,14 +240,14 @@ NSString * const	TSCLineNumber		= @"TSCLineNumber";
 
 - (void)drawRect:(NSRect)aRect
 {
-	const CGFloat marginWidth = 35.0;
+	const CGFloat numbersBarWidth = 35.0;
 	const CGFloat numberStringRightMargin = 3.0;
 	
 	NSSize tcSize = self.textContainer.containerSize;
 	tcSize.width = self.frame.size.width;
 	
 	if (_drawParagraphNumbers) {
-		tcSize.width += marginWidth;
+		tcSize.width += numbersBarWidth;
 	}
 	
 	self.textContainer.containerSize = tcSize;
@@ -266,15 +266,15 @@ NSString * const	TSCLineNumber		= @"TSCLineNumber";
 	
 	NSRect documentVisibleRect = self.enclosingScrollView.documentVisibleRect;
 	
-	NSRect marginRect = documentVisibleRect;
-	marginRect.size.width = marginWidth;
-	NSRectFill(marginRect);
+	NSRect numbersBarRect = documentVisibleRect;
+	numbersBarRect.size.width = numbersBarWidth;
+	NSRectFill(numbersBarRect);
 	
 	CGContextSetShouldAntialias([NSGraphicsContext currentContext].graphicsPort, NO);
 	[[NSColor lightGrayColor] set];
 	
-	NSPoint p1 = NSMakePoint(marginWidth, marginRect.origin.y);
-	NSPoint p2 = NSMakePoint(marginWidth, marginRect.origin.y + marginRect.size.height);
+	NSPoint p1 = NSMakePoint(numbersBarWidth, numbersBarRect.origin.y);
+	NSPoint p2 = NSMakePoint(numbersBarWidth, numbersBarRect.origin.y + numbersBarRect.size.height);
 	[NSBezierPath strokeLineFromPoint:p1 toPoint:p2];
 	
 	CGContextSetShouldAntialias([NSGraphicsContext currentContext].graphicsPort, YES);
@@ -310,7 +310,7 @@ NSString * const	TSCLineNumber		= @"TSCLineNumber";
 				 NSBezierPath *aPath = [NSBezierPath bezierPath];
 				 [highlightSeparatorColor set];
 				 [aPath moveToPoint:NSMakePoint(1.0, lineRect.origin.y)];
-				 [aPath lineToPoint:NSMakePoint(marginWidth, lineRect.origin.y)];
+				 [aPath lineToPoint:NSMakePoint(numbersBarWidth, lineRect.origin.y)];
 				 aPath.lineCapStyle = NSSquareLineCapStyle;
 				 [aPath stroke];
 				 
@@ -327,7 +327,7 @@ NSString * const	TSCLineNumber		= @"TSCLineNumber";
 			 NSString *numberString = [NSString stringWithFormat:@"%lu", (unsigned long)lineNumber];
 			 NSSize stringSize = [numberString sizeWithAttributes:_paragraphNumberAttributes];
 			 // FIXME: Calculate real baseline-aligned rect for this specific text line and draw there.
-			 [numberString drawAtPoint:NSMakePoint(marginWidth - numberStringRightMargin - stringSize.width, lineRect.origin.y + 3)
+			 [numberString drawAtPoint:NSMakePoint(numbersBarWidth - numberStringRightMargin - stringSize.width, lineRect.origin.y + 3)
 						withAttributes:_paragraphNumberAttributes];
 		 }
 	 }];
