@@ -241,6 +241,7 @@ NSString * const	TSCLineNumber		= @"TSCLineNumber";
 - (void)drawRect:(NSRect)aRect
 {
 	const CGFloat marginWidth = 35.0;
+	const CGFloat numberStringRightMargin = 3.0;
 	
 	NSSize tcSize = self.textContainer.containerSize;
 	tcSize.width = self.frame.size.width;
@@ -326,7 +327,7 @@ NSString * const	TSCLineNumber		= @"TSCLineNumber";
 			 NSString *numberString = [NSString stringWithFormat:@"%lu", (unsigned long)lineNumber];
 			 NSSize stringSize = [numberString sizeWithAttributes:_paragraphNumberAttributes];
 			 // FIXME: Calculate real baseline-aligned rect for this specific text line and draw there.
-			 [numberString drawAtPoint:NSMakePoint(32.0 - stringSize.width, lineRect.origin.y + 3)
+			 [numberString drawAtPoint:NSMakePoint(marginWidth - numberStringRightMargin - stringSize.width, lineRect.origin.y + 3)
 						withAttributes:_paragraphNumberAttributes];
 		 }
 	 }];
