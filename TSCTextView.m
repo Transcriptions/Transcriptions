@@ -420,24 +420,24 @@ NSString * const	TSCLineNumber		= @"TSCLineNumber";
 		const NSRange fullRange = NSMakeRange(0, textStorage.length);
 		NSLog(@"%p, edited: %@, delta: %zd, full: %@", textStorage, NSStringFromRange(editedRange), delta, NSStringFromRange(fullRange));
 #endif
-		const TSCAffectedTextRangesPair ranges =
+		const TSCAffectedTextRanges ranges =
 		affectedTextRangesPairForTextStorageWithEditedRange(textStorage, editedRange);
 		
 		updateLineNumbersForTextStorageWithAffectedRanges(textStorage, ranges);
 	}
 }
 
-typedef struct _TSCAffectedTextRangesPair {
+typedef struct _TSCAffectedTextRanges {
 	NSRange unaffectedRange;
 	NSRange affectedRange;
-} TSCAffectedTextRangesPair;
+} TSCAffectedTextRanges;
 
-TSCAffectedTextRangesPair affectedTextRangesPairForTextStorageWithEditedRange(NSTextStorage *textStorage, NSRange editedRange) {
+TSCAffectedTextRanges affectedTextRangesPairForTextStorageWithEditedRange(NSTextStorage *textStorage, NSRange editedRange) {
 	NSString * const string = textStorage.string;
 	const NSUInteger stringLength = string.length;
 	
 	if (editedRange.location == NSNotFound) {
-		const TSCAffectedTextRangesPair ranges = {
+		const TSCAffectedTextRanges ranges = {
 			.unaffectedRange = NSMakeRange(0, 0),
 			.affectedRange = NSMakeRange(0, stringLength),
 		};
@@ -451,7 +451,7 @@ TSCAffectedTextRangesPair affectedTextRangesPairForTextStorageWithEditedRange(NS
 	const NSRange unaffectedRange = NSMakeRange(0, affectedRangeStart);
 	const NSRange affectedRange = NSMakeRange(affectedRangeStart, stringLength - affectedRangeStart);
 	
-	const TSCAffectedTextRangesPair ranges = {
+	const TSCAffectedTextRanges ranges = {
 		.unaffectedRange = unaffectedRange,
 		.affectedRange = affectedRange,
 	};
@@ -459,7 +459,7 @@ TSCAffectedTextRangesPair affectedTextRangesPairForTextStorageWithEditedRange(NS
 	return ranges;
 }
 
-void updateLineNumbersForTextStorageWithAffectedRanges(NSTextStorage *textStorage, const TSCAffectedTextRangesPair ranges) {
+void updateLineNumbersForTextStorageWithAffectedRanges(NSTextStorage *textStorage, const TSCAffectedTextRanges ranges) {
 	[textStorage removeAttribute:TSCLineNumber
 						   range:ranges.affectedRange];
 	
