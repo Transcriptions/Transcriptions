@@ -417,36 +417,50 @@ NSString * const	TSCLineNumber		= @"TSCLineNumber";
 		const NSRange fullRange = NSMakeRange(0, textStorage.length);
 		NSLog(@"%p, edited: %@, delta: %zd, full: %@", textStorage, NSStringFromRange(editedRange), delta, NSStringFromRange(fullRange));
 #endif
+		const TSCAffectedTextRangesPair ranges =
+		affectedTextRangesPairForTextStorageWithEditedRange(textStorage, editedRange);
 		
-		[self updateLineNumbersAffectedByEditedRange:editedRange];
+		updateLineNumbersForTextStorageWithAffectedRanges(textStorage, ranges);
 	}
 }
 
-- (void)updateLineNumbersAffectedByEditedRange:(NSRange)editedRange
-{
-	NSTextStorage *textStorage = self.textStorage;
+typedef struct _TSCAffectedTextRangesPair {
+	NSRange unaffectedRange;
+	NSRange affectedRange;
+} TSCAffectedTextRangesPair;
+
+TSCAffectedTextRangesPair affectedTextRangesPairForTextStorageWithEditedRange(NSTextStorage *textStorage, NSRange editedRange) {
 	NSString * const string = textStorage.string;
 	const NSUInteger stringLength = string.length;
 	
 	const NSRange lineRange = [string lineRangeForRange:editedRange];
 	const NSUInteger affectedRangeStart = lineRange.location;
-
+	
 	const NSRange unaffectedRange = NSMakeRange(0, affectedRangeStart);
 	const NSRange affectedRange = NSMakeRange(affectedRangeStart, stringLength - affectedRangeStart);
 	
+	const TSCAffectedTextRangesPair ranges = {
+		.unaffectedRange = unaffectedRange,
+		.affectedRange = affectedRange,
+	};
+	
+	return ranges;
+}
+
+void updateLineNumbersForTextStorageWithAffectedRanges(NSTextStorage *textStorage, const TSCAffectedTextRangesPair ranges) {
 	[textStorage removeAttribute:TSCLineNumber
-						  range:affectedRange];
+						   range:ranges.affectedRange];
 	
 	__block NSUInteger initialLineNumber = TSCLineNumberNone;
 	
-	if (unaffectedRange.length > 0) {
+	if (ranges.unaffectedRange.length > 0) {
 		// Find the previous line number.
 		NSAttributedStringEnumerationOptions previousLineNumberSearchOptions =
 		(NSAttributedStringEnumerationLongestEffectiveRangeNotRequired |
 		 NSAttributedStringEnumerationReverse);
 		
 		[textStorage enumerateAttribute:TSCLineNumber
-								inRange:unaffectedRange
+								inRange:ranges.unaffectedRange
 								options:previousLineNumberSearchOptions
 							 usingBlock:
 		 ^(NSNumber * _Nullable lineNum, NSRange attributeRange, BOOL * _Nonnull stop) {
@@ -456,8 +470,10 @@ NSString * const	TSCLineNumber		= @"TSCLineNumber";
 		 }];
 	}
 	
+	NSString * const string = textStorage.string;
+	
 	__block NSUInteger lineNumber = initialLineNumber + 1;
-	[string enumerateSubstringsInRange:affectedRange
+	[string enumerateSubstringsInRange:ranges.affectedRange
 							   options:(NSStringEnumerationSubstringNotRequired | NSStringEnumerationByLines)
 							usingBlock:
 	 ^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
