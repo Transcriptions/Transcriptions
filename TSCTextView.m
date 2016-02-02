@@ -445,8 +445,8 @@ TSCAffectedTextRanges affectedTextRangesPairForTextStorageWithEditedRange(NSText
 		return ranges;
 	}
 	
-	const NSRange lineRange = [string lineRangeForRange:editedRange];
-	const NSUInteger affectedRangeStart = lineRange.location;
+	const NSRange linesRange = [string lineRangeForRange:editedRange];
+	const NSUInteger affectedRangeStart = linesRange.location;
 	
 	const NSRange unaffectedRange = NSMakeRange(0, affectedRangeStart);
 	const NSRange affectedRange = NSMakeRange(affectedRangeStart, stringLength - affectedRangeStart);
