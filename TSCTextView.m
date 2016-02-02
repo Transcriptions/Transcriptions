@@ -271,14 +271,17 @@ NSString * const	TSCLineNumber		= @"TSCLineNumber";
 	numbersBarRect.size.width = numbersBarWidth;
 	NSRectFill(numbersBarRect);
 	
-	CGContextSetShouldAntialias([NSGraphicsContext currentContext].graphicsPort, NO);
+	CGContextRef const context = [NSGraphicsContext currentContext].graphicsPort;
+	
+	CGContextSetShouldAntialias(context, NO);
+	
 	[[NSColor lightGrayColor] set];
 	
 	NSPoint p1 = NSMakePoint(numbersBarWidth, numbersBarRect.origin.y);
 	NSPoint p2 = NSMakePoint(numbersBarWidth, numbersBarRect.origin.y + numbersBarRect.size.height);
 	[NSBezierPath strokeLineFromPoint:p1 toPoint:p2];
 	
-	CGContextSetShouldAntialias([NSGraphicsContext currentContext].graphicsPort, YES);
+	CGContextSetShouldAntialias(context, YES);
 	
 	NSLayoutManager *layoutManager = self.layoutManager;
 	
