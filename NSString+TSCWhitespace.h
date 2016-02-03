@@ -17,10 +17,10 @@ typedef struct _TSCLocalWhitespace {
 
 @interface NSString (TSCWhitespace)
 
-// Returns YES, if the string is empty or contains only whitespace characters (" ", \n, \t, etc.);
+// Returns YES, if the string is empty or contains only whitespace characters (" ", \n, \t, etc.).
 - (BOOL)isBlankString;
 
-// Returns YES, if the range is empty or contains only whitespace characters (" ", \n, \t, etc.);
+// Returns YES, if the range is empty or contains only whitespace characters (" ", \n, \t, etc.).
 - (BOOL)isBlankRange:(NSRange)fullRange;
 
 - (TSCLocalWhitespace)localWhitespaceForLocation:(NSUInteger)location;
