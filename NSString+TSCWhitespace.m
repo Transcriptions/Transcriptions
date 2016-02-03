@@ -31,6 +31,27 @@
 									range:range].location == NSNotFound);
 }
 
+- (BOOL)containsLineBreak:(NSRange)range;
+{
+	static NSCharacterSet *lineBreakCharacterSet = nil;
+	static dispatch_once_t onceToken;
+	
+	dispatch_once(&onceToken, ^{
+		// This is designed to match the behavior of NSStringEnumerationByLines.
+		lineBreakCharacterSet =
+		[NSCharacterSet characterSetWithCharactersInString:@"\r" "\n" "\u2028" "\u2029"];
+	});
+	
+	const NSRange lineBreakRange =
+	[self rangeOfCharacterFromSet:lineBreakCharacterSet
+						  options:NSLiteralSearch
+							range:range];
+	
+	const BOOL hasLineBreak = (lineBreakRange.location != NSNotFound);
+	return hasLineBreak;
+}
+
+
 - (TSCLocalWhitespace)localWhitespaceForLocation:(NSUInteger)location;
 {
 	TSCLocalWhitespace hasWhitespace;

@@ -23,6 +23,9 @@ typedef struct _TSCLocalWhitespace {
 // Returns YES, if the range is empty or contains only whitespace characters (" ", \n, \t, etc.).
 - (BOOL)isBlankRange:(NSRange)fullRange;
 
+// Returns YES, if the range contains at least one line break (U+000A–U+000D, U+0085).
+- (BOOL)containsLineBreak:(NSRange)range;
+
 - (TSCLocalWhitespace)localWhitespaceForLocation:(NSUInteger)location;
 
 @end

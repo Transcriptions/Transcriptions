@@ -39,6 +39,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 #import "TSCTextView.h"
 
 #import "NSString+TSCTimeStamp.h"
+#import "NSString+TSCWhitespace.h"
 
 
 NSString * const	TSCLineNumber		= @"TSCLineNumber";
@@ -420,10 +421,20 @@ NSString * const	TSCLineNumber		= @"TSCLineNumber";
 		const NSRange fullRange = NSMakeRange(0, textStorage.length);
 		NSLog(@"%p, edited: %@, delta: %zd, full: %@", textStorage, NSStringFromRange(editedRange), delta, NSStringFromRange(fullRange));
 #endif
-		const TSCAffectedTextRanges ranges =
-		affectedTextRangesPairForTextStorageWithEditedRange(textStorage, editedRange);
 		
-		updateLineNumbersForTextStorageWithAffectedRanges(textStorage, ranges);
+		// We check, if the editedRange contains at least one line break.
+		// Such cases, like adding characters to the current line’s range
+		// are already handled, because the range an attribute is attached to
+		// in an attributed string grows automatically.
+		NSString * const string = textStorage.string;
+		BOOL needsLineNumberUpdate = [string containsLineBreak:editedRange];
+		
+		if (needsLineNumberUpdate) {
+			const TSCAffectedTextRanges ranges =
+			affectedTextRangesPairForTextStorageWithEditedRange(textStorage, editedRange);
+			
+			updateLineNumbersForTextStorageWithAffectedRanges(textStorage, ranges);
+		}
 	}
 }
 
