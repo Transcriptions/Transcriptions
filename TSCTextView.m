@@ -160,7 +160,7 @@ NSString * const	TSCLineNumber		= @"TSCLineNumber";
 										   NSRect timeStampRect =
 										   [layoutManager boundingRectForGlyphRange:timeStampGlyphRange
 																	inTextContainer:textContainer];
-										   
+
 										   NSRect buttonRect = NSMakeRect(timeStampRect.origin.x - 1,
 																		  timeStampRect.origin.y,
 																		  timeStampRect.size.width + 2,
