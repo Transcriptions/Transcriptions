@@ -306,8 +306,6 @@ NSString * const	TSCLineNumber		= @"TSCLineNumber";
 		 NSRect lineRect = [layoutManager lineFragmentRectForGlyphAtIndex:firstGlyphIndex
 														   effectiveRange:NULL];
 		 
-		 lineRect.size.width = 16.0;
-		 
 		 if (NSIntersectsRect(documentVisibleRect, lineRect)) {
 			 const NSUInteger highlightLineNumber = _highlightLineNumber;
 			 
