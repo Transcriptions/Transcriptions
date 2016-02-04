@@ -308,7 +308,7 @@ NSString * const	TSCLineNumber		= @"TSCLineNumber";
 		 
 		 lineRect.size.width = 16.0;
 		 
-		 if (NSContainsRect(documentVisibleRect, lineRect)) {
+		 if (NSIntersectsRect(documentVisibleRect, lineRect)) {
 			 const NSUInteger highlightLineNumber = _highlightLineNumber;
 			 
 			 if (lineNumber == highlightLineNumber) {
