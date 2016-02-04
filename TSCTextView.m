@@ -107,8 +107,9 @@ NSString * const	TSCLineNumber		= @"TSCLineNumber";
     NSPoint point = [self convertPoint:theEvent.locationInWindow
 							  fromView:nil];
 	
-	point.x -= self.textContainerOrigin.x;
-    point.y -= self.textContainerOrigin.y;
+	NSPoint textContainerOrigin = self.textContainerOrigin;
+	point.x -= textContainerOrigin.x;
+    point.y -= textContainerOrigin.y;
 	
 	NSUInteger glyphIndex =
 	[layoutManager glyphIndexForPoint:point
