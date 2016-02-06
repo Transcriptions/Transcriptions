@@ -437,7 +437,7 @@ NSString * const	TSCLineNumber		= @"TSCLineNumber";
 		
 		if (needsLineNumberUpdate) {
 			const TSCAffectedTextRanges ranges =
-			affectedTextRangesPairForTextStorageWithEditedRange(textStorage, editedRange);
+			affectedTextRangesForTextStorageWithEditedRange(textStorage, editedRange);
 			
 			updateLineNumbersForTextStorageWithAffectedRanges(textStorage, ranges);
 		}
@@ -449,7 +449,7 @@ typedef struct _TSCAffectedTextRanges {
 	NSRange affectedRange;
 } TSCAffectedTextRanges;
 
-TSCAffectedTextRanges affectedTextRangesPairForTextStorageWithEditedRange(NSTextStorage *textStorage, NSRange editedRange) {
+TSCAffectedTextRanges affectedTextRangesForTextStorageWithEditedRange(NSTextStorage *textStorage, NSRange editedRange) {
 	NSString * const string = textStorage.string;
 	const NSUInteger stringLength = string.length;
 	
