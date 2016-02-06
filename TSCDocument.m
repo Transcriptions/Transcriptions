@@ -136,6 +136,9 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 	
 	[self addObserver:self forKeyPath:@"player.rate" options:NSKeyValueObservingOptionNew context:TSCPlayerRateContext];
 	[self addObserver:self forKeyPath:@"player.currentItem.status" options:NSKeyValueObservingOptionNew context:TSCPlayerItemStatusContext];
+	
+	// TODO: Store currentTime in metadata and restore here.
+	self.currentTime = kCMTimeZero;
 }
 
 
