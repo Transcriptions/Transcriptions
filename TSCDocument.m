@@ -114,8 +114,6 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 		[_textView.textStorage replaceCharactersInRange:NSMakeRange(0, _textView.string.length) withAttributedString:_rtfSaveData];
 	}
 	
-	[self updateTimeStampSortedCache];
-	
 	_textView.allowsUndo = YES;
 	[_textView toggleRuler:self];
 	
@@ -138,8 +136,6 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 	
 	[self addObserver:self forKeyPath:@"player.rate" options:NSKeyValueObservingOptionNew context:TSCPlayerRateContext];
 	[self addObserver:self forKeyPath:@"player.currentItem.status" options:NSKeyValueObservingOptionNew context:TSCPlayerItemStatusContext];
-	
-	[self updateTimestampLineNumber];
 }
 
 
@@ -1560,6 +1556,10 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	if (!_playerItem) {
 		_textView.highlightLineNumber = 0;
 		return;
+	}
+	
+	if (!_timeStampsSorted) {
+		[self updateTimeStampSortedCache];
 	}
 	
 	const CMTime currentTime = CMTimeAbsoluteValue(self.currentTime);
