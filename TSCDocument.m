@@ -1057,7 +1057,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 - (void)rePlay:(id)sender
 {
 	if (self.player.currentItem) {
-        CMTime currentTime = [self.player currentTime];
+        CMTime currentTime = self.currentTime;
         CMTime timeToAdd   = CMTimeMakeWithSeconds(_replaySlider.intValue, 1);
         CMTime resultTime  = CMTimeSubtract(currentTime,timeToAdd);
         [self.player seekToTime:resultTime];
