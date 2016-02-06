@@ -128,10 +128,10 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 	
 	_infoPanel.minSize = _infoPanel.frame.size;
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(processTextEditing) name:NSTextDidChangeNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openMovieFromDrag:) name:@"movieFileDrag" object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createAutomaticTimeStamp:) name:@"automaticTimestamp" object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jumpToTimeStamp:) name:@"aTimestampPressed" object:nil];
+	//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(processTextEditing) name:NSTextDidChangeNotification object:_textView]; // Currently unused.
+	//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openMovieFromDrag:) name:@"movieFileDrag" object:nil]; // Currently unused.
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createAutomaticTimeStamp:) name:@"automaticTimestamp" object:_textView];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jumpToTimeStamp:) name:@"aTimestampPressed" object:nil]; // Filtering is done within the method.
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTimeStampSortedCache) name:TSCTimeStampChangedNotification object:_textView];
 	
 	_player = [[AVPlayer alloc] init];
