@@ -294,6 +294,8 @@ NSString * const	TSCLineNumberAttributeName		= @"TSCLineNumberAttributeName";
 							options:0
 						 usingBlock:
 	 ^(NSNumber * _Nullable lineNum, NSRange attributeRange, BOOL * _Nonnull stop) {
+		 if (!lineNum)  return;
+		 
 		 NSUInteger lineNumber = lineNum.unsignedIntegerValue;
 		 //NSLog(@"%tu", lineNumber);
 		 
@@ -493,6 +495,8 @@ void updateLineNumbersForTextStorageWithAffectedRanges(NSTextStorage *textStorag
 								options:previousLineNumberSearchOptions
 							 usingBlock:
 		 ^(NSNumber * _Nullable lineNum, NSRange attributeRange, BOOL * _Nonnull stop) {
+			 if (!lineNum)  return;
+			 
 			 initialLineNumber = lineNum.unsignedIntegerValue;
 			 *stop = YES;
 			 return;
@@ -529,6 +533,8 @@ void updateLineNumbersForTextStorageWithAffectedRanges(NSTextStorage *textStorag
 							options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired
 						 usingBlock:
 	 ^(NSNumber * _Nullable lineNum, NSRange attributeRange, BOOL * _Nonnull stop) {
+		 if (!lineNum)  return;
+		 
 		 if (NSLocationInRange(range.location, attributeRange)) {
 			 lineNumber = lineNum.unsignedIntegerValue;
 			 *stop = YES;
