@@ -40,6 +40,8 @@ static const NSUInteger TSCLineNumberNone = 0;
 FOUNDATION_EXPORT NSString * const TSCLineNumberAttributeName;
 FOUNDATION_EXPORT NSString * const TSCTimeStampAttributeName;
 
+FOUNDATION_EXPORT NSString * const TSCTimeStampChangedNotification;
+
 
 @interface TSCTextView : NSTextView <NSTextStorageDelegate> {
 

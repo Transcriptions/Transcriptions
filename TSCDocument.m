@@ -64,7 +64,9 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 
 @end
 
-@implementation TSCDocument
+@implementation TSCDocument {
+	NSMutableArray *_timeStampsSorted;
+}
 
 + (BOOL)autosavesInPlace
 {
@@ -112,6 +114,8 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 		[_textView.textStorage replaceCharactersInRange:NSMakeRange(0, _textView.string.length) withAttributedString:_rtfSaveData];
 	}
 	
+	[self updateTimeStampSortedCache];
+	
 	_textView.allowsUndo = YES;
 	[_textView toggleRuler:self];
 	
@@ -128,6 +132,7 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openMovieFromDrag:) name:@"movieFileDrag" object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createAutomaticTimeStamp:) name:@"automaticTimestamp" object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jumpToTimeStamp:) name:@"aTimestampPressed" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTimeStampSortedCache) name:TSCTimeStampChangedNotification object:_textView];
 	
 	_player = [[AVPlayer alloc] init];
 	
@@ -1497,20 +1502,13 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 
 #pragma mark timestamp line numbers
 
-- (void)updateTimestampLineNumber
+- (void)updateTimeStampSortedCache
 {
-	if (!_playerItem) {
-		_textView.highlightLineNumber = 0;
-		return;
-	}
-	
 	NSAttributedString * const text = _textView.textStorage;
-	const CMTime currentTime = CMTimeAbsoluteValue(self.currentTime);
 	const CMTime mediaEndTime = CMTimeAbsoluteValue(self.duration);
 	
 	const NSRange fullRange = NSMakeRange(0, text.length);
 
-	// FIXME: Cache timeStampsSorted until invalidated by a change to the text.
 	NSMutableArray *timeStamps = [NSMutableArray array];
 	NSAttributedStringEnumerationOptions timeStampSearchOptions = 0;
 	
@@ -1535,8 +1533,8 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 										  range:NSMakeRange(NSNotFound, 0)];
 	[timeStamps addObject:mediaEndStamp];
 	
-	NSMutableArray *timeStampsSorted = [timeStamps mutableCopy];
-	[timeStampsSorted sortWithOptions:NSSortStable usingComparator:^(TSCTimeSourceRange *timeStamp1, TSCTimeSourceRange *timeStamp2) {
+	_timeStampsSorted = [timeStamps mutableCopy];
+	[_timeStampsSorted sortWithOptions:NSSortStable usingComparator:^(TSCTimeSourceRange *timeStamp1, TSCTimeSourceRange *timeStamp2) {
 		CMTime a = timeStamp1.time;
 		CMTime b = timeStamp2.time;
 		
@@ -1555,16 +1553,27 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 				break;
 		}
 	}];
+}
+
+- (void)updateTimestampLineNumber
+{
+	if (!_playerItem) {
+		_textView.highlightLineNumber = 0;
+		return;
+	}
+	
+	const CMTime currentTime = CMTimeAbsoluteValue(self.currentTime);
 	
 	TSCTimeSourceRange *closestTimeStamp = nil;
 	
-	if (timeStampsSorted.count > 0) {
-		TSCTimeSourceRange *firstTimeStamp = timeStampsSorted.firstObject;
+	if (_timeStampsSorted.count > 0) {
+		TSCTimeSourceRange *firstTimeStamp = _timeStampsSorted.firstObject;
 		closestTimeStamp = firstTimeStamp;
 	}
 	
+	// TODO: Rewrite with binary search.
 	TSCTimeSourceRange *previousTimeStamp = nil;
-	for (TSCTimeSourceRange *thisTimeStamp in timeStampsSorted) {
+	for (TSCTimeSourceRange *thisTimeStamp in _timeStampsSorted) {
 		if (previousTimeStamp != nil) {
 			CMTime previousTime = previousTimeStamp.time;
 			CMTime thisTime = thisTimeStamp.time;

@@ -45,6 +45,8 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 NSString * const	TSCLineNumberAttributeName		= @"TSCLineNumberAttributeName";
 NSString * const	TSCTimeStampAttributeName		= @"TSCTimeStampAttributeName";
 
+NSString * const	TSCTimeStampChangedNotification = @"TSCTimeStampChangedNotification";
+
 
 @implementation TSCTextView {
 	NSColor *_highlightColor;
@@ -456,6 +458,10 @@ NSString * const	TSCTimeStampAttributeName		= @"TSCTimeStampAttributeName";
 				updateTimeStampsForTextStorageWithAffectedRanges(textStorage, ranges.linesRange);
 			}
 		}
+		
+		// FIXME: Currently this needs to be called on every edit. Find a better way.
+		[[NSNotificationCenter defaultCenter] postNotificationName:TSCTimeStampChangedNotification
+															object:self];
 	}
 }
 
