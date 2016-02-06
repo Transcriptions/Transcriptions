@@ -38,6 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 static const NSUInteger TSCLineNumberNone = 0;
 
 FOUNDATION_EXPORT NSString * const TSCLineNumberAttributeName;
+FOUNDATION_EXPORT NSString * const TSCTimeStampAttributeName;
 
 
 @interface TSCTextView : NSTextView <NSTextStorageDelegate> {

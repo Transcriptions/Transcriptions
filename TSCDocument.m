@@ -605,12 +605,17 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	__block CMTime previousTime = kCMTimeZero;
 	__block NSRange previousRange = NSMakeRange(0, 0);
 	
-	TSCTimeStampEnumerationOptions options = TSCTimeStampEnumerationStringNotRequired;
+	NSAttributedStringEnumerationOptions timeStampSearchOptions = 0;
 	
-	[string enumerateTimeStampsInRange:fullRange
-							   options:options
-							usingBlock:
-	 ^(NSString *timeCode, CMTime time, NSRange timeStampRange, BOOL *stop) {
+	[text enumerateAttribute:TSCTimeStampAttributeName
+							inRange:fullRange
+							options:timeStampSearchOptions
+						 usingBlock:
+	 ^(NSValue * _Nullable timeStampValue, NSRange timeStampRange, BOOL * _Nonnull stop) {
+		 if (!timeStampValue)  return;
+		 
+		 CMTime time = [timeStampValue CMTimeValue];
+		 
 		 NSUInteger subtitleStart = NSMaxRange(previousRange);
 		 NSUInteger subtitleEnd = timeStampRange.location;
 		 NSRange subtitleRange = NSMakeRange(subtitleStart, subtitleEnd - subtitleStart);
@@ -1225,10 +1230,10 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	NSWindow *tsButtonWindow = tsButton.window;
 	
 	if (tsButtonWindow == _appWindow) {
-		NSString *timestampTimeString = tsButton.cell.representedObject;
+		NSValue *timeStampValue = tsButton.cell.representedObject;
 		
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-		CMTime newTime = [JXCMTimeStringTransformer CMTimeForTimecodeString:timestampTimeString];
+		CMTime newTime = [timeStampValue CMTimeValue];
 		BOOL timestampReplay = [[defaults objectForKey:@"timestampReplay"] boolValue];
 		BOOL timestampAutoPlay = [[defaults objectForKey:@"timestampAutoPlay"] boolValue];
 		
@@ -1499,25 +1504,31 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 		return;
 	}
 	
-	NSString * const string = _textView.string;
+	NSAttributedString * const text = _textView.textStorage;
 	const CMTime currentTime = CMTimeAbsoluteValue(self.currentTime);
 	const CMTime mediaEndTime = CMTimeAbsoluteValue(self.duration);
 	
-	const NSRange fullRange = NSMakeRange(0, string.length);
+	const NSRange fullRange = NSMakeRange(0, text.length);
 
 	// FIXME: Cache timeStampsSorted until invalidated by a change to the text.
 	NSMutableArray *timeStamps = [NSMutableArray array];
-	TSCTimeStampEnumerationOptions options = TSCTimeStampEnumerationStringNotRequired;
+	NSAttributedStringEnumerationOptions timeStampSearchOptions = 0;
 	
-	[string enumerateTimeStampsInRange:fullRange
-								  options:options
-							   usingBlock:^(NSString *timeCode, CMTime time, NSRange timeStampRange, BOOL *stop) {
-								   TSCTimeSourceRange *timeStamp =
-								   [TSCTimeSourceRange timeSourceRangeWithTime:time
-																		 range:timeStampRange];
-								   
-								   [timeStamps addObject:timeStamp];
-							   }];
+	[text enumerateAttribute:TSCTimeStampAttributeName
+					 inRange:fullRange
+					 options:timeStampSearchOptions
+				  usingBlock:
+	 ^(NSValue * _Nullable timeStampValue, NSRange timeStampRange, BOOL * _Nonnull stop) {
+		 if (!timeStampValue)  return;
+		 
+		 CMTime time = [timeStampValue CMTimeValue];
+		 
+		 TSCTimeSourceRange *timeStamp =
+		 [TSCTimeSourceRange timeSourceRangeWithTime:time
+											   range:timeStampRange];
+		 
+		 [timeStamps addObject:timeStamp];
+	 }];
 	
 	TSCTimeSourceRange *mediaEndStamp =
 	[TSCTimeSourceRange timeSourceRangeWithTime:mediaEndTime

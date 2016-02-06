@@ -14,6 +14,26 @@
 
 @implementation NSString (TSCTimeStamp)
 
+- (BOOL)containsTimeStampDelimiter:(NSRange)range;
+{
+	static NSCharacterSet *timeStampDelimiterCharacterSet = nil;
+	static dispatch_once_t onceToken;
+	
+	dispatch_once(&onceToken, ^{
+		timeStampDelimiterCharacterSet =
+		[NSCharacterSet characterSetWithCharactersInString:@"#"];
+	});
+	
+	const NSRange timeStampDelimiterRange =
+	[self rangeOfCharacterFromSet:timeStampDelimiterCharacterSet
+						  options:NSLiteralSearch
+							range:range];
+	
+	const BOOL hasLineBreak = (timeStampDelimiterRange.location != NSNotFound);
+	return hasLineBreak;
+}
+
+
 NS_INLINE CFRange CFRangeMakeFromNSRange(NSRange range) {
 	return CFRangeMake((range.location == NSNotFound ? kCFNotFound : range.location), range.length);
 }

@@ -18,6 +18,8 @@ typedef NS_OPTIONS(NSUInteger, TSCTimeStampEnumerationOptions) {
 
 @interface NSString (TSCTimeStamp)
 
+- (BOOL)containsTimeStampDelimiter:(NSRange)range;
+
 - (void)enumerateTimeStampsInRange:(NSRange)range
 						   options:(TSCTimeStampEnumerationOptions)options
 						usingBlock:(void (^ _Nonnull)(NSString * _Nullable timeCode, CMTime time, NSRange timeStampRange, BOOL * _Nonnull stop))block;

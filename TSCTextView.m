@@ -43,6 +43,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 
 
 NSString * const	TSCLineNumberAttributeName		= @"TSCLineNumberAttributeName";
+NSString * const	TSCTimeStampAttributeName		= @"TSCTimeStampAttributeName";
 
 
 @implementation TSCTextView {
@@ -118,8 +119,8 @@ NSString * const	TSCLineNumberAttributeName		= @"TSCLineNumberAttributeName";
 	[layoutManager boundingRectForGlyphRange:NSMakeRange(glyphIndex, 1)
 							 inTextContainer:textContainer];
 	
-	NSString * const string = self.string;
-	const NSRange fullRange = NSMakeRange(0, string.length);
+	NSTextStorage * const textStorage = self.textStorage;
+	const NSRange fullRange = NSMakeRange(0, textStorage.length);
 	
 	NSDictionary *markAttributes = @{
 	  NSForegroundColorAttributeName: [NSColor blackColor],
@@ -143,43 +144,47 @@ NSString * const	TSCLineNumberAttributeName		= @"TSCLineNumberAttributeName";
 		
 		NSMutableArray *timeButtonArray = [[NSMutableArray alloc] init];
 		
-		TSCTimeStampEnumerationOptions options = TSCTimeStampEnumerationTimeNotRequired;
+		NSAttributedStringEnumerationOptions timeStampSearchOptions = 0;
 		
-		[string enumerateTimeStampsInRange:lineCharRange
-									  options:options
-								   usingBlock:^(NSString *timeCode, CMTime time, NSRange timeStampRange, BOOL *stop) {
-									   if ((NSLocationInRange(characterIndex, timeStampRange))) {
-										   
-										   [layoutManager addTemporaryAttributes:markAttributes
-															   forCharacterRange:timeStampRange];
-										   
-										   NSRange timeStampGlyphRange =
-										   [layoutManager glyphRangeForCharacterRange:timeStampRange
-																 actualCharacterRange:NULL];
-										   
-										   NSRect timeStampRect =
-										   [layoutManager boundingRectForGlyphRange:timeStampGlyphRange
-																	inTextContainer:textContainer];
-
-										   NSRect buttonRect = NSMakeRect(timeStampRect.origin.x - 1,
-																		  timeStampRect.origin.y,
-																		  timeStampRect.size.width + 2,
-																		  timeStampRect.size.height + 2);
-										   
-										   NSButtonCell *timeButtonCell = [[NSButtonCell alloc] init];
-										   timeButtonCell.bezelStyle = NSRoundRectBezelStyle;
-										   timeButtonCell.title = @"";
-										   
-										   timeButtonCell.representedObject = timeCode;
-
-										   NSButton *timeButton = [[NSButton alloc] initWithFrame:buttonRect];
-										   timeButton.cell = timeButtonCell;
-										   timeButton.target = nil; // Explicitly setting this to first responder.
-										   timeButton.action = @selector(timeStampPressed:);
-										   
-										   [timeButtonArray addObject:timeButton];
-									   }
-								   }];
+		[textStorage enumerateAttribute:TSCTimeStampAttributeName
+								inRange:lineCharRange
+								options:timeStampSearchOptions
+							 usingBlock:
+		 ^(NSValue * _Nullable timeStampValue, NSRange timeStampRange, BOOL * _Nonnull stop) {
+			 if (!timeStampValue)  return;
+			 
+			 if ((NSLocationInRange(characterIndex, timeStampRange))) {
+				 
+				 [layoutManager addTemporaryAttributes:markAttributes
+									 forCharacterRange:timeStampRange];
+				 
+				 NSRange timeStampGlyphRange =
+				 [layoutManager glyphRangeForCharacterRange:timeStampRange
+									   actualCharacterRange:NULL];
+				 
+				 NSRect timeStampRect =
+				 [layoutManager boundingRectForGlyphRange:timeStampGlyphRange
+										  inTextContainer:textContainer];
+				 
+				 NSRect buttonRect = NSMakeRect(timeStampRect.origin.x - 1,
+												timeStampRect.origin.y,
+												timeStampRect.size.width + 2,
+												timeStampRect.size.height + 2);
+				 
+				 NSButtonCell *timeButtonCell = [[NSButtonCell alloc] init];
+				 timeButtonCell.bezelStyle = NSRoundRectBezelStyle;
+				 timeButtonCell.title = @"";
+				 
+				 timeButtonCell.representedObject = timeStampValue;
+				 
+				 NSButton *timeButton = [[NSButton alloc] initWithFrame:buttonRect];
+				 timeButton.cell = timeButtonCell;
+				 timeButton.target = nil; // Explicitly setting this to first responder.
+				 timeButton.action = @selector(timeStampPressed:);
+				 
+				 [timeButtonArray addObject:timeButton];
+			 }
+		 }];
 		
 		self.subviews = timeButtonArray;
 	}
@@ -436,17 +441,27 @@ NSString * const	TSCLineNumberAttributeName		= @"TSCLineNumberAttributeName";
 		// in an attributed string grows automatically.
 		NSString * const string = textStorage.string;
 		BOOL needsLineNumberUpdate = [string containsLineBreak:editedRange];
-		
-		if (needsLineNumberUpdate) {
+		BOOL needsTimeStampUpdate = ([string containsTimeStampDelimiter:editedRange] ||
+									 rangeInTextStorageTouchesTimeStamp(textStorage, editedRange));
+
+		if (needsLineNumberUpdate || needsTimeStampUpdate) {
 			const TSCAffectedTextRanges ranges =
 			affectedTextRangesForTextStorageWithEditedRange(textStorage, editedRange);
 			
-			updateLineNumbersForTextStorageWithAffectedRanges(textStorage, ranges);
+			if (needsLineNumberUpdate) {
+				updateLineNumbersForTextStorageWithAffectedRanges(textStorage, ranges);
+			}
+			
+			if (needsTimeStampUpdate) {
+				updateTimeStampsForTextStorageWithAffectedRanges(textStorage, ranges.linesRange);
+			}
 		}
 	}
 }
 
 typedef struct _TSCAffectedTextRanges {
+	//NSRange editedRange;
+	NSRange linesRange;
 	NSRange unaffectedRange;
 	NSRange affectedRange;
 } TSCAffectedTextRanges;
@@ -457,6 +472,8 @@ TSCAffectedTextRanges affectedTextRangesForTextStorageWithEditedRange(NSTextStor
 	
 	if (editedRange.location == NSNotFound) {
 		const TSCAffectedTextRanges ranges = {
+			//.editedRange = editedRange,
+			.linesRange = NSMakeRange(0, stringLength),
 			.unaffectedRange = NSMakeRange(0, 0),
 			.affectedRange = NSMakeRange(0, stringLength),
 		};
@@ -471,6 +488,8 @@ TSCAffectedTextRanges affectedTextRangesForTextStorageWithEditedRange(NSTextStor
 	const NSRange affectedRange = NSMakeRange(affectedRangeStart, stringLength - affectedRangeStart);
 	
 	const TSCAffectedTextRanges ranges = {
+		//.editedRange = editedRange,
+		.linesRange = linesRange,
 		.unaffectedRange = unaffectedRange,
 		.affectedRange = affectedRange,
 	};
@@ -515,6 +534,45 @@ void updateLineNumbersForTextStorageWithAffectedRanges(NSTextStorage *textStorag
 							 range:enclosingRange];
 		 
 		 lineNumber++;
+	 }];
+}
+
+BOOL rangeInTextStorageTouchesTimeStamp(NSTextStorage *textStorage, NSRange range) {
+	__block BOOL foundTimeStamp = NO;
+	
+	NSAttributedStringEnumerationOptions timeStampSearchOptions =
+	(NSAttributedStringEnumerationLongestEffectiveRangeNotRequired);
+	
+	[textStorage enumerateAttribute:TSCTimeStampAttributeName
+							inRange:range
+							options:timeStampSearchOptions
+						 usingBlock:
+	 ^(NSValue * _Nullable timeStampValue, NSRange timeStampRange, BOOL * _Nonnull stop) {
+		 if (!timeStampValue)  return;
+		 
+		 foundTimeStamp = YES;
+		 *stop = YES;
+		 return;
+	 }];
+	
+	return foundTimeStamp;
+}
+
+void updateTimeStampsForTextStorageWithAffectedRanges(NSTextStorage *textStorage, const NSRange linesRange) {
+	[textStorage removeAttribute:TSCTimeStampAttributeName
+						   range:linesRange];
+	
+	NSString * const string = textStorage.string;
+	
+	TSCTimeStampEnumerationOptions options = TSCTimeStampEnumerationStringNotRequired;
+	
+	[string enumerateTimeStampsInRange:linesRange
+							   options:options
+							usingBlock:
+	 ^(NSString *timeCode, CMTime time, NSRange timeStampRange, BOOL *stop) {
+		 [textStorage addAttribute:TSCTimeStampAttributeName
+							 value:[NSValue valueWithCMTime:time]
+							 range:timeStampRange];
 	 }];
 }
 
