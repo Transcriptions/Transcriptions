@@ -37,7 +37,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 static const NSUInteger TSCLineNumberNone = 0;
 
-FOUNDATION_EXPORT NSString * const TSCLineNumber;
+FOUNDATION_EXPORT NSString * const TSCLineNumberAttributeName;
 
 
 @interface TSCTextView : NSTextView <NSTextStorageDelegate> {

@@ -42,7 +42,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 #import "NSString+TSCWhitespace.h"
 
 
-NSString * const	TSCLineNumber		= @"TSCLineNumber";
+NSString * const	TSCLineNumberAttributeName		= @"TSCLineNumberAttributeName";
 
 
 @implementation TSCTextView {
@@ -289,7 +289,7 @@ NSString * const	TSCLineNumber		= @"TSCLineNumber";
 	NSTextStorage *textStorage = self.textStorage;
 	const NSRange visibleTextRange = self.visibleTextRange;
 	
-	[textStorage enumerateAttribute:TSCLineNumber
+	[textStorage enumerateAttribute:TSCLineNumberAttributeName
 							inRange:visibleTextRange
 							options:0
 						 usingBlock:
@@ -477,7 +477,7 @@ TSCAffectedTextRanges affectedTextRangesForTextStorageWithEditedRange(NSTextStor
 }
 
 void updateLineNumbersForTextStorageWithAffectedRanges(NSTextStorage *textStorage, const TSCAffectedTextRanges ranges) {
-	[textStorage removeAttribute:TSCLineNumber
+	[textStorage removeAttribute:TSCLineNumberAttributeName
 						   range:ranges.affectedRange];
 	
 	__block NSUInteger initialLineNumber = TSCLineNumberNone;
@@ -488,7 +488,7 @@ void updateLineNumbersForTextStorageWithAffectedRanges(NSTextStorage *textStorag
 		(NSAttributedStringEnumerationLongestEffectiveRangeNotRequired |
 		 NSAttributedStringEnumerationReverse);
 		
-		[textStorage enumerateAttribute:TSCLineNumber
+		[textStorage enumerateAttribute:TSCLineNumberAttributeName
 								inRange:ranges.unaffectedRange
 								options:previousLineNumberSearchOptions
 							 usingBlock:
@@ -506,7 +506,7 @@ void updateLineNumbersForTextStorageWithAffectedRanges(NSTextStorage *textStorag
 							   options:(NSStringEnumerationSubstringNotRequired | NSStringEnumerationByLines)
 							usingBlock:
 	 ^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
-		 [textStorage addAttribute:TSCLineNumber
+		 [textStorage addAttribute:TSCLineNumberAttributeName
 							 value:@(lineNumber)
 							 range:enclosingRange];
 		 
@@ -524,7 +524,7 @@ void updateLineNumbersForTextStorageWithAffectedRanges(NSTextStorage *textStorag
 	
 	__block NSUInteger lineNumber = TSCLineNumberNone;
 	
-	[textStorage enumerateAttribute:TSCLineNumber
+	[textStorage enumerateAttribute:TSCLineNumberAttributeName
 							inRange:fullRange
 							options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired
 						 usingBlock:
