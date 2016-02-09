@@ -892,7 +892,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
     [self.player replaceCurrentItemWithPlayerItem:_playerItem];
 	
 	__weak typeof(self) weakSelf = self;
-    self.timeObserverToken = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 10) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+    self.timeObserverToken = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 60) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
 		__strong typeof(self) strongSelf = weakSelf;
 		[strongSelf willChangeValueForKey:@"currentTime"];
 		[strongSelf didChangeValueForKey:@"currentTime"];
