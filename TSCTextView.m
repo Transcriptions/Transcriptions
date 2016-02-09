@@ -59,6 +59,8 @@ typedef struct _TSCUpdateFlags {
 	NSColor *_backgroundColor;
 	
 	NSColor *_highlightSeparatorColor;
+	
+	TSCUpdateFlags _willNeed;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect
@@ -459,6 +461,20 @@ TSCUpdateFlags determineUpdateFlagsForTextAndRange(NSTextStorage *textStorage, N
 	return flags;
 }
 
+- (BOOL)shouldChangeTextInRange:(NSRange)affectedCharRange
+			  replacementString:(NSString *)replacementString
+{
+	BOOL shouldChangeText = [super shouldChangeTextInRange:affectedCharRange
+										 replacementString:replacementString];
+	
+	if (shouldChangeText) {
+		// Determine required updates due to deletions.
+		_willNeed = determineUpdateFlagsForTextAndRange(self.textStorage, affectedCharRange);
+	}
+	
+	return shouldChangeText;
+}
+
 #if 0
 - (void)textStorage:(NSTextStorage *)textStorage
  willProcessEditing:(NSTextStorageEditActions)editedMask
@@ -468,6 +484,12 @@ TSCUpdateFlags determineUpdateFlagsForTextAndRange(NSTextStorage *textStorage, N
 	// We are not using this delegate method, because we require the latest state of the text.
 }
 #endif
+
+void mergeUpdateFlagsIntoFirst(TSCUpdateFlags *updateFlags1, TSCUpdateFlags updateFlags2)
+{
+	updateFlags1->lineNumberUpdate = (updateFlags1->lineNumberUpdate || updateFlags2.lineNumberUpdate);
+	updateFlags1->timeStampUpdate = (updateFlags1->timeStampUpdate || updateFlags2.timeStampUpdate);
+}
 
 - (void)textStorage:(NSTextStorage *)textStorage
   didProcessEditing:(NSTextStorageEditActions)editedMask
@@ -491,7 +513,8 @@ TSCUpdateFlags determineUpdateFlagsForTextAndRange(NSTextStorage *textStorage, N
 		// are already handled, because the range an attribute is attached to
 		// in an attributed string grows automatically.
 		TSCUpdateFlags needs = determineUpdateFlagsForTextAndRange(textStorage, editedRange);
-
+		mergeUpdateFlagsIntoFirst(&needs, _willNeed);
+		
 		if (needs.lineNumberUpdate || needs.timeStampUpdate) {
 			[textStorage beginEditing];
 			
