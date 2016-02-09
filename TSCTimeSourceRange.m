@@ -32,17 +32,15 @@
 
 - (BOOL)isEqual:(id)obj
 {
-	// If parameter is nil return NO.
 	if (obj == nil) {
 		return NO;
 	}
 	
-	// If parameter cannot be cast to Diff return NO.
+	// If parameter cannot be cast to TSCTimeSourceRange return NO.
 	if (![obj isKindOfClass:[TSCTimeSourceRange class]]) {
 		return NO;
 	}
 	
-	// Return YES if the fields match.
 	TSCTimeSourceRange *other = (TSCTimeSourceRange *)obj;
 	CMTime  otherTime = other.time;
 	NSRange otherRange = other.range;
@@ -52,12 +50,10 @@
 
 - (BOOL)isEqualToTimeSourceRange:(TSCTimeSourceRange *)other
 {
-	// If parameter is nil return NO.
 	if (other == nil) {
 		return NO;
 	}
 	
-	// Return YES if the fields match.
 	CMTime  otherTime = other.time;
 	NSRange otherRange = other.range;
 	return (CMTIME_COMPARE_INLINE(otherTime, ==, _time)
