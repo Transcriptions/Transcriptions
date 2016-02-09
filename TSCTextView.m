@@ -431,7 +431,7 @@ NSString * const	TSCTimeStampChangedNotification = @"TSCTimeStampChangedNotifica
 		return;
 	}
 	
-	if ([textStorage isEqual:self.textStorage]) {
+	{
 #if 0
 		const NSRange fullRange = NSMakeRange(0, textStorage.length);
 		NSLog(@"%p, edited: %@, delta: %zd, full: %@", textStorage, NSStringFromRange(editedRange), delta, NSStringFromRange(fullRange));
