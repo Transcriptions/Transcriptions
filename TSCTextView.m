@@ -342,6 +342,8 @@ const CGFloat numberStringRightMargin = 3.0;
 	NSTextStorage *textStorage = self.textStorage;
 	const NSRange visibleTextRange = self.visibleTextRange;
 	
+	__block NSUInteger previousLineNumber = NSNotFound;
+
 	[textStorage enumerateAttribute:TSCLineNumberAttributeName
 							inRange:visibleTextRange
 							options:0
@@ -364,7 +366,18 @@ const CGFloat numberStringRightMargin = 3.0;
 		 [self drawLineNumber:lineNumber
 				  forLineRect:lineRect
 				 ifWithinRect:documentVisibleRect];
+		 
+		 previousLineNumber = lineNumber;
 	 }];
+	
+	NSRect extraLineFragmentRect = layoutManager.extraLineFragmentRect;
+	if ((previousLineNumber != NSNotFound) &&
+		!NSEqualRects(extraLineFragmentRect, NSZeroRect)) {
+		// The last line is empty, but needs a line number.
+		[self drawLineNumber:(previousLineNumber + 1)
+				 forLineRect:extraLineFragmentRect
+				ifWithinRect:documentVisibleRect];
+	}
 }
 
 - (NSRange)visibleTextRange
