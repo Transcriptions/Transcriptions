@@ -250,6 +250,50 @@ NSString * const	TSCTimeStampChangedNotification = @"TSCTimeStampChangedNotifica
 const CGFloat numbersBarWidth = 35.0;
 const CGFloat numberStringRightMargin = 3.0;
 
+- (void)drawLineNumber:(NSUInteger)lineNumber
+		   forLineRect:(NSRect)lineRect
+		  ifWithinRect:(NSRect)documentVisibleRect
+{
+	if (NSIntersectsRect(documentVisibleRect, lineRect)) {
+		const NSUInteger highlightLineNumber = _highlightLineNumber;
+		
+		if (lineNumber == highlightLineNumber) {
+			NSColor * const highlightColor = _highlightColor;
+			NSColor * const highlightSeparatorColor = _highlightSeparatorColor;
+			
+			NSBezierPath *aPath = [NSBezierPath bezierPath];
+			[highlightSeparatorColor set];
+			[aPath moveToPoint:NSMakePoint(1.0, lineRect.origin.y)];
+			[aPath lineToPoint:NSMakePoint(numbersBarWidth, lineRect.origin.y)];
+			aPath.lineCapStyle = NSSquareLineCapStyle;
+			[aPath stroke];
+			
+			NSColor * const endingColor = highlightColor;
+			NSColor * const startingColor = _backgroundColor;
+			NSGradient *aGradient =
+			[[NSGradient alloc] initWithStartingColor:startingColor
+										  endingColor:endingColor];
+			
+			NSBezierPath *bezierPath = [NSBezierPath bezierPathWithRect:NSMakeRect(0.0, lineRect.origin.y, 34.6, 30.0)];
+			[aGradient drawInBezierPath:bezierPath angle:270];
+		}
+		
+		NSString *numberString = [NSString stringWithFormat:@"%lu", (unsigned long)lineNumber];
+		NSSize stringSize = [numberString sizeWithAttributes:_paragraphNumberAttributes];
+		
+		// Draw the line number aligned right (with numberStringRightMargin) within the numbers bar
+		// and centered vertically relative to the line.
+		NSRect rect =
+		NSMakeRect(numbersBarWidth - numberStringRightMargin - stringSize.width,
+				   lineRect.origin.y + (NSHeight(lineRect) - stringSize.height) / 2.0,
+				   MIN(stringSize.width, numbersBarWidth),
+				   NSHeight(lineRect));
+		
+		[numberString drawInRect:rect
+				  withAttributes:_paragraphNumberAttributes];
+	}
+}
+
 - (void)drawRect:(NSRect)aRect
 {
 	NSSize tcSize = self.textContainer.containerSize;
@@ -267,10 +311,6 @@ const CGFloat numberStringRightMargin = 3.0;
 	}
 	
 	NSColor * const backgroundColor = _backgroundColor;
-	NSColor * const highlightColor = _highlightColor;
-	
-	NSColor * const highlightSeparatorColor = _highlightSeparatorColor;
-	
 	[backgroundColor set];
 	
 	NSRect documentVisibleRect = self.enclosingScrollView.documentVisibleRect;
@@ -315,41 +355,9 @@ const CGFloat numberStringRightMargin = 3.0;
 		 NSRect lineRect = [layoutManager lineFragmentRectForGlyphAtIndex:firstGlyphIndex
 														   effectiveRange:NULL];
 		 
-		 if (NSIntersectsRect(documentVisibleRect, lineRect)) {
-			 const NSUInteger highlightLineNumber = _highlightLineNumber;
-			 
-			 if (lineNumber == highlightLineNumber) {
-				 NSBezierPath *aPath = [NSBezierPath bezierPath];
-				 [highlightSeparatorColor set];
-				 [aPath moveToPoint:NSMakePoint(1.0, lineRect.origin.y)];
-				 [aPath lineToPoint:NSMakePoint(numbersBarWidth, lineRect.origin.y)];
-				 aPath.lineCapStyle = NSSquareLineCapStyle;
-				 [aPath stroke];
-				 
-				 NSColor * const endingColor = highlightColor;
-				 NSColor * const startingColor = backgroundColor;
-				 NSGradient *aGradient =
-				 [[NSGradient alloc] initWithStartingColor:startingColor
-											   endingColor:endingColor];
-				 
-				 NSBezierPath *bezierPath = [NSBezierPath bezierPathWithRect:NSMakeRect(0.0, lineRect.origin.y, 34.6, 30.0)];
-				 [aGradient drawInBezierPath:bezierPath angle:270];
-			 }
-			 
-			 NSString *numberString = [NSString stringWithFormat:@"%lu", (unsigned long)lineNumber];
-			 NSSize stringSize = [numberString sizeWithAttributes:_paragraphNumberAttributes];
-			 
-			 // Draw the line number aligned right (with numberStringRightMargin) within the numbers bar
-			 // and centered vertically relative to the line.
-			 NSRect rect =
-			 NSMakeRect(numbersBarWidth - numberStringRightMargin - stringSize.width,
-						lineRect.origin.y + (NSHeight(lineRect) - stringSize.height) / 2.0,
-						MIN(stringSize.width, numbersBarWidth),
-						NSHeight(lineRect));
-			 
-			 [numberString drawInRect:rect
-					   withAttributes:_paragraphNumberAttributes];
-		 }
+		 [self drawLineNumber:lineNumber
+				  forLineRect:lineRect
+				 ifWithinRect:documentVisibleRect];
 	 }];
 }
 
