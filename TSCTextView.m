@@ -428,7 +428,9 @@ TSCUpdateFlags determineUpdateFlagsForTextAndRange(NSTextStorage *textStorage, N
 	TSCUpdateFlags flags;
 	
 	NSString * const string = textStorage.string;
-	flags.lineNumberUpdate = [string containsLineBreak:editedRange];
+	const NSUInteger stringLength = string.length;
+	flags.lineNumberUpdate = (NSMaxRange(editedRange) == stringLength ||
+							  [string containsLineBreak:editedRange]);
 	flags.timeStampUpdate = ([string containsTimeStampDelimiter:editedRange] ||
 								rangeInTextStorageTouchesTimeStamp(textStorage, editedRange));
 	
