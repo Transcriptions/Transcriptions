@@ -48,6 +48,12 @@ NSString * const	TSCTimeStampAttributeName		= @"TSCTimeStampAttributeName";
 NSString * const	TSCTimeStampChangedNotification = @"TSCTimeStampChangedNotification";
 
 
+typedef struct _TSCUpdateFlags {
+	BOOL lineNumberUpdate;
+	BOOL timeStampUpdate;
+} TSCUpdateFlags;
+
+
 @implementation TSCTextView {
 	NSColor *_highlightColor;
 	NSColor *_backgroundColor;
@@ -418,6 +424,17 @@ const CGFloat numberStringRightMargin = 3.0;
 }
 
 
+TSCUpdateFlags determineUpdateFlagsForTextAndRange(NSTextStorage *textStorage, NSRange editedRange) {
+	TSCUpdateFlags flags;
+	
+	NSString * const string = textStorage.string;
+	flags.lineNumberUpdate = [string containsLineBreak:editedRange];
+	flags.timeStampUpdate = ([string containsTimeStampDelimiter:editedRange] ||
+								rangeInTextStorageTouchesTimeStamp(textStorage, editedRange));
+	
+	return flags;
+}
+
 #if 0
 - (void)textStorage:(NSTextStorage *)textStorage
  willProcessEditing:(NSTextStorageEditActions)editedMask
@@ -449,20 +466,17 @@ const CGFloat numberStringRightMargin = 3.0;
 		// Such cases, like adding characters to the current line’s range
 		// are already handled, because the range an attribute is attached to
 		// in an attributed string grows automatically.
-		NSString * const string = textStorage.string;
-		BOOL needsLineNumberUpdate = [string containsLineBreak:editedRange];
-		BOOL needsTimeStampUpdate = ([string containsTimeStampDelimiter:editedRange] ||
-									 rangeInTextStorageTouchesTimeStamp(textStorage, editedRange));
+		TSCUpdateFlags needs = determineUpdateFlagsForTextAndRange(textStorage, editedRange);
 
-		if (needsLineNumberUpdate || needsTimeStampUpdate) {
+		if (needs.lineNumberUpdate || needs.timeStampUpdate) {
 			const TSCAffectedTextRanges ranges =
 			affectedTextRangesForTextStorageWithEditedRange(textStorage, editedRange);
 			
-			if (needsLineNumberUpdate) {
+			if (needs.lineNumberUpdate) {
 				updateLineNumbersForTextStorageWithAffectedRanges(textStorage, ranges);
 			}
 			
-			if (needsTimeStampUpdate) {
+			if (needs.timeStampUpdate) {
 				updateTimeStampsForTextStorageWithAffectedRanges(textStorage, ranges.linesRange);
 			}
 		}
