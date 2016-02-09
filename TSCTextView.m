@@ -471,6 +471,8 @@ TSCUpdateFlags determineUpdateFlagsForTextAndRange(NSTextStorage *textStorage, N
 		TSCUpdateFlags needs = determineUpdateFlagsForTextAndRange(textStorage, editedRange);
 
 		if (needs.lineNumberUpdate || needs.timeStampUpdate) {
+			[textStorage beginEditing];
+			
 			const TSCAffectedTextRanges ranges =
 			affectedTextRangesForTextStorageWithEditedRange(textStorage, editedRange);
 			
@@ -481,6 +483,8 @@ TSCUpdateFlags determineUpdateFlagsForTextAndRange(NSTextStorage *textStorage, N
 			if (needs.timeStampUpdate) {
 				updateTimeStampsForTextStorageWithAffectedRanges(textStorage, ranges.linesRange);
 			}
+			
+			[textStorage endEditing];
 		}
 		
 		// FIXME: Currently this needs to be called on every edit. Find a better way.
