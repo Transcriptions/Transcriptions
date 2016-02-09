@@ -531,6 +531,7 @@ void updateLineNumbersForTextStorageWithAffectedRanges(NSTextStorage *textStorag
 	NSString * const string = textStorage.string;
 	
 	__block NSUInteger lineNumber = initialLineNumber + 1;
+	__block NSUInteger enumerationEndIndex = 0;
 	[string enumerateSubstringsInRange:ranges.affectedRange
 							   options:(NSStringEnumerationSubstringNotRequired | NSStringEnumerationByLines)
 							usingBlock:
@@ -539,8 +540,19 @@ void updateLineNumbersForTextStorageWithAffectedRanges(NSTextStorage *textStorag
 							 value:@(lineNumber)
 							 range:enclosingRange];
 		 
+		 enumerationEndIndex = NSMaxRange(enclosingRange);
+		 
 		 lineNumber++;
 	 }];
+	
+	const NSUInteger textLength = textStorage.length;
+	if (enumerationEndIndex < textLength) {
+		const NSRange lastLineRange = NSMakeRange(enumerationEndIndex, textLength - enumerationEndIndex);
+		
+		[textStorage addAttribute:TSCLineNumberAttributeName
+							value:@(lineNumber)
+							range:lastLineRange];
+	}
 }
 
 BOOL rangeInTextStorageTouchesTimeStamp(NSTextStorage *textStorage, NSRange range) {
