@@ -1504,7 +1504,6 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 - (void)updateTimeStampSortedCache
 {
 	NSAttributedString * const text = _textView.textStorage;
-	const CMTime mediaEndTime = CMTimeAbsoluteValue(self.duration);
 	
 	const NSRange fullRange = NSMakeRange(0, text.length);
 
@@ -1527,31 +1526,10 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 		 [timeStamps addObject:timeStamp];
 	 }];
 	
-	TSCTimeSourceRange *mediaEndStamp =
-	[TSCTimeSourceRange timeSourceRangeWithTime:mediaEndTime
-										  range:NSMakeRange(NSNotFound, 0)];
-	[timeStamps addObject:mediaEndStamp];
-	
 	_timeStampsSorted = [timeStamps mutableCopy];
-	[_timeStampsSorted sortWithOptions:NSSortStable usingComparator:^(TSCTimeSourceRange *timeStamp1, TSCTimeSourceRange *timeStamp2) {
-		CMTime a = timeStamp1.time;
-		CMTime b = timeStamp2.time;
-		
-		int32_t comparisonResult = CMTimeCompare(a, b);
-		switch (comparisonResult) {
-			case -1:
-				return NSOrderedAscending;
-				break;
-				
-			case 1:
-				return NSOrderedDescending;
-				break;
-				
-			default:
-				return NSOrderedSame;
-				break;
-		}
-	}];
+	
+	[_timeStampsSorted sortWithOptions:NSSortStable
+					   usingComparator:TSCTimeSourceRange.defaultTimeComparatorBlock];
 }
 
 - (void)updateTimestampLineNumber
@@ -1569,32 +1547,53 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	
 	TSCTimeSourceRange *closestTimeStamp = nil;
 	
-	if (_timeStampsSorted.count > 0) {
-		TSCTimeSourceRange *firstTimeStamp = _timeStampsSorted.firstObject;
-		closestTimeStamp = firstTimeStamp;
-	}
+	const NSUInteger timeStampsSortedCount = _timeStampsSorted.count;
+	const NSRange fullRange = NSMakeRange(0, timeStampsSortedCount);
+
+	TSCTimeSourceRange *currentTimeStamp =
+	[TSCTimeSourceRange timeSourceRangeWithTime:currentTime
+										  range:NSMakeRange(NSNotFound, 0)];
 	
-	// TODO: Rewrite with binary search.
-	TSCTimeSourceRange *previousTimeStamp = nil;
-	for (TSCTimeSourceRange *thisTimeStamp in _timeStampsSorted) {
-		if (previousTimeStamp != nil) {
-			CMTime previousTime = previousTimeStamp.time;
-			CMTime thisTime = thisTimeStamp.time;
-			
-			if (CMTIME_COMPARE_INLINE(previousTime, <=, currentTime) &&
-				CMTIME_COMPARE_INLINE(currentTime, <, thisTime)) {
-				closestTimeStamp = previousTimeStamp;
-				break;
-			}
+	// We have to search for the insertion index, because our needle object above
+	// cannot possibly be in the haystack. This is due to its invalid range.
+	NSBinarySearchingOptions closestTimeStampSearchOptions =
+	(NSBinarySearchingInsertionIndex | NSBinarySearchingFirstEqual);
+	
+	NSUInteger foundTimeStampIndex =
+	[_timeStampsSorted indexOfObject:currentTimeStamp
+					   inSortedRange:fullRange
+							 options:closestTimeStampSearchOptions
+					 usingComparator:TSCTimeSourceRange.defaultTimeComparatorBlock];
+	
+	if (foundTimeStampIndex != NSNotFound) {
+		if (foundTimeStampIndex > 0) {
+			// Compensate for the fact, that we are actually searching for the index
+			// of the time stamp before the insertion location we got back.
+			// This is, because our currentTimeStamp can never be equal
+			// due to its invalid range.
+			// When there are consecutive identical time stamps or they are
+			// in an arbitrary order, the last one is chosen because of this.
+			foundTimeStampIndex -= 1;
 		}
 		
-		previousTimeStamp = thisTimeStamp;
+		if (foundTimeStampIndex < timeStampsSortedCount) {
+			closestTimeStamp = _timeStampsSorted[foundTimeStampIndex];
+		}
+	}
+	else {
+		// According to the API docs, we should never get here with NSBinarySearchingInsertionIndex set.
 	}
 	
 	if (closestTimeStamp) {
-		//CMTime closestTime = closestStamp.time;
+#if 0
+		NSLog(@"\n"
+			  "Current time: %@\n"
+			  "%@",
+			  CFBridgingRelease(CMTimeCopyDescription(kCFAllocatorDefault, currentTime)),
+			  closestTimeStamp);
+#endif
+		
 		NSRange closestRange = closestTimeStamp.range;
-		//NSLog(@"%@", closestStamp);
 		
 		[_textView setHighlightLineNumberForRange:closestRange];
 	}

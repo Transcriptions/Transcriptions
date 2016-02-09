@@ -30,6 +30,62 @@
 }
 
 
+NS_INLINE NSComparisonResult compareTimeStampTime(TSCTimeSourceRange *timeStamp1, TSCTimeSourceRange *timeStamp2) {
+	CMTime a = timeStamp1.time;
+	CMTime b = timeStamp2.time;
+	
+	int32_t comparisonResult = CMTimeCompare(a, b);
+	switch (comparisonResult) {
+		case -1:
+			return NSOrderedAscending;
+			break;
+			
+		case 1:
+			return NSOrderedDescending;
+			break;
+			
+		default:
+			return NSOrderedSame;
+			break;
+	}
+}
+
+NS_INLINE NSComparisonResult compareTimeStampLocation(TSCTimeSourceRange *timeStamp1, TSCTimeSourceRange *timeStamp2) {
+	NSRange a = timeStamp1.range;
+	NSRange b = timeStamp2.range;
+	
+	if (a.location < b.location) {
+		return NSOrderedAscending;
+	}
+	else if (a.location > b.location) {
+		return NSOrderedDescending;
+	}
+	else {
+		return NSOrderedSame;
+	}
+}
+
++ (TSCTimeSourceRangeTimeComparator)defaultTimeComparatorBlock
+{
+	static TSCTimeSourceRangeTimeComparator block;
+	static dispatch_once_t onceToken;
+	
+	dispatch_once(&onceToken, ^{
+		block =
+		^(TSCTimeSourceRange *timeStamp1, TSCTimeSourceRange *timeStamp2) {
+			NSComparisonResult comparisonResult = compareTimeStampTime(timeStamp1, timeStamp2);
+			if (comparisonResult == NSOrderedSame) {
+				comparisonResult = compareTimeStampLocation(timeStamp1, timeStamp2);
+			}
+			
+			return comparisonResult;
+		};
+	});	
+	
+	return block;
+}
+
+
 - (BOOL)isEqual:(id)obj
 {
 	if (obj == nil) {
