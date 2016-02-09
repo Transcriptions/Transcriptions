@@ -487,7 +487,9 @@ TSCUpdateFlags determineUpdateFlagsForTextAndRange(NSTextStorage *textStorage, N
 			[textStorage endEditing];
 		}
 		
-		// FIXME: Currently this needs to be called on every edit. Find a better way.
+		// FIXME: Currently this needs to be called on every edit,
+		// because the ranges in the text may have changed.
+		// Find a better way.
 		[[NSNotificationCenter defaultCenter] postNotificationName:TSCTimeStampChangedNotification
 															object:self];
 	}
