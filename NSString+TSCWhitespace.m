@@ -60,29 +60,13 @@
 	
 	NSInteger selfLength = self.length;
 	
-	static NSRegularExpression *whitespaceCharacterRegEx = nil;
-	static dispatch_once_t oncePredicate;
-	
-	dispatch_once(&oncePredicate, ^{
-		NSError *error = nil;
-		
-		whitespaceCharacterRegEx =
-		[[NSRegularExpression alloc] initWithPattern:@"\\s"
-											 options:0
-											   error:&error];
-		
-		if (!whitespaceCharacterRegEx) {
-			NSLog(@"%@", error);
-			exit(EXIT_FAILURE);
-		}
-	});
-	
 	if (location > 0) {
-		NSRange codeUnitRange = NSMakeRange(location - 1, 1);
-		NSRange matchRange =
-		[whitespaceCharacterRegEx rangeOfFirstMatchInString:self
-													options:(NSMatchingAnchored | NSMatchingWithTransparentBounds)
-													  range:codeUnitRange];
+		// Treat any whitespace INCLUDING line breaks as whitespace.
+		NSRange range = NSMakeRange(0, location);
+		const NSRange matchRange =
+		[self rangeOfCharacterFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]
+							  options:(NSLiteralSearch | NSBackwardsSearch)
+								range:range];
 		hasWhitespace.prefix = (matchRange.location != NSNotFound);
 	}
 	else {
@@ -91,11 +75,12 @@
 	}
 	
 	if (location < selfLength) {
-		NSRange codeUnitRange = NSMakeRange(location, 1);
-		NSRange matchRange =
-		[whitespaceCharacterRegEx rangeOfFirstMatchInString:self
-													options:(NSMatchingAnchored | NSMatchingWithTransparentBounds)
-													  range:codeUnitRange];
+		// Treat any whitespace APART from line breaks as whitespace.
+		NSRange range = NSMakeRange(location, selfLength - location);
+		const NSRange matchRange =
+		[self rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]
+							  options:(NSLiteralSearch)
+								range:range];
 		hasWhitespace.suffix = (matchRange.location != NSNotFound);
 	}
 	else {
