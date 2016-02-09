@@ -130,7 +130,7 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 	//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openMovieFromDrag:) name:@"movieFileDrag" object:nil]; // Currently unused.
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createAutomaticTimeStamp:) name:@"automaticTimestamp" object:_textView];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jumpToTimeStamp:) name:@"aTimestampPressed" object:nil]; // Filtering is done within the method.
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTimeStampSortedCache) name:TSCTimeStampChangedNotification object:_textView];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timeStampChanged) name:TSCTimeStampChangedNotification object:_textView];
 	
 	_player = [[AVPlayer alloc] init];
 	
@@ -1500,6 +1500,12 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 
 
 #pragma mark timestamp line numbers
+
+- (void)timeStampChanged
+{
+	[self updateTimeStampSortedCache];
+	[self updateTimestampLineNumber];
+}
 
 - (void)updateTimeStampSortedCache
 {
