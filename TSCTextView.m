@@ -438,10 +438,19 @@ const CGFloat numberStringRightMargin = 3.0;
 
 
 TSCUpdateFlags determineUpdateFlagsForTextAndRange(NSTextStorage *textStorage, NSRange editedRange) {
-	TSCUpdateFlags flags;
+	TSCUpdateFlags flags = (TSCUpdateFlags){NO};
+	
+	if (editedRange.length == 0) {
+		return flags;
+	}
 	
 	NSString * const string = textStorage.string;
 	const NSUInteger stringLength = string.length;
+	
+	if (stringLength == 0) {
+		return flags;
+	}
+	
 	flags.lineNumberUpdate = (NSMaxRange(editedRange) == stringLength ||
 							  [string containsLineBreak:editedRange]);
 	flags.timeStampUpdate = ([string containsTimeStampDelimiter:editedRange] ||
