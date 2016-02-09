@@ -247,11 +247,11 @@ NSString * const	TSCTimeStampChangedNotification = @"TSCTimeStampChangedNotifica
 	[self interpretKeyEvents:@[theEvent]];
 }
 
+const CGFloat numbersBarWidth = 35.0;
+const CGFloat numberStringRightMargin = 3.0;
+
 - (void)drawRect:(NSRect)aRect
 {
-	const CGFloat numbersBarWidth = 35.0;
-	const CGFloat numberStringRightMargin = 3.0;
-	
 	NSSize tcSize = self.textContainer.containerSize;
 	tcSize.width = self.frame.size.width;
 	
