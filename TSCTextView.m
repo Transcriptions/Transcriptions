@@ -579,6 +579,10 @@ TSCAffectedTextRanges affectedTextRangesForTextStorageWithEditedRange(NSTextStor
 }
 
 void updateLineNumbersForTextStorageWithAffectedRanges(NSTextStorage *textStorage, const TSCAffectedTextRanges ranges) {
+	if (ranges.affectedRange.length == 0) {
+		return;
+	}
+	
 	[textStorage removeAttribute:TSCLineNumberAttributeName
 						   range:ranges.affectedRange];
 	
