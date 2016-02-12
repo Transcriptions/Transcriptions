@@ -1177,13 +1177,73 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 
 - (void)createTimeStamp:(id)sender
 {
-	[self insertTimeStampAfterSelectionAppendingNewline:NO];
+	[self insertOrReplaceTimeStampAtSelection];
 }
 
 - (void)createAutomaticTimeStamp:(id)sender
 {
 	// No need to check [[[NSUserDefaults standardUserDefaults] objectForKey:@"autoTimestamp"] boolValue].
 	[self insertTimeStampAfterSelectionAppendingNewline:YES];
+}
+
+- (void)insertOrReplaceTimeStampAtSelection
+{
+	if (!self.player.currentItem) {
+		return;
+	}
+	
+	// Check, if the selectedRange interesects a time stamp and,
+	// in that case, replace that time stamp.
+	
+	NSAttributedString * const text = _textView.textStorage;
+	const NSRange fullRange = NSMakeRange(0, text.length);
+	
+	NSRange selectedRange = _textView.selectedRange;
+	
+	// Modify the selected range to include the bordering code units,
+	// if it represents a cursor.
+	if (selectedRange.length == 0) {
+		if (selectedRange.location == 0) {
+			selectedRange.length += 1;
+		} else {
+			selectedRange.location -= 1;
+			selectedRange.length += 2;
+		}
+		
+		// Limit the range to the text’s.
+		selectedRange =
+		NSIntersectionRange(selectedRange, fullRange);
+	}
+
+	__block NSRange intersectingTimeStampRange = NSMakeRange(NSNotFound, 0);
+	
+	NSAttributedStringEnumerationOptions intersectingTimeStampSearchOptions =
+	(NSAttributedStringEnumerationReverse);
+	
+	[text enumerateAttribute:TSCTimeStampAttributeName
+					 inRange:selectedRange
+					 options:intersectingTimeStampSearchOptions
+				  usingBlock:
+	 ^(NSValue * _Nullable timeStampValue, NSRange timeStampRange, BOOL * _Nonnull stop) {
+		 if (!timeStampValue)  return;
+		 
+		 intersectingTimeStampRange = timeStampRange; // The range is cropped to within selectedRange.
+		 *stop = YES;
+		 return;
+	 }];
+	
+	if (intersectingTimeStampRange.location != NSNotFound) {
+		// Find entire range for the time stamp.
+		[text attribute:TSCTimeStampAttributeName
+				atIndex:intersectingTimeStampRange.location
+  longestEffectiveRange:&intersectingTimeStampRange
+				inRange:fullRange];
+		
+		// Delete intersecting time stamp.
+		[_textView insertText:@"" replacementRange:intersectingTimeStampRange];
+	}
+
+	[self insertTimeStampAfterSelectionAppendingNewline:NO];
 }
 
 - (void)insertTimeStampAfterSelectionAppendingNewline:(BOOL)appendNewline
