@@ -543,8 +543,8 @@ void mergeUpdateFlagsIntoFirst(TSCUpdateFlags *updateFlags1, TSCUpdateFlags upda
 typedef struct _TSCAffectedTextRanges {
 	//NSRange editedRange;
 	NSRange linesRange;
-	NSRange unaffectedRange;
-	NSRange affectedRange;
+	NSRange unaffectedRange;// Range of the unaffected lines, ending right before the line of the edited range.
+	NSRange affectedRange;	// Range of the affected lines, starting with the line of the edited range.
 } TSCAffectedTextRanges;
 
 TSCAffectedTextRanges affectedTextRangesForTextStorageWithEditedRange(NSTextStorage *textStorage, NSRange editedRange) {
