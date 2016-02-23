@@ -6,9 +6,7 @@ A text editor optimized for fast manual transcription of audio- or video materia
 
 Load media in the player, use the controls to adjust speed and volume, set keyboard shortcuts for media control in the preferences pane and type away. Transcriptions also supports text-substitutions by inserting "@" followed by a text-token.
 
-**Get the free binary from the Mac App Store**
-
-[![](README-images/Download_on_the_Mac_App_Store_Badge_US-UK_165x40.svg)](https://itunes.apple.com/at/app/transcriptions/id911974149?l=en&mt=12)
+**Transcriptions is [Free/Libre Open Source Software](https://en.wikipedia.org/wiki/Free_and_open-source_software). Please support development by [buying the Transcriptions binary in the AppStore](https://itunes.apple.com/at/app/transcriptions/id911974149?l=en&mt=12) or by [donating via PayPal](http://www.unet.univie.ac.at/~a0206600/TranscriptionsDonate.html). Thanks to all supporters!**
 
 For Mac OSX 10.9 Mavericks and below, use version 0.8 that can be found [here](https://code.google.com/p/transcriptions/downloads/list).
 
@@ -22,8 +20,6 @@ For Mac OSX 10.9 Mavericks and below, use version 0.8 that can be found [here](h
   * Text substitution
   * Footpedal-support([->audiotranskription.de](http://www.audiotranskription.de/deutsch/transkription/usb-fussschalter-f-pro/usb-fussschalter-f-pro.html))
 
-## Donations: ##
-[![](README-images/paypalsmaller.png)](http://www.unet.univie.ac.at/~a0206600/TranscriptionsDonate.html)
 
 
 **MBW Pick of the week: March 30, 2010**
