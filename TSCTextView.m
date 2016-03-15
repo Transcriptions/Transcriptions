@@ -110,12 +110,18 @@ typedef struct _TSCUpdateFlags {
                  object:self.enclosingScrollView.contentView];
 }
 
-- (void)mouseMoved:(NSEvent *)theEvent 
+- (void)mouseMoved:(NSEvent *)theEvent
+{
+	NSPoint mouseLocation = theEvent.locationInWindow;
+	[self updateTimeStampButtonsForLocationInWindow:mouseLocation];
+}
+
+- (void)updateTimeStampButtonsForLocationInWindow:(NSPoint)mouseLocation
 {
     NSLayoutManager *layoutManager = self.layoutManager;
     NSTextContainer *textContainer = self.textContainer;
 	
-    NSPoint point = [self convertPoint:theEvent.locationInWindow
+    NSPoint point = [self convertPoint:mouseLocation
 							  fromView:nil];
 	
 	NSPoint textContainerOrigin = self.textContainerOrigin;
