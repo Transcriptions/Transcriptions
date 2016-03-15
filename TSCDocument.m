@@ -1177,7 +1177,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 
 - (void)createTimeStamp:(id)sender
 {
-	[self insertOrReplaceTimeStampAtSelection];
+	[self insertOrReplaceTimeStampAtSelectionAppendingNewlineIfNotReplacing:NO];
 }
 
 - (void)createAutomaticTimeStamp:(id)sender
@@ -1186,7 +1186,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	[self insertTimeStampAfterSelectionAppendingNewline:YES];
 }
 
-- (void)insertOrReplaceTimeStampAtSelection
+- (void)insertOrReplaceTimeStampAtSelectionAppendingNewlineIfNotReplacing:(BOOL)appendNewline
 {
 	if (!self.player.currentItem) {
 		return;
@@ -1232,7 +1232,8 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 		 return;
 	 }];
 	
-	if (intersectingTimeStampRange.location != NSNotFound) {
+	BOOL replacementMode = intersectingTimeStampRange.location != NSNotFound;
+	if (replacementMode) {
 		// Find entire range for the time stamp.
 		[text attribute:TSCTimeStampAttributeName
 				atIndex:intersectingTimeStampRange.location
@@ -1242,8 +1243,10 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 		// Delete intersecting time stamp.
 		[_textView insertText:@"" replacementRange:intersectingTimeStampRange];
 	}
-
-	[self insertTimeStampAfterSelectionAppendingNewline:NO];
+	
+	BOOL needsNewline = !replacementMode && appendNewline;
+	
+	[self insertTimeStampAfterSelectionAppendingNewline:needsNewline];
 }
 
 - (void)insertTimeStampAfterSelectionAppendingNewline:(BOOL)appendNewline
