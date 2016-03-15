@@ -1198,21 +1198,21 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	NSAttributedString * const text = _textView.textStorage;
 	const NSRange fullRange = NSMakeRange(0, text.length);
 	
-	NSRange selectedRange = _textView.selectedRange;
+	NSRange timeStampSearchRange = _textView.selectedRange;
 	
 	// Modify the selected range to include the bordering code units,
 	// if it represents a cursor.
-	if (selectedRange.length == 0) {
-		if (selectedRange.location == 0) {
-			selectedRange.length += 1;
+	if (timeStampSearchRange.length == 0) {
+		if (timeStampSearchRange.location == 0) {
+			timeStampSearchRange.length += 1;
 		} else {
-			selectedRange.location -= 1;
-			selectedRange.length += 2;
+			timeStampSearchRange.location -= 1;
+			timeStampSearchRange.length += 2;
 		}
 		
 		// Limit the range to the text’s.
-		selectedRange =
-		NSIntersectionRange(selectedRange, fullRange);
+		timeStampSearchRange =
+		NSIntersectionRange(timeStampSearchRange, fullRange);
 	}
 
 	__block NSRange intersectingTimeStampRange = NSMakeRange(NSNotFound, 0);
@@ -1221,7 +1221,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	(NSAttributedStringEnumerationReverse);
 	
 	[text enumerateAttribute:TSCTimeStampAttributeName
-					 inRange:selectedRange
+					 inRange:timeStampSearchRange
 					 options:intersectingTimeStampSearchOptions
 				  usingBlock:
 	 ^(NSValue * _Nullable timeStampValue, NSRange timeStampRange, BOOL * _Nonnull stop) {
