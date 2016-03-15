@@ -1177,7 +1177,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 
 - (void)createTimeStamp:(id)sender
 {
-	[self insertOrReplaceTimeStampAtSelectionAppendingNewlineIfNotReplacing:NO];
+	[self insertOrReplaceTimeStampAtSelectionAppendingNewlineIfNotReplacing:NO]; // TODO: Make this configurable.
 }
 
 - (void)createAutomaticTimeStamp:(id)sender
