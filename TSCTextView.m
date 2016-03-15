@@ -116,6 +116,12 @@ typedef struct _TSCUpdateFlags {
 	[self updateTimeStampButtonsForLocationInWindow:mouseLocation];
 }
 
+- (void)updateTimeStampButtons
+{
+	NSPoint mouseLocation = [self.window mouseLocationOutsideOfEventStream];
+	[self updateTimeStampButtonsForLocationInWindow:mouseLocation];
+}
+
 - (void)updateTimeStampButtonsForLocationInWindow:(NSPoint)mouseLocation
 {
     NSLayoutManager *layoutManager = self.layoutManager;
@@ -543,6 +549,13 @@ void mergeUpdateFlagsIntoFirst(TSCUpdateFlags *updateFlags1, TSCUpdateFlags upda
 		// Find a better way.
 		[[NSNotificationCenter defaultCenter] postNotificationName:TSCTimeStampChangedNotification
 															object:self];
+		
+		// We can’t call the update method directly at this moment,
+		// as the `textStorage` is currently editing
+		// and accessing it would cause an exception.
+		[self performSelector:@selector(updateTimeStampButtons)
+				   withObject:nil
+				   afterDelay:0.0];
 	}
 }
 
