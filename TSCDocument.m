@@ -1271,21 +1271,22 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 								prependSpace:!hasWhitespace.prefix
 								 appendSpace:!hasWhitespace.suffix
 							  timeStampRange:&timeStampRange];
-		NSRange insertionCursor = NSMakeRange(NSMaxRange(timeStampRange), 0);
 		
 		if (appendNewline) {
 			NSString * const newline = @"\n";
 			const NSUInteger newlineLength = 1;
 			
-			[string replaceCharactersInRange:insertionCursor withString:newline];
-			timeStampRange.length += newlineLength;
+			NSRange newlineInsertionCursor = NSMakeRange(NSMaxRange(insertedRange), 0);
+			
+			[string replaceCharactersInRange:newlineInsertionCursor withString:newline];
+			insertedRange.length += newlineLength;
 		}
 		
 		[_textView insertText:text replacementRange:insertionRange]; // This also enables undo support.
 		
-		insertedRange.location = insertionLocation;
-		NSUInteger insertedRangeEnd = NSMaxRange(insertedRange);
-		_textView.selectedRange = NSMakeRange(insertedRangeEnd, 0);
+		NSRange insertedRangeInText = NSMakeRange(insertionLocation, insertedRange.length);
+		NSUInteger insertedRangeInTextEnd = NSMaxRange(insertedRangeInText);
+		_textView.selectedRange = NSMakeRange(insertedRangeInTextEnd, 0);
 		
         [self updateTimestampLineNumber];
 	}
