@@ -1261,6 +1261,9 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 		
 		TSCLocalWhitespace hasWhitespace = [_textView.textStorage.string localWhitespaceForLocation:insertionLocation];
 		
+		BOOL prependSpace = !hasWhitespace.prefix;
+		BOOL appendSpace = !hasWhitespace.suffix;
+		
 		NSRange timeStampRange;
 		
 		NSRange insertedRange =
@@ -1268,8 +1271,8 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 										  at:0
 									intoText:text
 									  string:string
-								prependSpace:!hasWhitespace.prefix
-								 appendSpace:!hasWhitespace.suffix
+								prependSpace:prependSpace
+								 appendSpace:appendSpace
 							  timeStampRange:&timeStampRange];
 		
 		if (appendNewline) {
