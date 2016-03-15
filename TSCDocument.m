@@ -1261,6 +1261,14 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 		
 		TSCLocalWhitespace hasWhitespace = [_textView.textStorage.string localWhitespaceForLocation:insertionLocation];
 		
+#if 0
+		// Technically, this would be correct.
+		// But we actually want a space for separation before a newline.
+		if (appendNewline) {
+			hasWhitespace.suffix = YES;
+		}
+#endif
+		
 		BOOL prependSpace = !hasWhitespace.prefix;
 		BOOL appendSpace = !hasWhitespace.suffix;
 		
