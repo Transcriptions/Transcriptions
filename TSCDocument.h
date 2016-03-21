@@ -33,16 +33,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 #import <Cocoa/Cocoa.h>
+#import <CoreMedia/CoreMedia.h>
+#import <AVFoundation/AVFoundation.h>
+#import <AVKit/AVKit.h>
+
 #import "TSCTextView.h"
-#import "CoreMedia/CoreMedia.h"
-#import "AVFoundation/AVFoundation.h"
-#import "AVKit/AVKit.h"
+
 @class AVPlayer, AVPlayerLayer;
 
-const NSTimeInterval	k_Scrub_Slider_Update_Interval = 0.1;
-const double		k_Scrub_Slider_Minimum = 0.0;
+FOUNDATION_EXPORT NSString * const TSCErrorDomain;
 
-@interface MyDocument : NSDocument <NSTextViewDelegate, NSTextFieldDelegate, NSSplitViewDelegate, NSTableViewDelegate>
+typedef NS_ENUM(NSInteger, TSCErrorCode) {
+	TSCErrorWriteInapplicableStringEncodingError = 1,
+};
+
+@interface TSCDocument : NSDocument <NSTextViewDelegate, NSTextFieldDelegate, NSSplitViewDelegate, NSTableViewDelegate>
 {
 	//NSProgressIndicator *loadingSpinner;
     //NSTextField *unplayableLabel;
@@ -73,8 +78,6 @@ const double		k_Scrub_Slider_Minimum = 0.0;
 	IBOutlet NSTextField *_commentTextField;
 	IBOutlet NSSlider *_replaySlider;
     NSAttributedString *_rtfSaveData;
-    NSAttributedString *_insertString;
-	NSNumber *_rate;
 	
 	IBOutlet NSImageView *_noVideoImage;
 	IBOutlet NSView *_playerView;
@@ -95,6 +98,8 @@ const double		k_Scrub_Slider_Minimum = 0.0;
 @property (nonatomic, strong) NSString *comment;
 @property (nonatomic, strong) NSArray *keywords;
 @property (nonatomic, strong) NSData *mediaFileBookmark;
+
+@property (nonatomic, assign) NSStringEncoding detectedImportTextEncoding;
 
 @property (nonatomic, strong) AVPlayer *player;
 @property (nonatomic, strong) AVPlayerItem *playerItem;

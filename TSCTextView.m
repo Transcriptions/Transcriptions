@@ -39,21 +39,37 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 #import "TSCTextView.h"
 
 #import "NSString+TSCTimeStamp.h"
+#import "NSString+TSCWhitespace.h"
 
 
-@implementation TSCTextView
+NSString * const	TSCLineNumberAttributeName		= @"TSCLineNumberAttributeName";
+NSString * const	TSCTimeStampAttributeName		= @"TSCTimeStampAttributeName";
 
-- (instancetype)init
+NSString * const	TSCTimeStampChangedNotification = @"TSCTimeStampChangedNotification";
+
+
+typedef struct _TSCUpdateFlags {
+	BOOL lineNumberUpdate;
+	BOOL timeStampUpdate;
+} TSCUpdateFlags;
+
+
+@implementation TSCTextView {
+	NSColor *_highlightColor;
+	NSColor *_backgroundColor;
+	
+	NSColor *_highlightSeparatorColor;
+	
+	TSCUpdateFlags _willNeed;
+}
+
+- (instancetype)initWithFrame:(NSRect)frameRect
+				textContainer:(NSTextContainer *)container
 {
-	self = [super init];
+	self = [super initWithFrame:frameRect
+				  textContainer:container];
 	
 	if (self) {
-		_paragraphAttributes = [@{
-								  NSFontAttributeName: [NSFont boldSystemFontOfSize:9],
-								  NSForegroundColorAttributeName: [NSColor colorWithDeviceWhite:.50 alpha:1.0],
-								  } mutableCopy];
-		
-		_highlightLineNumber = 0;
 	}
 	
 	return self;
@@ -63,31 +79,60 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 {
 	self.textStorage.delegate = self;
 	
+	_paragraphNumberAttributes = [@{
+									NSFontAttributeName: [NSFont monospacedDigitSystemFontOfSize:9 weight:NSFontWeightRegular],
+									NSForegroundColorAttributeName: [NSColor colorWithDeviceWhite:.50 alpha:1.0],
+									} mutableCopy];
+	
+	_highlightLineNumber = 0;
+	
+	_highlightColor = [NSColor yellowColor];
+	_backgroundColor = [NSColor colorWithDeviceWhite:0.95 alpha:1.0];
+	
+	_highlightSeparatorColor = [NSColor colorWithCalibratedRed:0.37 green:0.42 blue:0.49 alpha:1.0];
+	
 	_drawParagraphNumbers = YES;
+	
 	self.font = [NSFont fontWithName:@"Helvetica" size:13];
-	[self refresh];
-	[self insertText:@""];
+	
     self.usesFindBar = YES;
     self.enclosingScrollView.contentView.postsBoundsChangedNotifications = YES;
+	
+	self.window.acceptsMouseMovedEvents = YES;
+	
+	[self refresh];
+	[self insertText:@"" replacementRange:NSMakeRange(0, 0)];
+	
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self
                selector:@selector(boundsDidChangeNotification:)
                    name:NSViewBoundsDidChangeNotification
                  object:self.enclosingScrollView.contentView];
-	self.window.acceptsMouseMovedEvents = YES;
-	
 }
 
-- (void)mouseMoved:(NSEvent *)theEvent 
+- (void)mouseMoved:(NSEvent *)theEvent
+{
+	NSPoint mouseLocation = theEvent.locationInWindow;
+	[self updateTimeStampButtonsForLocationInWindow:mouseLocation];
+}
+
+- (void)updateTimeStampButtons
+{
+	NSPoint mouseLocation = [self.window mouseLocationOutsideOfEventStream];
+	[self updateTimeStampButtonsForLocationInWindow:mouseLocation];
+}
+
+- (void)updateTimeStampButtonsForLocationInWindow:(NSPoint)mouseLocation
 {
     NSLayoutManager *layoutManager = self.layoutManager;
     NSTextContainer *textContainer = self.textContainer;
 	
-    NSPoint point = [self convertPoint:theEvent.locationInWindow
+    NSPoint point = [self convertPoint:mouseLocation
 							  fromView:nil];
 	
-	point.x -= self.textContainerOrigin.x;
-    point.y -= self.textContainerOrigin.y;
+	NSPoint textContainerOrigin = self.textContainerOrigin;
+	point.x -= textContainerOrigin.x;
+    point.y -= textContainerOrigin.y;
 	
 	NSUInteger glyphIndex =
 	[layoutManager glyphIndexForPoint:point
@@ -96,8 +141,8 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	[layoutManager boundingRectForGlyphRange:NSMakeRange(glyphIndex, 1)
 							 inTextContainer:textContainer];
 	
-	NSString * const theString = self.string;
-	const NSRange fullRange = NSMakeRange(0, theString.length);
+	NSTextStorage * const textStorage = self.textStorage;
+	const NSRange fullRange = NSMakeRange(0, textStorage.length);
 	
 	NSDictionary *markAttributes = @{
 	  NSForegroundColorAttributeName: [NSColor blackColor],
@@ -113,49 +158,55 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 		NSUInteger characterIndex = [layoutManager characterIndexForGlyphAtIndex:glyphIndex];
 		
 		NSRange lineGlyphRange;
-		[layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex
-										effectiveRange:&lineGlyphRange];
+		(void)[layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex
+											  effectiveRange:&lineGlyphRange];
         NSRange lineCharRange =
 		[layoutManager characterRangeForGlyphRange:lineGlyphRange
 								  actualGlyphRange:NULL];
 		
 		NSMutableArray *timeButtonArray = [[NSMutableArray alloc] init];
-
-		[theString enumerateTimeStampsInRange:lineCharRange
-								   usingBlock:^(NSString *timeCode, NSRange timeStampRange, BOOL *stop) {
-									   if ((timeStampRange.length > 0) &&
-										   (NSLocationInRange(characterIndex, timeStampRange))) {
-										   
-										   [layoutManager addTemporaryAttributes:markAttributes
-															   forCharacterRange:timeStampRange];
-										   
-										   NSRange timeStampGlyphRange =
-										   [layoutManager glyphRangeForCharacterRange:timeStampRange
-																 actualCharacterRange:NULL];
-										   
-										   NSRect timeStampRect =
-										   [layoutManager boundingRectForGlyphRange:timeStampGlyphRange
-																	inTextContainer:textContainer];
-										   
-										   NSRect buttonRect = NSMakeRect(timeStampRect.origin.x - 1,
-																		  timeStampRect.origin.y,
-																		  timeStampRect.size.width + 2,
-																		  timeStampRect.size.height + 2);
-										   
-										   NSButtonCell *timeButtonCell = [[NSButtonCell alloc] init];
-										   timeButtonCell.bezelStyle = NSRoundRectBezelStyle;
-										   timeButtonCell.title = @"";
-										   
-										   timeButtonCell.representedObject = timeCode;
-
-										   NSButton *timeButton = [[NSButton alloc] initWithFrame:buttonRect];
-										   timeButton.cell = timeButtonCell;
-										   timeButton.target = nil; // Explicitly setting this to first responder.
-										   timeButton.action = @selector(timeStampPressed:);
-										   
-										   [timeButtonArray addObject:timeButton];
-									   }
-								   }];
+		
+		NSAttributedStringEnumerationOptions timeStampSearchOptions = 0;
+		
+		[textStorage enumerateAttribute:TSCTimeStampAttributeName
+								inRange:lineCharRange
+								options:timeStampSearchOptions
+							 usingBlock:
+		 ^(NSValue * _Nullable timeStampValue, NSRange timeStampRange, BOOL * _Nonnull stop) {
+			 if (!timeStampValue)  return;
+			 
+			 if ((NSLocationInRange(characterIndex, timeStampRange))) {
+				 
+				 [layoutManager addTemporaryAttributes:markAttributes
+									 forCharacterRange:timeStampRange];
+				 
+				 NSRange timeStampGlyphRange =
+				 [layoutManager glyphRangeForCharacterRange:timeStampRange
+									   actualCharacterRange:NULL];
+				 
+				 NSRect timeStampRect =
+				 [layoutManager boundingRectForGlyphRange:timeStampGlyphRange
+										  inTextContainer:textContainer];
+				 
+				 NSRect buttonRect = NSMakeRect(timeStampRect.origin.x - 1,
+												timeStampRect.origin.y,
+												timeStampRect.size.width + 2,
+												timeStampRect.size.height + 2);
+				 
+				 NSButtonCell *timeButtonCell = [[NSButtonCell alloc] init];
+				 timeButtonCell.bezelStyle = NSRoundRectBezelStyle;
+				 timeButtonCell.title = @"";
+				 
+				 timeButtonCell.representedObject = timeStampValue;
+				 
+				 NSButton *timeButton = [[NSButton alloc] initWithFrame:buttonRect];
+				 timeButton.cell = timeButtonCell;
+				 timeButton.target = nil; // Explicitly setting this to first responder.
+				 timeButton.action = @selector(timeStampPressed:);
+				 
+				 [timeButtonArray addObject:timeButton];
+			 }
+		 }];
 		
 		self.subviews = timeButtonArray;
 	}
@@ -216,15 +267,60 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	[self interpretKeyEvents:@[theEvent]];
 }
 
+const CGFloat numbersBarWidth = 35.0;
+const CGFloat numberStringRightMargin = 3.0;
+
+- (void)drawLineNumber:(NSUInteger)lineNumber
+		   forLineRect:(NSRect)lineRect
+		  ifWithinRect:(NSRect)documentVisibleRect
+{
+	if (NSIntersectsRect(documentVisibleRect, lineRect)) {
+		const NSUInteger highlightLineNumber = _highlightLineNumber;
+		
+		if (lineNumber == highlightLineNumber) {
+			NSColor * const highlightColor = _highlightColor;
+			NSColor * const highlightSeparatorColor = _highlightSeparatorColor;
+			
+			NSBezierPath *aPath = [NSBezierPath bezierPath];
+			[highlightSeparatorColor set];
+			[aPath moveToPoint:NSMakePoint(1.0, lineRect.origin.y)];
+			[aPath lineToPoint:NSMakePoint(numbersBarWidth, lineRect.origin.y)];
+			aPath.lineCapStyle = NSSquareLineCapStyle;
+			[aPath stroke];
+			
+			NSColor * const endingColor = highlightColor;
+			NSColor * const startingColor = _backgroundColor;
+			NSGradient *aGradient =
+			[[NSGradient alloc] initWithStartingColor:startingColor
+										  endingColor:endingColor];
+			
+			NSBezierPath *bezierPath = [NSBezierPath bezierPathWithRect:NSMakeRect(0.0, lineRect.origin.y, 34.6, 30.0)];
+			[aGradient drawInBezierPath:bezierPath angle:270];
+		}
+		
+		NSString *numberString = [NSString stringWithFormat:@"%lu", (unsigned long)lineNumber];
+		NSSize stringSize = [numberString sizeWithAttributes:_paragraphNumberAttributes];
+		
+		// Draw the line number aligned right (with numberStringRightMargin) within the numbers bar
+		// and centered vertically relative to the line.
+		NSRect rect =
+		NSMakeRect(numbersBarWidth - numberStringRightMargin - stringSize.width,
+				   lineRect.origin.y + (NSHeight(lineRect) - stringSize.height) / 2.0,
+				   MIN(stringSize.width, numbersBarWidth),
+				   NSHeight(lineRect));
+		
+		[numberString drawInRect:rect
+				  withAttributes:_paragraphNumberAttributes];
+	}
+}
+
 - (void)drawRect:(NSRect)aRect
 {
-	const CGFloat marginWidth = 35.0;
-	
 	NSSize tcSize = self.textContainer.containerSize;
 	tcSize.width = self.frame.size.width;
 	
 	if (_drawParagraphNumbers) {
-		tcSize.width += marginWidth;
+		tcSize.width += numbersBarWidth;
 	}
 	
 	self.textContainer.containerSize = tcSize;
@@ -234,39 +330,46 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 		return;
 	}
 	
-	NSColor *backgroundColor = [NSColor colorWithDeviceWhite:0.95 alpha:1.0];
+	NSColor * const backgroundColor = _backgroundColor;
 	[backgroundColor set];
 	
 	NSRect documentVisibleRect = self.enclosingScrollView.documentVisibleRect;
-	documentVisibleRect.origin.y -= 35.0;
-	documentVisibleRect.size.height += 65.0;
 	
-	NSRect marginRect = documentVisibleRect;
-	marginRect.size.width = marginWidth;
-	NSRectFill(marginRect);
+	NSRect numbersBarRect = documentVisibleRect;
+	numbersBarRect.size.width = numbersBarWidth;
+	NSRectFill(numbersBarRect);
 	
-	CGContextSetShouldAntialias([NSGraphicsContext currentContext].graphicsPort, NO);
+	CGContextRef const context = [NSGraphicsContext currentContext].graphicsPort;
+	
+	CGContextSetShouldAntialias(context, NO);
+	
 	[[NSColor lightGrayColor] set];
 	
-	NSPoint p1 = NSMakePoint(marginWidth, marginRect.origin.y);
-	NSPoint p2 = NSMakePoint(marginWidth, marginRect.origin.y + marginRect.size.height);
+	NSPoint p1 = NSMakePoint(numbersBarWidth, numbersBarRect.origin.y);
+	NSPoint p2 = NSMakePoint(numbersBarWidth, numbersBarRect.origin.y + numbersBarRect.size.height);
 	[NSBezierPath strokeLineFromPoint:p1 toPoint:p2];
 	
-	CGContextSetShouldAntialias([NSGraphicsContext currentContext].graphicsPort, YES);
+	CGContextSetShouldAntialias(context, YES);
 	
 	NSLayoutManager *layoutManager = self.layoutManager;
 	
-	NSString * const theString = self.string;
-	const NSRange fullRange = NSMakeRange(0, theString.length);
+	NSTextStorage *textStorage = self.textStorage;
+	const NSRange visibleTextRange = self.visibleTextRange;
 	
-	__block NSUInteger lineIndex = 0;
-	__block NSUInteger emptyStringCount = 0;
-	[theString enumerateSubstringsInRange:fullRange
-								  options:(NSStringEnumerationSubstringNotRequired | NSStringEnumerationByLines)
-							   usingBlock:
-	 ^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
+	__block NSUInteger previousLineNumber = NSNotFound;
+
+	[textStorage enumerateAttribute:TSCLineNumberAttributeName
+							inRange:visibleTextRange
+							options:0
+						 usingBlock:
+	 ^(NSNumber * _Nullable lineNum, NSRange attributeRange, BOOL * _Nonnull stop) {
+		 if (!lineNum)  return;
+		 
+		 NSUInteger lineNumber = lineNum.unsignedIntegerValue;
+		 //NSLog(@"%tu", lineNumber);
+		 
 		 const NSRange lineGlyphRange =
-		 [layoutManager glyphRangeForCharacterRange:substringRange
+		 [layoutManager glyphRangeForCharacterRange:attributeRange
 							   actualCharacterRange:NULL];
 		 
 		 const NSUInteger firstGlyphIndex = lineGlyphRange.location;
@@ -274,45 +377,46 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 		 NSRect lineRect = [layoutManager lineFragmentRectForGlyphAtIndex:firstGlyphIndex
 														   effectiveRange:NULL];
 		 
-		 lineRect.size.width = 16.0;
+		 [self drawLineNumber:lineNumber
+				  forLineRect:lineRect
+				 ifWithinRect:documentVisibleRect];
 		 
-		 NSUInteger lineLength = substringRange.length;
-		 
-		 if (lineLength > 0) {
-			 if (NSContainsRect(documentVisibleRect, lineRect)) {
-				 NSUInteger lineNumber = (lineIndex + 1) - emptyStringCount;
-				 NSUInteger highlightLineNumber = self.highlightLineNumber;
-				 
-				 if (lineNumber == highlightLineNumber) {
-					 NSBezierPath *aPath = [NSBezierPath bezierPath];
-					 [[NSColor colorWithCalibratedRed:0.37 green:0.42 blue:0.49 alpha:1.0] set];
-					 [aPath moveToPoint:NSMakePoint(1.0, lineRect.origin.y)];
-					 [aPath lineToPoint:NSMakePoint(marginWidth, lineRect.origin.y)];
-					 aPath.lineCapStyle = NSSquareLineCapStyle;
-					 [aPath stroke];
-					 
-					 NSColor *endingColor = [NSColor yellowColor];
-					 NSColor *startingColor = backgroundColor;
-					 NSGradient *aGradient =
-					 [[NSGradient alloc] initWithStartingColor:startingColor
-												   endingColor:endingColor];
-					 
-					 NSBezierPath *bezierPath = [NSBezierPath bezierPathWithRect:NSMakeRect(0.0, lineRect.origin.y, 34.6, 30.0)];
-					 [aGradient drawInBezierPath:bezierPath angle:270];
-				 }
-				 
-				 NSString *numberString = [NSString stringWithFormat:@"%lu", (unsigned long)lineNumber];
-				 NSSize stringSize = [numberString sizeWithAttributes:_paragraphAttributes];
-				 [numberString drawAtPoint:NSMakePoint(32.0 - stringSize.width, lineRect.origin.y + 1)
-							withAttributes:_paragraphAttributes];
-			 }
-		 }
-		 else {
-			 emptyStringCount += 1;
-		 }
-		 
-		 lineIndex++;
+		 previousLineNumber = lineNumber;
 	 }];
+	
+	NSRect extraLineFragmentRect = layoutManager.extraLineFragmentRect;
+	if ((previousLineNumber != NSNotFound) &&
+		!NSEqualRects(extraLineFragmentRect, NSZeroRect)) {
+		// The last line is empty, but needs a line number.
+		[self drawLineNumber:(previousLineNumber + 1)
+				 forLineRect:extraLineFragmentRect
+				ifWithinRect:documentVisibleRect];
+	}
+}
+
+- (NSRange)visibleTextRange
+{
+	NSScrollView *scrollView = self.enclosingScrollView;
+	if (!scrollView) {
+		return NSMakeRange(0, 0);
+	}
+	
+	NSLayoutManager *layoutManager = self.layoutManager;
+	NSRect visibleRect = self.visibleRect;
+	
+	NSPoint textContainerOrigin = self.textContainerOrigin;
+	visibleRect.origin.x -= textContainerOrigin.x;
+	visibleRect.origin.y -= textContainerOrigin.y;
+	
+	NSTextContainer *textContainer = self.textContainer;
+
+	NSRange glyphRange =
+	[layoutManager glyphRangeForBoundingRect:visibleRect
+							 inTextContainer:textContainer];
+	NSRange characterRange =
+	[layoutManager characterRangeForGlyphRange:glyphRange
+							  actualGlyphRange:NULL];
+	return characterRange;
 }
 
 - (void)boundsDidChangeNotification:(NSNotification *)notification
@@ -334,7 +438,7 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 	[self setNeedsDisplay:YES];
 }
 
-- (void)showParagraphs:(id)sender
+- (void)showParagraphNumbers:(id)sender
 {
 	_drawParagraphNumbers = (BOOL)[sender state];
 	[self refresh];
@@ -344,6 +448,276 @@ Original code can be found here:http://roventskij.net/index.php?p=3
 - (void)timeStampPressed:(id)sender
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"aTimestampPressed" object:sender];
+}
+
+
+TSCUpdateFlags determineUpdateFlagsForTextAndRange(NSTextStorage *textStorage, NSRange editedRange) {
+	TSCUpdateFlags flags = (TSCUpdateFlags){NO};
+	
+	if (editedRange.length == 0) {
+		return flags;
+	}
+	
+	NSString * const string = textStorage.string;
+	const NSUInteger stringLength = string.length;
+	
+	if (stringLength == 0) {
+		return flags;
+	}
+	
+	flags.lineNumberUpdate = (NSMaxRange(editedRange) == stringLength ||
+							  [string containsLineBreak:editedRange]);
+	flags.timeStampUpdate = ([string containsTimeStampDelimiter:editedRange] ||
+								rangeInTextStorageTouchesTimeStamp(textStorage, editedRange));
+	
+	return flags;
+}
+
+- (BOOL)shouldChangeTextInRange:(NSRange)affectedCharRange
+			  replacementString:(NSString *)replacementString
+{
+	BOOL shouldChangeText = [super shouldChangeTextInRange:affectedCharRange
+										 replacementString:replacementString];
+	
+	if (shouldChangeText) {
+		// Determine required updates due to deletions.
+		_willNeed = determineUpdateFlagsForTextAndRange(self.textStorage, affectedCharRange);
+	}
+	
+	return shouldChangeText;
+}
+
+#if 0
+- (void)textStorage:(NSTextStorage *)textStorage
+ willProcessEditing:(NSTextStorageEditActions)editedMask
+			  range:(NSRange)editedRange
+	 changeInLength:(NSInteger)delta;
+{
+	// We are not using this delegate method, because we require the latest state of the text.
+}
+#endif
+
+void mergeUpdateFlagsIntoFirst(TSCUpdateFlags *updateFlags1, TSCUpdateFlags updateFlags2)
+{
+	updateFlags1->lineNumberUpdate = (updateFlags1->lineNumberUpdate || updateFlags2.lineNumberUpdate);
+	updateFlags1->timeStampUpdate = (updateFlags1->timeStampUpdate || updateFlags2.timeStampUpdate);
+}
+
+- (void)textStorage:(NSTextStorage *)textStorage
+  didProcessEditing:(NSTextStorageEditActions)editedMask
+			  range:(NSRange)editedRange
+	 changeInLength:(NSInteger)delta;
+{
+	if (!(editedMask & NSTextStorageEditedCharacters)) {
+		// We only need to process the text,
+		// if there are actual changes to the characters.
+		return;
+	}
+	
+	{
+#if 0
+		const NSRange fullRange = NSMakeRange(0, textStorage.length);
+		NSLog(@"%p, edited: %@, delta: %zd, full: %@", textStorage, NSStringFromRange(editedRange), delta, NSStringFromRange(fullRange));
+#endif
+		
+		// We check, if the editedRange contains at least one line break.
+		// Such cases, like adding characters to the current line’s range
+		// are already handled, because the range an attribute is attached to
+		// in an attributed string grows automatically.
+		TSCUpdateFlags needs = determineUpdateFlagsForTextAndRange(textStorage, editedRange);
+		mergeUpdateFlagsIntoFirst(&needs, _willNeed);
+		
+		if (needs.lineNumberUpdate || needs.timeStampUpdate) {
+			[textStorage beginEditing];
+			
+			const TSCAffectedTextRanges ranges =
+			affectedTextRangesForTextStorageWithEditedRange(textStorage, editedRange);
+			
+			if (needs.lineNumberUpdate) {
+				updateLineNumbersForTextStorageWithAffectedRanges(textStorage, ranges);
+			}
+			
+			if (needs.timeStampUpdate) {
+				updateTimeStampsForTextStorageWithAffectedRanges(textStorage, ranges.linesRange);
+			}
+			
+			[textStorage endEditing];
+		}
+		
+		// FIXME: Currently this needs to be called on every edit,
+		// because the ranges in the text may have changed.
+		// Find a better way.
+		[[NSNotificationCenter defaultCenter] postNotificationName:TSCTimeStampChangedNotification
+															object:self];
+		
+		// We can’t call the update method directly at this moment,
+		// as the `textStorage` is currently editing
+		// and accessing it would cause an exception.
+		[self performSelector:@selector(updateTimeStampButtons)
+				   withObject:nil
+				   afterDelay:0.0];
+	}
+}
+
+typedef struct _TSCAffectedTextRanges {
+	//NSRange editedRange;
+	NSRange linesRange;
+	NSRange unaffectedRange;// Range of the unaffected lines, ending right before the line of the edited range.
+	NSRange affectedRange;	// Range of the affected lines, starting with the line of the edited range.
+} TSCAffectedTextRanges;
+
+TSCAffectedTextRanges affectedTextRangesForTextStorageWithEditedRange(NSTextStorage *textStorage, NSRange editedRange) {
+	NSString * const string = textStorage.string;
+	const NSUInteger stringLength = string.length;
+	
+	if (editedRange.location == NSNotFound) {
+		const TSCAffectedTextRanges ranges = {
+			//.editedRange = editedRange,
+			.linesRange = NSMakeRange(0, stringLength),
+			.unaffectedRange = NSMakeRange(0, 0),
+			.affectedRange = NSMakeRange(0, stringLength),
+		};
+		
+		return ranges;
+	}
+	
+	const NSRange linesRange = [string lineRangeForRange:editedRange];
+	const NSUInteger affectedRangeStart = linesRange.location;
+	
+	const NSRange unaffectedRange = NSMakeRange(0, affectedRangeStart);
+	const NSRange affectedRange = NSMakeRange(affectedRangeStart, stringLength - affectedRangeStart);
+	
+	const TSCAffectedTextRanges ranges = {
+		//.editedRange = editedRange,
+		.linesRange = linesRange,
+		.unaffectedRange = unaffectedRange,
+		.affectedRange = affectedRange,
+	};
+	
+	return ranges;
+}
+
+void updateLineNumbersForTextStorageWithAffectedRanges(NSTextStorage *textStorage, const TSCAffectedTextRanges ranges) {
+	if (ranges.affectedRange.length == 0) {
+		return;
+	}
+	
+	[textStorage removeAttribute:TSCLineNumberAttributeName
+						   range:ranges.affectedRange];
+	
+	__block NSUInteger initialLineNumber = TSCLineNumberNone;
+	
+	if (ranges.unaffectedRange.length > 0) {
+		// Find the previous line number.
+		NSAttributedStringEnumerationOptions previousLineNumberSearchOptions =
+		(NSAttributedStringEnumerationLongestEffectiveRangeNotRequired |
+		 NSAttributedStringEnumerationReverse);
+		
+		[textStorage enumerateAttribute:TSCLineNumberAttributeName
+								inRange:ranges.unaffectedRange
+								options:previousLineNumberSearchOptions
+							 usingBlock:
+		 ^(NSNumber * _Nullable lineNum, NSRange attributeRange, BOOL * _Nonnull stop) {
+			 if (!lineNum)  return;
+			 
+			 initialLineNumber = lineNum.unsignedIntegerValue;
+			 *stop = YES;
+			 return;
+		 }];
+	}
+	
+	NSString * const string = textStorage.string;
+	
+	__block NSUInteger lineNumber = initialLineNumber + 1;
+	__block NSUInteger enumerationEndIndex = 0;
+	[string enumerateSubstringsInRange:ranges.affectedRange
+							   options:(NSStringEnumerationSubstringNotRequired | NSStringEnumerationByLines)
+							usingBlock:
+	 ^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
+		 [textStorage addAttribute:TSCLineNumberAttributeName
+							 value:@(lineNumber)
+							 range:enclosingRange];
+		 
+		 enumerationEndIndex = NSMaxRange(enclosingRange);
+		 
+		 lineNumber++;
+	 }];
+	
+	const NSUInteger textLength = textStorage.length;
+	if (enumerationEndIndex < textLength) {
+		const NSRange lastLineRange = NSMakeRange(enumerationEndIndex, textLength - enumerationEndIndex);
+		
+		[textStorage addAttribute:TSCLineNumberAttributeName
+							value:@(lineNumber)
+							range:lastLineRange];
+	}
+}
+
+BOOL rangeInTextStorageTouchesTimeStamp(NSTextStorage *textStorage, NSRange range) {
+	__block BOOL foundTimeStamp = NO;
+	
+	NSAttributedStringEnumerationOptions timeStampSearchOptions =
+	(NSAttributedStringEnumerationLongestEffectiveRangeNotRequired);
+	
+	[textStorage enumerateAttribute:TSCTimeStampAttributeName
+							inRange:range
+							options:timeStampSearchOptions
+						 usingBlock:
+	 ^(NSValue * _Nullable timeStampValue, NSRange timeStampRange, BOOL * _Nonnull stop) {
+		 if (!timeStampValue)  return;
+		 
+		 foundTimeStamp = YES;
+		 *stop = YES;
+		 return;
+	 }];
+	
+	return foundTimeStamp;
+}
+
+void updateTimeStampsForTextStorageWithAffectedRanges(NSTextStorage *textStorage, const NSRange linesRange) {
+	[textStorage removeAttribute:TSCTimeStampAttributeName
+						   range:linesRange];
+	
+	NSString * const string = textStorage.string;
+	
+	TSCTimeStampEnumerationOptions options = TSCTimeStampEnumerationStringNotRequired;
+	
+	[string enumerateTimeStampsInRange:linesRange
+							   options:options
+							usingBlock:
+	 ^(NSString *timeCode, CMTime time, NSRange timeStampRange, BOOL *stop) {
+		 [textStorage addAttribute:TSCTimeStampAttributeName
+							 value:[NSValue valueWithCMTime:time]
+							 range:timeStampRange];
+	 }];
+}
+
+- (void)setHighlightLineNumberForRange:(NSRange)range;
+{
+	// TODO: Rewrite using some kind of segmenting search similar to binary search.
+	// In this case make sure, that we select the first match.
+	
+	NSTextStorage *textStorage = self.textStorage;
+	const NSRange fullRange = NSMakeRange(0, textStorage.length);
+	
+	__block NSUInteger lineNumber = TSCLineNumberNone;
+	
+	[textStorage enumerateAttribute:TSCLineNumberAttributeName
+							inRange:fullRange
+							options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired
+						 usingBlock:
+	 ^(NSNumber * _Nullable lineNum, NSRange attributeRange, BOOL * _Nonnull stop) {
+		 if (!lineNum)  return;
+		 
+		 if (NSLocationInRange(range.location, attributeRange)) {
+			 lineNumber = lineNum.unsignedIntegerValue;
+			 *stop = YES;
+			 return;
+		 }
+	 }];
+	
+	_highlightLineNumber = lineNumber;
+	self.needsDisplay = YES;
 }
 
 @end

@@ -35,10 +35,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import "TSCArrayController.h"
 
 
+static const NSUInteger TSCLineNumberNone = 0;
+
+FOUNDATION_EXPORT NSString * const TSCLineNumberAttributeName;
+FOUNDATION_EXPORT NSString * const TSCTimeStampAttributeName;
+
+FOUNDATION_EXPORT NSString * const TSCTimeStampChangedNotification;
+
+
 @interface TSCTextView : NSTextView <NSTextStorageDelegate> {
 
 	IBOutlet TSCArrayController *_insertions;
-	NSMutableDictionary *_paragraphAttributes;
+	NSMutableDictionary *_paragraphNumberAttributes;
 	BOOL _drawParagraphNumbers;
 
 	BOOL _atCharacterKey;
@@ -49,7 +57,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @property NSUInteger highlightLineNumber;
 
 - (void)refresh;
-- (void)showParagraphs:(id)sender;
+- (void)showParagraphNumbers:(id)sender;
 - (void)timeStampPressed:(id)sender;
+
+- (void)setHighlightLineNumberForRange:(NSRange)range;
 
 @end

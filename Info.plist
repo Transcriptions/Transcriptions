@@ -20,7 +20,11 @@
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
-			<string>MyDocument</string>
+			<string>TSCDocument</string>
+			<key>NSExportableTypes</key>
+			<array>
+				<string>org.niltsh.mplayerx-subrip</string>
+			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -38,7 +42,7 @@
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
-			<string>MyDocument</string>
+			<string>TSCDocument</string>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>

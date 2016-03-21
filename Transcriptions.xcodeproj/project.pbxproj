@@ -22,8 +22,19 @@
 		0AA11F061975610C00B78642 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA11F04197560FD00B78642 /* CoreMedia.framework */; };
 		0AA11F08197566BD00B78642 /* TODO.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0AA11F07197566BD00B78642 /* TODO.rtf */; };
 		0AA24F0A1A441B03006CDEB1 /* TSCHelperFolder in Resources */ = {isa = PBXBuildFile; fileRef = 0AA24F091A441B03006CDEB1 /* TSCHelperFolder */; };
+		3D41D26D1C4573FF0069C5B8 /* AVPlayer+TSCPlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41D26C1C4573FF0069C5B8 /* AVPlayer+TSCPlay.m */; };
+		3D41D2701C457FF70069C5B8 /* NSString+TSCWhitespace.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41D26F1C457FF70069C5B8 /* NSString+TSCWhitespace.m */; };
 		3D5725031C27535F00C23542 /* TSCTimeSourceRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D5725021C27535F00C23542 /* TSCTimeSourceRange.m */; };
 		3D5725121C277BE100C23542 /* NSString+TSCTimeStamp.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D5725111C277BE100C23542 /* NSString+TSCTimeStamp.m */; };
+		3D8B82D41C4E6585002DCBD6 /* TSCTimeSourceRangeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D8B82D31C4E6585002DCBD6 /* TSCTimeSourceRangeTests.m */; };
+		3D8B82D51C4E6B50002DCBD6 /* TSCTimeSourceRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D5725021C27535F00C23542 /* TSCTimeSourceRange.m */; };
+		3D8B82D61C4E6CC2002DCBD6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D94AC991C20429800397DA6 /* AVFoundation.framework */; };
+		3D8B82D71C4E6CDE002DCBD6 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA11F04197560FD00B78642 /* CoreMedia.framework */; };
+		3D8B82D91C4E7196002DCBD6 /* TSCTimeStampTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D8B82D81C4E7196002DCBD6 /* TSCTimeStampTests.m */; };
+		3D8B82DA1C4E74EF002DCBD6 /* NSString+TSCTimeStamp.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D5725111C277BE100C23542 /* NSString+TSCTimeStamp.m */; };
+		3D8B82DB1C4E83C4002DCBD6 /* JXCMTimeStringTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC14BA01C2598D90069150A /* JXCMTimeStringTransformer.m */; };
+		3D9062A51C31CB8900863F29 /* TSCAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9062A41C31CB8900863F29 /* TSCAppController.m */; };
+		3D9062AB1C31CC3300863F29 /* TSCDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9062AA1C31CC3300863F29 /* TSCDocumentController.m */; };
 		3D94AC971C20422600397DA6 /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADD23481998E930007D81D3 /* ShortcutRecorder.framework */; };
 		3D94AC981C20422900397DA6 /* PTHotKey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADD234A1998E930007D81D3 /* PTHotKey.framework */; };
 		3D94AC9B1C20429800397DA6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D94AC991C20429800397DA6 /* AVFoundation.framework */; };
@@ -37,12 +48,12 @@
 		633A50640E4F284C00B4D45A /* TSCKeyBindingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633A50630E4F284C00B4D45A /* TSCKeyBindingsController.m */; };
 		63637E400E38F4B4004B1CFF /* scroller.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 63637E3F0E38F4B4004B1CFF /* scroller.tiff */; };
 		638524B70DDE6A7200BAA0DB /* timestamp.icns in Resources */ = {isa = PBXBuildFile; fileRef = 638524B60DDE6A7200BAA0DB /* timestamp.icns */; };
-		63C8682C0DDA097500DC3670 /* MyDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C8682B0DDA097500DC3670 /* MyDocument.m */; };
+		63C8682C0DDA097500DC3670 /* TSCDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C8682B0DDA097500DC3670 /* TSCDocument.m */; };
 		63C8682F0DDA097B00DC3670 /* TSCArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C8682E0DDA097B00DC3670 /* TSCArrayController.m */; };
 		63C868320DDA098500DC3670 /* TSCTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C868310DDA098500DC3670 /* TSCTextView.m */; };
 		63C8683B0DDA099D00DC3670 /* movieIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 63C8683A0DDA099D00DC3670 /* movieIcon.icns */; };
 		63C8683D0DDA09A200DC3670 /* TranscribeIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 63C8683C0DDA09A200DC3670 /* TranscribeIcon.icns */; };
-		63C868430DDA09E700DC3670 /* MyDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63C868400DDA09E700DC3670 /* MyDocument.xib */; };
+		63C868430DDA09E700DC3670 /* TSCDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63C868400DDA09E700DC3670 /* TSCDocument.xib */; };
 		63C868460DDA0A0200DC3670 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 63C868440DDA0A0200DC3670 /* Credits.rtf */; };
 		63CAE13F0E365CF20048E152 /* resizeImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CAE13E0E365CF20048E152 /* resizeImage.png */; };
 		63CAE1770E3665370048E152 /* controls.icns in Resources */ = {isa = PBXBuildFile; fileRef = 63CAE1760E3665370048E152 /* controls.icns */; };
@@ -155,10 +166,23 @@
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32DBCF750370BD2300C91783 /* Transcriptions_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Transcriptions_Prefix.pch; sourceTree = "<group>"; };
+		3D41D26B1C4573FF0069C5B8 /* AVPlayer+TSCPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AVPlayer+TSCPlay.h"; sourceTree = "<group>"; };
+		3D41D26C1C4573FF0069C5B8 /* AVPlayer+TSCPlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVPlayer+TSCPlay.m"; sourceTree = "<group>"; };
+		3D41D26E1C457FF70069C5B8 /* NSString+TSCWhitespace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TSCWhitespace.h"; sourceTree = "<group>"; };
+		3D41D26F1C457FF70069C5B8 /* NSString+TSCWhitespace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TSCWhitespace.m"; sourceTree = "<group>"; };
 		3D5725011C27535F00C23542 /* TSCTimeSourceRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCTimeSourceRange.h; sourceTree = "<group>"; };
 		3D5725021C27535F00C23542 /* TSCTimeSourceRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCTimeSourceRange.m; sourceTree = "<group>"; };
 		3D5725101C277BE100C23542 /* NSString+TSCTimeStamp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TSCTimeStamp.h"; sourceTree = "<group>"; };
 		3D5725111C277BE100C23542 /* NSString+TSCTimeStamp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TSCTimeStamp.m"; sourceTree = "<group>"; };
+		3D8B82C61C4E651F002DCBD6 /* TranscriptionsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TranscriptionsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D8B82CA1C4E651F002DCBD6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3D8B82D31C4E6585002DCBD6 /* TSCTimeSourceRangeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCTimeSourceRangeTests.m; sourceTree = "<group>"; };
+		3D8B82D81C4E7196002DCBD6 /* TSCTimeStampTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCTimeStampTests.m; sourceTree = "<group>"; };
+		3D8B82DC1C4EC2DA002DCBD6 /* JXTimeCodeParserCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JXTimeCodeParserCore.h; sourceTree = "<group>"; };
+		3D9062A31C31CB8900863F29 /* TSCAppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCAppController.h; sourceTree = "<group>"; };
+		3D9062A41C31CB8900863F29 /* TSCAppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCAppController.m; sourceTree = "<group>"; };
+		3D9062A91C31CC3300863F29 /* TSCDocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCDocumentController.h; sourceTree = "<group>"; };
+		3D9062AA1C31CC3300863F29 /* TSCDocumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCDocumentController.m; sourceTree = "<group>"; };
 		3D94AC991C20429800397DA6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		3D94AC9A1C20429800397DA6 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		3DC14B991C258E900069150A /* JXCMTimeNumberTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JXCMTimeNumberTransformer.h; sourceTree = "<group>"; };
@@ -173,15 +197,15 @@
 		633A50630E4F284C00B4D45A /* TSCKeyBindingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCKeyBindingsController.m; sourceTree = "<group>"; };
 		63637E3F0E38F4B4004B1CFF /* scroller.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = scroller.tiff; sourceTree = "<group>"; };
 		638524B60DDE6A7200BAA0DB /* timestamp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = timestamp.icns; sourceTree = "<group>"; };
-		63C8682A0DDA097500DC3670 /* MyDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDocument.h; sourceTree = "<group>"; };
-		63C8682B0DDA097500DC3670 /* MyDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDocument.m; sourceTree = "<group>"; };
+		63C8682A0DDA097500DC3670 /* TSCDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCDocument.h; sourceTree = "<group>"; };
+		63C8682B0DDA097500DC3670 /* TSCDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCDocument.m; sourceTree = "<group>"; };
 		63C8682D0DDA097B00DC3670 /* TSCArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCArrayController.h; sourceTree = "<group>"; };
 		63C8682E0DDA097B00DC3670 /* TSCArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCArrayController.m; sourceTree = "<group>"; };
 		63C868300DDA098500DC3670 /* TSCTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCTextView.h; sourceTree = "<group>"; };
 		63C868310DDA098500DC3670 /* TSCTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCTextView.m; sourceTree = "<group>"; };
 		63C8683A0DDA099D00DC3670 /* movieIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = movieIcon.icns; sourceTree = "<group>"; };
 		63C8683C0DDA09A200DC3670 /* TranscribeIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = TranscribeIcon.icns; sourceTree = "<group>"; };
-		63C868410DDA09E700DC3670 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MyDocument.xib; sourceTree = "<group>"; };
+		63C868410DDA09E700DC3670 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/TSCDocument.xib; sourceTree = "<group>"; };
 		63C868450DDA0A0200DC3670 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		63C868520DDA0A9300DC3670 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63CAE13E0E365CF20048E152 /* resizeImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resizeImage.png; sourceTree = "<group>"; };
@@ -190,6 +214,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3D8B82C31C4E651F002DCBD6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3D8B82D61C4E6CC2002DCBD6 /* AVFoundation.framework in Frameworks */,
+				3D8B82D71C4E6CDE002DCBD6 /* CoreMedia.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D15AC330486D014006FF6A4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -243,6 +276,7 @@
 			isa = PBXGroup;
 			children = (
 				8D15AC370486D014006FF6A4 /* Transcriptions.app */,
+				3D8B82C61C4E651F002DCBD6 /* TranscriptionsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -259,6 +293,7 @@
 				3DC14B951C258E620069150A /* Transformers */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
+				3D8B82C71C4E651F002DCBD6 /* TranscriptionsTests */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 			);
@@ -269,10 +304,14 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				63C8682A0DDA097500DC3670 /* MyDocument.h */,
-				63C8682B0DDA097500DC3670 /* MyDocument.m */,
+				3D9062A31C31CB8900863F29 /* TSCAppController.h */,
+				3D9062A41C31CB8900863F29 /* TSCAppController.m */,
 				3DC14B9C1C258FBF0069150A /* TSCAppDelegate.h */,
 				3DC14B9D1C258FBF0069150A /* TSCAppDelegate.m */,
+				63C8682A0DDA097500DC3670 /* TSCDocument.h */,
+				63C8682B0DDA097500DC3670 /* TSCDocument.m */,
+				3D9062A91C31CC3300863F29 /* TSCDocumentController.h */,
+				3D9062AA1C31CC3300863F29 /* TSCDocumentController.m */,
 				0A32C27D19A3723C007B8415 /* TSCSplitViewDelegate.h */,
 				0A32C27E19A3723C007B8415 /* TSCSplitViewDelegate.m */,
 				3D5725011C27535F00C23542 /* TSCTimeSourceRange.h */,
@@ -307,7 +346,7 @@
 				63637E3F0E38F4B4004B1CFF /* scroller.tiff */,
 				63CAE1760E3665370048E152 /* controls.icns */,
 				63C868520DDA0A9300DC3670 /* Info.plist */,
-				63C868400DDA09E700DC3670 /* MyDocument.xib */,
+				63C868400DDA09E700DC3670 /* TSCDocument.xib */,
 				63C8683C0DDA09A200DC3670 /* TranscribeIcon.icns */,
 				63C8683A0DDA099D00DC3670 /* movieIcon.icns */,
 				63C868440DDA0A0200DC3670 /* Credits.rtf */,
@@ -330,10 +369,24 @@
 		3D57250C1C27781600C23542 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				3D41D26B1C4573FF0069C5B8 /* AVPlayer+TSCPlay.h */,
+				3D41D26C1C4573FF0069C5B8 /* AVPlayer+TSCPlay.m */,
 				3D5725101C277BE100C23542 /* NSString+TSCTimeStamp.h */,
 				3D5725111C277BE100C23542 /* NSString+TSCTimeStamp.m */,
+				3D41D26E1C457FF70069C5B8 /* NSString+TSCWhitespace.h */,
+				3D41D26F1C457FF70069C5B8 /* NSString+TSCWhitespace.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		3D8B82C71C4E651F002DCBD6 /* TranscriptionsTests */ = {
+			isa = PBXGroup;
+			children = (
+				3D8B82D31C4E6585002DCBD6 /* TSCTimeSourceRangeTests.m */,
+				3D8B82D81C4E7196002DCBD6 /* TSCTimeStampTests.m */,
+				3D8B82CA1C4E651F002DCBD6 /* Info.plist */,
+			);
+			path = TranscriptionsTests;
 			sourceTree = "<group>";
 		};
 		3DC14B951C258E620069150A /* Transformers */ = {
@@ -343,6 +396,7 @@
 				3DC14B9A1C258E900069150A /* JXCMTimeNumberTransformer.m */,
 				3DC14B9F1C2598D90069150A /* JXCMTimeStringTransformer.h */,
 				3DC14BA01C2598D90069150A /* JXCMTimeStringTransformer.m */,
+				3D8B82DC1C4EC2DA002DCBD6 /* JXTimeCodeParserCore.h */,
 			);
 			name = Transformers;
 			sourceTree = "<group>";
@@ -389,6 +443,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3D8B82C51C4E651F002DCBD6 /* TranscriptionsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3D8B82D21C4E651F002DCBD6 /* Build configuration list for PBXNativeTarget "TranscriptionsTests" */;
+			buildPhases = (
+				3D8B82C21C4E651F002DCBD6 /* Sources */,
+				3D8B82C31C4E651F002DCBD6 /* Frameworks */,
+				3D8B82C41C4E651F002DCBD6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TranscriptionsTests;
+			productName = TranscriptionsTests;
+			productReference = 3D8B82C61C4E651F002DCBD6 /* TranscriptionsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		8D15AC270486D014006FF6A4 /* Transcriptions */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "Transcriptions" */;
@@ -419,6 +490,10 @@
 			attributes = {
 				LastUpgradeCheck = 0710;
 				TargetAttributes = {
+					3D8B82C51C4E651F002DCBD6 = {
+						CreatedOnToolsVersion = 7.2;
+						TestTargetID = 8D15AC270486D014006FF6A4;
+					};
 					8D15AC270486D014006FF6A4 = {
 						DevelopmentTeam = M9AG4A3F6L;
 						SystemCapabilities = {
@@ -474,6 +549,7 @@
 			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* Transcriptions */,
+				3D8B82C51C4E651F002DCBD6 /* TranscriptionsTests */,
 			);
 		};
 /* End PBXProject section */
@@ -524,6 +600,13 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3D8B82C41C4E651F002DCBD6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D15AC2B0486D014006FF6A4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -536,7 +619,7 @@
 				0A3D20B71A2DD9140066C34E /* transcriptions-icon_PLAY.pdf in Resources */,
 				0A3D20B61A2DD9140066C34E /* transcriptions-icon_OPEN.pdf in Resources */,
 				0A3D20B31A2DD9140066C34E /* transcriptions-icon_CONTROLS.pdf in Resources */,
-				63C868430DDA09E700DC3670 /* MyDocument.xib in Resources */,
+				63C868430DDA09E700DC3670 /* TSCDocument.xib in Resources */,
 				0AA24F0A1A441B03006CDEB1 /* TSCHelperFolder in Resources */,
 				0A3D20B41A2DD9140066C34E /* transcriptions-icon_INFO.pdf in Resources */,
 				63C868460DDA0A0200DC3670 /* Credits.rtf in Resources */,
@@ -554,21 +637,37 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3D8B82C21C4E651F002DCBD6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3D8B82DB1C4E83C4002DCBD6 /* JXCMTimeStringTransformer.m in Sources */,
+				3D8B82DA1C4E74EF002DCBD6 /* NSString+TSCTimeStamp.m in Sources */,
+				3D8B82D91C4E7196002DCBD6 /* TSCTimeStampTests.m in Sources */,
+				3D8B82D51C4E6B50002DCBD6 /* TSCTimeSourceRange.m in Sources */,
+				3D8B82D41C4E6585002DCBD6 /* TSCTimeSourceRangeTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D15AC300486D014006FF6A4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D41D26D1C4573FF0069C5B8 /* AVPlayer+TSCPlay.m in Sources */,
+				3D9062A51C31CB8900863F29 /* TSCAppController.m in Sources */,
 				3DC14BA11C2598D90069150A /* JXCMTimeStringTransformer.m in Sources */,
 				3D5725121C277BE100C23542 /* NSString+TSCTimeStamp.m in Sources */,
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
 				3DC14B9E1C258FBF0069150A /* TSCAppDelegate.m in Sources */,
-				63C8682C0DDA097500DC3670 /* MyDocument.m in Sources */,
+				63C8682C0DDA097500DC3670 /* TSCDocument.m in Sources */,
 				3D5725031C27535F00C23542 /* TSCTimeSourceRange.m in Sources */,
+				3D9062AB1C31CC3300863F29 /* TSCDocumentController.m in Sources */,
 				63C8682F0DDA097B00DC3670 /* TSCArrayController.m in Sources */,
 				3DC14B9B1C258E900069150A /* JXCMTimeNumberTransformer.m in Sources */,
 				0A32C27F19A3723C007B8415 /* TSCSplitViewDelegate.m in Sources */,
 				63C868320DDA098500DC3670 /* TSCTextView.m in Sources */,
 				633A50640E4F284C00B4D45A /* TSCKeyBindingsController.m in Sources */,
+				3D41D2701C457FF70069C5B8 /* NSString+TSCWhitespace.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -601,12 +700,12 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		63C868400DDA09E700DC3670 /* MyDocument.xib */ = {
+		63C868400DDA09E700DC3670 /* TSCDocument.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				63C868410DDA09E700DC3670 /* English */,
 			);
-			name = MyDocument.xib;
+			name = TSCDocument.xib;
 			sourceTree = "<group>";
 		};
 		63C868440DDA0A0200DC3670 /* Credits.rtf */ = {
@@ -620,6 +719,84 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		3D8B82CD1C4E651F002DCBD6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = TranscriptionsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = de.geheimwerk.TranscriptionsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3D8B82CE1C4E651F002DCBD6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = TranscriptionsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = de.geheimwerk.TranscriptionsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -633,7 +810,10 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -641,7 +821,6 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_BUNDLE_IDENTIFIER = com.davidhas.Transcriptions;
 				PRODUCT_NAME = Transcriptions;
@@ -662,14 +841,16 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)",
+				);
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Transcriptions_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_BUNDLE_IDENTIFIER = com.davidhas.Transcriptions;
 				PRODUCT_NAME = Transcriptions;
@@ -691,6 +872,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -706,6 +888,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -714,6 +897,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3D8B82D21C4E651F002DCBD6 /* Build configuration list for PBXNativeTarget "TranscriptionsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3D8B82CD1C4E651F002DCBD6 /* Debug */,
+				3D8B82CE1C4E651F002DCBD6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "Transcriptions" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

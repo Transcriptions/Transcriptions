@@ -8,57 +8,138 @@
 
 #import "NSString+TSCTimeStamp.h"
 
+#import "JXCMTimeStringTransformer.h"
+#import "JXTimeCodeParserCore.h"
+
+
 @implementation NSString (TSCTimeStamp)
 
-- (void)enumerateTimeStampsInRange:(NSRange)range
-						usingBlock:(void (^)(NSString *timeCode, NSRange timeStampRange, BOOL *stop))block;
+- (BOOL)containsTimeStampDelimiter:(NSRange)range;
 {
-	if (self.length == 0)  return;
+	static NSCharacterSet *timeStampDelimiterCharacterSet = nil;
+	static dispatch_once_t onceToken;
 	
-	static NSCharacterSet *hashMarkSet = nil;
-	static dispatch_once_t oncePredicate;
-	
-	dispatch_once(&oncePredicate, ^{
-		hashMarkSet = [NSCharacterSet characterSetWithCharactersInString:@"#"];
+	dispatch_once(&onceToken, ^{
+		timeStampDelimiterCharacterSet =
+		[NSCharacterSet characterSetWithCharactersInString:@"#"];
 	});
 	
-	NSScanner *scanner = [NSScanner scannerWithString:self];
-	scanner.charactersToBeSkipped = nil;
-	scanner.scanLocation = range.location;
+	const NSRange timeStampDelimiterRange =
+	[self rangeOfCharacterFromSet:timeStampDelimiterCharacterSet
+						  options:NSLiteralSearch
+							range:range];
 	
-	NSUInteger scanLocation;
-	NSUInteger endLocation = NSMaxRange(range);
+	const BOOL hasLineBreak = (timeStampDelimiterRange.location != NSNotFound);
+	return hasLineBreak;
+}
+
+
+NS_INLINE CFRange CFRangeMakeFromNSRange(NSRange range) {
+	return CFRangeMake((range.location == NSNotFound ? kCFNotFound : range.location), range.length);
+}
+
+- (void)enumerateTimeStampsInRange:(NSRange)range
+						   options:(TSCTimeStampEnumerationOptions)options
+						usingBlock:(void (^)(NSString *timeCode, CMTime time, NSRange timeStampRange, BOOL *stop))block;
+{
+	if (range.length == 0)  return;
+	if (self.length == 0)  return;
 	
-	while ((scanner.atEnd == NO) &&
-		   ((scanLocation = scanner.scanLocation) != NSNotFound) &&
-		    (scanLocation < endLocation)) {
+	BOOL wantTimeCodeString = !(options & TSCTimeStampEnumerationStringNotRequired);
+	BOOL wantTime = !(options & TSCTimeStampEnumerationTimeNotRequired);
+	BOOL doNotRequireFractionalPart = (options & TSCTimeStampEnumerationDoNotRequireFractionalPart);
+	BOOL requireNonFractionalDigitPairs = !(options & TSCTimeStampEnumerationDoNotRequireNonFractionalDigitPairs);
+
+	CFStringRef string = (__bridge CFStringRef)(self);
+	
+	const CFRange subRange = CFRangeMakeFromNSRange(range);
+	
+	CFStringInlineBuffer stringInlineBuffer;
+	CFStringInitInlineBuffer(string, &stringInlineBuffer, subRange);
+	
+	const unichar hashMark = '#';
+	const NSUInteger hashMarkLength = 1;
+	
+	NSUInteger start = NSNotFound;
+	BOOL accumulate = NO;
+	
+	const JXTimeCodeParserFlags flags = requireNonFractionalDigitPairs ? JXTimeCodeParserFlagsRequireNonFractionalDigitPairs : 0;
+	
+	const JXTimeCodeParserState parserStateDefault = {
+		.position = Hours,
+		.separator = ':',
+		.fractionalSeparator = '.',
+		.flags = flags,
+	};
+	JXTimeCodeParserState parser = parserStateDefault;
+	
+	NSUInteger i; // Index relative to subRange.
+	
+	for (i = 0;
+		 i < subRange.length;
+		 i++) {
+		const unichar codeUnit = CFStringGetCharacterFromInlineBuffer(&stringInlineBuffer, i);
 		
-		NSString *timeCode = nil;
-		NSRange timeStampRange = NSMakeRange(NSNotFound, 0);
-		
-		[scanner scanUpToCharactersFromSet:hashMarkSet
-								intoString:NULL];
-		
-		timeStampRange.location = scanner.scanLocation;
-		
-		BOOL scanned =
-		([scanner scanString:@"#"
-				  intoString:NULL] &&
-		 [scanner scanUpToCharactersFromSet:hashMarkSet
-								 intoString:&timeCode] &&
-		 [scanner scanString:@"#"
-				  intoString:NULL]);
-		
-		if (scanned &&
-			timeCode &&
-			(timeCode.length > 0)) {
-			timeStampRange.length = scanner.scanLocation - timeStampRange.location;
+		if (codeUnit == hashMark) {
+			accumulate = !accumulate;
 			
-			BOOL stop = NO;
-			block(timeCode, timeStampRange, &stop);
-			if (stop) {
-				return;
+			if ((start != NSNotFound) &&
+				((parser.position == Fractional) ||
+				 (doNotRequireFractionalPart &&
+				  (parser.position == Seconds)))) {
+				const NSUInteger end = i;
+				
+				NSRange timeStampRange;
+				timeStampRange.location = range.location + start;
+				timeStampRange.length = end - start;
+				
+				NSString *timeCode = nil;
+				if (wantTimeCodeString) {
+					timeCode = [self substringWithRange:timeStampRange];
+				}
+				
+				CMTime time;
+				if (wantTime) {
+					time = convertComponentsToCMTime(parser.components);
+				}
+				else {
+					time = kCMTimeInvalid;
+				}
+				
+				timeStampRange.location -= hashMarkLength;
+				timeStampRange.length += 2 * hashMarkLength;
+				
+				BOOL stop = NO;
+				
+				block(timeCode, time, timeStampRange, &stop);
+				
+				if (stop) {
+					break;
+				}
+				
+				start = NSNotFound;
 			}
+		}
+		else if (accumulate) {
+			if (start == NSNotFound) {
+				start = i;
+				
+				parser = parserStateDefault;
+			}
+			
+			parseCodeUnitWithState(codeUnit, &parser);
+			
+			if (parser.error) {
+				// Reset parser.
+				start = NSNotFound;
+				
+				accumulate = NO;
+
+				continue;
+			}
+		}
+		else {
+			continue;
 		}
 	}
 }
