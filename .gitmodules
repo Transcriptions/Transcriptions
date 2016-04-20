@@ -4,3 +4,6 @@
 [submodule "External/SubRip-for-Mac"]
 	path = External/SubRip-for-Mac
 	url = git@github.com:JanX2/SubRip-for-Mac.git
+[submodule "External/DDHidLib"]
+	path = External/DDHidLib
+	url = git@github.com:Daij-Djan/DDHidLib.git
