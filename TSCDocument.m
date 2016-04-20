@@ -1721,7 +1721,6 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	if (!self.pedalDevice)
 		return;
 	
-	NSLog(@"Pedal detected");
 	NSArray *pedalElements = [[[self.pedalDevice elements] firstObject] elements];
 	
 	[self.pedalDevice open];
