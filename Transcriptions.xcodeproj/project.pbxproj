@@ -126,6 +126,34 @@
 			remoteGlobalIDString = 3D4181BD16651769006DC6F4;
 			remoteInfo = SubRip.framework;
 		};
+		6B8067CF1CC8026E001D101C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B8067C71CC8026E001D101C /* DDHidLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8D1107320486CEB800E47090;
+			remoteInfo = HIDBrowser;
+		};
+		6B8067D11CC8026E001D101C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B8067C71CC8026E001D101C /* DDHidLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 559CBAE10B5B313000C8FD74;
+			remoteInfo = HIDDeviceTest;
+		};
+		6B8067D31CC8026E001D101C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B8067C71CC8026E001D101C /* DDHidLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 559CBBCC0B5B336600C8FD74;
+			remoteInfo = ddhid;
+		};
+		6B8067D51CC8026E001D101C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B8067C71CC8026E001D101C /* DDHidLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 55193E500B93F2EE004C0C98;
+			remoteInfo = DDHidLib;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -210,6 +238,7 @@
 		63C868520DDA0A9300DC3670 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63CAE13E0E365CF20048E152 /* resizeImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resizeImage.png; sourceTree = "<group>"; };
 		63CAE1760E3665370048E152 /* controls.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = controls.icns; sourceTree = "<group>"; };
+		6B8067C71CC8026E001D101C /* DDHidLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DDHidLib.xcodeproj; path = External/DDHidLib/DDHidLib.xcodeproj; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* Transcriptions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Transcriptions.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -414,6 +443,7 @@
 		633A4F9B0E4F0D1A00B4D45A /* ExternalSources */ = {
 			isa = PBXGroup;
 			children = (
+				6B8067C71CC8026E001D101C /* DDHidLib.xcodeproj */,
 				0ADD23411998E930007D81D3 /* ShortcutRecorder.xcodeproj */,
 				3DDFA9EB1C1F723600AFB0B1 /* SubRip.xcodeproj */,
 			);
@@ -438,6 +468,17 @@
 				633A50630E4F284C00B4D45A /* TSCKeyBindingsController.m */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		6B8067C81CC8026E001D101C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6B8067D01CC8026E001D101C /* HIDBrowser.app */,
+				6B8067D21CC8026E001D101C /* HIDDeviceTest.app */,
+				6B8067D41CC8026E001D101C /* libddhid.a */,
+				6B8067D61CC8026E001D101C /* DDHidLib.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -538,6 +579,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 6B8067C81CC8026E001D101C /* Products */;
+					ProjectRef = 6B8067C71CC8026E001D101C /* DDHidLib.xcodeproj */;
+				},
+				{
 					ProductGroup = 0ADD23421998E930007D81D3 /* Products */;
 					ProjectRef = 0ADD23411998E930007D81D3 /* ShortcutRecorder.xcodeproj */;
 				},
@@ -595,6 +640,34 @@
 			fileType = wrapper.cfbundle;
 			path = SubRipTest.xctest;
 			remoteRef = 3DDFA9F81C1F723600AFB0B1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6B8067D01CC8026E001D101C /* HIDBrowser.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = HIDBrowser.app;
+			remoteRef = 6B8067CF1CC8026E001D101C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6B8067D21CC8026E001D101C /* HIDDeviceTest.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = HIDDeviceTest.app;
+			remoteRef = 6B8067D11CC8026E001D101C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6B8067D41CC8026E001D101C /* libddhid.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libddhid.a;
+			remoteRef = 6B8067D31CC8026E001D101C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6B8067D61CC8026E001D101C /* DDHidLib.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = DDHidLib.framework;
+			remoteRef = 6B8067D51CC8026E001D101C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
