@@ -45,6 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import "NSString+TSCWhitespace.h"
 #import "TSCTimeSourceRange.h"
 
+#import <DDHidLib/DDHidLib.h>
 
 NSString * const	SRTDocumentType		= @"org.niltsh.mplayerx-subrip";
 NSString * const	TSCPlayerItemStatusKeyPath			= @"status";
@@ -58,6 +59,10 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 
 
 @interface TSCDocument ()
+
+@property DDHidQueue *pedalQueue;
+@property DDHidDevice *pedalDevice;
+
 
 - (void)setUpPlaybackOfAsset:(AVAsset *)asset withKeys:(NSArray *)keys;
 - (void)stopLoadingAnimationAndHandleError:(NSError *)error;
@@ -217,6 +222,7 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 			}
 		}
 	}
+	[self initFootPedal];
 }
 
 - (BOOL)revertToContentsOfURL:(NSURL *)inAbsoluteURL
@@ -239,6 +245,9 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 
 - (void)dealloc
 {
+	[self.pedalQueue stop];
+	[self.pedalDevice close];
+	
     [self.player pause];
     [self.player removeTimeObserver:self.timeObserverToken];
     self.timeObserverToken = nil;
@@ -1693,6 +1702,132 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	
 	NSPrintOperation *printOperation = [NSPrintOperation printOperationWithView:printTextView];
 	[printOperation runOperation];
+}
+
+#pragma mark foot pedal
+- (void)initFootPedal
+{
+	NSArray *mDevices = [DDHidDevice allDevices];
+	
+	for (DDHidDevice *aDevice in mDevices)
+	{
+		if ([[aDevice productName] isEqualToString:@"VEC USB Footpedal"])
+		{
+			self.pedalDevice = aDevice;
+		}
+	}
+	
+	// do nothing if no pedal detected.
+	if (!self.pedalDevice)
+		return;
+	
+	NSLog(@"Pedal detected");
+	NSArray *pedalElements = [[[self.pedalDevice elements] firstObject] elements];
+	
+	[self.pedalDevice open];
+	self.pedalQueue = [self.pedalDevice createQueueWithSize: 30];
+	[self.pedalQueue setDelegate:self];
+	[self.pedalQueue addElements:pedalElements];
+	[self.pedalQueue startOnCurrentRunLoop];
+	
+	DDHidQueue *hidQueue = self.pedalQueue;
+	int64_t delayInSeconds = 2; // Your Game Interval as mentioned above by you
+	
+	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+	
+	dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+		
+		[hidQueue isStarted];
+	});
+}
+
+typedef NS_ENUM(NSInteger, TSCPedalButton) {
+	TSCPedalButtonZero,
+	TSCPedalButtonLeft,
+	TSCPedalButtonMiddle,
+	TSCPedalButtonRight
+};
+
+typedef NS_ENUM(NSInteger, TSCButtonState) {
+	TSCButtonStateZero,
+	TSCButtonStateReleased,
+	TSCButtonStatePressed
+};
+
+-(void)ddhidQueueHasEvents:(DDHidQueue *)hidQueue
+{
+	DDHidEvent *event;
+	while (event = [hidQueue nextEvent])
+	{
+		TSCPedalButton button = TSCPedalButtonZero;
+		TSCButtonState state = TSCButtonStateZero;
+		switch (event.elementCookie)
+		{
+			case 2: button = TSCPedalButtonLeft; break;
+			case 3: button = TSCPedalButtonMiddle; break;
+			case 4: button = TSCPedalButtonRight; break;
+			default: break;
+		}
+		
+		switch (event.value) {
+			case 0: state = TSCButtonStateReleased;break;
+			case 1: state = TSCButtonStatePressed; break;
+			default: break;
+		}
+		
+		if (button != TSCButtonStateZero && state != TSCButtonStateZero)
+		{
+			[self onPedalButton:button state:state];
+		}
+	}
+}
+
+- (void)onPedalButton:(TSCPedalButton)button state:(TSCButtonState)state
+{
+	if (button == TSCPedalButtonLeft)
+	{
+		// rewind and play while holding the left button down
+		
+		if (state == TSCButtonStatePressed)
+		{
+			[self.player playWithRate:-2.f];
+		}
+		else if (state == TSCButtonStateReleased)
+		{
+			self.player.rate = 1.f;
+			[self.player pause];
+		}
+	}
+	else if (button == TSCPedalButtonMiddle)
+	{
+		// press and hold the middle button to play in the normal rate
+		// release the button to pause
+		
+		if (state == TSCButtonStatePressed)
+		{
+			[self rePlay:nil];
+		}
+		else if (state == TSCButtonStateReleased)
+		{
+			[self.player pause];
+		}
+	}
+	else if (button == TSCPedalButtonRight)
+	{
+		// fast forward and play while holding the right button down
+		
+		if (state == TSCButtonStatePressed)
+		{
+			[self.player playWithRate:2.f];
+		}
+		else if (state == TSCButtonStateReleased)
+		{
+			self.player.rate = 1.f;
+			[self.player pause];
+		}
+	}
+	
+	
 }
 
 @end
