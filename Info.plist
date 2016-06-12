@@ -11,6 +11,8 @@
 			<array>
 				<string>rtf</string>
 			</array>
+			<key>CFBundleTypeName</key>
+			<string>Rich Text Format</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
@@ -32,9 +34,9 @@
 				<string>srt</string>
 			</array>
 			<key>CFBundleTypeName</key>
-			<string>SubRip Subtitle</string>
+			<string>SubRip Subtitle Text Format</string>
 			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
+			<string>Editor</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>org.niltsh.mplayerx-subrip</string>
