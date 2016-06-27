@@ -66,9 +66,11 @@
 	<key>CFBundleSignature</key>
 	<string>DAHA</string>
 	<key>CFBundleVersion</key>
-	<string>1.2.1</string>
+	<string>1.2.5</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.productivity</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
