@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import <AVKit/AVKit.h>
 
 #import "TSCTextView.h"
-#import "TSCFootPedal.h"
+#import "TSCInfinityFootPedal.h"
 
 @class AVPlayer, AVPlayerLayer;
 
@@ -48,7 +48,7 @@ typedef NS_ENUM(NSInteger, TSCErrorCode) {
 	TSCErrorWriteInapplicableStringEncodingError = 1,
 };
 
-@interface TSCDocument : NSDocument <NSTextViewDelegate, NSTextFieldDelegate, NSSplitViewDelegate, NSTableViewDelegate, TSCFootPedalDelegate>
+@interface TSCDocument : NSDocument <NSTextViewDelegate, NSTextFieldDelegate, NSSplitViewDelegate, NSTableViewDelegate, TSCInfinityFootPedalDelegate>
 {
 	//NSProgressIndicator *loadingSpinner;
     //NSTextField *unplayableLabel;

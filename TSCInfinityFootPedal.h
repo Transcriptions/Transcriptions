@@ -1,5 +1,5 @@
 //
-//  TSCFootPedal.h
+//  TSCInfinityFootPedal.h
 //  Transcriptions
 //
 //  Created by Chat on 16.03.17.
@@ -26,7 +26,7 @@ typedef NS_ENUM(NSInteger, TSCButtonState) {
 
 
 // protocol for foot pedal messages
-@protocol TSCFootPedalDelegate <NSObject>
+@protocol TSCInfinityFootPedalDelegate <NSObject>
 
 - (void)onPedalButton:(TSCPedalButton)button state:(TSCButtonState)state;
 
@@ -34,9 +34,9 @@ typedef NS_ENUM(NSInteger, TSCButtonState) {
 
 
 // foot pedal object
-@interface TSCFootPedal : NSObject
+@interface TSCInfinityFootPedal : NSObject
 
-+ (TSCFootPedal *)sharedPedal;
-@property NSObject<TSCFootPedalDelegate> *delegate;
++ (TSCInfinityFootPedal *)sharedPedal;
+@property NSObject<TSCInfinityFootPedalDelegate> *delegate;
 
 @end

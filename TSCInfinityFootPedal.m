@@ -1,28 +1,28 @@
 //
-//  TSCFootPedal.m
+//  TSCInfinityFootPedal.m
 //  Transcriptions
 //
 //  Created by Chat on 16.03.17.
 //
 //
 
-#import "TSCFootPedal.h"
+#import "TSCInfinityFootPedal.h"
 #import <DDHidLib/DDHidLib.h>
 
-@interface TSCFootPedal ()
+@interface TSCInfinityFootPedal ()
 
 @property DDHidQueue *pedalQueue;
 @property DDHidDevice *pedalDevice;
 
 @end
 
-TSCFootPedal *thePedal;
+TSCInfinityFootPedal *thePedal;
 
 
-@implementation TSCFootPedal
+@implementation TSCInfinityFootPedal
 
 
-+ (TSCFootPedal *)sharedPedal
++ (TSCInfinityFootPedal *)sharedPedal
 {
 	if (thePedal) {
 		return thePedal;
@@ -43,7 +43,7 @@ TSCFootPedal *thePedal;
 		return nil;
 	}
 	
-	thePedal = [[TSCFootPedal alloc] initWithDevice: pedalDevice];
+	thePedal = [[TSCInfinityFootPedal alloc] initWithDevice: pedalDevice];
 	
 	return thePedal;
 }

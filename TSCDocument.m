@@ -59,7 +59,7 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 
 @interface TSCDocument ()
 
-@property TSCFootPedal *footPedal;
+@property TSCInfinityFootPedal *footPedal;
 
 - (void)setUpPlaybackOfAsset:(AVAsset *)asset withKeys:(NSArray *)keys;
 - (void)stopLoadingAnimationAndHandleError:(NSError *)error;
@@ -221,7 +221,7 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 	}
 	
 	// init foot pedal
-	self.footPedal = [TSCFootPedal sharedPedal];
+	self.footPedal = [TSCInfinityFootPedal sharedPedal];
 	self.footPedal.delegate = self;
 }
 

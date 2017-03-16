@@ -57,7 +57,7 @@
 		6BA6B7581E7ABDC90079376B /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BA6B7571E7ABDC90079376B /* CoreMedia.framework */; };
 		6BA6B7691E7ABE200079376B /* DDHidLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BA6B7681E7ABE040079376B /* DDHidLib.framework */; };
 		6BA6B76A1E7ABF460079376B /* DDHidLib.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6BA6B7681E7ABE040079376B /* DDHidLib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6BA6B77D1E7AD00E0079376B /* TSCFootPedal.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA6B77C1E7AD00E0079376B /* TSCFootPedal.m */; };
+		6BA6B77D1E7AD00E0079376B /* TSCInfinityFootPedal.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA6B77C1E7AD00E0079376B /* TSCInfinityFootPedal.m */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
@@ -241,8 +241,8 @@
 		6BA6B7541E7ABDC30079376B /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks/AVKit.framework; sourceTree = DEVELOPER_DIR; };
 		6BA6B7571E7ABDC90079376B /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks/CoreMedia.framework; sourceTree = DEVELOPER_DIR; };
 		6BA6B7591E7ABE040079376B /* DDHidLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DDHidLib.xcodeproj; path = External/DDHidLib/DDHidLib.xcodeproj; sourceTree = "<group>"; };
-		6BA6B77B1E7AD00E0079376B /* TSCFootPedal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCFootPedal.h; sourceTree = "<group>"; };
-		6BA6B77C1E7AD00E0079376B /* TSCFootPedal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCFootPedal.m; sourceTree = "<group>"; };
+		6BA6B77B1E7AD00E0079376B /* TSCInfinityFootPedal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCInfinityFootPedal.h; sourceTree = "<group>"; };
+		6BA6B77C1E7AD00E0079376B /* TSCInfinityFootPedal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCInfinityFootPedal.m; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* Transcriptions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Transcriptions.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -349,8 +349,8 @@
 				0A32C27E19A3723C007B8415 /* TSCSplitViewDelegate.m */,
 				3D5725011C27535F00C23542 /* TSCTimeSourceRange.h */,
 				3D5725021C27535F00C23542 /* TSCTimeSourceRange.m */,
-				6BA6B77B1E7AD00E0079376B /* TSCFootPedal.h */,
-				6BA6B77C1E7AD00E0079376B /* TSCFootPedal.m */,
+				6BA6B77B1E7AD00E0079376B /* TSCInfinityFootPedal.h */,
+				6BA6B77C1E7AD00E0079376B /* TSCInfinityFootPedal.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -733,7 +733,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D41D26D1C4573FF0069C5B8 /* AVPlayer+TSCPlay.m in Sources */,
-				6BA6B77D1E7AD00E0079376B /* TSCFootPedal.m in Sources */,
+				6BA6B77D1E7AD00E0079376B /* TSCInfinityFootPedal.m in Sources */,
 				3D9062A51C31CB8900863F29 /* TSCAppController.m in Sources */,
 				3DC14BA11C2598D90069150A /* JXCMTimeStringTransformer.m in Sources */,
 				3D5725121C277BE100C23542 /* NSString+TSCTimeStamp.m in Sources */,
