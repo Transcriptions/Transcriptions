@@ -18,7 +18,12 @@ For Mac OSX 10.9 Mavericks and below, use version 0.8 that can be found [here](h
   * Customizeable media-control shortcuts([->shortcut recorder](https://github.com/Kentzo/ShortcutRecorder))
   * Timestamps
   * Text substitution
-  * Footpedal-support([->audiotranskription.de](http://www.audiotranskription.de/deutsch/transkription/usb-fussschalter-f-pro/usb-fussschalter-f-pro.html))
+  * Footpedal-support
+     * ([->audiotranskription.de](http://www.audiotranskription.de/deutsch/transkription/usb-fussschalter-f-pro/usb-fussschalter-f-pro.html))
+     * ([->altoedge.com](http://www.altoedge.com/pedals/index.html)): The pedal mapping is currently hard-coded:
+        * Left button: rewind and play while holding the left button down
+        * Middle button: press and hold the middle button to play in the normal rate release the button to pause
+        * Right button: fast forward and play while holding the right button down
 
 
 

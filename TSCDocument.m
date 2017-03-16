@@ -59,6 +59,8 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 
 @interface TSCDocument ()
 
+@property TSCInfinityFootPedal *footPedal;
+
 - (void)setUpPlaybackOfAsset:(AVAsset *)asset withKeys:(NSArray *)keys;
 - (void)stopLoadingAnimationAndHandleError:(NSError *)error;
 
@@ -217,6 +219,10 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 			}
 		}
 	}
+	
+	// init foot pedal
+	self.footPedal = [TSCInfinityFootPedal sharedPedal];
+	self.footPedal.delegate = self;
 }
 
 - (BOOL)revertToContentsOfURL:(NSURL *)inAbsoluteURL
@@ -239,6 +245,8 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 
 - (void)dealloc
 {
+	self.footPedal.delegate = nil;
+	
     [self.player pause];
     [self.player removeTimeObserver:self.timeObserverToken];
     self.timeObserverToken = nil;
@@ -1694,6 +1702,58 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	NSPrintOperation *printOperation = [NSPrintOperation printOperationWithView:printTextView];
 	[printOperation runOperation];
 }
+
+// foot pedal delegate
+
+
+- (void)onPedalButton:(TSCPedalButton)button state:(TSCButtonState)state
+{
+	if (button == TSCPedalButtonLeft)
+	{
+		// rewind and play while holding the left button down
+		
+		if (state == TSCButtonStatePressed)
+		{
+			[self.player playWithRate:-2.f];
+		}
+		else if (state == TSCButtonStateReleased)
+		{
+			self.player.rate = 1.f;
+			[self.player pause];
+		}
+	}
+	else if (button == TSCPedalButtonMiddle)
+	{
+		// press and hold the middle button to play in the normal rate
+		// release the button to pause
+		
+		if (state == TSCButtonStatePressed)
+		{
+			[self rePlay:nil];
+		}
+		else if (state == TSCButtonStateReleased)
+		{
+			[self.player pause];
+		}
+	}
+	else if (button == TSCPedalButtonRight)
+	{
+		// fast forward and play while holding the right button down
+		
+		if (state == TSCButtonStatePressed)
+		{
+			[self.player playWithRate:2.f];
+		}
+		else if (state == TSCButtonStateReleased)
+		{
+			self.player.rate = 1.f;
+			[self.player pause];
+		}
+	}
+	
+	
+}
+
 
 @end
 
