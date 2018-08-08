@@ -76,8 +76,8 @@ After cloning the repository, run the following commands inside the repository r
     git submodule update --init --recursive
 
 You can then open the Xcode project file and build.
-
-
+ 
+ 
 _[Soleil Alpin Legal Information](https://soleil-alpin.com/legalsolalp.html)_
 
 _Mac, MacOS and OS X are trademarks of Apple, Inc._
