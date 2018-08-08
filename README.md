@@ -3,6 +3,7 @@
 
 
 A text editor optimized for fast manual transcription of audio- or video material on the Mac.
+Used around the world in research, education and journalism since 2008.
 
 Load media in the player, use the controls to adjust speed and volume, set keyboard shortcuts for media control in the preferences pane and type away. Transcriptions also supports text-substitutions by inserting "@" followed by a text-token.
 
