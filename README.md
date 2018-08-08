@@ -7,12 +7,7 @@ A text editor optimized for fast manual transcription of audio- or video materia
 Used around the world in research, education and journalism since 2008.
 
 > Requirements: MacOS or Mac OS X 10.11 El Capitan or later
-
-Load media in the player, use the controls to adjust speed and volume, set keyboard shortcuts for media control in the preferences pane and type away. Transcriptions also supports text-substitutions by inserting "@" followed by a text-token.
-
-**Transcriptions is [Free/Libre Open Source Software](https://en.wikipedia.org/wiki/Free_and_open-source_software). Please support development by [buying the Transcriptions binary in the AppStore](https://itunes.apple.com/at/app/transcriptions/id911974149?l=en&mt=12) or by [donating via PayPal](http://www.unet.univie.ac.at/~a0206600/TranscriptionsDonate.html). Thanks to all supporters!**
-
-For Mac OSX 10.9 Mavericks and below, use version 0.8 that can be found [here](https://code.google.com/p/transcriptions/downloads/list).
+> For Mac OSX 10.9 Mavericks and below, use version 0.8 that can be found [here](https://code.google.com/p/transcriptions/downloads/list).
 
 **Check out the [app overview](README-images/transcriptionsAppOverview.pdf) to get started.**
 
@@ -23,7 +18,14 @@ For Mac OSX 10.9 Mavericks and below, use version 0.8 that can be found [here](h
   * Timestamps
   * Text substitution
   * Footpedal-support([->audiotranskription.de](http://www.audiotranskription.de/deutsch/transkription/usb-fussschalter-f-pro/usb-fussschalter-f-pro.html))
+  
+Load media in the player, use the controls to adjust speed and volume, set keyboard shortcuts for media control in the preferences pane and type away. Transcriptions also supports text-substitutions by inserting "@" followed by a text-token.
 
+## Transcriptions is [Free/Libre Open Source Software](https://en.wikipedia.org/wiki/Free_and_open-source_software) ##
+The source code of Transcriptions is released under the [BSD License](https://en.wikipedia.org/wiki/BSD_licenses) and can be checked out on [GitHub](https://github.com/soleil-alpin/Transcriptions). 
+Please support development by [buying Transcriptions in the Mac AppStore](https://itunes.apple.com/at/app/transcriptions/id911974149?l=en&mt=12) or by [donating via PayPal](http://www.unet.univie.ac.at/~a0206600/TranscriptionsDonate.html). 
+
+`Thanks to all supporters!`
 
 
 **MBW Pick of the week: March 30, 2010**
@@ -37,7 +39,6 @@ Transcriptions source code is used in the application [F5(Mac)](http://www.audio
 
 
 ![README-images/TranscriptionsScreenshot.png](README-images/TranscriptionsScreenshot.png)
-
 
 
 
@@ -74,3 +75,7 @@ After cloning the repository, run the following commands inside the repository r
     git submodule update --init --recursive
 
 You can then open the Xcode project file and build.
+
+
+[Soleil Alpin Legal Information](https://soleil-alpin.com/legalsolalp.html)
+Mac, MacOS and OS X are trademarks of Apple, Inc.
