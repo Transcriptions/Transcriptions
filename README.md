@@ -11,7 +11,7 @@ Used around the world in research, education and journalism since 2008.
 
 **Check out the [app overview](README-images/transcriptionsAppOverview.pdf) to get started.**
 
-## Features: ##
+## Features ##
 
   * Media with tape behavior
   * Customizeable media-control shortcuts([->shortcut recorder](https://github.com/Kentzo/ShortcutRecorder))
@@ -35,14 +35,14 @@ Please support development by [buying Transcriptions in the Mac AppStore](https:
 Transcriptions source code is used in the application [F5(Mac)](http://www.audiotranskription.de/f5.htm).
 
 
-## Screenshot: ##
+## Screenshot ##
 
 
 ![README-images/TranscriptionsScreenshot.png](README-images/TranscriptionsScreenshot.png)
 
 
 
-## Requirements: ##
+## Version History ##
 **Version 1.2**
  * MacOS or Mac OS X 10.11 El Capitan or later
 
@@ -54,13 +54,14 @@ Transcriptions source code is used in the application [F5(Mac)](http://www.audio
   * [Perian](http://perian.org/) and [Flip4Mac](http://www.microsoft.com/windows/windowsmedia/player/wmcomponents.mspx) **recommended**
 
 
-
 Sparkle is used up to Version 0.8. Please download the [binary from the Mac App Store](https://itunes.apple.com/at/app/transcriptions/id911974149?l=en&mt=12) to get updates starting from Version 1.0.
 [![](README-images/Sparkle.png)](http://sparkle.andymatuschak.org/)
 
+## Support ##
+Find support [here](https://github.com/soleil-alpin/Transcriptions/issues).
 
-## Development: ##
-### Requirements
+## Development ##
+### Requirements ###
 
 If you wish to build Transcriptions yourself, you will need the following components/tools:
 
@@ -77,5 +78,6 @@ After cloning the repository, run the following commands inside the repository r
 You can then open the Xcode project file and build.
 
 
-[Soleil Alpin Legal Information](https://soleil-alpin.com/legalsolalp.html)
-Mac, MacOS and OS X are trademarks of Apple, Inc.
+_[Soleil Alpin Legal Information](https://soleil-alpin.com/legalsolalp.html)_
+
+_Mac, MacOS and OS X are trademarks of Apple, Inc._
