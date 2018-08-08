@@ -7,6 +7,7 @@ A text editor optimized for fast manual transcription of audio- or video materia
 Used around the world in research, education and journalism since 2008.
 
 > Requirements: MacOS or Mac OS X 10.11 El Capitan or later
+
 > For Mac OSX 10.9 Mavericks and below, use version 0.8 that can be found [here](https://code.google.com/p/transcriptions/downloads/list).
 
 **Check out the [app overview](README-images/transcriptionsAppOverview.pdf) to get started.**
