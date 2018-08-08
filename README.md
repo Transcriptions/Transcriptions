@@ -6,6 +6,7 @@ A text editor optimized for fast manual transcription of audio- or video materia
 
 Used around the world in research, education and journalism since 2008.
 
+
 Load media in the player, use the controls to adjust speed and volume, set keyboard shortcuts for media control in the preferences pane and type away. Transcriptions also supports text-substitutions by inserting "@" followed by a text-token.
 
 **Transcriptions is [Free/Libre Open Source Software](https://en.wikipedia.org/wiki/Free_and_open-source_software). Please support development by [buying the Transcriptions binary in the AppStore](https://itunes.apple.com/at/app/transcriptions/id911974149?l=en&mt=12) or by [donating via PayPal](http://www.unet.univie.ac.at/~a0206600/TranscriptionsDonate.html). Thanks to all supporters!**
