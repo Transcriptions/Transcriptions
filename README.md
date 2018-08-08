@@ -6,6 +6,7 @@ A text editor optimized for fast manual transcription of audio- or video materia
 
 Used around the world in research, education and journalism since 2008.
 
+> Requirements: MacOS or Mac OS X 10.11 El Capitan or later
 
 Load media in the player, use the controls to adjust speed and volume, set keyboard shortcuts for media control in the preferences pane and type away. Transcriptions also supports text-substitutions by inserting "@" followed by a text-token.
 
@@ -41,9 +42,11 @@ Transcriptions source code is used in the application [F5(Mac)](http://www.audio
 
 
 ## Requirements: ##
+**Version 1.2**
+ * MacOS or Mac OS X 10.11 El Capitan or later
+
 **Version 1.0**
   * Mac OSX 10.10 Yosemite
-
 
 **Version 0.8**
   * Mac OSX 10.5 Leopard
