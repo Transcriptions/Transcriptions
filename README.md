@@ -10,7 +10,7 @@ Used around the world in research, education and journalism since 2008.
 >
 > For Mac OSX 10.9 Mavericks and below, use version 0.8 that can be found [here](https://code.google.com/p/transcriptions/downloads/list).
 
-**Check out the [app overview](README-images/transcriptionsAppOverview.pdf) to get started.**
+**Look at the [app overview](README-images/transcriptionsAppOverview.pdf) to get started.**
 
 ## Features ##
 
