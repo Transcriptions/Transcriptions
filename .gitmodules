@@ -1,3 +1,6 @@
 [submodule "External/ShortcutRecorder"]
 	path = External/ShortcutRecorder
 	url = https://github.com/soleil-alpin/ShortcutRecorder.git
+[submodule "External/SubRipForCocoa"]
+	path = External/SubRipForCocoa
+	url = https://github.com/soleil-alpin/SubRipForCocoa.git
