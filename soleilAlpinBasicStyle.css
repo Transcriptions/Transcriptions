@@ -1,0 +1,154 @@
+@charset "UTF-8";
+/* CSS Document */
+
+
+body {
+
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+	font-weight: 300;
+	background-color:#FFFFFF;
+}
+
+h1 {
+	font-size:20px; 
+	font-weight: 300;
+	text-align:center
+}
+
+h2 {
+	font-size:20px; 
+}
+
+
+a:link {
+	color:black;
+}
+
+a:visited {
+	color:black;
+}
+
+a:hover {
+	color:black;
+}
+
+a:link.dl {
+	color:black;
+	text-decoration:none;
+}
+
+a:hover.dl {
+	color:black;
+	text-decoration:none;
+}
+
+a:visited.dl {
+	color:black;
+	text-decoration:none;
+}
+
+
+
+
+#screenshot {
+	border-style:solid;
+	border-width:thin;
+	color:#FFFFFF;
+}
+
+#thumb {
+	vertical-align:super;
+	
+}
+
+
+
+#header {
+	padding-left:80px;
+	padding-right:80px;
+	padding-bottom:10px;
+	padding-top:10px;
+	text-align:center
+}
+
+#centered
+{
+	text-align:center	
+}
+
+#content {
+	background-color:#FFFFFF;
+	color:#000000;
+	padding-left:80px;
+	padding-right:80px;
+	padding:40px;
+	margin:10px;
+	border-width: thin;
+	border-style:hidden;
+}
+
+#wrapper {
+   height:100%;
+   width: 100%;
+   margin: 0;
+   padding: 0;
+   border: 0;
+}
+
+#wrapper td {
+   vertical-align: middle;
+   text-align: center;
+}
+
+#video {
+	padding:5px;
+	margin:15p;
+	width:320px;
+	border-style:solid;
+	border-width:thin;	
+}
+
+#videocaption {
+	line-height:1.0em;
+	text-align:center;
+}
+
+#dlreq {
+	text-decoration:underline;
+	font-weight:bold;
+	font-size:11px;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+
+#dlscreen {
+	text-decoration:underline;
+	font-weight:bold;
+	font-size:11px;
+	padding-top:8px;
+	padding-bottom:20px;
+}
+
+#dlrl {
+	font-size:small;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+
+#inserted {
+	padding-left:30px;
+	border-style:hidden;
+}
+
+#req {
+	text-align:center;
+	color:#000000;
+	font-size:11px;
+}
+
+#footer {
+	text-align:center;
+	color:#000000;
+	font-size:11px;
+	font-style:italic;
+}
