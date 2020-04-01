@@ -24,7 +24,7 @@ Load media in the player, use the controls to adjust speed and volume, set keybo
 
 ## Transcriptions is [Free/Libre Open Source Software](https://en.wikipedia.org/wiki/Free_and_open-source_software) ##
 The source code of Transcriptions is released under the [BSD License](https://en.wikipedia.org/wiki/BSD_licenses) and can be checked out on [GitHub](https://github.com/soleil-alpin/Transcriptions). 
-Please support development by [buying Transcriptions in the Mac AppStore](https://itunes.apple.com/at/app/transcriptions/id911974149?l=en&mt=12) or by [donating via PayPal](http://www.unet.univie.ac.at/~a0206600/TranscriptionsDonate.html). 
+Please support development by [buying Transcriptions in the Mac AppStore](https://itunes.apple.com/at/app/transcriptions/id911974149?l=en&mt=12). 
 
 `Thanks to all supporters!`
 
