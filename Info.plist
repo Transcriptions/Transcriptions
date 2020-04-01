@@ -62,17 +62,19 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>DAHA</string>
 	<key>CFBundleVersion</key>
-	<string>1.2.5</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.productivity</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>By clicking the Auto-Transcription Button the Transcriptions app uses on-device speech recognition to transcribe text contents. The implementation of this feature can be reviewed in the public sourcecode repository.</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>UTImportedTypeDeclarations</key>

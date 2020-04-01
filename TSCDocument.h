@@ -36,6 +36,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import <CoreMedia/CoreMedia.h>
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
+#import <Speech/Speech.h>
 
 #import "TSCTextView.h"
 
@@ -115,6 +116,7 @@ typedef NS_ENUM(NSInteger, TSCErrorCode) {
 //- (void)openMovieFromURL:(id)sender;
 - (void)setNormalSizeDisplay;
 - (void)setCurrentSizeDisplay;
+- (void)setDuration;
 - (IBAction)rePlay:(id)sender;
 - (IBAction)createTimeStamp:(id)sender;
 - (void)openURLInDefaultBrowser:(id)sender;
@@ -133,6 +135,7 @@ typedef NS_ENUM(NSInteger, TSCErrorCode) {
 - (IBAction)reportBug:(id)sender;
 - (IBAction)writeFeedback:(id)sender;
 - (IBAction)redirectToDonationPage:(id)sender;
+-(IBAction)autotranscribeFile:(id)sender;
 
 - (void)updateTimestampLineNumber;
 

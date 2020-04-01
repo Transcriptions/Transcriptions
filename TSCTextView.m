@@ -194,7 +194,7 @@ typedef struct _TSCUpdateFlags {
 												timeStampRect.size.height + 2);
 				 
 				 NSButtonCell *timeButtonCell = [[NSButtonCell alloc] init];
-				 timeButtonCell.bezelStyle = NSRoundRectBezelStyle;
+				 timeButtonCell.bezelStyle = NSBezelStyleRoundRect;
 				 timeButtonCell.title = @"";
 				 
 				 timeButtonCell.representedObject = timeStampValue;
@@ -339,7 +339,7 @@ const CGFloat numberStringRightMargin = 3.0;
 	numbersBarRect.size.width = numbersBarWidth;
 	NSRectFill(numbersBarRect);
 	
-	CGContextRef const context = [NSGraphicsContext currentContext].graphicsPort;
+	CGContextRef const context = [NSGraphicsContext currentContext].CGContext;
 	
 	CGContextSetShouldAntialias(context, NO);
 	

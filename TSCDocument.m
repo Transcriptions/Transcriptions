@@ -122,7 +122,7 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 	_mainSplitView.delegate = self;
 	_insertTableView.delegate = self;
 	
-	[_insertTableView registerForDraggedTypes:@[NSStringPboardType, NSRTFPboardType]];
+	[_insertTableView registerForDraggedTypes:@[NSPasteboardTypeString, NSPasteboardTypeRTF]];
 	
 	_infoPanel.minSize = _infoPanel.frame.size;
 	
@@ -174,7 +174,7 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 	NSView *titleBarView = closeButton.superview;
 	
 	NSButton *myHelpButton = [[NSButton alloc] initWithFrame:NSMakeRect(titleBarView.bounds.size.width - 30, titleBarView.bounds.origin.y, 25, 25)];
-	myHelpButton.bezelStyle = NSHelpButtonBezelStyle;
+	myHelpButton.bezelStyle = NSBezelStyleHelpButton;
 	myHelpButton.title = @"";
 	myHelpButton.autoresizingMask = NSViewMinXMargin | NSViewMinYMargin;
 	myHelpButton.action = @selector(showHelp:);
@@ -763,7 +763,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	
 	[panel beginSheetModalForWindow:_appWindow
 				  completionHandler:^(NSInteger result) {
-					  if (result == NSFileHandlingPanelOKButton) {
+		if (result == NSModalResponseOK) {
 						  NSArray *filesToOpen = panel.URLs;
 						  NSError *error = nil;
 						  NSURL *sheetFileURL = filesToOpen[0];
@@ -1003,6 +1003,16 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 			toleranceBefore:kCMTimeZero
 			 toleranceAfter:kCMTimeZero];
 	[self updateTimestampLineNumber];
+}
+
+- (void)setDuration
+{
+	NSUInteger dTotalSeconds = CMTimeGetSeconds(self.duration);
+	NSUInteger dHours = floor(dTotalSeconds / 3600);
+	NSUInteger dMinutes = floor(dTotalSeconds % 3600 / 60);
+	NSUInteger dSeconds = floor(dTotalSeconds % 3600 % 60);
+	NSString *videoDurationText = [NSString stringWithFormat:@"%lu:%02lu:%02lu",(unsigned long)dHours, (unsigned long)dMinutes, (unsigned long)dSeconds];
+	_mDuration.stringValue = videoDurationText;
 }
 
 + (NSSet *)keyPathsForValuesAffectingVolume
@@ -1418,6 +1428,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 		[self setNormalSizeDisplay];
 		[self setCurrentSizeDisplay];
 		_movieFileField.stringValue = [self URLCurrentlyPlayingInPlayer:self.player].absoluteString;
+		[self setDuration];
 	}
 }
 
@@ -1542,7 +1553,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 - (void)showInfoSheet:(NSWindow *)window
 {
     [self.windowForSheet beginSheet:_infoPanel completionHandler:^(NSModalResponse returnCode) {
-		[_infoPanel orderOut:self];
+		[self->_infoPanel orderOut:self];
 	}];
 }
 
@@ -1561,7 +1572,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 - (void)showURLSheet:(NSWindow *)window
 {
 	[self.windowForSheet beginSheet:_URLPanel completionHandler:^(NSModalResponse returnCode) {
-		[_URLPanel orderOut:self];
+		[self->_URLPanel orderOut:self];
 	}];
 	// FIXME: Is this still necessary? Looks like a hack. ;)
 	_URLPanel.minSize = _URLPanel.frame.size;
@@ -1572,6 +1583,101 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 {
 	[self.windowForSheet endSheet:_URLPanel];
 }
+
+#pragma mark transcription feature
+
+-(void) transcribeFile
+{
+	if (_mediaFileBookmark) {
+		NSLocale *locale =[[NSLocale alloc] initWithLocaleIdentifier:@"en_GB"];
+		SFSpeechRecognizer *speechRecognizer = [[SFSpeechRecognizer alloc] initWithLocale:locale];
+		//SFSpeechAudioBufferRecognitionRequest
+		NSLog(@"Locale %@, %@", speechRecognizer.locale.languageCode, speechRecognizer.locale.countryCode);
+		NSLog(@"Available %hhd", speechRecognizer.available);
+		NSLog(@"Auth status %ld", (long)[SFSpeechRecognizer authorizationStatus]);
+		NSLog(@"Supports on device %hhd", speechRecognizer.supportsOnDeviceRecognition);
+		if(speechRecognizer.isAvailable ){ //&& speechRecognizer.supportsOnDeviceRecognition
+			NSError *error = nil;
+			NSURL *url =
+			[NSURL URLByResolvingBookmarkData:_mediaFileBookmark
+									  options:NSURLBookmarkResolutionWithSecurityScope
+								relativeToURL:nil
+						  bookmarkDataIsStale:NULL
+										error:&error];
+			NSError *err;
+			if ([url checkResourceIsReachableAndReturnError:&err] == NO) {
+				NSLog(@"%@", err);
+				NSAlert *alert = [NSAlert alertWithError:err];
+				[alert beginSheetModalForWindow:self.windowForSheet
+							  completionHandler:^(NSModalResponse returnCode) {
+							  }];
+			}
+			NSLog(@"URL: %@", url);
+			//NSString *audioFilePath = path;
+			//NSURL *url = [self URLCurrentlyPlayingInPlayer:self.player];
+			// let audioTrack = asset.tracks(withMediaType: AVMediaTypeAudio).first!
+			[url startAccessingSecurityScopedResource];
+			NSLog(@"Analyzing %@ in language %@", url, locale.languageCode);
+			SFSpeechURLRecognitionRequest *urlRequest = [[SFSpeechURLRecognitionRequest alloc] initWithURL:url];
+			//urlRequest.requiresOnDeviceRecognition = true; //if false => works
+			urlRequest.shouldReportPartialResults = YES; // YES if animate writting
+			[speechRecognizer recognitionTaskWithRequest: urlRequest resultHandler:  ^(SFSpeechRecognitionResult * _Nullable result, NSError * _Nullable error){
+				NSString *transcriptText = result.bestTranscription.formattedString;
+				if(!error){
+					NSLog(@"Transcript: %@", transcriptText);
+				} else {
+					NSLog(@"Error: %@", error);
+				}
+			}];
+			[url stopAccessingSecurityScopedResource];
+		}
+		else {
+			NSLog(@"speechRecognizer is not available on this device");
+		}
+	}
+}
+
+
+-(IBAction)autotranscribeFile:(id)sender
+{
+	[SFSpeechRecognizer requestAuthorization:^(SFSpeechRecognizerAuthorizationStatus authStatus) {
+            NSLog(@"Status: %ld", (long)authStatus);
+            switch (authStatus) {
+                case SFSpeechRecognizerAuthorizationStatusAuthorized:
+                    //User gave access to speech recognition
+                    NSLog(@"Authorized");
+
+                    [self transcribeFile];
+
+                    break;
+
+                case SFSpeechRecognizerAuthorizationStatusDenied:
+                    //User denied access to speech recognition
+                    NSLog(@"SFSpeechRecognizerAuthorizationStatusDenied");
+                    break;
+
+                case SFSpeechRecognizerAuthorizationStatusRestricted:
+                    //Speech recognition restricted on this device
+                    NSLog(@"SFSpeechRecognizerAuthorizationStatusRestricted");
+                    break;
+
+                case SFSpeechRecognizerAuthorizationStatusNotDetermined:
+                    //Speech recognition not yet authorized
+
+                    break;
+
+                default:
+                    NSLog(@"Default");
+                    break;
+            }
+		}
+	 ];
+
+	NSLog(@"Sleeping");
+	[NSThread sleepForTimeInterval:20.0f];
+
+}
+    
 
 
 #pragma mark timestamp line numbers
