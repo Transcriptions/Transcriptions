@@ -205,19 +205,19 @@
 
 	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"replayItem"])
 	{
-		[self setKeyEquivalent:@"1" withModifierMask:NSControlKeyMask ofMenuItem:replayMenuItem];
+		[self setKeyEquivalent:@"1" withModifierMask:NSEventModifierFlagControl ofMenuItem:replayMenuItem];
 	}
 	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"playPauseItem"])
 	{
-		[self setKeyEquivalent:@"2" withModifierMask:NSControlKeyMask ofMenuItem:playPauseMenuItem];
+		[self setKeyEquivalent:@"2" withModifierMask:NSEventModifierFlagControl ofMenuItem:playPauseMenuItem];
 	}
 	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"controlsItem"])
 	{
-		[self setKeyEquivalent:@"3" withModifierMask:NSControlKeyMask ofMenuItem:controlsMenuItem];
+		[self setKeyEquivalent:@"3" withModifierMask:NSEventModifierFlagControl ofMenuItem:controlsMenuItem];
 	}
 	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"timestampItem"])
 	{
-		[self setKeyEquivalent:@"t" withModifierMask:NSControlKeyMask ofMenuItem:timestampMenuItem];
+		[self setKeyEquivalent:@"t" withModifierMask:NSEventModifierFlagControl ofMenuItem:timestampMenuItem];
 	}
 	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"autoTimestamp"])
 	{

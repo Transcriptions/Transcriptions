@@ -285,7 +285,7 @@ const CGFloat numberStringRightMargin = 3.0;
 			[highlightSeparatorColor set];
 			[aPath moveToPoint:NSMakePoint(1.0, lineRect.origin.y)];
 			[aPath lineToPoint:NSMakePoint(numbersBarWidth, lineRect.origin.y)];
-			aPath.lineCapStyle = NSSquareLineCapStyle;
+			aPath.lineCapStyle = NSLineCapStyleSquare;
 			[aPath stroke];
 			
 			NSColor * const endingColor = highlightColor;
