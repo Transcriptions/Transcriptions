@@ -40,12 +40,14 @@
 {
 
     IBOutlet SRRecorderControl* replayShortcutRecorder;
+	IBOutlet SRRecorderControl* ffShortcutRecorder;
     IBOutlet SRRecorderControl* pauseShortcutRecorder;
     IBOutlet SRRecorderControl* controlsShortcutRecorder;
     IBOutlet SRRecorderControl* timestampShortcutRecorder;
 	
     IBOutlet NSWindow* prefPane;
 	IBOutlet NSMenuItem* replayMenuItem;
+	IBOutlet NSMenuItem* fastForwardMenuItem;
 	IBOutlet NSMenuItem* playPauseMenuItem;
 	IBOutlet NSMenuItem* controlsMenuItem;
 	IBOutlet NSMenuItem* timestampMenuItem;

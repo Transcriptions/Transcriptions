@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication"/>
@@ -637,6 +638,12 @@
                                     <action selector="playPauseToggle:" target="-1" id="rkz-DV-h9F"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="FastForward" id="ygq-wG-yR0">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="fastForward:" target="-1" id="dtT-BS-EM1"/>
+                                </connections>
+                            </menuItem>
                             <menuItem title="RePlay" id="Wbh-7T-skX">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
@@ -727,6 +734,7 @@
                     </menu>
                 </menuItem>
             </items>
+            <point key="canvasLocation" x="140" y="154"/>
         </menu>
         <menuItem title="Item" id="wUD-To-rcT">
             <modifierMask key="keyEquivalentModifierMask"/>
@@ -737,6 +745,8 @@
             <connections>
                 <outlet property="controlsMenuItem" destination="bSF-ee-uDb" id="jR6-fD-Xqr"/>
                 <outlet property="controlsShortcutRecorder" destination="7mr-Xx-dur" id="Eqt-pd-Mqa"/>
+                <outlet property="fastForwardMenuItem" destination="ygq-wG-yR0" id="lxe-qI-s9y"/>
+                <outlet property="ffShortcutRecorder" destination="4ad-Jf-Pbv" id="UWm-XR-eHc"/>
                 <outlet property="pauseShortcutRecorder" destination="ATA-6i-eIk" id="KGd-Id-bpV"/>
                 <outlet property="playPauseMenuItem" destination="5tb-Io-aed" id="MaX-uW-9eS"/>
                 <outlet property="prefPane" destination="rJI-i9-4Dn" id="KK4-Pz-FmK"/>
@@ -747,35 +757,35 @@
             </connections>
         </customObject>
         <userDefaultsController id="nZm-8h-v0D"/>
-        <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="Preferences" animationBehavior="default" id="rJI-i9-4Dn">
+        <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="Preferences" animationBehavior="default" id="rJI-i9-4Dn">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="131" y="159" width="369" height="225"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
-            <value key="minSize" type="size" width="369" height="225"/>
-            <value key="maxSize" type="size" width="369" height="225"/>
+            <rect key="contentRect" x="131" y="159" width="369" height="288"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="875"/>
+            <value key="minSize" type="size" width="369" height="288"/>
+            <value key="maxSize" type="size" width="369" height="288"/>
             <view key="contentView" id="CFn-9u-f5F">
-                <rect key="frame" x="0.0" y="0.0" width="369" height="225"/>
+                <rect key="frame" x="0.0" y="0.0" width="369" height="288"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <customView id="Bha-nl-ih1" customClass="SRRecorderControl">
-                        <rect key="frame" x="126" y="137" width="223" height="33"/>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bha-nl-ih1" customClass="SRRecorderControl">
+                        <rect key="frame" x="126" y="167" width="223" height="33"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     </customView>
-                    <customView id="ATA-6i-eIk" customClass="SRRecorderControl">
-                        <rect key="frame" x="126" y="178" width="223" height="33"/>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ATA-6i-eIk" customClass="SRRecorderControl">
+                        <rect key="frame" x="126" y="241" width="223" height="33"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     </customView>
-                    <customView id="7mr-Xx-dur" customClass="SRRecorderControl">
-                        <rect key="frame" x="126" y="96" width="223" height="33"/>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7mr-Xx-dur" customClass="SRRecorderControl">
+                        <rect key="frame" x="126" y="128" width="223" height="33"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     </customView>
-                    <customView id="a56-se-Qdi" customClass="SRRecorderControl">
-                        <rect key="frame" x="126" y="55" width="223" height="33"/>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a56-se-Qdi" customClass="SRRecorderControl">
+                        <rect key="frame" x="126" y="89" width="223" height="33"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     </customView>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="0Hb-9S-5D9">
-                        <rect key="frame" x="29" y="192" width="91" height="17"/>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Hb-9S-5D9">
+                        <rect key="frame" x="29" y="255" width="91" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Play/Pause:" id="8Gz-2f-xDV">
                             <font key="font" metaFont="systemBold"/>
@@ -783,8 +793,8 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Mwc-5w-rge">
-                        <rect key="frame" x="29" y="151" width="91" height="17"/>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mwc-5w-rge">
+                        <rect key="frame" x="29" y="181" width="91" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="RePlay:" id="R27-mN-ZMX">
                             <font key="font" metaFont="systemBold"/>
@@ -792,8 +802,8 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="hj3-dU-g4J">
-                        <rect key="frame" x="29" y="110" width="91" height="17"/>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hj3-dU-g4J">
+                        <rect key="frame" x="29" y="142" width="91" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Controls:" id="DXr-oC-ZJ9">
                             <font key="font" metaFont="systemBold"/>
@@ -801,8 +811,8 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Zd1-20-7KC">
-                        <rect key="frame" x="29" y="69" width="91" height="17"/>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zd1-20-7KC">
+                        <rect key="frame" x="29" y="103" width="91" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Timestamps:" id="BSD-IE-HGb">
                             <font key="font" metaFont="systemBold"/>
@@ -810,7 +820,7 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button id="APT-Ie-Wxg">
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="APT-Ie-Wxg">
                         <rect key="frame" x="34" y="18" width="301" height="18"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="check" title="Attach media file URL to comments on save" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="kWr-m1-Kb8">
@@ -827,10 +837,40 @@
                             </binding>
                         </connections>
                     </button>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4ad-Jf-Pbv" customClass="SRRecorderControl">
+                        <rect key="frame" x="126" y="205" width="223" height="33"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    </customView>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h6p-UP-Gsj">
+                        <rect key="frame" x="29" y="219" width="91" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="FastForward:" id="rDs-Bx-JQk">
+                            <font key="font" metaFont="systemBold"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="174.5" y="498.5"/>
+            <point key="canvasLocation" x="178" y="589"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="7ho-hK-os5"/>
     </objects>
+    <designables>
+        <designable name="4ad-Jf-Pbv">
+            <size key="intrinsicContentSize" width="102" height="25"/>
+        </designable>
+        <designable name="7mr-Xx-dur">
+            <size key="intrinsicContentSize" width="102" height="25"/>
+        </designable>
+        <designable name="ATA-6i-eIk">
+            <size key="intrinsicContentSize" width="102" height="25"/>
+        </designable>
+        <designable name="Bha-nl-ih1">
+            <size key="intrinsicContentSize" width="102" height="25"/>
+        </designable>
+        <designable name="a56-se-Qdi">
+            <size key="intrinsicContentSize" width="102" height="25"/>
+        </designable>
+    </designables>
 </document>

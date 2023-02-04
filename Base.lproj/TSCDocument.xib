@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -121,20 +120,20 @@
                                                         </connections>
                                                     </textField>
                                                     <button toolTip="Media Controls" verticalHuggingPriority="750" fixedFrame="YES" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100674">
-                                                        <rect key="frame" x="284" y="29" width="30" height="25"/>
+                                                        <rect key="frame" x="285" y="31" width="28" height="23"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="transcriptions-icon_CONTROLS" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="100675">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" metaFont="menu" size="11"/>
+                                                            <font key="font" metaFont="system"/>
                                                         </buttonCell>
                                                         <connections>
                                                             <action selector="openHUDPanel:" target="-2" id="100676"/>
                                                         </connections>
                                                     </button>
                                                     <button toolTip="Media Controls" verticalHuggingPriority="750" fixedFrame="YES" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KBA-g6-Hpm">
-                                                        <rect key="frame" x="284" y="4" width="30" height="25"/>
+                                                        <rect key="frame" x="284" y="3" width="30" height="25"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSActionTemplate" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="W8U-ru-Xhx">
+                                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSActionTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="W8U-ru-Xhx">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="menu" size="11"/>
                                                         </buttonCell>
@@ -177,7 +176,7 @@
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
                                                         <connections>
-                                                            <action selector="playPauseToggle:" target="-2" id="100932"/>
+                                                            <action selector="playPauseButtonToggle:" target="-2" id="gx0-9L-JCN"/>
                                                         </connections>
                                                     </button>
                                                     <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100655">
@@ -211,9 +210,9 @@
                                                         </subviews>
                                                     </customView>
                                                     <button toolTip="Load File" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100677">
-                                                        <rect key="frame" x="284" y="343" width="30" height="25"/>
+                                                        <rect key="frame" x="285" y="344" width="25" height="23"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="transcriptions-icon_OPEN" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="100678">
+                                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="transcriptions-icon_OPEN" imagePosition="only" alignment="center" state="on" borderStyle="border" inset="2" id="100678">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
@@ -452,7 +451,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100637">
-                        <rect key="frame" x="57" y="98" width="79" height="14"/>
+                        <rect key="frame" x="56" y="98" width="79" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Paragraphs:" id="100638">
                             <font key="font" metaFont="menu" size="11"/>
@@ -479,7 +478,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100639">
-                        <rect key="frame" x="57" y="73" width="79" height="14"/>
+                        <rect key="frame" x="56" y="73" width="79" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Words:" id="100640">
                             <font key="font" metaFont="menu" size="11"/>
@@ -488,7 +487,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100641">
-                        <rect key="frame" x="57" y="50" width="79" height="14"/>
+                        <rect key="frame" x="56" y="50" width="79" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Characters:" id="100642">
                             <font key="font" metaFont="menu" size="11"/>
@@ -497,7 +496,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                         </textFieldCell>
                     </textField>
                     <button focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100646">
-                        <rect key="frame" x="86" y="12" width="106" height="32"/>
+                        <rect key="frame" x="85" y="12" width="106" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="100647">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -790,7 +789,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                             </configuration>
                         </ciFilter>
                     </contentFilters>
-                    <sliderCell key="cell" controlSize="small" focusRingType="none" alignment="left" maxValue="10" doubleValue="2.2222222222222223" tickMarkPosition="below" numberOfTickMarks="10" allowsTickMarkValuesOnly="YES" sliderType="linear" id="100798"/>
+                    <sliderCell key="cell" controlSize="small" focusRingType="none" alignment="left" maxValue="30" doubleValue="5.1724137931034484" tickMarkPosition="below" numberOfTickMarks="30" allowsTickMarkValuesOnly="YES" sliderType="linear" id="100798"/>
                 </slider>
                 <textField toolTip="Set Volume" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100794">
                     <rect key="frame" x="133" y="81" width="48" height="14"/>
@@ -822,7 +821,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                     </contentFilters>
                     <sliderCell key="cell" controlSize="small" focusRingType="none" alignment="left" maxValue="2" doubleValue="1" tickMarkPosition="below" numberOfTickMarks="1" sliderType="linear" id="100801"/>
                     <connections>
-                        <binding destination="-2" name="value" keyPath="volume" id="100928"/>
+                        <binding destination="-2" name="value" keyPath="volume" id="UUM-VP-ZW4"/>
                     </connections>
                 </slider>
                 <textField toolTip="Set Movie Rate" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100888">
@@ -837,7 +836,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                 <textField toolTip="Set Movie Rate" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100892">
                     <rect key="frame" x="273" y="72" width="38" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="100%" bezelStyle="round" id="100893">
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="200%" bezelStyle="round" id="100893">
                         <font key="font" metaFont="menu" size="11"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="backgroundColor" red="1" green="1" blue="0.79435486" alpha="1" colorSpace="calibratedRGB"/>
@@ -846,7 +845,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                 <textField toolTip="Set Movie Rate" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100896">
                     <rect key="frame" x="273" y="103" width="38" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="10s" bezelStyle="round" id="100897">
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="30s" bezelStyle="round" id="100897">
                         <font key="font" metaFont="menu" size="11"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="backgroundColor" red="1" green="1" blue="0.79435486" alpha="1" colorSpace="calibratedRGB"/>
@@ -888,7 +887,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                         <color key="backgroundColor" red="1" green="1" blue="0.79435486" alpha="1" colorSpace="calibratedRGB"/>
                     </textFieldCell>
                 </textField>
-                <slider toolTip="Set Movie Rate" focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100790">
+                <slider toolTip="Set Movie Rate" focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100790">
                     <rect key="frame" x="34" y="32" width="240" height="18"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <contentFilters>
@@ -900,7 +899,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                     </contentFilters>
                     <sliderCell key="cell" controlSize="small" continuous="YES" state="on" focusRingType="none" alignment="left" minValue="0.20000000000000001" maxValue="1.3999999999999999" doubleValue="1" tickMarkPosition="below" numberOfTickMarks="13" allowsTickMarkValuesOnly="YES" sliderType="linear" id="100803"/>
                     <connections>
-                        <binding destination="-2" name="value" keyPath="player.rate" id="100943"/>
+                        <binding destination="-2" name="value" keyPath="rate" id="4vu-Qt-S3q"/>
                     </connections>
                 </slider>
             </subviews>

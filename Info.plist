@@ -11,10 +11,14 @@
 			<array>
 				<string>rtf</string>
 			</array>
+			<key>CFBundleTypeIconSystemGenerated</key>
+			<integer>1</integer>
 			<key>CFBundleTypeName</key>
 			<string>Rich Text Format</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.rtf</string>
@@ -33,10 +37,14 @@
 			<array>
 				<string>srt</string>
 			</array>
+			<key>CFBundleTypeIconSystemGenerated</key>
+			<integer>1</integer>
 			<key>CFBundleTypeName</key>
 			<string>SubRip Subtitle Text Format</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>org.niltsh.mplayerx-subrip</string>
@@ -71,12 +79,14 @@
 	<string>public.app-category.productivity</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
+	<key>NSAppleScriptEnabled</key>
+	<false/>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>By clicking the Auto-Transcription Button the Transcriptions app uses on-device speech recognition to transcribe text contents. The implementation of this feature can be reviewed in the public sourcecode repository.</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>By clicking the Auto-Transcription Button the Transcriptions app uses on-device speech recognition to transcribe text contents. The implementation of this feature can be reviewed in the public sourcecode repository.</string>
 	<key>UTImportedTypeDeclarations</key>
 	<array>
 		<dict>

@@ -52,6 +52,8 @@ FOUNDATION_EXPORT NSString * const TSCTimeStampChangedNotification;
 	BOOL _atCharacterKey;
 	BOOL _spaceCharacterCheck;
 	BOOL _enterCharacterCheck;
+	
+	NSRect insertionRect;
 }
 
 @property NSUInteger highlightLineNumber;

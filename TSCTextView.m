@@ -483,6 +483,7 @@ TSCUpdateFlags determineUpdateFlagsForTextAndRange(NSTextStorage *textStorage, N
 		// Determine required updates due to deletions.
 		_willNeed = determineUpdateFlagsForTextAndRange(self.textStorage, affectedCharRange);
 	}
+	//insertionRect=[[self layoutManager] boundingRectForGlyphRange:[self selectedRange] inTextContainer:[self textContainer]];
 	
 	return shouldChangeText;
 }
@@ -719,5 +720,37 @@ void updateTimeStampsForTextStorageWithAffectedRanges(NSTextStorage *textStorage
 	_highlightLineNumber = lineNumber;
 	self.needsDisplay = YES;
 }
+
+/*-(void)didChangeText
+{
+	CGFloat scrolling=[[NSScreen mainScreen] frame].size.height/2;
+	NSPoint scrollPoint=NSMakePoint(0,insertionRect.origin.y+insertionRect.size.height+2*scrolling-[[NSScreen mainScreen] frame].size.height);
+	[self scrollPoint:scrollPoint];
+}*/
+
+/*- (void)setFrameSize:(NSSize)newSize
+{
+	CGFloat scHeight = self.enclosingScrollView.contentView.frame.size.height;
+	CGFloat lastLineHeight = self.layoutManager.extraLineFragmentRect.size.height;
+	
+	CGFloat newHeight = scHeight - lastLineHeight;
+	
+	NSSize nSize = NSSizeFromCGSize(CGSizeMake(newSize.width, newHeight));
+	//(the height of the scrollView’s content area) - (height of the last line of text)
+	[super setFrameSize:nSize];
+}
+
+-(void)setFrame:(NSRect)frame
+{
+	CGFloat scHeight = self.enclosingScrollView.contentView.frame.size.height;
+	CGFloat lastLineHeight = self.layoutManager.extraLineFragmentRect.size.height;
+	
+	CGFloat newHeight = scHeight - lastLineHeight;
+	
+	NSSize nSize = NSSizeFromCGSize(CGSizeMake(frame.size.width, newHeight));
+	NSRect nFrame = NSRectFromCGRect(CGRectMake(frame.origin.x, frame.origin.y, nSize.width, nSize.height));
+	[super setFrame:nFrame];
+}*/
+
 
 @end

@@ -36,37 +36,40 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @implementation TSCArrayController
 
+
 - (void)awakeFromNib
 {
+	NSError *error;
 	NSData *theData=[[NSUserDefaults standardUserDefaults] dataForKey:@"substitutionArray"];
+	NSSet *classes = [NSSet setWithObjects:[NSArray class], [NSMutableDictionary class], [NSAttributedString class], nil];
 		if (theData != nil){
-			[self addObjects:[NSUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] dataForKey:@"substitutionArray"]]];
+			[self addObjects:(NSArray *)[NSKeyedUnarchiver unarchivedObjectOfClasses:classes fromData:[[NSUserDefaults standardUserDefaults] dataForKey:@"substitutionArray"] error:&error]];
 		}
-			
 }
 
 
 - (void)add:(id)sender
 {
+	NSError *error;
 	[super add:sender];
-	NSData *saveData = [NSArchiver archivedDataWithRootObject:self.arrangedObjects];
+	NSData* saveData = [NSKeyedArchiver archivedDataWithRootObject:self.arrangedObjects requiringSecureCoding:false error:&error];
 	[[NSUserDefaults standardUserDefaults] setObject:saveData forKey:@"substitutionArray"];
 }
 
 - (void)remove:(id)sender
 {
-	
+	NSError *error;
 	[super remove:sender];
-	NSData *saveData = [NSArchiver archivedDataWithRootObject:self.arrangedObjects];
+	NSData *saveData = [NSKeyedArchiver archivedDataWithRootObject:self.arrangedObjects requiringSecureCoding:false error:&error];
 	[[NSUserDefaults standardUserDefaults] setObject:saveData forKey:@"substitutionArray"];
 }
 
 - (void)objectDidEndEditing:(id)editor
 {
+	NSError *error;
 	[super objectDidEndEditing:editor];
-	NSData *saveData = [NSArchiver archivedDataWithRootObject:self.arrangedObjects];
+	NSData *saveData = [NSKeyedArchiver archivedDataWithRootObject:self.arrangedObjects requiringSecureCoding:false error:&error];
 	[[NSUserDefaults standardUserDefaults] setObject:saveData forKey:@"substitutionArray"];
-	
 }
 
 

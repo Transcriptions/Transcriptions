@@ -153,6 +153,14 @@
             withKeyPath:@"values.replayItem"
                 options:@{NSValueTransformerBindingOption: [SRKeyEquivalentModifierMaskTransformer new]}];
     
+	[fastForwardMenuItem bind:@"keyEquivalent"
+			   toObject:defaults
+			withKeyPath:@"values.fastForwardItem"
+				options:@{NSValueTransformerBindingOption: [SRKeyEquivalentTransformer new]}];
+	[fastForwardMenuItem bind:@"keyEquivalentModifierMask"
+			   toObject:defaults
+			withKeyPath:@"values.fastForwardItem"
+				options:@{NSValueTransformerBindingOption: [SRKeyEquivalentModifierMaskTransformer new]}];
     
     [playPauseMenuItem bind:@"keyEquivalent"
                 toObject:defaults
@@ -192,6 +200,10 @@
                                toObject:defaults
                             withKeyPath:@"values.playPauseItem"
                                 options:nil];
+	[ffShortcutRecorder bind:NSValueBinding
+							   toObject:defaults
+							withKeyPath:@"values.fastForwardItem"
+								options:nil];
     [controlsShortcutRecorder bind:NSValueBinding
                                toObject:defaults
                             withKeyPath:@"values.controlsItem"
@@ -211,9 +223,13 @@
 	{
 		[self setKeyEquivalent:@"2" withModifierMask:NSEventModifierFlagControl ofMenuItem:playPauseMenuItem];
 	}
+	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"fastForwardItem"])
+	{
+		[self setKeyEquivalent:@"3" withModifierMask:NSEventModifierFlagControl ofMenuItem:playPauseMenuItem];
+	}
 	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"controlsItem"])
 	{
-		[self setKeyEquivalent:@"3" withModifierMask:NSEventModifierFlagControl ofMenuItem:controlsMenuItem];
+		[self setKeyEquivalent:@"4" withModifierMask:NSEventModifierFlagControl ofMenuItem:controlsMenuItem];
 	}
 	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"timestampItem"])
 	{

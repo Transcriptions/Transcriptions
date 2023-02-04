@@ -78,13 +78,15 @@ typedef NS_ENUM(NSInteger, TSCErrorCode) {
 	IBOutlet NSTextField *_movieCurrentSize;
 	IBOutlet NSTextField *_commentTextField;
 	IBOutlet NSSlider *_replaySlider;
+	//IBOutlet NSSlider *_volumeSlider;
+	//IBOutlet NSSlider *_rateSlider;
     NSAttributedString *_rtfSaveData;
 	
 	IBOutlet NSImageView *_noVideoImage;
 	IBOutlet NSView *_playerView;
 	IBOutlet NSButton *_playPauseButton;
-	IBOutlet NSButton *_fastForwardButton;
-	IBOutlet NSButton *_rewindButton;
+	//IBOutlet NSButton *_fastForwardButton;
+	//IBOutlet NSButton *_rewindButton;
 	IBOutlet NSSlider *_timeSlider;
 	
 	NSDictionary *_docAttributes;
@@ -107,7 +109,8 @@ typedef NS_ENUM(NSInteger, TSCErrorCode) {
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
 @property (nonatomic, assign) CMTime currentTime;
 @property (nonatomic, readonly) CMTime duration;
-@property (nonatomic, assign) float volume;
+@property (nonatomic) float volume;
+@property (nonatomic) float rate;
 @property (nonatomic, strong) id timeObserverToken;
 
 @property (nonatomic, copy) NSString *path;

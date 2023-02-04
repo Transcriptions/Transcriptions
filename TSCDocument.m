@@ -1,5 +1,5 @@
 /*
-This software is Copyright (c) 2008
+This software is Copyright (c) 2008-2023
 David Haselberger. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
@@ -137,7 +137,6 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 	[self addObserver:self forKeyPath:@"player.rate" options:NSKeyValueObservingOptionNew context:TSCPlayerRateContext];
 	[self addObserver:self forKeyPath:@"player.currentItem.status" options:NSKeyValueObservingOptionNew context:TSCPlayerItemStatusContext];
 	
-	// TODO: Store currentTime in metadata and restore here.
 	self.currentTime = kCMTimeZero;
 }
 
@@ -184,6 +183,8 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 	
 	if (_comment.length > 0) {
 		NSString *foundURLString;
+		NSString *foundTimeString;
+		
 		if ([_comment rangeOfString:@"[[associatedMediaURL:"].location != NSNotFound) {
 			foundURLString = [NSString stringWithString:[self getDataBetweenFromString:_comment leftString:@"[[associatedMediaURL:" rightString:@"]]" leftOffset:21]];
 		}
@@ -216,6 +217,15 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 				
 			}
 		}
+		
+		// TODO: Store currentTime in metadata and restore here.
+		/*if ([_comment rangeOfString:@"[[associatedCurrentTime:"].location != NSNotFound) {
+			foundTimeString = [NSString stringWithString:[self getDataBetweenFromString:_comment leftString:@"[[associatedCurrentTime:" rightString:@"]]" leftOffset:24]];
+		}
+		if (foundTimeString.length > 0) {
+			
+		}*/
+		
 	}
 }
 
@@ -539,6 +549,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 		return nil;
 	}
 	
+	//TODO: Add UserDefaults for CurrentTime
 	if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"mediaFileAssoc"] boolValue] == YES) {
 		if (_comment.length > 0) {
 			if ([_comment rangeOfString:@"[[associatedMediaURL:"].location != NSNotFound) {
@@ -892,11 +903,11 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
     [self.player replaceCurrentItemWithPlayerItem:_playerItem];
 	
 	__weak typeof(self) weakSelf = self;
-    self.timeObserverToken = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 60) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-		__strong typeof(self) strongSelf = weakSelf;
-		[strongSelf willChangeValueForKey:@"currentTime"];
-		[strongSelf didChangeValueForKey:@"currentTime"];
-		[strongSelf updateTimestampLineNumber];
+    self.timeObserverToken = [self.player  addPeriodicTimeObserverForInterval:CMTimeMake(1, 60) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+		//__strong typeof(self) strongSelf = weakSelf;
+		[weakSelf willChangeValueForKey:@"currentTime"];
+		[weakSelf didChangeValueForKey:@"currentTime"];
+		[weakSelf updateTimestampLineNumber];
     }];
 }
 
@@ -920,8 +931,8 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
         }
         
         _playPauseButton.enabled = enable;
-        _fastForwardButton.enabled = enable;
-        _rewindButton.enabled = enable;
+        //_fastForwardButton.enabled = enable;
+        //_rewindButton.enabled = enable;
     }
     else if (context == TSCPlayerRateContext)
     {
@@ -932,8 +943,11 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
         }
         else
         {
-            [[NSUserDefaults standardUserDefaults] setFloat:rate forKey:@"currentRate"];
-            //[[self playPauseButton] setTitle:@"Pause"];
+			if(rate <= 1.99f)
+			{
+				[[NSUserDefaults standardUserDefaults] setFloat:rate forKey:@"currentRate"];
+				//[[self playPauseButton] setTitle:@"Pause"];
+			}
         }
     }
     else if (context == TSCPlayerLayerReadyForDisplay)
@@ -1034,6 +1048,11 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
     self.player.volume = volume;
 }
 
+- (float)rate
+{
+	return self.player.rate;
+}
+
 - (void)setNormalSizeDisplay
 {
     NSMutableString *sizeString = [NSMutableString string];
@@ -1041,11 +1060,11 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
     NSArray* videoAssets = [self.player.currentItem.asset tracksWithMediaType:AVMediaTypeVideo];
     if (videoAssets.count != 0)
     {
-    movieSize = [videoAssets[0] naturalSize];
-    [sizeString appendFormat:@"%.0f", movieSize.width];
-    [sizeString appendString:@" x "];
-    [sizeString appendFormat:@"%.0f", movieSize.height];
-    _movieNormalSize.stringValue = sizeString;
+		movieSize = [videoAssets[0] naturalSize];
+		[sizeString appendFormat:@"%.0f", movieSize.width];
+		[sizeString appendString:@" x "];
+		[sizeString appendFormat:@"%.0f", movieSize.height];
+		_movieNormalSize.stringValue = sizeString;
     }
     else{
         _movieNormalSize.stringValue = @"";
@@ -1073,7 +1092,8 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
         CMTime currentTime = self.currentTime;
         CMTime timeToAdd   = CMTimeMakeWithSeconds(_replaySlider.intValue, 1);
         CMTime resultTime  = CMTimeSubtract(currentTime,timeToAdd);
-        [self.player seekToTime:resultTime];
+		[self.player seekToTime:resultTime];
+		[self.player pause];
         [self.player playWithCurrentUserDefaultRate];
         [self updateTimestampLineNumber];
     }
@@ -1081,18 +1101,42 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 
 - (IBAction)playPauseToggle:(id)sender
 {
-    if (self.player.rate == 0.f)
-    {
-        if (CMTIME_COMPARE_INLINE(self.currentTime, ==, self.duration)) {
-            self.currentTime = kCMTimeZero;
-        }
-		[self.player playWithCurrentUserDefaultRate];
-        [self updateTimestampLineNumber];
-    }
-    else
-    {
-        [self.player pause];
-    }
+
+		if (self.player.rate == 0.f)
+		{
+			if (CMTIME_COMPARE_INLINE(self.currentTime, ==, self.duration)) {
+				self.currentTime = kCMTimeZero;
+			}
+			[self.player playWithCurrentUserDefaultRate];
+			[self updateTimestampLineNumber];
+		}
+		else
+		{
+			[self.player pause];
+		}
+    
+}
+
+- (IBAction)playPauseButtonToggle:(id)sender
+{
+	if (NSApp.currentEvent.clickCount == 2) {
+		[self fastForward:self];
+	}
+	else{
+		if (self.player.rate == 0.f)
+		{
+			if (CMTIME_COMPARE_INLINE(self.currentTime, ==, self.duration)) {
+				self.currentTime = kCMTimeZero;
+			}
+			[self.player playWithCurrentUserDefaultRate];
+			[self updateTimestampLineNumber];
+		}
+		else
+		{
+			[self.player pause];
+		}
+	}
+	
 }
 
 
@@ -1332,6 +1376,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 		}
 		
 		[self.player seekToTime:newTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+		[self.player pause];
 		
 		if (timestampReplay || timestampAutoPlay) {
 			[self.player playWithCurrentUserDefaultRate];
