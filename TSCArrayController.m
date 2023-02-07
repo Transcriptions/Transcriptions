@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
 	NSError *error;
 	NSData *theData=[[NSUserDefaults standardUserDefaults] dataForKey:@"substitutionArray"];
-	NSSet *classes = [NSSet setWithObjects:[NSArray class], [NSMutableDictionary class], [NSAttributedString class], nil];
+	NSSet *classes = [NSSet setWithObjects:[NSArray class], [NSMutableDictionary class], [NSAttributedString class], [NSString class], nil];
 		if (theData != nil){
 			[self addObjects:(NSArray *)[NSKeyedUnarchiver unarchivedObjectOfClasses:classes fromData:[[NSUserDefaults standardUserDefaults] dataForKey:@"substitutionArray"] error:&error]];
 		}

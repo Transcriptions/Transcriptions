@@ -78,8 +78,8 @@ typedef NS_ENUM(NSInteger, TSCErrorCode) {
 	IBOutlet NSTextField *_movieCurrentSize;
 	IBOutlet NSTextField *_commentTextField;
 	IBOutlet NSSlider *_replaySlider;
-	//IBOutlet NSSlider *_volumeSlider;
-	//IBOutlet NSSlider *_rateSlider;
+	IBOutlet NSSlider *_volumeSlider;
+	IBOutlet NSSlider *_rateSlider;
     NSAttributedString *_rtfSaveData;
 	
 	IBOutlet NSImageView *_noVideoImage;
@@ -111,7 +111,10 @@ typedef NS_ENUM(NSInteger, TSCErrorCode) {
 @property (nonatomic, readonly) CMTime duration;
 @property (nonatomic) float volume;
 @property (nonatomic) float rate;
+//@property (nonatomic) float replayTime;
 @property (nonatomic, strong) id timeObserverToken;
+
+@property (nonatomic) bool loadedNib;
 
 @property (nonatomic, copy) NSString *path;
 
@@ -137,7 +140,7 @@ typedef NS_ENUM(NSInteger, TSCErrorCode) {
 - (void)closeURLSheet: (id)sender;
 - (IBAction)reportBug:(id)sender;
 - (IBAction)writeFeedback:(id)sender;
-- (IBAction)redirectToDonationPage:(id)sender;
+//- (IBAction)redirectToDonationPage:(id)sender;
 -(IBAction)autotranscribeFile:(id)sender;
 
 - (void)updateTimestampLineNumber;

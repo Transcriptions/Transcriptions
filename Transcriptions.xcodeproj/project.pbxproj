@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0A2EA3511A2BC81E0086367E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A2EA3501A2BC81E0086367E /* Images.xcassets */; };
-		0A2EA3571A2BD6560086367E /* ShortcutRecorder.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0ADD23481998E930007D81D3 /* ShortcutRecorder.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0A2EA3581A2BD65B0086367E /* PTHotKey.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0ADD234A1998E930007D81D3 /* PTHotKey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0A32C27F19A3723C007B8415 /* TSCSplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A32C27E19A3723C007B8415 /* TSCSplitViewDelegate.m */; };
 		0A3D20B31A2DD9140066C34E /* transcriptions-icon_CONTROLS.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0A3D20AC1A2DD9140066C34E /* transcriptions-icon_CONTROLS.pdf */; };
 		0A3D20B41A2DD9140066C34E /* transcriptions-icon_INFO.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0A3D20AD1A2DD9140066C34E /* transcriptions-icon_INFO.pdf */; };
@@ -21,7 +19,9 @@
 		0AA11EFF19734A5100B78642 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AA11EFE19734A5100B78642 /* MainMenu.xib */; };
 		0AA11F061975610C00B78642 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA11F04197560FD00B78642 /* CoreMedia.framework */; };
 		0AA11F08197566BD00B78642 /* TODO.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0AA11F07197566BD00B78642 /* TODO.rtf */; };
-		0AA24F0A1A441B03006CDEB1 /* TSCHelperFolder in Resources */ = {isa = PBXBuildFile; fileRef = 0AA24F091A441B03006CDEB1 /* TSCHelperFolder */; };
+		0ABA441C298F10ED005F0385 /* TSCHelperFolder in Resources */ = {isa = PBXBuildFile; fileRef = 0AA24F091A441B03006CDEB1 /* TSCHelperFolder */; };
+		0ABA445F298FA583005F0385 /* ShortcutRecorder.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0ABA445C298FA575005F0385 /* ShortcutRecorder.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0ABA4460298FA58A005F0385 /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ABA445C298FA575005F0385 /* ShortcutRecorder.framework */; };
 		0AC66D3823CBDF520013C0DF /* SubRip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC66D3523CBDF380013C0DF /* SubRip.framework */; };
 		0AC66D3923CBDF520013C0DF /* SubRip.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0AC66D3523CBDF380013C0DF /* SubRip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0AE167CD23FDF1FB0054C8E1 /* Speech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AE167C823FDF1FA0054C8E1 /* Speech.framework */; };
@@ -38,8 +38,6 @@
 		3D8B82DB1C4E83C4002DCBD6 /* JXCMTimeStringTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC14BA01C2598D90069150A /* JXCMTimeStringTransformer.m */; };
 		3D9062A51C31CB8900863F29 /* TSCAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9062A41C31CB8900863F29 /* TSCAppController.m */; };
 		3D9062AB1C31CC3300863F29 /* TSCDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9062AA1C31CC3300863F29 /* TSCDocumentController.m */; };
-		3D94AC971C20422600397DA6 /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADD23481998E930007D81D3 /* ShortcutRecorder.framework */; };
-		3D94AC981C20422900397DA6 /* PTHotKey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADD234A1998E930007D81D3 /* PTHotKey.framework */; };
 		3D94AC9B1C20429800397DA6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D94AC991C20429800397DA6 /* AVFoundation.framework */; };
 		3D94AC9C1C20429800397DA6 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D94AC9A1C20429800397DA6 /* AVKit.framework */; };
 		3DC14B9B1C258E900069150A /* JXCMTimeNumberTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC14B9A1C258E900069150A /* JXCMTimeNumberTransformer.m */; };
@@ -53,7 +51,6 @@
 		63C8682F0DDA097B00DC3670 /* TSCArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C8682E0DDA097B00DC3670 /* TSCArrayController.m */; };
 		63C868320DDA098500DC3670 /* TSCTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C868310DDA098500DC3670 /* TSCTextView.m */; };
 		63C8683B0DDA099D00DC3670 /* movieIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 63C8683A0DDA099D00DC3670 /* movieIcon.icns */; };
-		63C8683D0DDA09A200DC3670 /* TranscribeIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 63C8683C0DDA09A200DC3670 /* TranscribeIcon.icns */; };
 		63C868430DDA09E700DC3670 /* TSCDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63C868400DDA09E700DC3670 /* TSCDocument.xib */; };
 		63C868460DDA0A0200DC3670 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 63C868440DDA0A0200DC3670 /* Credits.rtf */; };
 		63CAE13F0E365CF20048E152 /* resizeImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CAE13E0E365CF20048E152 /* resizeImage.png */; };
@@ -64,6 +61,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0ABA4459298FA575005F0385 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0ABA4453298FA575005F0385 /* ShortcutRecorder.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BAC79C07216FCE8E00E45F23;
+			remoteInfo = Inspector;
+		};
+		0ABA445B298FA575005F0385 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0ABA4453298FA575005F0385 /* ShortcutRecorder.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 939837800DA42965007F53F3;
+			remoteInfo = ShortcutRecorder.framework;
+		};
+		0ABA445D298FA575005F0385 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0ABA4453298FA575005F0385 /* ShortcutRecorder.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BA722EC52161619200EFF192;
+			remoteInfo = "Unit Tests";
+		};
 		0AC66D3223CBDF380013C0DF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0AC66D2B23CBDF380013C0DF /* SubRip.xcodeproj */;
@@ -85,41 +103,6 @@
 			remoteGlobalIDString = 3D418198166504CF006DC6F4;
 			remoteInfo = SubRipTest;
 		};
-		0ADD23471998E930007D81D3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0ADD23411998E930007D81D3 /* ShortcutRecorder.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 939837800DA42965007F53F3;
-			remoteInfo = ShortcutRecorder.framework;
-		};
-		0ADD23491998E930007D81D3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0ADD23411998E930007D81D3 /* ShortcutRecorder.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = E273122E1349EC9000A84433;
-			remoteInfo = PTHotKey.framework;
-		};
-		3D94AC931C2041EF00397DA6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0ADD23411998E930007D81D3 /* ShortcutRecorder.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 9398377F0DA42965007F53F3;
-			remoteInfo = ShortcutRecorder.framework;
-		};
-		3D94AC951C2041EF00397DA6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0ADD23411998E930007D81D3 /* ShortcutRecorder.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = E273122D1349EC9000A84433;
-			remoteInfo = PTHotKey.framework;
-		};
-		3DDFA9C81C1F617500AFB0B1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0ADD23411998E930007D81D3 /* ShortcutRecorder.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0D6B2468180304DE00CE1142;
-			remoteInfo = Demo;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -129,8 +112,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0A2EA3581A2BD65B0086367E /* PTHotKey.framework in CopyFiles */,
-				0A2EA3571A2BD6560086367E /* ShortcutRecorder.framework in CopyFiles */,
+				0ABA445F298FA583005F0385 /* ShortcutRecorder.framework in CopyFiles */,
 				0AC66D3923CBDF520013C0DF /* SubRip.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -156,8 +138,8 @@
 		0AA11F04197560FD00B78642 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		0AA11F07197566BD00B78642 /* TODO.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = TODO.rtf; sourceTree = "<group>"; };
 		0AA24F091A441B03006CDEB1 /* TSCHelperFolder */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TSCHelperFolder; sourceTree = "<group>"; };
+		0ABA4453298FA575005F0385 /* ShortcutRecorder.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShortcutRecorder.xcodeproj; path = External/ShortcutRecorder/ShortcutRecorder.xcodeproj; sourceTree = "<group>"; };
 		0AC66D2B23CBDF380013C0DF /* SubRip.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SubRip.xcodeproj; path = External/SubRipForCocoa/SubRip.xcodeproj; sourceTree = "<group>"; };
-		0ADD23411998E930007D81D3 /* ShortcutRecorder.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShortcutRecorder.xcodeproj; path = External/ShortcutRecorder/ShortcutRecorder.xcodeproj; sourceTree = "<group>"; };
 		0AE167C823FDF1FA0054C8E1 /* Speech.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Speech.framework; path = System/Library/Frameworks/Speech.framework; sourceTree = SDKROOT; };
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -201,7 +183,6 @@
 		63C868300DDA098500DC3670 /* TSCTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCTextView.h; sourceTree = "<group>"; };
 		63C868310DDA098500DC3670 /* TSCTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCTextView.m; sourceTree = "<group>"; };
 		63C8683A0DDA099D00DC3670 /* movieIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = movieIcon.icns; sourceTree = "<group>"; };
-		63C8683C0DDA09A200DC3670 /* TranscribeIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = TranscribeIcon.icns; sourceTree = "<group>"; };
 		63C868520DDA0A9300DC3670 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63CAE13E0E365CF20048E152 /* resizeImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resizeImage.png; sourceTree = "<group>"; };
 		63CAE1760E3665370048E152 /* controls.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = controls.icns; sourceTree = "<group>"; };
@@ -222,6 +203,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0ABA4460298FA58A005F0385 /* ShortcutRecorder.framework in Frameworks */,
 				3D94AC9B1C20429800397DA6 /* AVFoundation.framework in Frameworks */,
 				0AE167CD23FDF1FB0054C8E1 /* Speech.framework in Frameworks */,
 				0AC66D3823CBDF520013C0DF /* SubRip.framework in Frameworks */,
@@ -229,30 +211,28 @@
 				0AA11F061975610C00B78642 /* CoreMedia.framework in Frameworks */,
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
 				633A4FD50E4F0E1700B4D45A /* CoreServices.framework in Frameworks */,
-				3D94AC971C20422600397DA6 /* ShortcutRecorder.framework in Frameworks */,
-				3D94AC981C20422900397DA6 /* PTHotKey.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0ABA4454298FA575005F0385 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0ABA445A298FA575005F0385 /* Inspector.app */,
+				0ABA445C298FA575005F0385 /* ShortcutRecorder.framework */,
+				0ABA445E298FA575005F0385 /* Unit Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		0AC66D2C23CBDF380013C0DF /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				0AC66D3323CBDF380013C0DF /* SubRip.dylib */,
 				0AC66D3523CBDF380013C0DF /* SubRip.framework */,
 				0AC66D3723CBDF380013C0DF /* SubRipTest.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		0ADD23421998E930007D81D3 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				0ADD23481998E930007D81D3 /* ShortcutRecorder.framework */,
-				0ADD234A1998E930007D81D3 /* PTHotKey.framework */,
-				3DDFA9C91C1F617500AFB0B1 /* Demo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -353,7 +333,6 @@
 				63CAE1760E3665370048E152 /* controls.icns */,
 				63C868520DDA0A9300DC3670 /* Info.plist */,
 				63C868400DDA09E700DC3670 /* TSCDocument.xib */,
-				63C8683C0DDA09A200DC3670 /* TranscribeIcon.icns */,
 				63C8683A0DDA099D00DC3670 /* movieIcon.icns */,
 				63C868440DDA0A0200DC3670 /* Credits.rtf */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
@@ -411,8 +390,8 @@
 		633A4F9B0E4F0D1A00B4D45A /* ExternalSources */ = {
 			isa = PBXGroup;
 			children = (
+				0ABA4453298FA575005F0385 /* ShortcutRecorder.xcodeproj */,
 				0AC66D2B23CBDF380013C0DF /* SubRip.xcodeproj */,
-				0ADD23411998E930007D81D3 /* ShortcutRecorder.xcodeproj */,
 			);
 			name = ExternalSources;
 			sourceTree = "<group>";
@@ -469,8 +448,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				3D94AC941C2041EF00397DA6 /* PBXTargetDependency */,
-				3D94AC961C2041EF00397DA6 /* PBXTargetDependency */,
 			);
 			name = Transcriptions;
 			productInstallPath = "$(HOME)/Applications";
@@ -488,11 +465,13 @@
 				TargetAttributes = {
 					3D8B82C51C4E651F002DCBD6 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = M9AG4A3F6L;
+						ProvisioningStyle = Automatic;
 						TestTargetID = 8D15AC270486D014006FF6A4;
 					};
 					8D15AC270486D014006FF6A4 = {
 						DevelopmentTeam = M9AG4A3F6L;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
 								enabled = 1;
@@ -536,8 +515,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 0ADD23421998E930007D81D3 /* Products */;
-					ProjectRef = 0ADD23411998E930007D81D3 /* ShortcutRecorder.xcodeproj */;
+					ProductGroup = 0ABA4454298FA575005F0385 /* Products */;
+					ProjectRef = 0ABA4453298FA575005F0385 /* ShortcutRecorder.xcodeproj */;
 				},
 				{
 					ProductGroup = 0AC66D2C23CBDF380013C0DF /* Products */;
@@ -553,6 +532,27 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		0ABA445A298FA575005F0385 /* Inspector.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Inspector.app;
+			remoteRef = 0ABA4459298FA575005F0385 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0ABA445C298FA575005F0385 /* ShortcutRecorder.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ShortcutRecorder.framework;
+			remoteRef = 0ABA445B298FA575005F0385 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0ABA445E298FA575005F0385 /* Unit Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Unit Tests.xctest";
+			remoteRef = 0ABA445D298FA575005F0385 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		0AC66D3323CBDF380013C0DF /* SubRip.dylib */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.dylib";
@@ -574,27 +574,6 @@
 			remoteRef = 0AC66D3623CBDF380013C0DF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		0ADD23481998E930007D81D3 /* ShortcutRecorder.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ShortcutRecorder.framework;
-			remoteRef = 0ADD23471998E930007D81D3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		0ADD234A1998E930007D81D3 /* PTHotKey.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = PTHotKey.framework;
-			remoteRef = 0ADD23491998E930007D81D3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3DDFA9C91C1F617500AFB0B1 /* Demo.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = Demo.app;
-			remoteRef = 3DDFA9C81C1F617500AFB0B1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -609,16 +588,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0ABA441C298F10ED005F0385 /* TSCHelperFolder in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
 				63C8683B0DDA099D00DC3670 /* movieIcon.icns in Resources */,
 				0A3D20B81A2DD9140066C34E /* transcriptions-icon_SOUND.pdf in Resources */,
-				63C8683D0DDA09A200DC3670 /* TranscribeIcon.icns in Resources */,
 				0A2EA3511A2BC81E0086367E /* Images.xcassets in Resources */,
 				0A3D20B71A2DD9140066C34E /* transcriptions-icon_PLAY.pdf in Resources */,
 				0A3D20B61A2DD9140066C34E /* transcriptions-icon_OPEN.pdf in Resources */,
 				0A3D20B31A2DD9140066C34E /* transcriptions-icon_CONTROLS.pdf in Resources */,
 				63C868430DDA09E700DC3670 /* TSCDocument.xib in Resources */,
-				0AA24F0A1A441B03006CDEB1 /* TSCHelperFolder in Resources */,
 				0A3D20B41A2DD9140066C34E /* transcriptions-icon_INFO.pdf in Resources */,
 				63C868460DDA0A0200DC3670 /* Credits.rtf in Resources */,
 				0A3D20B51A2DD9140066C34E /* transcriptions-icon_LIST.pdf in Resources */,
@@ -670,19 +648,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		3D94AC941C2041EF00397DA6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ShortcutRecorder.framework;
-			targetProxy = 3D94AC931C2041EF00397DA6 /* PBXContainerItemProxy */;
-		};
-		3D94AC961C2041EF00397DA6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = PTHotKey.framework;
-			targetProxy = 3D94AC951C2041EF00397DA6 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C165FFE840EACC02AAC07 /* InfoPlist.strings */ = {
@@ -797,8 +762,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Transcriptions.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Distribution: David Haselberger (M9AG4A3F6L)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1.4.1;
@@ -819,6 +784,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = 1.4;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_BUNDLE_IDENTIFIER = com.davidhas.Transcriptions;
 				PRODUCT_NAME = Transcriptions;
@@ -836,8 +802,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Transcriptions.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Distribution: David Haselberger (M9AG4A3F6L)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1.4.1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -857,6 +823,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = 1.4;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_BUNDLE_IDENTIFIER = com.davidhas.Transcriptions;
 				PRODUCT_NAME = Transcriptions;
@@ -872,6 +839,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -891,9 +859,15 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Apple Distribution: David Haselberger (M9AG4A3F6L)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.4;
+				DEVELOPMENT_TEAM = M9AG4A3F6L;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SELECTED_FILES = readwrite;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -906,8 +880,9 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -915,6 +890,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -934,8 +910,15 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Apple Distribution: David Haselberger (M9AG4A3F6L)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.4;
+				DEVELOPMENT_TEAM = M9AG4A3F6L;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SELECTED_FILES = readwrite;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -945,10 +928,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};

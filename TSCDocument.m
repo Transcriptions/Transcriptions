@@ -137,7 +137,10 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 	[self addObserver:self forKeyPath:@"player.rate" options:NSKeyValueObservingOptionNew context:TSCPlayerRateContext];
 	[self addObserver:self forKeyPath:@"player.currentItem.status" options:NSKeyValueObservingOptionNew context:TSCPlayerItemStatusContext];
 	
+	
 	self.currentTime = kCMTimeZero;
+	_loadedNib = true;
+
 }
 
 
@@ -182,8 +185,7 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 	[titleBarView addSubview:myHelpButton];
 	
 	if (_comment.length > 0) {
-		NSString *foundURLString;
-		NSString *foundTimeString;
+		NSString* foundURLString;
 		
 		if ([_comment rangeOfString:@"[[associatedMediaURL:"].location != NSNotFound) {
 			foundURLString = [NSString stringWithString:[self getDataBetweenFromString:_comment leftString:@"[[associatedMediaURL:" rightString:@"]]" leftOffset:21]];
@@ -217,13 +219,13 @@ NSString * const	TSCErrorDomain		= @"com.davidhas.Transcriptions.error";
 				
 			}
 		}
-		
-		// TODO: Store currentTime in metadata and restore here.
-		/*if ([_comment rangeOfString:@"[[associatedCurrentTime:"].location != NSNotFound) {
-			foundTimeString = [NSString stringWithString:[self getDataBetweenFromString:_comment leftString:@"[[associatedCurrentTime:" rightString:@"]]" leftOffset:24]];
+		/*if ([_comment rangeOfString:@"[[associatedReplayRate:"].location != NSNotFound) {
+			foundReplayRateString = [NSString stringWithString:[self getDataBetweenFromString:_comment leftString:@"[[associatedReplayRate:" rightString:@"]]" leftOffset:21]];
 		}
-		if (foundTimeString.length > 0) {
-			
+		if (foundReplayRateString.length > 0) {
+			[self setReplayTime:foundReplayRateString.floatValue];
+		}else{
+			[self setReplayTime:10.0f];
 		}*/
 		
 	}
@@ -548,8 +550,6 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	else {
 		return nil;
 	}
-	
-	//TODO: Add UserDefaults for CurrentTime
 	if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"mediaFileAssoc"] boolValue] == YES) {
 		if (_comment.length > 0) {
 			if ([_comment rangeOfString:@"[[associatedMediaURL:"].location != NSNotFound) {
@@ -561,7 +561,6 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 				}
 			}
 		}
-		
 		NSError *error = nil;
 		NSURL *bookmarkFileURL = nil;
 		bookmarkFileURL = [NSURL URLByResolvingBookmarkData:_mediaFileBookmark
@@ -578,7 +577,26 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 			NSString *urlForComment = [NSString stringWithFormat:@"[[associatedMediaURL:%@]]", utfString];
 			NSString *commentString = [NSString stringWithFormat:@"%@%@", _comment, urlForComment];
 			_comment = commentString;
-			_commentTextField.stringValue = _comment;
+		}
+	}
+	if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"currentTimeAssoc"] boolValue] == YES) {
+		if (_comment.length > 0) {
+			if ([_comment rangeOfString:@"[[associatedCurrentTime:"].location != NSNotFound) {
+				NSString *foundTimeString = [self getDataBetweenFromString:_comment leftString:@"[[associatedCurrentTime:" rightString:@"]]" leftOffset:24];
+				if (foundTimeString.length > 0) {
+					NSString *toBeRemoved = [NSString stringWithFormat:@"[[associatedCurrentTime:%@]]", foundTimeString];
+					NSString *newComment = [_comment stringByReplacingOccurrencesOfString:toBeRemoved withString:@""];
+					_comment = newComment;
+					_commentTextField.stringValue = _comment;
+				}
+			}
+			if(self.player.currentItem)
+			{
+				NSString *timeForComment = [NSString stringWithFormat:@"[[associatedCurrentTime:%@]]", [JXCMTimeStringTransformer timecodeStringForCMTime:self.player.currentTime]];
+				NSString *commentString = [NSString stringWithFormat:@"%@%@", _comment, timeForComment];
+				_comment = commentString;
+				_commentTextField.stringValue = _comment;
+			}
 		}
 	}
 	
@@ -902,6 +920,8 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	
     [self.player replaceCurrentItemWithPlayerItem:_playerItem];
 	
+	
+	
 	__weak typeof(self) weakSelf = self;
     self.timeObserverToken = [self.player  addPeriodicTimeObserverForInterval:CMTimeMake(1, 60) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
 		//__strong typeof(self) strongSelf = weakSelf;
@@ -909,6 +929,18 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 		[weakSelf didChangeValueForKey:@"currentTime"];
 		[weakSelf updateTimestampLineNumber];
     }];
+	
+	if (_comment.length > 0 && _loadedNib) {
+		_loadedNib = false;
+		NSString* foundTimeString;
+		if ([_comment rangeOfString:@"[[associatedCurrentTime:"].location != NSNotFound) {
+			foundTimeString = [NSString stringWithString:[self getDataBetweenFromString:_comment leftString:@"[[associatedCurrentTime:" rightString:@"]]" leftOffset:24]];
+		}
+		if (foundTimeString.length > 0) {
+			CMTime newTime = [JXCMTimeStringTransformer	CMTimeForTimecodeString:foundTimeString];
+				[self setCurrentTime:newTime];
+		}
+	}
 }
 
 
@@ -1050,8 +1082,27 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 
 - (float)rate
 {
+	/*
+	float r = 0.0f;
+	if([_rateSlider floatValue] <= 0)
+	{
+		r = 1.0f;
+	}else{
+		r = [_rateSlider floatValue];
+	}
+	*/
 	return self.player.rate;
 }
+
+/*- (float)replayTime
+{
+	return self.replayTime;
+}
+
+- (void)setReplayTime:(float)replayTime
+{
+	self.replayTime = replayTime;
+}*/
 
 - (void)setNormalSizeDisplay
 {
@@ -1438,7 +1489,13 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 		}
 		
 		[_HUDPanel orderFront:sender];
-	
+		if (self.player.currentItem){
+			//[_replaySlider setFloatValue:self.replayTime];
+			[_volumeSlider setFloatValue:self.volume];
+			NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+			float currentRate = [defaults floatForKey:@"currentRate"];
+			[_rateSlider setFloatValue:currentRate];
+		}
 		_infoButton.action = @selector(closeHUDPanel:);
 	}else{
 		[self closeHUDPanel:self];
@@ -1492,6 +1549,13 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 	[[_HUDPanel animator] setFrame:firstFrame display:YES];
 	[NSAnimationContext endGrouping];
 	_HUDPanel.minSize = firstFrame.size;
+	if (self.player.currentItem){
+		//[_replaySlider setFloatValue:self.replayTime];
+		[_volumeSlider setFloatValue:self.volume];
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		float currentRate = [defaults floatForKey:@"currentRate"];
+		[_rateSlider setFloatValue:currentRate];
+	}
 }
 
 - (NSRect)newFrameForNewHUD:(NSPanel *)panel contentView:(NSView *)view
@@ -1523,7 +1587,7 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
 
 - (IBAction)reportBug:(id)sender{
 	
-    NSURL* url = [NSURL URLWithString:@"https://code.google.com/p/transcriptions/issues/list"];
+    NSURL* url = [NSURL URLWithString:@"https://github.com/soleil-alpin/Transcriptions/issues"];
     [[NSWorkspace sharedWorkspace] openURLs:@[url]
                     withAppBundleIdentifier:NULL
                                     options:NSWorkspaceLaunchDefault
@@ -1540,15 +1604,6 @@ void insertNewlineAfterRange(NSMutableString *string, NSRange insertionRange)
     
 }
 
-- (IBAction)redirectToDonationPage:(id)sender
-{
-    NSURL* url = [NSURL URLWithString:@"http://www.unet.univie.ac.at/~a0206600/TranscriptionsDonate.html"];
-	[[NSWorkspace sharedWorkspace] openURLs:@[url]
-					withAppBundleIdentifier:NULL
-									options:NSWorkspaceLaunchDefault
-			 additionalEventParamDescriptor:NULL
-						  launchIdentifiers:NULL];
-}
 
 
 #pragma mark Document Informations Panel METHODS

@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -29,11 +30,13 @@
                 <outlet property="_paragraphTextField" destination="100626" id="100643"/>
                 <outlet property="_playPauseButton" destination="100664" id="100925"/>
                 <outlet property="_playerView" destination="100923" id="100924"/>
+                <outlet property="_rateSlider" destination="100790" id="G1P-cV-SLl"/>
                 <outlet property="_replaySlider" destination="100795" id="100804"/>
                 <outlet property="_secondSubView" destination="100694" id="100716"/>
                 <outlet property="_textView" destination="100914" id="B9Z-8k-H8L"/>
                 <outlet property="_timeSlider" destination="100655" id="100926"/>
                 <outlet property="_typeImageView" destination="100691" id="100693"/>
+                <outlet property="_volumeSlider" destination="100792" id="3MB-da-tj0"/>
                 <outlet property="_window" destination="5" id="100271"/>
                 <outlet property="_wordTextField" destination="100635" id="100644"/>
             </connections>
@@ -122,20 +125,23 @@
                                                     <button toolTip="Media Controls" verticalHuggingPriority="750" fixedFrame="YES" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100674">
                                                         <rect key="frame" x="285" y="31" width="28" height="23"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="transcriptions-icon_CONTROLS" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="100675">
+                                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="100675">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
+                                                            <imageReference key="image" image="slider.horizontal.3" catalog="system" symbolScale="default" renderingMode="template"/>
                                                         </buttonCell>
                                                         <connections>
                                                             <action selector="openHUDPanel:" target="-2" id="100676"/>
+                                                            <outlet property="nextKeyView" destination="100666" id="zG6-Yn-Sf8"/>
                                                         </connections>
                                                     </button>
-                                                    <button toolTip="Media Controls" verticalHuggingPriority="750" fixedFrame="YES" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KBA-g6-Hpm">
+                                                    <button hidden="YES" toolTip="Transcribe" verticalHuggingPriority="750" fixedFrame="YES" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KBA-g6-Hpm">
                                                         <rect key="frame" x="284" y="3" width="30" height="25"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSActionTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="W8U-ru-Xhx">
+                                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" imagePosition="only" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="W8U-ru-Xhx">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="menu" size="11"/>
+                                                            <imageReference key="image" image="aqi.medium" catalog="system" symbolScale="small"/>
                                                         </buttonCell>
                                                         <connections>
                                                             <action selector="autotranscribeFile:" target="-2" id="5gH-hB-Bk2"/>
@@ -158,25 +164,28 @@
                                                         </connections>
                                                     </textField>
                                                     <button toolTip="Timestamp" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100666">
-                                                        <rect key="frame" x="5" y="3" width="30" height="25"/>
+                                                        <rect key="frame" x="5" y="3" width="30" height="23"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="transcriptions-icon_TIME-STAMP" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="100667">
+                                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="100667">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
+                                                            <imageReference key="image" image="deskclock.fill" catalog="system" symbolScale="small"/>
                                                         </buttonCell>
                                                         <connections>
                                                             <action selector="createTimeStamp:" target="-2" id="100670"/>
+                                                            <outlet property="nextKeyView" destination="100615" id="hJs-YS-F9a"/>
                                                         </connections>
                                                     </button>
                                                     <button toolTip="Play" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100664">
-                                                        <rect key="frame" x="5" y="29" width="30" height="25"/>
+                                                        <rect key="frame" x="5" y="29" width="30" height="23"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="transcriptions-icon_PLAY" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="100665">
+                                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="play.fill" catalog="system" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="100665">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
                                                         <connections>
                                                             <action selector="playPauseButtonToggle:" target="-2" id="gx0-9L-JCN"/>
+                                                            <outlet property="nextKeyView" destination="100655" id="1bG-Ay-B20"/>
                                                         </connections>
                                                     </button>
                                                     <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100655">
@@ -196,6 +205,7 @@
                                                                     <string key="NSValueTransformerName">JXCMTimeNumberTransformer</string>
                                                                 </dictionary>
                                                             </binding>
+                                                            <outlet property="nextKeyView" destination="100674" id="KAf-Eo-w2w"/>
                                                         </connections>
                                                     </slider>
                                                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100923">
@@ -212,12 +222,13 @@
                                                     <button toolTip="Load File" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100677">
                                                         <rect key="frame" x="285" y="344" width="25" height="23"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="transcriptions-icon_OPEN" imagePosition="only" alignment="center" state="on" borderStyle="border" inset="2" id="100678">
+                                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="folder.fill" catalog="system" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="100678">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
                                                         <connections>
                                                             <action selector="openMovieFile:" target="-2" id="100679"/>
+                                                            <outlet property="nextKeyView" destination="100664" id="eVk-oN-C1e"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -295,7 +306,7 @@
                                                             <rect key="frame" x="310" y="18" width="16" height="249"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
-                                                        <tableHeaderView key="headerView" id="100592">
+                                                        <tableHeaderView key="headerView" wantsLayer="YES" id="100592">
                                                             <rect key="frame" x="0.0" y="0.0" width="325" height="17"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </tableHeaderView>
@@ -322,7 +333,7 @@
                     <button toolTip="Show Paragraphnumbers" focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100562">
                         <rect key="frame" x="3" y="1" width="30" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="transcriptions-icon_LIST" imagePosition="only" alignment="center" state="on" borderStyle="border" focusRingType="none" imageScaling="proportionallyUpOrDown" inset="2" id="100563">
+                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="list.number" catalog="system" imagePosition="only" alignment="center" state="on" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="100563">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -333,9 +344,10 @@
                     <button toolTip="Document Informations" focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100629">
                         <rect key="frame" x="39" y="1" width="30" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="transcriptions-icon_INFO" imagePosition="only" alignment="center" state="on" borderStyle="border" focusRingType="none" imageScaling="proportionallyUpOrDown" inset="2" id="100630">
+                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" imagePosition="only" alignment="center" state="on" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="100630">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
+                            <imageReference key="image" image="info" catalog="system" symbolScale="default" renderingMode="template"/>
                         </buttonCell>
                         <connections>
                             <action selector="startSheet:" target="-2" id="100871"/>
@@ -350,6 +362,7 @@
                         </buttonCell>
                         <connections>
                             <action selector="remove:" target="100305" id="100622"/>
+                            <outlet property="nextKeyView" destination="100591" id="kBu-oA-qIe"/>
                         </connections>
                     </button>
                     <button toolTip="Add Insert/Substitutionkey pair" focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100615">
@@ -361,6 +374,7 @@
                         </buttonCell>
                         <connections>
                             <action selector="add:" target="100305" id="100623"/>
+                            <outlet property="nextKeyView" destination="100617" id="O6Z-Cu-NcD"/>
                         </connections>
                     </button>
                 </subviews>
@@ -451,7 +465,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100637">
-                        <rect key="frame" x="56" y="98" width="79" height="14"/>
+                        <rect key="frame" x="55" y="98" width="79" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Paragraphs:" id="100638">
                             <font key="font" metaFont="menu" size="11"/>
@@ -478,7 +492,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100639">
-                        <rect key="frame" x="56" y="73" width="79" height="14"/>
+                        <rect key="frame" x="55" y="73" width="79" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Words:" id="100640">
                             <font key="font" metaFont="menu" size="11"/>
@@ -487,7 +501,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100641">
-                        <rect key="frame" x="56" y="50" width="79" height="14"/>
+                        <rect key="frame" x="55" y="50" width="79" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Characters:" id="100642">
                             <font key="font" metaFont="menu" size="11"/>
@@ -496,7 +510,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                         </textFieldCell>
                     </textField>
                     <button focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100646">
-                        <rect key="frame" x="85" y="12" width="106" height="32"/>
+                        <rect key="frame" x="84" y="12" width="106" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="100647">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -504,6 +518,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                         </buttonCell>
                         <connections>
                             <action selector="closeInfoSheet:" target="-2" id="100648"/>
+                            <outlet property="nextKeyView" destination="100764" id="FOt-Bh-ul4"/>
                         </connections>
                     </button>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100764">
@@ -521,6 +536,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                                     <bool key="NSValidatesImmediately" value="YES"/>
                                 </dictionary>
                             </binding>
+                            <outlet property="nextKeyView" destination="100812" id="r0n-jm-ZsF"/>
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100812">
@@ -538,6 +554,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                                     <integer key="NSValidatesImmediately" value="1"/>
                                 </dictionary>
                             </binding>
+                            <outlet property="nextKeyView" destination="100816" id="Pdr-8P-XnU"/>
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100814">
@@ -564,6 +581,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                                     <integer key="NSValidatesImmediately" value="1"/>
                                 </dictionary>
                             </binding>
+                            <outlet property="nextKeyView" destination="100820" id="oCf-03-QMT"/>
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100818">
@@ -590,6 +608,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                                     <integer key="NSValidatesImmediately" value="1"/>
                                 </dictionary>
                             </binding>
+                            <outlet property="nextKeyView" destination="100826" id="8rB-tx-lao"/>
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100822">
@@ -625,6 +644,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                                     <integer key="NSValidatesImmediately" value="1"/>
                                 </dictionary>
                             </binding>
+                            <outlet property="nextKeyView" destination="100854" id="kJi-AK-D0v"/>
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100830">
@@ -642,6 +662,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                                     <bool key="NSValidatesImmediately" value="YES"/>
                                 </dictionary>
                             </binding>
+                            <outlet property="nextKeyView" destination="100646" id="UWY-1Z-k01"/>
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100832">
@@ -668,6 +689,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                                     <integer key="NSValidatesImmediately" value="1"/>
                                 </dictionary>
                             </binding>
+                            <outlet property="nextKeyView" destination="100830" id="bTn-0M-JgO"/>
                         </connections>
                     </tokenField>
                 </subviews>
@@ -777,6 +799,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                     </buttonCell>
                     <connections>
                         <action selector="showMediaInfo:" target="-2" id="100809"/>
+                        <outlet property="nextKeyView" destination="100795" id="tch-Q0-Wuk"/>
                     </connections>
                 </button>
                 <slider toolTip="Set Replay Time" focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100795">
@@ -790,6 +813,9 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                         </ciFilter>
                     </contentFilters>
                     <sliderCell key="cell" controlSize="small" focusRingType="none" alignment="left" maxValue="30" doubleValue="5.1724137931034484" tickMarkPosition="below" numberOfTickMarks="30" allowsTickMarkValuesOnly="YES" sliderType="linear" id="100798"/>
+                    <connections>
+                        <outlet property="nextKeyView" destination="100792" id="5Ww-3a-4WX"/>
+                    </connections>
                 </slider>
                 <textField toolTip="Set Volume" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100794">
                     <rect key="frame" x="133" y="81" width="48" height="14"/>
@@ -822,6 +848,7 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                     <sliderCell key="cell" controlSize="small" focusRingType="none" alignment="left" maxValue="2" doubleValue="1" tickMarkPosition="below" numberOfTickMarks="1" sliderType="linear" id="100801"/>
                     <connections>
                         <binding destination="-2" name="value" keyPath="volume" id="UUM-VP-ZW4"/>
+                        <outlet property="nextKeyView" destination="100790" id="nxe-eY-RpH"/>
                     </connections>
                 </slider>
                 <textField toolTip="Set Movie Rate" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100888">
@@ -878,15 +905,6 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                         <color key="backgroundColor" red="1" green="1" blue="0.79435486" alpha="1" colorSpace="calibratedRGB"/>
                     </textFieldCell>
                 </textField>
-                <textField toolTip="Set Movie Rate" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100791">
-                    <rect key="frame" x="139" y="52" width="36" height="14"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Rate:" bezelStyle="round" id="100802">
-                        <font key="font" metaFont="menu" size="11"/>
-                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="backgroundColor" red="1" green="1" blue="0.79435486" alpha="1" colorSpace="calibratedRGB"/>
-                    </textFieldCell>
-                </textField>
                 <slider toolTip="Set Movie Rate" focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100790">
                     <rect key="frame" x="34" y="32" width="240" height="18"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -899,9 +917,19 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
                     </contentFilters>
                     <sliderCell key="cell" controlSize="small" continuous="YES" state="on" focusRingType="none" alignment="left" minValue="0.20000000000000001" maxValue="1.3999999999999999" doubleValue="1" tickMarkPosition="below" numberOfTickMarks="13" allowsTickMarkValuesOnly="YES" sliderType="linear" id="100803"/>
                     <connections>
-                        <binding destination="-2" name="value" keyPath="rate" id="4vu-Qt-S3q"/>
+                        <binding destination="-2" name="value" keyPath="player.rate" id="5pN-0w-rKF"/>
+                        <outlet property="nextKeyView" destination="100796" id="yFt-N5-M0m"/>
                     </connections>
                 </slider>
+                <textField toolTip="Set Movie Rate" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="100791">
+                    <rect key="frame" x="109" y="49" width="91" height="14"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Playback Speed:" bezelStyle="round" id="100802">
+                        <font key="font" metaFont="menu" size="11"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="1" green="1" blue="0.79435486" alpha="1" colorSpace="calibratedRGB"/>
+                    </textFieldCell>
+                </textField>
             </subviews>
             <point key="canvasLocation" x="755" y="1434"/>
         </customView>
@@ -960,15 +988,15 @@ AQAAAAAAAABsAAAAAAAAAAAAAAAAAAADlQ
         <customObject id="100952" customClass="TSCSplitViewDelegate"/>
     </objects>
     <resources>
-        <image name="NSActionTemplate" width="15" height="15"/>
         <image name="NSAddTemplate" width="14" height="13"/>
         <image name="NSRemoveTemplate" width="14" height="4"/>
-        <image name="transcriptions-icon_CONTROLS" width="25" height="25"/>
-        <image name="transcriptions-icon_INFO" width="25" height="25"/>
-        <image name="transcriptions-icon_LIST" width="25" height="25"/>
-        <image name="transcriptions-icon_OPEN" width="25" height="25"/>
-        <image name="transcriptions-icon_PLAY" width="25" height="25"/>
+        <image name="aqi.medium" catalog="system" width="15" height="15"/>
+        <image name="deskclock.fill" catalog="system" width="13" height="13"/>
+        <image name="folder.fill" catalog="system" width="18" height="14"/>
+        <image name="info" catalog="system" width="9" height="12"/>
+        <image name="list.number" catalog="system" width="16" height="13"/>
+        <image name="play.fill" catalog="system" width="12" height="13"/>
+        <image name="slider.horizontal.3" catalog="system" width="16" height="13"/>
         <image name="transcriptions-icon_SOUND" width="25" height="25"/>
-        <image name="transcriptions-icon_TIME-STAMP" width="25" height="25"/>
     </resources>
 </document>

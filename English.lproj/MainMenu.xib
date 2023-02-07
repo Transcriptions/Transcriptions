@@ -79,14 +79,14 @@
                                     <action selector="newDocument:" target="-1" id="4Si-XN-c54"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Open…" keyEquivalent="o" id="IAo-SY-fd9">
+                            <menuItem title="Open Transcript…" keyEquivalent="o" id="IAo-SY-fd9">
                                 <connections>
                                     <action selector="openDocument:" target="-1" id="bVn-NM-KNZ"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Open Recent" id="tXI-mr-wws">
+                            <menuItem title="Open Recent Transcript" id="tXI-mr-wws">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="Open Recent" systemMenu="recentDocuments" id="oas-Oc-fiZ">
+                                <menu key="submenu" title="Open Recent Transcript" systemMenu="recentDocuments" id="oas-Oc-fiZ">
                                     <items>
                                         <menuItem title="Clear Menu" id="vNY-rz-j42">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -771,18 +771,34 @@
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bha-nl-ih1" customClass="SRRecorderControl">
                         <rect key="frame" x="126" y="167" width="223" height="33"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <connections>
+                            <outlet property="delegate" destination="2dH-Cs-weP" id="3jD-24-Gb1"/>
+                            <outlet property="nextKeyView" destination="7mr-Xx-dur" id="LPu-Mo-WPX"/>
+                        </connections>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ATA-6i-eIk" customClass="SRRecorderControl">
                         <rect key="frame" x="126" y="241" width="223" height="33"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <connections>
+                            <outlet property="delegate" destination="2dH-Cs-weP" id="8j1-Zh-YDV"/>
+                            <outlet property="nextKeyView" destination="4ad-Jf-Pbv" id="iaO-Ug-PAe"/>
+                        </connections>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7mr-Xx-dur" customClass="SRRecorderControl">
                         <rect key="frame" x="126" y="128" width="223" height="33"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <connections>
+                            <outlet property="delegate" destination="2dH-Cs-weP" id="Iyw-uy-ArV"/>
+                            <outlet property="nextKeyView" destination="a56-se-Qdi" id="lxi-MR-w4q"/>
+                        </connections>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a56-se-Qdi" customClass="SRRecorderControl">
                         <rect key="frame" x="126" y="89" width="223" height="33"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <connections>
+                            <outlet property="delegate" destination="2dH-Cs-weP" id="Vr2-Or-89k"/>
+                            <outlet property="nextKeyView" destination="APT-Ie-Wxg" id="9VQ-Ui-jkb"/>
+                        </connections>
                     </customView>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Hb-9S-5D9">
                         <rect key="frame" x="29" y="255" width="91" height="17"/>
@@ -821,7 +837,7 @@
                         </textFieldCell>
                     </textField>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="APT-Ie-Wxg">
-                        <rect key="frame" x="34" y="18" width="301" height="18"/>
+                        <rect key="frame" x="34" y="44" width="301" height="18"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="check" title="Attach media file URL to comments on save" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="kWr-m1-Kb8">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -835,11 +851,16 @@
                                     <integer key="NSNullPlaceholder" value="0"/>
                                 </dictionary>
                             </binding>
+                            <outlet property="nextKeyView" destination="djb-An-Hl1" id="4MV-GB-l3N"/>
                         </connections>
                     </button>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4ad-Jf-Pbv" customClass="SRRecorderControl">
                         <rect key="frame" x="126" y="205" width="223" height="33"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <connections>
+                            <outlet property="delegate" destination="2dH-Cs-weP" id="B5G-0h-T0H"/>
+                            <outlet property="nextKeyView" destination="Bha-nl-ih1" id="Bc4-o4-iXd"/>
+                        </connections>
                     </customView>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h6p-UP-Gsj">
                         <rect key="frame" x="29" y="219" width="91" height="17"/>
@@ -850,6 +871,24 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="djb-An-Hl1">
+                        <rect key="frame" x="34" y="19" width="304" height="18"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="check" title="Attach current play time to comments on save" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="vDy-c1-j0f">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="7ho-hK-os5" name="value" keyPath="values.currentTimeAssoc" id="vYL-gU-qGy">
+                                <dictionary key="options">
+                                    <integer key="NSNoSelectionPlaceholder" value="0"/>
+                                    <integer key="NSNotApplicablePlaceholder" value="0"/>
+                                    <integer key="NSNullPlaceholder" value="0"/>
+                                </dictionary>
+                            </binding>
+                            <outlet property="nextKeyView" destination="ATA-6i-eIk" id="GlE-ig-emF"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <point key="canvasLocation" x="178" y="589"/>
@@ -858,19 +897,19 @@
     </objects>
     <designables>
         <designable name="4ad-Jf-Pbv">
-            <size key="intrinsicContentSize" width="102" height="25"/>
+            <size key="intrinsicContentSize" width="143" height="21"/>
         </designable>
         <designable name="7mr-Xx-dur">
-            <size key="intrinsicContentSize" width="102" height="25"/>
+            <size key="intrinsicContentSize" width="143" height="21"/>
         </designable>
         <designable name="ATA-6i-eIk">
-            <size key="intrinsicContentSize" width="102" height="25"/>
+            <size key="intrinsicContentSize" width="143" height="21"/>
         </designable>
         <designable name="Bha-nl-ih1">
-            <size key="intrinsicContentSize" width="102" height="25"/>
+            <size key="intrinsicContentSize" width="143" height="21"/>
         </designable>
         <designable name="a56-se-Qdi">
-            <size key="intrinsicContentSize" width="102" height="25"/>
+            <size key="intrinsicContentSize" width="143" height="21"/>
         </designable>
     </designables>
 </document>

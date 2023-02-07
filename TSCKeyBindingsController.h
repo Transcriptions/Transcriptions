@@ -36,7 +36,7 @@
 
 
 
-@interface TSCKeyBindingsController : NSObject <SRRecorderControlDelegate, SRValidatorDelegate>
+@interface TSCKeyBindingsController : NSObject <SRRecorderControlDelegate, SRShortcutValidatorDelegate>
 {
 
     IBOutlet SRRecorderControl* replayShortcutRecorder;

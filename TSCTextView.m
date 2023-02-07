@@ -81,15 +81,17 @@ typedef struct _TSCUpdateFlags {
 	
 	_paragraphNumberAttributes = [@{
 									NSFontAttributeName: [NSFont monospacedDigitSystemFontOfSize:9 weight:NSFontWeightRegular],
-									NSForegroundColorAttributeName: [NSColor colorWithDeviceWhite:.50 alpha:1.0],
+									NSForegroundColorAttributeName: [NSColor placeholderTextColor],
 									} mutableCopy];
-	
+	//[NSColor colorWithDeviceWhite:.50 alpha:1.0]
 	_highlightLineNumber = 0;
 	
 	_highlightColor = [NSColor yellowColor];
-	_backgroundColor = [NSColor colorWithDeviceWhite:0.95 alpha:1.0];
+	_backgroundColor = [NSColor controlColor];
+	//[NSColor colorWithDeviceWhite:0.95 alpha:1.0];
 	
-	_highlightSeparatorColor = [NSColor colorWithCalibratedRed:0.37 green:0.42 blue:0.49 alpha:1.0];
+	_highlightSeparatorColor = [NSColor separatorColor];
+	//[NSColor colorWithCalibratedRed:0.37 green:0.42 blue:0.49 alpha:1.0];
 	
 	_drawParagraphNumbers = YES;
 	
@@ -145,7 +147,8 @@ typedef struct _TSCUpdateFlags {
 	const NSRange fullRange = NSMakeRange(0, textStorage.length);
 	
 	NSDictionary *markAttributes = @{
-	  NSForegroundColorAttributeName: [NSColor blackColor],
+	  NSForegroundColorAttributeName:[NSColor textColor]
+		  //[NSColor blackColor],
 	  };
 	
 	// Remove previous temporary attributes.
@@ -329,7 +332,7 @@ const CGFloat numberStringRightMargin = 3.0;
 	if (!_drawParagraphNumbers) {
 		return;
 	}
-	
+	//TODO: dark mode
 	NSColor * const backgroundColor = _backgroundColor;
 	[backgroundColor set];
 	
@@ -343,6 +346,7 @@ const CGFloat numberStringRightMargin = 3.0;
 	
 	CGContextSetShouldAntialias(context, NO);
 	
+	//TODO: check for dark mode
 	[[NSColor lightGrayColor] set];
 	
 	NSPoint p1 = NSMakePoint(numbersBarWidth, numbersBarRect.origin.y);

@@ -32,39 +32,53 @@
  */
 
 #import "TSCKeyBindingsController.h"
-#import <PTHotKey/PTHotKeyCenter.h>
+//#import <PTHotKey/PTHotKeyCenter.h>
 
 @implementation TSCKeyBindingsController
 {
-    SRValidator *_validator;
+    SRShortcutValidator *_validator;
 }
 
 #pragma mark SRRecorderControlDelegate
-- (BOOL)shortcutRecorder:(SRRecorderControl *)aRecorder canRecordShortcut:(NSDictionary *)aShortcut
+/*- (BOOL)recorderControl:(SRRecorderControl *)aRecorder canRecordShortcut:(SRShortcut *)aShortcut
 {
     __autoreleasing NSError *error = nil;
-    BOOL isTaken = [_validator isKeyCode:[aShortcut[SRShortcutKeyCode] unsignedShortValue] andFlagsTaken:[aShortcut[SRShortcutModifierFlagsKey] unsignedIntegerValue] error:&error];
-    
+    BOOL isTaken = [_validator validateShortcut:aShortcut error:&error];
+	
+		
+	
     if (isTaken)
     {
         NSBeep();
+		if (aRecorder.window)
+		{
+			[aRecorder presentError:error
+					 modalForWindow:aRecorder.window
+						   delegate:nil
+				 didPresentSelector:NULL
+						contextInfo:NULL];
+		}
+		else
+		{
+			[aRecorder presentError:error];
+		}
     }
     
     return !isTaken;
-}
+}*/
 
-- (BOOL)shortcutRecorderShouldBeginRecording:(SRRecorderControl *)aRecorder
+/*- (BOOL)shortcutRecorderShouldBeginRecording:(SRRecorderControl *)aRecorder
 {
     [[PTHotKeyCenter sharedCenter] pause];
     return YES;
-}
+}*/
 
-- (void)shortcutRecorderDidEndRecording:(SRRecorderControl *)aRecorder
+/*- (void)shortcutRecorderDidEndRecording:(SRRecorderControl *)aRecorder
 {
     [[PTHotKeyCenter sharedCenter] resume];
-}
+}*/
 
-- (BOOL)shortcutRecorder:(SRRecorderControl *)aRecorder shouldUnconditionallyAllowModifierFlags:(NSEventModifierFlags)aModifierFlags forKeyCode:(unsigned short)aKeyCode
+/*- (BOOL)shortcutRecorder:(SRRecorderControl *)aRecorder shouldUnconditionallyAllowModifierFlags:(NSEventModifierFlags)aModifierFlags forKeyCode:(unsigned short)aKeyCode
 {
     if ((aModifierFlags & aRecorder.requiredModifierFlags) != aRecorder.requiredModifierFlags)
         return NO;
@@ -98,35 +112,91 @@
         default:
             return NO;
     }
+}*/
+- (BOOL)recorderControl:(SRRecorderControl *)aControl canRecordShortcut:(SRShortcut *)aShortcut
+{
+	__autoreleasing NSError *error = nil;
+	BOOL isTaken = [_validator validateShortcutAgainstDelegate:aShortcut error:&error];
+	if (isTaken)
+	{
+		NSBeep();
+		if (aControl.window)
+		{
+			[aControl presentError:error
+					 modalForWindow:aControl.window
+						   delegate:nil
+				 didPresentSelector:NULL
+						contextInfo:NULL];
+		}
+		else
+		{
+			[aControl presentError:error];
+		}
+	}
+	
+	return !isTaken;
+
 }
 
+#pragma mark SRShortcutValidatorDelegate
 
-#pragma mark SRValidatorDelegate
-
-- (BOOL)shortcutValidator:(SRValidator *)aValidator isKeyCode:(unsigned short)aKeyCode andFlagsTaken:(NSEventModifierFlags)aFlags reason:(NSString **)outReason
+- (BOOL)shortcutValidator:(SRShortcutValidator *)aValidator isShortcutValid:(SRShortcut *)aShortcut reason:(NSString * _Nullable * _Nonnull)outReason
 {
-#define IS_TAKEN(aRecorder) (recorder != (aRecorder) && SRShortcutEqualToShortcut(shortcut, [(aRecorder) objectValue]))
     SRRecorderControl *recorder = (SRRecorderControl *)prefPane.firstResponder;
-    
     if (![recorder isKindOfClass:[SRRecorderControl class]])
         return NO;
-    
-    NSDictionary *shortcut = SRShortcutWithCocoaModifierFlagsAndKeyCode(aFlags, aKeyCode);
-    
-    if (IS_TAKEN(replayShortcutRecorder) ||
-        IS_TAKEN(pauseShortcutRecorder) ||
-        IS_TAKEN(controlsShortcutRecorder) ||
-        IS_TAKEN(timestampShortcutRecorder))
-    {
-        *outReason = @"it's already used. To use this shortcut, first remove or change the other shortcut";
-        return YES;
-    }
-    else
-        return NO;
-#undef IS_TAKEN
+
+	NSDictionary* shortcut = [aShortcut dictionaryRepresentation];
+	if(recorder != replayShortcutRecorder)
+	{
+		NSDictionary* x = (NSDictionary *)[replayShortcutRecorder objectValue];
+		if([shortcut isEqualToDictionary:x])
+		{
+			*outReason = @"it's already used. To use this shortcut, first remove or change the other shortcut";
+			return YES;
+		}
+	}
+	if(recorder != pauseShortcutRecorder)
+	{
+		NSDictionary* x = (NSDictionary *)[pauseShortcutRecorder objectValue];
+		if([shortcut isEqualToDictionary:x])
+		{
+			*outReason = @"it's already used. To use this shortcut, first remove or change the other shortcut";
+			return YES;
+		}
+	}
+	if(recorder != controlsShortcutRecorder)
+	{
+		NSDictionary* x = (NSDictionary *)[controlsShortcutRecorder objectValue];
+		if([shortcut isEqualToDictionary:x])
+		{
+			*outReason = @"it's already used. To use this shortcut, first remove or change the other shortcut";
+			return YES;
+		}
+	}
+	if(recorder != timestampShortcutRecorder)
+	{
+		NSDictionary* x = (NSDictionary *)[timestampShortcutRecorder objectValue];
+		if([shortcut isEqualToDictionary:x])
+		{
+			*outReason = @"it's already used. To use this shortcut, first remove or change the other shortcut";
+			return YES;
+		}
+	}
+	if(recorder != ffShortcutRecorder)
+	{
+		NSDictionary* x = (NSDictionary *)[ffShortcutRecorder objectValue];
+		if([shortcut isEqualToDictionary:x])
+		{
+			*outReason = @"it's already used. To use this shortcut, first remove or change the other shortcut";
+			return YES;
+		}
+	}
+	return NO;
+	
 }
 
-- (BOOL)shortcutValidatorShouldCheckMenu:(SRValidator *)aValidator
+- (BOOL)shortcutValidatorShouldCheckMenu:(SRShortcutValidator *)aValidator
 {
     return YES;
 }
@@ -191,7 +261,7 @@
                withKeyPath:@"values.timestampItem"
                    options:@{NSValueTransformerBindingOption: [SRKeyEquivalentModifierMaskTransformer new]}];
     
-    
+	
     [replayShortcutRecorder bind:NSValueBinding
                                toObject:defaults
                             withKeyPath:@"values.replayItem"
@@ -213,7 +283,8 @@
                             withKeyPath:@"values.timestampItem"
                                 options:nil];
     
-    _validator = [[SRValidator alloc] initWithDelegate:self];
+    _validator = [[SRShortcutValidator alloc] initWithDelegate:self];
+	//_validator
 
 	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"replayItem"])
 	{
