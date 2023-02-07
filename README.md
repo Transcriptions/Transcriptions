@@ -44,6 +44,9 @@ Transcriptions source code is used in the application [F5(Mac)](http://www.audio
 
 
 ## Version History ##
+**Version 1.4**
+ * MacOS 12 Monterey or later
+
 **Version 1.2**
  * MacOS or Mac OS X 10.11 El Capitan or later
 
@@ -67,16 +70,9 @@ Find support [here](https://github.com/soleil-alpin/Transcriptions/issues).
 If you wish to build Transcriptions yourself, you will need the following components/tools:
 
 * a recent Xcode with support for ARC and subscripting
-* OS X SDK (10.10 or later)
+* MacOS SDK (XCode 13 or later)
 * Git
 
-### Environment Setup
-
-After cloning the repository, run the following commands inside the repository root (directory containing this `README.md` file):
-
-    git submodule update --init --recursive
-
-You can then open the Xcode project file and build.
  
 * * * 
 _[Soleil Alpin Legal Information](https://soleil-alpin.github.io/legalsolalp.html)_
