@@ -75,6 +75,6 @@ If you wish to build Transcriptions yourself, you will need the following compon
 
  
 * * * 
-_[Soleil Alpin Legal Information](https://soleil-alpin.github.io/legalsolalp.html)_
+
 
 _Mac, MacOS and OS X are trademarks of Apple, Inc._
